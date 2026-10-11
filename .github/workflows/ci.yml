@@ -26,6 +26,8 @@ jobs:
         run: npm run api:check
       - name: Message key parity
         run: npm run i18n:check
+      - name: Icons drift check
+        run: npm run icons:check
       - run: npm test
       - run: npm run build:e2e
       - name: Bundle budget

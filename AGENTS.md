@@ -49,6 +49,10 @@ app → routes → features/*/ui → features/*/hooks → features/*/api → sha
 | Estado en URL   | Filtros, búsqueda, página, orden, fecha y pestaña: search params con esquema Zod                                                                                                                                                           |
 | Entorno         | `VITE_API_BASE_URL` en build; Zod lo valida y la app no arranca si es inválido                                                                                                                                                             |
 | Almacenamiento  | Claves `hj_admin.*` en `localStorage`                                                                                                                                                                                                      |
+| Estilos         | Solo tokens de `shared/ui/styles` (Tailwind v4): la paleta y la escala de texto por defecto de Tailwind están eliminadas. Cada valor nombra su origen en el tema Flutter; no inventar colores ni tamaños                                   |
+| Componentes     | Primitivas de `shared/ui` (shadcn/ui adaptado a Material 3 del panel Flutter); las features no estilan controles HTML crudos                                                                                                               |
+| Iconos          | Material Symbols vía `<Icon name>`; añadir el nombre Flutter (`Icons.*`) a `shared/ui/icons/icons.json` y `npm run icons:generate`. No editar `icons.gen.ts`                                                                               |
+| Modo oscuro     | Clase `.light`/`.dark` en un ancestro; la barra lateral es oscura en ambos modos (`--sidebar-*`)                                                                                                                                           |
 
 ## Comandos
 
@@ -64,6 +68,8 @@ npm run e2e            # Playwright contra el build de producción (build:e2e an
 npm run api:sync -- <ref>   # Copia el contrato del backend en <ref> y regenera el schema
 npm run api:check      # Drift check del schema generado
 npm run i18n:check     # Paridad de claves y sintaxis ICU
+npm run icons:generate # Regenera icons.gen.ts desde icons.json
+npm run icons:check    # Drift check de los iconos
 npm run budget         # Presupuesto del bundle (tras build)
 ```
 
@@ -83,11 +89,14 @@ PLAYWRIGHT_BASE_URL=http://localhost:8089 npm run e2e
 
 ## Archivos clave
 
-| Archivo                           | Para qué                    |
-| --------------------------------- | --------------------------- |
-| `src/app/app.tsx`, `router.ts`    | Providers y router          |
-| `src/shared/api/client.ts`        | Cliente tipado y middleware |
-| `src/shared/i18n/`                | Mensajes, idioma, provider  |
-| `src/shared/config/env.ts`        | Variables de entorno        |
-| `eslint.config.js`                | Reglas de capas y de copy   |
-| `deploy/*.template`, `Dockerfile` | Imagen nginx de producción  |
+| Archivo                           | Para qué                                |
+| --------------------------------- | --------------------------------------- |
+| `src/app/app.tsx`, `router.ts`    | Providers y router                      |
+| `src/shared/api/client.ts`        | Cliente tipado y middleware             |
+| `src/shared/i18n/`                | Mensajes, idioma, provider              |
+| `src/shared/ui/styles/`           | Tokens, tema Tailwind, fuentes          |
+| `src/shared/ui/primitives/`       | Primitivas del sistema visual           |
+| `src/routes/[_]kit.tsx`           | `/_kit`: kit visual, solo en desarrollo |
+| `src/shared/config/env.ts`        | Variables de entorno                    |
+| `eslint.config.js`                | Reglas de capas y de copy               |
+| `deploy/*.template`, `Dockerfile` | Imagen nginx de producción              |

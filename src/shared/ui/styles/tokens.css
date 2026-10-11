@@ -1,0 +1,169 @@
+/*
+ * Design tokens of the admin panel, taken from the Flutter panel (jordi_hidalgo_app/apps/admin_app):
+ * app/theme.dart, design_system/admin_theme_extension.dart, and spacing.dart. AdminRadius and the type
+ * scale live in index.css (@theme), where Tailwind turns them into utilities.
+ * Colors that Flutter derives (ColorScheme.fromSeed(barberBlue) with the theme's overrides) were
+ * resolved by building buildAdminLightTheme() and buildAdminDarkTheme() and printing the values.
+ *
+ * Light values live on :root and .light, dark values on .dark, so a subtree can switch mode.
+ * The sidebar tokens are the same in both modes: the sidebar is always dark.
+ */
+
+:root,
+.light {
+  color-scheme: light;
+
+  /* ColorScheme and scaffold */
+  --background: #f3f4f6; /* scaffoldBackgroundColor (AdminColors.background) */
+  --surface: #ffffff; /* colorScheme.surface, cards, dialogs, sheets, inputs */
+  --on-surface: #1a1b21; /* colorScheme.onSurface (contentPrimary) */
+  --on-surface-variant: #44464f;
+  --on-surface-secondary: #667085; /* textTheme.bodyMedium color */
+  --on-surface-muted: #98a2b3; /* textTheme.bodySmall color, input hint */
+  --primary: #111111;
+  --on-primary: #ffffff;
+  --primary-container: #d9e2ff; /* seed-derived; switch thumb on hover */
+  --on-primary-container: #2f4578;
+  --secondary: #2f5fbf; /* barberBlue */
+  --on-secondary: #ffffff;
+  --error: #c62828;
+  --on-error: #ffffff;
+  --outline: #757780;
+  --outline-variant: #c5c6d0; /* contentBorder */
+  --border: #e4e7ec; /* theme borderColor: cards, inputs, outlined buttons, dividers */
+  --surface-container-low: #f4f3fa;
+  --surface-container: #eeedf4;
+  --surface-container-high: #e8e7ef;
+  --surface-container-highest: #e2e2e9;
+  --inverse-surface: #2f3036; /* snackbar */
+  --on-inverse-surface: #f1f0f7;
+  --focus: #2f5fbf; /* focused input border (AdminColors.barberBlue in both modes) */
+  --text-action: #2f5fbf; /* TextButton foreground (AdminColors.barberBlue in both modes) */
+  --tooltip-bg: rgb(97 97 97 / 0.9); /* Material tooltip default: grey[700] at 90% */
+  --tooltip-fg: #ffffff;
+
+  /* AdminThemeExtension */
+  --surface-muted: #f8f9fb;
+  --row-hover: #f9fafb;
+  --fade-edge: #ffffff;
+  --brand-red: #d62828;
+  --brand-blue: #2f5fbf;
+  --success-bg: #eaf7ee;
+  --success-fg: #1e7a3e;
+  --warning-bg: #fff4e5;
+  --warning-fg: #b86b00;
+  --danger-bg: #ffebee;
+  --danger-fg: #c62828;
+  --info-bg: #eaf1ff;
+  --info-fg: #2f5fbf;
+
+  /* AdminThemeContext getters */
+  --accent-fg: var(--brand-blue); /* barberBlue in light, infoFg in dark */
+  --selection-strong-alpha: 14%;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --background: #121212;
+  --surface: #1e1e1e;
+  --on-surface: #e2e2e9;
+  --on-surface-variant: #c5c6d0;
+  --on-surface-secondary: #9ca3af;
+  --on-surface-muted: #6b7280;
+  --primary: #e8e8e8;
+  --on-primary: #111111;
+  --primary-container: #2f4578;
+  --on-primary-container: #d9e2ff;
+  --secondary: #2f5fbf;
+  --on-secondary: #ffffff;
+  --error: #ef9a9a;
+  --on-error: #3d1f24;
+  --outline: #8f9099;
+  --outline-variant: #44464f;
+  --border: #3a3a3a;
+  --surface-container-low: #1a1b21;
+  --surface-container: #1e1f25;
+  --surface-container-high: #282a2f;
+  --surface-container-highest: #33343a;
+  --inverse-surface: #e2e2e9;
+  --on-inverse-surface: #2f3036;
+  --focus: #2f5fbf;
+  --text-action: #2f5fbf;
+  --tooltip-bg: rgb(255 255 255 / 0.9);
+  --tooltip-fg: #000000;
+
+  --surface-muted: #252525;
+  --row-hover: #2a2a2a;
+  --fade-edge: #1e1e1e;
+  --brand-red: #d62828;
+  --brand-blue: #2f5fbf;
+  --success-bg: #1a3324;
+  --success-fg: #6bcf8e;
+  --warning-bg: #3d2e14;
+  --warning-fg: #ffb74d;
+  --danger-bg: #3d1f24;
+  --danger-fg: #ef9a9a;
+  --info-bg: #1a2740;
+  --info-fg: #90caf9;
+
+  --accent-fg: var(--info-fg);
+  --selection-strong-alpha: 22%;
+}
+
+:root,
+.light,
+.dark {
+  /* Derived from the values above, per mode (AdminThemeContext getters). */
+  --content-secondary: color-mix(in srgb, var(--on-surface) 70%, transparent);
+  --content-muted: color-mix(in srgb, var(--on-surface) 54%, transparent);
+  --selection-fg: var(--accent-fg);
+  --selection-bg: var(--info-bg);
+  --selection-border: color-mix(in srgb, var(--accent-fg) 50%, transparent);
+  --selection-bg-strong: color-mix(in srgb, var(--accent-fg) var(--selection-strong-alpha), var(--surface));
+  --icon-accent: var(--accent-fg);
+  --icon-accent-bg: color-mix(in srgb, var(--accent-fg) 14%, transparent);
+  --unsaved-fg: var(--warning-fg);
+  --unsaved-bg: var(--warning-bg);
+
+  /* Material state layers (M3): opacity of the foreground color over a control. */
+  --state-hover: 8%;
+  --state-focus: 10%;
+  --state-pressed: 10%;
+  --disabled-container: color-mix(in srgb, var(--on-surface) 12%, transparent);
+  --disabled-content: color-mix(in srgb, var(--on-surface) 38%, transparent);
+
+  /* Sidebar: always dark (AdminThemeExtension, same value in both modes). */
+  --sidebar-background: #111318;
+  --sidebar-surface: #1a1d24;
+  --sidebar-foreground: #f8fafc;
+  --sidebar-foreground-muted: #b8c0cc;
+  --sidebar-accent-fg: #93c5fd;
+  --sidebar-accent-bg: color-mix(in srgb, #2f5fbf 24%, transparent);
+  --sidebar-accent-border: color-mix(in srgb, #2f5fbf 42%, transparent);
+
+  /* AdminSpacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-xxl: 32px;
+
+  /*
+   * Visual density. Flutter uses compact density (-8px) on desktop and standard density on
+   * touch devices; `pointer: coarse` is the closest browser signal.
+   */
+  --control-height: 40px; /* buttons, icon buttons, switch and checkbox targets */
+  /* Inputs measure 48px (desktop): a 24px bodyLarge line, padding, and a 1px border drawn inside. */
+  --input-padding-y: 11px;
+}
+
+@media (pointer: coarse) {
+  :root,
+  .light,
+  .dark {
+    --control-height: 48px;
+    --input-padding-y: 15px;
+  }
+}

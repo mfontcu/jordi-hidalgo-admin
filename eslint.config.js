@@ -93,6 +93,7 @@ export default tseslint.config(
       'test-results',
       'src/app/routeTree.gen.ts',
       'src/shared/api/schema.gen.ts',
+      'src/shared/ui/icons/icons.gen.ts',
     ],
   },
 
@@ -115,6 +116,13 @@ export default tseslint.config(
     rules: {
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
       '@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }],
+      // TanStack Router's idiom: route guards and loaders `throw notFound()` and `throw redirect()`.
+      '@typescript-eslint/only-throw-error': [
+        'error',
+        {
+          allow: [{ from: 'package', package: '@tanstack/router-core', name: ['NotFoundError', 'Redirect'] }],
+        },
+      ],
     },
   },
 

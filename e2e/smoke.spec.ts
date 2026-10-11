@@ -17,3 +17,10 @@ test('a stored language is used on load', async ({ page }) => {
   await expect(page.getByText('Admin panel')).toBeVisible();
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 });
+
+test('the development-only kit page does not exist in a production build', async ({ page }) => {
+  await page.goto('/_kit');
+
+  await expect(page.getByRole('heading', { name: 'Kit visual' })).toHaveCount(0);
+  await expect(page.getByText('Not Found')).toBeVisible();
+});
