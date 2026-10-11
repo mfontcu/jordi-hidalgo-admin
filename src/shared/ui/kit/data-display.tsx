@@ -35,10 +35,11 @@ export function EmptyState({ icon, title, message, action }: EmptyStateProps) {
   );
 }
 
-export type StatusTone = 'success' | 'neutral' | 'neutralStrong' | 'info';
+export type StatusTone = 'success' | 'danger' | 'neutral' | 'neutralStrong' | 'info';
 
 const TONES: Record<StatusTone, string> = {
   success: 'bg-success-bg text-success-fg',
+  danger: 'bg-danger-bg text-danger-fg',
   neutral: 'bg-surface-muted text-content-secondary',
   neutralStrong: 'bg-surface-muted text-on-surface',
   info: 'bg-info-bg text-info-fg',

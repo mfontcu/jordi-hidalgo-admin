@@ -1,6 +1,8 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useNavigate, useSearch } from '@tanstack/react-router';
-import { useEffect, useState } from 'react';
+import { useCallback } from 'react';
+
+import { useDebouncedText } from '@/shared/lib/use-debounced-text';
 
 import { serviceCategoriesQueryOptions, servicesListQueryOptions } from '../api/services.queries';
 import { categoriesSummary, categoryTitle, type ServiceCategory } from '../model/service';
@@ -14,9 +16,6 @@ import {
   searchWithText,
   type ServiceFilter,
 } from '../model/services-search';
-
-/** AdminDebouncedSearch: a search applies 350ms after the last keystroke, a cleared one at once. */
-export const SEARCH_DEBOUNCE_MS = 350;
 
 const NO_CATEGORIES: ServiceCategory[] = [];
 
@@ -35,31 +34,17 @@ export function useServicesList() {
   const categoriesQuery = useQuery(serviceCategoriesQueryOptions());
   const categories = categoriesQuery.data ?? NO_CATEGORIES;
 
-  // The field's text runs ahead of the URL while the debounce waits. A URL change from elsewhere
-  // (back, a link) replaces it.
-  const urlText = search.search ?? '';
-  const [searchText, setSearchText] = useState(urlText);
-  const [syncedText, setSyncedText] = useState(urlText);
-  if (urlText !== syncedText) {
-    setSyncedText(urlText);
-    if (searchText.trim() !== urlText) setSearchText(urlText);
-  }
-
-  const query = searchText.trim();
-  useEffect(() => {
-    if (query === urlText) return;
-    const apply = () => {
+  const applySearch = useCallback(
+    (query: string) => {
       void navigate({ search: (previous) => searchWithText(previous, query), replace: true });
-    };
-    if (!query) {
-      apply();
-      return;
-    }
-    const timer = setTimeout(apply, SEARCH_DEBOUNCE_MS);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [query, urlText, navigate]);
+    },
+    [navigate],
+  );
+  const {
+    text: searchText,
+    setText: setSearchText,
+    query,
+  } = useDebouncedText(search.search ?? '', applySearch);
 
   const filter = filterOf(search);
   const filterCode = filterCategoryCode(filter);

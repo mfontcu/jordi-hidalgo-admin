@@ -138,9 +138,10 @@ export function DataTable<T extends RowData>({
                       <th
                         key={header.id}
                         scope="col"
+                        // Headers stay on the left whatever the column's alignment: Flutter lays the
+                        // label out in a Stack, where its textAlign has no room to apply.
                         className={cn(
-                          'group/header relative py-3.5 text-[13px] font-extrabold text-content-secondary',
-                          column?.align === 'center' ? 'text-center' : 'text-left',
+                          'group/header relative py-3.5 text-left text-[13px] font-extrabold text-content-secondary',
                           edge(index),
                         )}
                       >

@@ -30,6 +30,12 @@ const buttonVariants = cva(
         /** AdminDangerButton: filled, danger color. */
         danger:
           'rounded-md bg-danger-fg px-[18px] text-button font-extrabold text-surface disabled:bg-disabled-container disabled:text-disabled-content',
+        /** ElevatedButton tinted with the success pair (activate a staff account). */
+        successTonal:
+          'rounded-md bg-success-bg px-[18px] text-button font-extrabold text-success-fg disabled:bg-disabled-container disabled:text-disabled-content',
+        /** ElevatedButton tinted with the danger pair (deactivate a staff account). */
+        dangerTonal:
+          'rounded-md bg-danger-bg px-[18px] text-button font-extrabold text-danger-fg disabled:bg-disabled-container disabled:text-disabled-content',
         /** AdminTextButton: text only, brand blue, stadium shape. */
         text: 'rounded-pill px-3 text-button font-bold text-text-action disabled:text-disabled-content',
         /** IconButton: round, icon only. Give it an aria-label. */

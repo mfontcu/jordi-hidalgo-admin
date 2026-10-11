@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 
-import type { MessageId } from '@/shared/i18n';
+import { paginationLabels, type MessageId } from '@/shared/i18n';
 import {
   DataTable,
-  InlineAction,
+  EntityCard,
   Pagination,
   RefreshOverlay,
   StatusPill,
@@ -22,7 +22,6 @@ import {
   type Service,
   type ServicePage,
 } from '../model/service';
-import { paginationLabels } from './pagination-labels';
 
 type ServicesRowsProps = {
   page: ServicePage;
@@ -227,58 +226,37 @@ type ServiceCardProps = {
 /** AdminServiceCard: name and status, then category, duration, price, and priority. */
 function ServiceCard({ service, onOpen, onNewVersion }: ServiceCardProps) {
   const intl = useIntl();
+  const text = (id: MessageId) => intl.formatMessage({ id });
   const pill = serviceStatus(service.isActive);
-  const meta = [
-    ['serviceCardCategoryLabel', categoryLabel(service)],
-    ['serviceCardDurationLabel', formatDuration(service.durationMinutes)],
-    ['serviceCardPriceLabel', formatPrice(service.priceCents)],
-    ['serviceCardPriorityLabel', String(service.displayOrder)],
-  ] as const;
-
   return (
-    <article className="relative rounded-lg border border-border bg-surface p-[18px] hover:bg-[color-mix(in_srgb,var(--on-surface)_4%,var(--surface))]">
-      <button
-        type="button"
-        aria-label={service.name}
-        onClick={() => {
-          onOpen(service.id);
-        }}
-        className="absolute inset-0 cursor-pointer rounded-lg"
-      />
-      <div className="pointer-events-none relative">
-        <div className="flex items-center gap-3">
-          <h2 className="min-w-0 flex-1 text-[18px] font-extrabold text-on-surface">{service.name}</h2>
-          <StatusPill label={intl.formatMessage({ id: pill.label })} tone={pill.tone} />
-        </div>
-        <dl className="mt-3.5 flex flex-col gap-2">
-          {meta.map(([label, value]) => (
-            <div key={label} className="flex items-start">
-              <dt className="w-24 shrink-0 text-[13px] font-bold text-content-secondary">
-                {intl.formatMessage({ id: label })}
-              </dt>
-              <dd className="min-w-0 flex-1 text-[14px] leading-[1.4] text-on-surface">{value}</dd>
-            </div>
-          ))}
-        </dl>
-      </div>
-      <div className="relative z-10 mt-3.5 flex flex-wrap gap-1">
-        <InlineAction
-          compact
-          icon="visibility_outlined"
-          label={intl.formatMessage({ id: 'serviceCardViewLabel' })}
-          onClick={() => {
+    <EntityCard
+      title={service.name}
+      status={<StatusPill label={text(pill.label)} tone={pill.tone} />}
+      meta={[
+        [text('serviceCardCategoryLabel'), categoryLabel(service)],
+        [text('serviceCardDurationLabel'), formatDuration(service.durationMinutes)],
+        [text('serviceCardPriceLabel'), formatPrice(service.priceCents)],
+        [text('serviceCardPriorityLabel'), String(service.displayOrder)],
+      ]}
+      onOpen={() => {
+        onOpen(service.id);
+      }}
+      actions={[
+        {
+          icon: 'visibility_outlined',
+          label: text('serviceCardViewLabel'),
+          onClick: () => {
             onOpen(service.id);
-          }}
-        />
-        <InlineAction
-          compact
-          icon="copy_all_outlined"
-          label={intl.formatMessage({ id: 'serviceCardNewVersionLabel' })}
-          onClick={() => {
+          },
+        },
+        {
+          icon: 'copy_all_outlined',
+          label: text('serviceCardNewVersionLabel'),
+          onClick: () => {
             onNewVersion(service.id);
-          }}
-        />
-      </div>
-    </article>
+          },
+        },
+      ]}
+    />
   );
 }

@@ -1218,5 +1218,13 @@
   "serviceVersionCreatedToast": "Nova versió creada.",
   "serviceActivateFailed": "No s'ha pogut activar el servei.",
   "serviceDeactivateFailed": "No s'ha pogut desactivar el servei.",
-  "serviceDeleteFailed": "No s'ha pogut eliminar el servei."
+  "serviceDeleteFailed": "No s'ha pogut eliminar el servei.",
+  "adminUserUnnamed": "Sense nom",
+  "adminUserViewPhoto": "Veure la foto",
+  "staffCreatedToast": "Administrador creat.",
+  "staffUpdatedToast": "Administrador actualitzat.",
+  "staffActivatedToast": "Administrador activat.",
+  "staffDeactivatedToast": "Administrador desactivat.",
+  "staffStatusUpdateFailed": "No s'ha pogut actualitzar l'administrador.",
+  "staffFormProfileLockedHint": "Només lectura: el nom i les dades de contacte no s'editen des del panell."
 }

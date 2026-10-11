@@ -14,13 +14,25 @@ type PageHeaderProps = {
   titleSize: number;
   subtitleSize: number;
   back: { label: string; onClick: () => void };
+  /**
+   * Where the back button sits from 700px: at the start (a TextButton in a Column, the detail
+   * screens and the service form) or centered (a TextButton alone in a ListView row, the user forms).
+   */
+  backAlign?: 'start' | 'center';
 };
 
 /**
  * Header of a detail or form screen (`_ServiceDetailHeader`): back button, title, and subtitle.
  * Under 700px the mobile header shows the title, so only the back button stays visible.
  */
-export function PageHeader({ title, subtitle, titleSize, subtitleSize, back }: PageHeaderProps) {
+export function PageHeader({
+  title,
+  subtitle,
+  titleSize,
+  subtitleSize,
+  back,
+  backAlign = 'start',
+}: PageHeaderProps) {
   return (
     // Under 700px the back button spans the width, centered, as a TextButton alone in a ListView.
     <header className="flex flex-col items-start max-[699px]:items-stretch">
@@ -28,7 +40,7 @@ export function PageHeader({ title, subtitle, titleSize, subtitleSize, back }: P
         variant="text"
         icon="arrow_back_rounded"
         onClick={back.onClick}
-        className="-ml-3 max-[699px]:ml-0"
+        className={cn(backAlign === 'center' && 'self-center max-[699px]:self-stretch')}
       >
         {back.label}
       </Button>
@@ -44,10 +56,37 @@ export function PageHeader({ title, subtitle, titleSize, subtitleSize, back }: P
   );
 }
 
-type InfoCardProps = { title: string; icon: IconName; children: ReactNode; className?: string };
+type InfoCardProps = {
+  title: string;
+  icon: IconName;
+  children: ReactNode;
+  className?: string;
+  /**
+   * `flat` (AdminInfoCard, detail screens): 20px padding, 20px icon, 18px title. `elevated`
+   * (AdminSectionCard.elevated, the user forms): 24px radius and a soft shadow, 18px padding, a
+   * compact 18px icon, 15px title.
+   */
+  variant?: 'flat' | 'elevated';
+};
 
-/** AdminInfoCard (AdminSectionCard, flat): a card with an accent icon and title over its content. */
-export function InfoCard({ title, icon, children, className }: InfoCardProps) {
+/** AdminSectionCard: a card with an accent icon and title over its content. */
+export function InfoCard({ title, icon, children, className, variant = 'flat' }: InfoCardProps) {
+  if (variant === 'elevated') {
+    return (
+      <section
+        className={cn(
+          'rounded-xl border border-outline-variant bg-surface p-[18px] shadow-[0_6px_14px_rgb(0_0_0/0.03)]',
+          className,
+        )}
+      >
+        <h2 className="flex items-center gap-2">
+          <AccentIcon name={icon} size={18} compact />
+          <span className="text-[15px] font-extrabold text-on-surface">{title}</span>
+        </h2>
+        <div className="mt-4">{children}</div>
+      </section>
+    );
+  }
   return (
     <section className={cn('rounded-lg border border-border bg-surface p-5', className)}>
       <h2 className="flex items-center gap-3">
@@ -88,7 +127,9 @@ export function DetailRow({ label, value }: { label: string; value: string }) {
         <dt className="w-[130px] shrink-0 text-[13px] font-bold text-content-secondary @max-[339px]:w-auto">
           {label}
         </dt>
-        <dd className="min-w-0 flex-1 text-[15px] leading-[1.4] text-on-surface">{value}</dd>
+        <dd className="min-w-0 flex-1 text-[15px] leading-[1.4] [overflow-wrap:anywhere] text-on-surface">
+          {value}
+        </dd>
       </div>
     </div>
   );

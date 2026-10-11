@@ -1218,5 +1218,13 @@
   "serviceVersionCreatedToast": "New version created.",
   "serviceActivateFailed": "Could not activate the service.",
   "serviceDeactivateFailed": "Could not deactivate the service.",
-  "serviceDeleteFailed": "Could not delete the service."
+  "serviceDeleteFailed": "Could not delete the service.",
+  "adminUserUnnamed": "No name",
+  "adminUserViewPhoto": "View photo",
+  "staffCreatedToast": "Administrator created.",
+  "staffUpdatedToast": "Administrator updated.",
+  "staffActivatedToast": "Administrator activated.",
+  "staffDeactivatedToast": "Administrator deactivated.",
+  "staffStatusUpdateFailed": "Could not update the administrator.",
+  "staffFormProfileLockedHint": "Read-only: name and contact details cannot be edited from the panel."
 }

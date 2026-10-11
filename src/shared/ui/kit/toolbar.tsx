@@ -52,7 +52,7 @@ export function SearchField({ value, onValueChange, clearLabel, className, ...pr
     <div className={cn('relative', className)}>
       <Icon
         name="search"
-        className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-on-surface-variant"
+        className="pointer-events-none absolute top-1/2 left-2 -translate-y-1/2 text-on-surface-variant"
       />
       <input
         type="search"
@@ -61,7 +61,8 @@ export function SearchField({ value, onValueChange, clearLabel, className, ...pr
           onValueChange(event.target.value);
         }}
         className={cn(
-          'h-12 w-full min-w-0 rounded-md border border-outline-variant bg-surface pr-12 pl-12',
+          // Icon at 11px and text at 45px from the outer edge, as measured on the Flutter field.
+          'h-12 w-full min-w-0 rounded-md border border-outline-variant bg-surface pr-12 pl-[43.5px]',
           'text-body-lg text-on-surface outline-none placeholder:text-on-surface-muted',
           'focus-visible:border-outline [&::-webkit-search-cancel-button]:hidden',
         )}

@@ -7,6 +7,7 @@ import {
   ActionGroup,
   Button,
   ConfirmDialog,
+  detailLayoutFor,
   DetailRow,
   EmptyState,
   FieldError,
@@ -21,6 +22,7 @@ import {
   SummaryCard,
   Switch,
   useElementWidth,
+  type DetailLayout,
 } from '@/shared/ui';
 
 import { useServiceDetail } from '../hooks/use-service-detail';
@@ -33,41 +35,6 @@ import {
   translationFor,
   type Service,
 } from '../model/service';
-
-/** `_ServiceDetailLayoutSpec`, by the screen's width. */
-function detailLayoutFor(width: number) {
-  if (width < 560) {
-    return {
-      padding: 16,
-      gap: 20,
-      gapLarge: 24,
-      titleSize: 24,
-      subtitleSize: 14,
-      twoColumns: false,
-      summaryPadding: 18,
-    };
-  }
-  if (width < 960) {
-    return {
-      padding: 20,
-      gap: 22,
-      gapLarge: 26,
-      titleSize: 28,
-      subtitleSize: 14,
-      twoColumns: false,
-      summaryPadding: 20,
-    };
-  }
-  return {
-    padding: 24,
-    gap: 24,
-    gapLarge: 28,
-    titleSize: 30,
-    subtitleSize: 15,
-    twoColumns: true,
-    summaryPadding: 22,
-  };
-}
 
 type Confirmation = 'activate' | 'deactivate' | 'delete';
 
@@ -129,7 +96,7 @@ export function ServiceDetailScreen() {
 }
 
 type Detail = ReturnType<typeof useServiceDetail>;
-type Layout = ReturnType<typeof detailLayoutFor>;
+type Layout = DetailLayout;
 
 function ServiceDetailContent({
   detail,
