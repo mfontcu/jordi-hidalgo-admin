@@ -8,6 +8,7 @@ import {
   test,
 } from '../support/backend';
 import { loginPage, signedInShell } from '../support/login-page';
+import { mockServices } from '../support/services';
 
 // Sign-in paths of the Flutter panel's LoginScreen (features/auth) and its router redirect.
 
@@ -93,6 +94,7 @@ test('sends a deep link without a session to the login screen, and opens it afte
   backend,
 }) => {
   backend.on('POST', '/auth/login', { json: { ...OLD_TOKENS, user: STAFF_USER } });
+  mockServices(backend);
   const login = loginPage(page);
 
   await page.goto('/services?status=active&page=2');

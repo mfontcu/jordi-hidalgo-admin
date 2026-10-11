@@ -4,7 +4,8 @@
  */
 export const fieldBase = [
   'w-full min-w-0 rounded-md border border-border bg-surface px-4 py-(--input-padding-y)',
-  'text-body-lg text-on-surface placeholder:text-on-surface-muted',
+  // A hint that does not fit ends in an ellipsis, as InputDecoration.hintText does.
+  'text-body-lg text-on-surface text-ellipsis placeholder:text-on-surface-muted',
   'outline-none transition-[border-color,box-shadow]',
   'focus-visible:border-focus focus-visible:shadow-[inset_0_0_0_0.4px_var(--focus)]',
   'aria-invalid:border-error aria-invalid:focus-visible:shadow-[inset_0_0_0_0.4px_var(--error)]',

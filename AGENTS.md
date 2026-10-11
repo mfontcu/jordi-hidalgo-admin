@@ -56,6 +56,21 @@ app → routes → features/*/ui → features/*/hooks → features/*/api → sha
 | Rutas con sesión     | Bajo `src/routes/_authed/`, con las rutas del panel Flutter. Cada pantalla declara `staticData: { screen }` con su cabecera en `features/shell/model/header.ts`; un test del árbol de rutas lo exige                                       |
 | Contenido localizado | Una query cuyo contenido localiza el backend lleva `meta: { localized: true }`: se vuelve a pedir al cambiar de idioma                                                                                                                     |
 
+## Plantilla de feature (Fase 4, `features/services`)
+
+Las features siguientes copian su estructura; si algo no encaja, se corrige la plantilla.
+
+| Pieza       | Regla                                                                                                                                                                                                          |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `model/`    | View model y presentación (formato, pill), esquema Zod de los search params, esquema del formulario y valores iniciales. Tests unitarios sin mocks                                                             |
+| `api/`      | `*.keys.ts`, `*.queries.ts` (`meta.localized` si el backend localiza; `staleTime` corto para el traspaso loader → pantalla), `*.mutations.ts` (cada escritura invalida o guarda lo que cambia), `*.mappers.ts` |
+| `hooks/`    | Un hook por pantalla: lee la URL (`useSearch`/`useParams` con `from`), queries, mutaciones y navegación. Recibe callbacks para toasts; no renderiza                                                            |
+| `ui/`       | Pantallas con el kit; estados de carga, vacío y error en línea con reintentar. Tests con MSW sobre `renderApp`                                                                                                 |
+| Rutas       | `validateSearch` con el esquema del `model`; el loader solo precarga (`queryClient.query(...).catch(ignore)`) y no bloquea: la pantalla muestra su propio error                                                |
+| Errores     | Queries: `EmptyState` con `useDescribeFailure(error)` y reintentar. Mutaciones: toast con contexto + clase (`useDescribeFailure(error, 'xFailed')`)                                                            |
+| Formularios | React Hook Form + Zod, validación al enviar; `UnsavedChangesGuard` con `isDirty`; al guardar, `navigate({ ..., ignoreBlocker: true })`                                                                         |
+| Filtros     | En la URL; búsqueda con debounce de 350 ms (inmediata al vaciar); un filtro activo se ve como chip con ×                                                                                                       |
+
 ## Comandos
 
 ```bash
@@ -91,16 +106,20 @@ PLAYWRIGHT_BASE_URL=http://localhost:8089 npm run e2e
 
 ## Archivos clave
 
-| Archivo                           | Para qué                                                                     |
-| --------------------------------- | ---------------------------------------------------------------------------- |
-| `src/app/app.tsx`, `router.ts`    | Providers y router                                                           |
-| `src/shared/api/client.ts`        | Cliente tipado y middleware                                                  |
-| `src/shared/i18n/`                | Mensajes, idioma, provider                                                   |
-| `src/shared/ui/styles/`           | Tokens, tema Tailwind, fuentes                                               |
-| `src/shared/ui/primitives/`       | Primitivas del sistema visual                                                |
-| `src/routes/[_]kit.tsx`           | `/_kit`: kit visual, solo en desarrollo                                      |
-| `src/routes/_authed.tsx`          | Guard de sesión y layout con el shell                                        |
-| `src/features/shell/`             | Barra lateral, drawer, cabecera móvil, preferencias y cabeceras por pantalla |
-| `src/shared/config/env.ts`        | Variables de entorno                                                         |
-| `eslint.config.js`                | Reglas de capas y de copy                                                    |
-| `deploy/*.template`, `Dockerfile` | Imagen nginx de producción                                                   |
+| Archivo                              | Para qué                                                                     |
+| ------------------------------------ | ---------------------------------------------------------------------------- |
+| `src/app/app.tsx`, `router.ts`       | Providers y router                                                           |
+| `src/shared/api/client.ts`           | Cliente tipado y middleware                                                  |
+| `src/shared/i18n/`                   | Mensajes, idioma, provider                                                   |
+| `src/shared/ui/styles/`              | Tokens, tema Tailwind, fuentes                                               |
+| `src/shared/ui/primitives/`          | Primitivas del sistema visual                                                |
+| `src/routes/[_]kit.tsx`              | `/_kit`: kit visual, solo en desarrollo                                      |
+| `src/routes/_authed.tsx`             | Guard de sesión y layout con el shell                                        |
+| `src/features/shell/`                | Barra lateral, drawer, cabecera móvil, preferencias y cabeceras por pantalla |
+| `src/features/services/`             | Feature de referencia: plantilla de las siguientes                           |
+| `src/shared/ui/kit/`                 | Kit admin: `ListPage`, `DataTable`, filtros, diálogos, guard, secciones      |
+| `src/shared/lib/failure.ts`          | Clase de error legible desde hooks y ui (sin importar `shared/api`)          |
+| `src/shared/i18n/failure-message.ts` | Mensaje por clase de error (`useDescribeFailure`)                            |
+| `src/shared/config/env.ts`           | Variables de entorno                                                         |
+| `eslint.config.js`                   | Reglas de capas y de copy                                                    |
+| `deploy/*.template`, `Dockerfile`    | Imagen nginx de producción                                                   |

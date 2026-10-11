@@ -1,3 +1,5 @@
+import { API_ERROR_KINDS, failureOf } from '@/shared/lib/failure';
+
 import {
   apiErrorFromResponse,
   ApiException,
@@ -56,5 +58,16 @@ describe('unwrap', () => {
     expect(failure).toThrow(
       expect.objectContaining({ error: { kind: 'conflict', status: 409, message: 'slot taken' } }),
     );
+  });
+});
+
+describe('failureOf (shared/lib)', () => {
+  it('reads every ApiException class, so screens can present it without importing shared/api', () => {
+    expect(failureOf(new ApiException({ kind: 'network' }))).toEqual({ kind: 'network', message: '' });
+    for (const status of [400, 401, 403, 404, 409, 429, 500, 503]) {
+      const error = apiErrorFromResponse(status, 'backend text');
+      expect(API_ERROR_KINDS).toContain(error.kind);
+      expect(failureOf(new ApiException(error))).toEqual(error);
+    }
   });
 });

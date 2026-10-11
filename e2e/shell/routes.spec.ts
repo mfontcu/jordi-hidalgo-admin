@@ -6,9 +6,9 @@ import { shell, signedIn } from '../support/shell';
 const CHECKLIST: [path: string, title: string, section: string][] = [
   ['/', 'Dashboard', 'Dashboard'],
   ['/services', 'Servicios', 'Servicios'],
-  ['/services/s-1', 'Detalle de servicio', 'Servicios'],
-  ['/services/form', 'Formulario de servicio', 'Servicios'],
-  ['/services/s-1/form', 'Formulario de servicio', 'Servicios'],
+  ['/services/svc-1', 'Detalle de servicio', 'Servicios'],
+  ['/services/form', 'Nuevo servicio', 'Servicios'],
+  ['/services/svc-1/form', 'Nueva versión de servicio', 'Servicios'],
   ['/admins', 'Administradores', 'Administradores'],
   ['/admins/u-1', 'Cuenta de administrador', 'Administradores'],
   ['/admins/form', 'Formulario de administrador', 'Administradores'],

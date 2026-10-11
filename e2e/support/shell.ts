@@ -1,10 +1,15 @@
 import type { Page } from '@playwright/test';
 
 import { type MockBackend, OLD_TOKENS, seedSession, STAFF_USER } from './backend';
+import { mockServices } from './services';
 
-/** Signs in through stored tokens: the panel restores the session on load. */
+/**
+ * Signs in through stored tokens: the panel restores the session on load. The screens built so far
+ * get their data from the mocked backend.
+ */
 export async function signedIn(page: Page, backend: MockBackend) {
   backend.on('GET', '/auth/me', { json: STAFF_USER });
+  mockServices(backend);
   await seedSession(page, OLD_TOKENS);
 }
 

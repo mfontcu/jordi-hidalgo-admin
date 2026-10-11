@@ -1,8 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { RoutePlaceholderScreen } from '@/features/shell';
+import { serviceCategoriesQueryOptions, ServiceFormScreen } from '@/features/services';
+
+// A failed prefetch is the screen's to show.
+const ignore = () => undefined;
 
 export const Route = createFileRoute('/_authed/services/form')({
   staticData: { screen: 'serviceForm' },
-  component: RoutePlaceholderScreen,
+  loader: ({ context }) => {
+    void context.queryClient.query(serviceCategoriesQueryOptions()).catch(ignore);
+  },
+  component: ServiceFormScreen,
 });
