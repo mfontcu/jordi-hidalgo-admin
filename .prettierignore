@@ -1,0 +1,9 @@
+dist
+coverage
+playwright-report
+test-results
+package-lock.json
+# Generated or copied verbatim from the backend.
+contract/
+src/shared/api/schema.gen.ts
+src/app/routeTree.gen.ts
