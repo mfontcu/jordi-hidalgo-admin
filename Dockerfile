@@ -1,5 +1,5 @@
 # Production image: static build served by nginx (ADR-003). VITE_API_BASE_URL is required.
-FROM node:24-alpine AS build
+FROM node:24.21.0-alpine AS build
 
 WORKDIR /app
 
