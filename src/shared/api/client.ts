@@ -4,6 +4,8 @@ import { env } from '@/shared/config/env';
 import { useLocaleStore } from '@/shared/i18n';
 
 import { acceptLanguageMiddleware } from './middleware/accept-language';
+import { errorMiddleware } from './middleware/errors';
+import { sessionMiddleware } from './middleware/session';
 import { timeoutMiddleware } from './middleware/timeout';
 import type { paths } from './schema.gen';
 
@@ -16,12 +18,21 @@ type ApiClientOptions = {
 };
 
 /**
- * Builds the typed client for the backend contract. Middleware order follows ADR-003:
- * base URL, `Accept-Language`, (auth and refresh, phase 2), (error normalization, phase 4), timeout.
+ * Builds the typed client for the backend contract. Middleware order follows ADR-003: base URL,
+ * `Accept-Language`, `Authorization` with refresh on 401, error normalization, then the timeout.
  */
 export function createApiClient({ baseUrl, getLocale, fetch }: ApiClientOptions): ApiClient {
-  const client = createClient<paths>({ baseUrl, ...(fetch ? { fetch } : {}) });
-  client.use(acceptLanguageMiddleware(getLocale), timeoutMiddleware());
+  // Resolved per request, not when the client is built, so a patched `fetch` (tests) is used.
+  const client = createClient<paths>({
+    baseUrl,
+    fetch: fetch ?? ((request: Request) => globalThis.fetch(request)),
+  });
+  client.use(
+    acceptLanguageMiddleware(getLocale),
+    sessionMiddleware(baseUrl),
+    errorMiddleware(),
+    timeoutMiddleware(),
+  );
   return client;
 }
 

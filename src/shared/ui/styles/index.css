@@ -86,6 +86,17 @@
   --text-button: 15px;
   --text-button--line-height: normal;
   --text-button--letter-spacing: 0;
+  /* Login screen (login_form_card.dart, login_brand_panel.dart). */
+  --text-login-title: 28px; /* 28/w900, height 1.1 */
+  --text-login-title--line-height: 1.1;
+  --text-login-brand-title: 30px; /* 30/w900, height 1.1 */
+  --text-login-brand-title--line-height: 1.1;
+  --text-login-brand-body: 15px; /* 15, height 1.5 */
+  --text-login-brand-body--line-height: 1.5;
+  --text-login-caption: 12px; /* 12, onSurface at 54% */
+
+  /* ResponsiveExtension: isDesktop is a width of 1100px or more (`desktop:`). */
+  --breakpoint-desktop: 1100px;
 
   /* Material 3 elevation shadows, for surfaces Flutter draws with a shadow. */
   --shadow-m3-1: 0 1px 2px rgb(0 0 0 / 0.3), 0 1px 3px 1px rgb(0 0 0 / 0.15);

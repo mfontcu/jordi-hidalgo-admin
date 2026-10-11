@@ -34,5 +34,6 @@
   "storefront_outlined": { "symbol": "storefront", "style": "outlined" },
   "tune_rounded": { "symbol": "tune", "style": "rounded" },
   "view_timeline_outlined": { "symbol": "view_timeline", "style": "outlined" },
+  "visibility_off_outlined": { "symbol": "visibility_off", "style": "outlined" },
   "visibility_outlined": { "symbol": "visibility", "style": "outlined" }
 }

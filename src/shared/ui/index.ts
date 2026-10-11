@@ -4,6 +4,7 @@ export { Icon, ICON_NAMES, type IconName } from './icons/icon';
 export { PortalContainerContext } from './portal-container';
 export { Button, buttonVariants } from './primitives/button';
 export { Calendar, type CalendarLocale } from './primitives/calendar';
+export { Card } from './primitives/card';
 export { Checkbox } from './primitives/checkbox';
 export {
   Dialog,
@@ -15,6 +16,7 @@ export {
   DialogTitle,
   DialogTrigger,
 } from './primitives/dialog';
+export { FieldError, Label } from './primitives/field';
 export { Input } from './primitives/input';
 export { Popover, PopoverAnchor, PopoverClose, PopoverContent, PopoverTrigger } from './primitives/popover';
 export {

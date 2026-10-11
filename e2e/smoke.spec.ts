@@ -1,11 +1,12 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './support/backend';
+import { loginPage } from './support/login-page';
 
-test('the placeholder home renders in Spanish by default', async ({ page }) => {
+test('without a session, the panel opens the login screen in Spanish by default', async ({ page }) => {
   await page.goto('/');
 
   await expect(page).toHaveTitle('Hidalgo Junior | Admin');
-  await expect(page.getByRole('heading', { name: 'Hidalgo Junior' })).toBeVisible();
-  await expect(page.getByText('Panel de administración')).toBeVisible();
+  await expect(loginPage(page).heading).toBeVisible();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'es');
 });
 
 test('a stored language is used on load', async ({ page }) => {
@@ -14,7 +15,7 @@ test('a stored language is used on load', async ({ page }) => {
   });
   await page.goto('/');
 
-  await expect(page.getByText('Admin panel')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Sign in with your administrator account' })).toBeVisible();
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 });
 

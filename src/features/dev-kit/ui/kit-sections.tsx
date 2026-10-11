@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useId, useState, type ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import type { DateRange } from 'react-day-picker';
 
@@ -8,6 +8,7 @@ import {
   Button,
   Calendar,
   type CalendarLocale,
+  Card,
   Checkbox,
   Dialog,
   DialogClose,
@@ -17,10 +18,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  FieldError,
   Icon,
   ICON_NAMES,
   type IconName,
   Input,
+  Label,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -275,6 +278,7 @@ export function ButtonsSection() {
 export function FieldsSection() {
   const intl = useIntl();
   const searchPlaceholder = intl.formatMessage({ id: 'adminCommonSearch' });
+  const labeledFieldId = useId();
   return (
     <KitSection title="devKitSectionFields">
       <div className="grid gap-3 sm:grid-cols-2">
@@ -298,6 +302,22 @@ export function FieldsSection() {
         placeholder={intl.formatMessage({ id: 'appointmentFormNotesHint' })}
         aria-label={intl.formatMessage({ id: 'appointmentFormNotesLabel' })}
       />
+      {/* Card, Label and FieldError, as the login form uses them. */}
+      <Card className="p-6">
+        <Label htmlFor={labeledFieldId}>
+          <FormattedMessage id="authEmailLabel" />
+        </Label>
+        <Input
+          id={labeledFieldId}
+          className="mt-2"
+          aria-invalid
+          aria-describedby={`${labeledFieldId}-error`}
+          placeholder={intl.formatMessage({ id: 'authEmailHint' })}
+        />
+        <FieldError id={`${labeledFieldId}-error`}>
+          <FormattedMessage id="authEmailInvalid" />
+        </FieldError>
+      </Card>
     </KitSection>
   );
 }
