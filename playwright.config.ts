@@ -14,7 +14,9 @@ export default defineConfig({
     baseURL: externalBaseUrl ?? `http://localhost:${port}`,
     trace: 'retain-on-failure',
   },
-  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
+  // Chromium starts in en-US; the panel's tests expect the Spanish a browser in Spain gets. A test
+  // about language detection sets its own locale.
+  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'], locale: 'es-ES' } }],
   ...(externalBaseUrl
     ? {}
     : {

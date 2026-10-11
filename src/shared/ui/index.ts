@@ -16,6 +16,7 @@ export {
   DialogTitle,
   DialogTrigger,
 } from './primitives/dialog';
+export { Drawer, DrawerClose, DrawerContent, DrawerTitle, DrawerTrigger } from './primitives/drawer';
 export { FieldError, Label } from './primitives/field';
 export { Input } from './primitives/input';
 export { Popover, PopoverAnchor, PopoverClose, PopoverContent, PopoverTrigger } from './primitives/popover';
@@ -45,3 +46,11 @@ export { Switch } from './primitives/switch';
 export { Textarea } from './primitives/textarea';
 export { showErrorToast, showToast, Toaster } from './primitives/toast';
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './primitives/tooltip';
+export {
+  isThemeMode,
+  resolveScheme,
+  syncThemeClass,
+  THEME_MODES,
+  type ThemeMode,
+  useThemeStore,
+} from './theme/theme-store';

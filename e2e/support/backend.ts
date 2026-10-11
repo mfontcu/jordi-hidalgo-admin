@@ -22,7 +22,13 @@ export const REFRESH_TOKEN_KEY = 'hj_admin.refresh_token';
 type Reply = { status?: number; json?: unknown; text?: string } | 'network-error';
 type Handler = (request: Request) => Reply | Promise<Reply>;
 
-export type Call = { method: string; path: string; authorization: string | null; body: unknown };
+export type Call = {
+  method: string;
+  path: string;
+  authorization: string | null;
+  acceptLanguage: string | null;
+  body: unknown;
+};
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -61,6 +67,7 @@ export class MockBackend {
       method: request.method(),
       path: pathname,
       authorization: (await request.headerValue('authorization')) ?? null,
+      acceptLanguage: (await request.headerValue('accept-language')) ?? null,
       body: request.postDataJSON() as unknown,
     });
 

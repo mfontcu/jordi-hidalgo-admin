@@ -13,12 +13,14 @@ export const SheetClose = SheetPrimitive.Close;
 /**
  * Modal bottom sheet (showAdminModalBottomSheet): rises from the bottom with a drag handle, surface
  * color, AdminRadius.xl top corners, full width on narrow screens and at most 720px wide otherwise.
+ * `handle={false}` leaves out the drag handle, as a plain showModalBottomSheet does.
  */
 export function SheetContent({
   className,
   children,
+  handle = true,
   ...props
-}: ComponentProps<typeof SheetPrimitive.Content>) {
+}: ComponentProps<typeof SheetPrimitive.Content> & { handle?: boolean }) {
   const container = usePortalContainer();
   return (
     <SheetPrimitive.Portal container={container}>
@@ -33,9 +35,11 @@ export function SheetContent({
         {...props}
       >
         {/* Material 3 drag handle: 32x4, on-surface-variant at 40%, in a 48px-high area. */}
-        <div aria-hidden className="flex h-12 shrink-0 items-center justify-center">
-          <div className="h-1 w-8 rounded-pill bg-on-surface-variant/40" />
-        </div>
+        {handle && (
+          <div aria-hidden className="flex h-12 shrink-0 items-center justify-center">
+            <div className="h-1 w-8 rounded-pill bg-on-surface-variant/40" />
+          </div>
+        )}
         {children}
       </SheetPrimitive.Content>
     </SheetPrimitive.Portal>

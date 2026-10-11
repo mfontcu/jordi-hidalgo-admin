@@ -18,6 +18,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  Drawer,
+  DrawerContent,
+  DrawerTitle,
+  DrawerTrigger,
   FieldError,
   Icon,
   ICON_NAMES,
@@ -436,6 +440,19 @@ export function OverlaysSection({ language, toasterId }: { language: CalendarLoc
             </DialogFooter>
           </DialogContent>
         </Dialog>
+
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button variant="secondary">
+              <FormattedMessage id="devKitOpenDrawer" />
+            </Button>
+          </DrawerTrigger>
+          <DrawerContent className="bg-sidebar-background p-5">
+            <DrawerTitle className="text-title-lg text-sidebar-foreground">
+              <FormattedMessage id="adminBrandName" />
+            </DrawerTitle>
+          </DrawerContent>
+        </Drawer>
 
         <Sheet>
           <SheetTrigger asChild>

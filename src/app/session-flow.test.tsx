@@ -54,7 +54,7 @@ describe('session flow (route guard and expiry wiring)', () => {
       session.setTokens(TOKENS);
       server.use(meAs(STAFF_USER));
       app = renderApp('/services?x=1');
-      await screen.findByRole('heading', { name: 'Hidalgo Junior' });
+      await screen.findByRole('heading', { name: 'Servicios' });
       app.queryClient.setQueryData(['clients'], ['cached']);
 
       let refreshes = 0;
@@ -110,7 +110,7 @@ describe('session flow (route guard and expiry wiring)', () => {
     app = renderApp('/');
 
     expect(await screen.findByRole('status')).toBeInTheDocument();
-    expect(await screen.findByRole('heading', { name: 'Hidalgo Junior' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'Dashboard' })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Entrar' })).not.toBeInTheDocument();
   });
 });

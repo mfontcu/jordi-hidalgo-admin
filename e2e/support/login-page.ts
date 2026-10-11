@@ -17,5 +17,5 @@ export function loginPage(page: Page) {
   };
 }
 
-/** The placeholder screen every signed-in path shows until phase 3. */
-export const signedInHeading = (page: Page) => page.getByRole('heading', { name: 'Hidalgo Junior' });
+/** The signed-in shell: its sidebar navigation is there on every signed-in path. */
+export const signedInShell = (page: Page) => page.getByRole('navigation', { name: 'Menú de navegación' });

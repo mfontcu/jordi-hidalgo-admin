@@ -37,22 +37,24 @@ app → routes → features/*/ui → features/*/hooks → features/*/api → sha
 
 ## Convenciones críticas
 
-| Tema            | Regla                                                                                                                                                                                                                                      |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Contrato        | `contract/openapi.json` es copia literal del backend en el commit de `contract/SOURCE.json`. Actualizar: `npm run api:sync -- <ref>` (lee `../jordi_hidalgo_backend` o `BACKEND_REPO`). No editar ni `contract/` ni `schema.gen.ts` a mano |
-| Tipos DTO       | Solo llegan hasta `features/*/api`; la UI ve view models                                                                                                                                                                                   |
-| Cliente HTTP    | Solo `shared/api` importa `openapi-fetch`                                                                                                                                                                                                  |
-| Copy            | Solo de `src/shared/i18n/messages/{es,ca,en}.json`; `react/jsx-no-literals` bloquea texto literal. Claves tipadas: una clave inexistente no compila                                                                                        |
-| Mensajes        | Añadir la clave en los tres idiomas con los mismos argumentos ICU; `npm run i18n:check`                                                                                                                                                    |
-| Fechas          | Solo `shared/lib/business-time.ts` convierte y formatea (`Europe/Madrid`); lint prohíbe `new Date(x)` y `toLocale*` fuera                                                                                                                  |
-| Estado servidor | Solo TanStack Query; Zustand solo para sesión y preferencias                                                                                                                                                                               |
-| Estado en URL   | Filtros, búsqueda, página, orden, fecha y pestaña: search params con esquema Zod                                                                                                                                                           |
-| Entorno         | `VITE_API_BASE_URL` en build; Zod lo valida y la app no arranca si es inválido                                                                                                                                                             |
-| Almacenamiento  | Claves `hj_admin.*` en `localStorage`                                                                                                                                                                                                      |
-| Estilos         | Solo tokens de `shared/ui/styles` (Tailwind v4): la paleta y la escala de texto por defecto de Tailwind están eliminadas. Cada valor nombra su origen en el tema Flutter; no inventar colores ni tamaños                                   |
-| Componentes     | Primitivas de `shared/ui` (shadcn/ui adaptado a Material 3 del panel Flutter); las features no estilan controles HTML crudos                                                                                                               |
-| Iconos          | Material Symbols vía `<Icon name>`; añadir el nombre Flutter (`Icons.*`) a `shared/ui/icons/icons.json` y `npm run icons:generate`. No editar `icons.gen.ts`                                                                               |
-| Modo oscuro     | Clase `.light`/`.dark` en un ancestro; la barra lateral es oscura en ambos modos (`--sidebar-*`)                                                                                                                                           |
+| Tema                 | Regla                                                                                                                                                                                                                                      |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Contrato             | `contract/openapi.json` es copia literal del backend en el commit de `contract/SOURCE.json`. Actualizar: `npm run api:sync -- <ref>` (lee `../jordi_hidalgo_backend` o `BACKEND_REPO`). No editar ni `contract/` ni `schema.gen.ts` a mano |
+| Tipos DTO            | Solo llegan hasta `features/*/api`; la UI ve view models                                                                                                                                                                                   |
+| Cliente HTTP         | Solo `shared/api` importa `openapi-fetch`                                                                                                                                                                                                  |
+| Copy                 | Solo de `src/shared/i18n/messages/{es,ca,en}.json`; `react/jsx-no-literals` bloquea texto literal. Claves tipadas: una clave inexistente no compila                                                                                        |
+| Mensajes             | Añadir la clave en los tres idiomas con los mismos argumentos ICU; `npm run i18n:check`                                                                                                                                                    |
+| Fechas               | Solo `shared/lib/business-time.ts` convierte y formatea (`Europe/Madrid`); lint prohíbe `new Date(x)` y `toLocale*` fuera                                                                                                                  |
+| Estado servidor      | Solo TanStack Query; Zustand solo para sesión y preferencias                                                                                                                                                                               |
+| Estado en URL        | Filtros, búsqueda, página, orden, fecha y pestaña: search params con esquema Zod                                                                                                                                                           |
+| Entorno              | `VITE_API_BASE_URL` en build; Zod lo valida y la app no arranca si es inválido                                                                                                                                                             |
+| Almacenamiento       | Claves `hj_admin.*` en `localStorage`                                                                                                                                                                                                      |
+| Estilos              | Solo tokens de `shared/ui/styles` (Tailwind v4): la paleta y la escala de texto por defecto de Tailwind están eliminadas. Cada valor nombra su origen en el tema Flutter; no inventar colores ni tamaños                                   |
+| Componentes          | Primitivas de `shared/ui` (shadcn/ui adaptado a Material 3 del panel Flutter); las features no estilan controles HTML crudos                                                                                                               |
+| Iconos               | Material Symbols vía `<Icon name>`; añadir el nombre Flutter (`Icons.*`) a `shared/ui/icons/icons.json` y `npm run icons:generate`. No editar `icons.gen.ts`                                                                               |
+| Modo oscuro          | Clase `.light`/`.dark` en un ancestro; la barra lateral es oscura en ambos modos (`--sidebar-*`)                                                                                                                                           |
+| Rutas con sesión     | Bajo `src/routes/_authed/`, con las rutas del panel Flutter. Cada pantalla declara `staticData: { screen }` con su cabecera en `features/shell/model/header.ts`; un test del árbol de rutas lo exige                                       |
+| Contenido localizado | Una query cuyo contenido localiza el backend lleva `meta: { localized: true }`: se vuelve a pedir al cambiar de idioma                                                                                                                     |
 
 ## Comandos
 
@@ -89,14 +91,16 @@ PLAYWRIGHT_BASE_URL=http://localhost:8089 npm run e2e
 
 ## Archivos clave
 
-| Archivo                           | Para qué                                |
-| --------------------------------- | --------------------------------------- |
-| `src/app/app.tsx`, `router.ts`    | Providers y router                      |
-| `src/shared/api/client.ts`        | Cliente tipado y middleware             |
-| `src/shared/i18n/`                | Mensajes, idioma, provider              |
-| `src/shared/ui/styles/`           | Tokens, tema Tailwind, fuentes          |
-| `src/shared/ui/primitives/`       | Primitivas del sistema visual           |
-| `src/routes/[_]kit.tsx`           | `/_kit`: kit visual, solo en desarrollo |
-| `src/shared/config/env.ts`        | Variables de entorno                    |
-| `eslint.config.js`                | Reglas de capas y de copy               |
-| `deploy/*.template`, `Dockerfile` | Imagen nginx de producción              |
+| Archivo                           | Para qué                                                                     |
+| --------------------------------- | ---------------------------------------------------------------------------- |
+| `src/app/app.tsx`, `router.ts`    | Providers y router                                                           |
+| `src/shared/api/client.ts`        | Cliente tipado y middleware                                                  |
+| `src/shared/i18n/`                | Mensajes, idioma, provider                                                   |
+| `src/shared/ui/styles/`           | Tokens, tema Tailwind, fuentes                                               |
+| `src/shared/ui/primitives/`       | Primitivas del sistema visual                                                |
+| `src/routes/[_]kit.tsx`           | `/_kit`: kit visual, solo en desarrollo                                      |
+| `src/routes/_authed.tsx`          | Guard de sesión y layout con el shell                                        |
+| `src/features/shell/`             | Barra lateral, drawer, cabecera móvil, preferencias y cabeceras por pantalla |
+| `src/shared/config/env.ts`        | Variables de entorno                                                         |
+| `eslint.config.js`                | Reglas de capas y de copy                                                    |
+| `deploy/*.template`, `Dockerfile` | Imagen nginx de producción                                                   |

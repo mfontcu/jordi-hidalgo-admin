@@ -1,5 +1,6 @@
 import { createRouter } from '@tanstack/react-router';
 
+import { wireLocalizedQueries } from './locale-sync';
 import { queryClient } from './query-client';
 import { routeTree } from './routeTree.gen';
 import { wireSessionExpiry } from './session-expiry';
@@ -14,6 +15,7 @@ export const router = createRouter({
 });
 
 wireSessionExpiry(router, queryClient);
+wireLocalizedQueries(queryClient);
 
 declare module '@tanstack/react-router' {
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions -- declaration merging needs an interface

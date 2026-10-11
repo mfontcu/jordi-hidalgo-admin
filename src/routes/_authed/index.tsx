@@ -1,7 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { DashboardPlaceholderScreen } from '@/features/dashboard';
+import { RoutePlaceholderScreen } from '@/features/shell';
 
 export const Route = createFileRoute('/_authed/')({
-  component: DashboardPlaceholderScreen,
+  staticData: { screen: 'dashboard' },
+  component: RoutePlaceholderScreen,
 });

@@ -1,6 +1,6 @@
 import { useIntl } from 'react-intl';
 
-import { showToast } from '@/shared/ui';
+import { showToast, Toaster } from '@/shared/ui';
 
 import { useLoginForm } from '../hooks/use-login-form';
 import { useSessionExpiredNotice } from '../hooks/use-session-expired-notice';
@@ -29,6 +29,9 @@ export function LoginScreen({ onSignedIn }: LoginScreenProps) {
           <LoginFormCard form={form} />
         </div>
       </main>
+      {/* Its own toaster, as each Flutter page has its ScaffoldMessenger; it mounts before the
+          expiry notice is shown. Keeping toasts out of the root leaves sonner out of the first load. */}
+      <Toaster />
     </div>
   );
 }

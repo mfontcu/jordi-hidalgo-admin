@@ -7,7 +7,7 @@ import {
   storedTokens,
   test,
 } from '../support/backend';
-import { loginPage, signedInHeading } from '../support/login-page';
+import { loginPage, signedInShell } from '../support/login-page';
 
 // Sign-in paths of the Flutter panel's LoginScreen (features/auth) and its router redirect.
 
@@ -21,7 +21,7 @@ test('signs in from the login screen, stores the tokens, and opens the dashboard
   await page.goto('/login');
   await login.signIn(' staff@example.com ', 'secret');
 
-  await expect(signedInHeading(page)).toBeVisible();
+  await expect(signedInShell(page)).toBeVisible();
   await expect(page).toHaveURL('/');
   expect(backend.callsTo('POST', '/auth/login')).toEqual([
     expect.objectContaining({
@@ -105,7 +105,7 @@ test('sends a deep link without a session to the login screen, and opens it afte
   await login.signIn();
 
   await expect(page).toHaveURL('/services?status=active&page=2');
-  await expect(signedInHeading(page)).toBeVisible();
+  await expect(signedInShell(page)).toBeVisible();
 });
 
 test('Back after sign-in never shows the login screen again', async ({ page, backend }) => {
@@ -119,7 +119,7 @@ test('Back after sign-in never shows the login screen again', async ({ page, bac
 
   // Every login entry left in the history skips to the panel while the session lasts.
   await page.goBack();
-  await expect(signedInHeading(page)).toBeVisible();
+  await expect(signedInShell(page)).toBeVisible();
   expect(new URL(page.url()).pathname).not.toBe('/login');
   await expect(login.heading).toHaveCount(0);
 });
@@ -144,5 +144,5 @@ test('skips the login screen and the old auth gate with a session', async ({ pag
 
   await page.goto('/auth-gate');
   await expect(page).toHaveURL('/');
-  await expect(signedInHeading(page)).toBeVisible();
+  await expect(signedInShell(page)).toBeVisible();
 });

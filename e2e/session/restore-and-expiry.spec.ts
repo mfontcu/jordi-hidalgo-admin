@@ -9,7 +9,7 @@ import {
   storedTokens,
   test,
 } from '../support/backend';
-import { loginPage, signedInHeading } from '../support/login-page';
+import { loginPage, signedInShell } from '../support/login-page';
 
 // Session restore on load (Flutter AuthGateScreen / bootstrapFromStoredSession), refresh, expiry,
 // and blocked users (ApiHttpClient and AdminSessionListener).
@@ -29,9 +29,9 @@ test('restores the session on load and on reload, staying on the requested page'
   await seedSession(page, OLD_TOKENS);
 
   await page.goto('/clients?search=ana');
-  await expect(signedInHeading(page)).toBeVisible();
+  await expect(signedInShell(page)).toBeVisible();
   await page.reload();
-  await expect(signedInHeading(page)).toBeVisible();
+  await expect(signedInShell(page)).toBeVisible();
 
   await expect(page).toHaveURL('/clients?search=ana');
   expect(backend.callsTo('GET', '/auth/me').map((call) => call.authorization)).toEqual([
@@ -52,7 +52,7 @@ test('refreshes an expired access token once on load and keeps the session', asy
 
   await page.goto('/clients');
 
-  await expect(signedInHeading(page)).toBeVisible();
+  await expect(signedInShell(page)).toBeVisible();
   await expect(page).toHaveURL('/clients');
   expect(backend.callsTo('POST', '/auth/refresh')).toEqual([
     expect.objectContaining({ authorization: null, body: { refreshToken: 'refresh-old' } }),
@@ -140,5 +140,5 @@ test('signs in again after an expiry and returns to the page that was open', asy
   await loginPage(page).signIn();
 
   await expect(page).toHaveURL('/schedule/working-hours');
-  await expect(signedInHeading(page)).toBeVisible();
+  await expect(signedInShell(page)).toBeVisible();
 });

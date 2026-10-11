@@ -2,7 +2,12 @@ import '@testing-library/jest-dom/vitest';
 
 import { cleanup } from '@testing-library/react';
 
+import { installMatchMedia, resetViewport } from './match-media';
 import { server } from './msw/server';
+
+installMatchMedia();
+// jsdom reports en-US; the panel's tests expect the Spanish a browser in Spain gets.
+Object.defineProperty(navigator, 'languages', { value: ['es-ES'], configurable: true });
 
 beforeAll(() => {
   server.listen({ onUnhandledFrame: 'error' });
@@ -11,6 +16,7 @@ afterEach(() => {
   cleanup();
   server.resetHandlers();
   localStorage.clear();
+  resetViewport();
 });
 afterAll(() => {
   server.close();
