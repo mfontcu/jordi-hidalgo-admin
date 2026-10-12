@@ -116,6 +116,10 @@
     "symbol": "content_cut",
     "style": "outlined"
   },
+  "content_cut_rounded": {
+    "symbol": "content_cut",
+    "style": "rounded"
+  },
   "copy_all_outlined": {
     "symbol": "copy_all",
     "style": "outlined"
@@ -167,6 +171,10 @@
   },
   "flag_outlined": {
     "symbol": "flag",
+    "style": "outlined"
+  },
+  "filter_alt_off_outlined": {
+    "symbol": "filter_alt_off",
     "style": "outlined"
   },
   "format_bold": {
@@ -259,6 +267,10 @@
   },
   "notifications_active_outlined": {
     "symbol": "notifications_active",
+    "style": "outlined"
+  },
+  "notifications_off_outlined": {
+    "symbol": "notifications_off",
     "style": "outlined"
   },
   "notifications_none_outlined": {
@@ -372,6 +384,10 @@
   "verified_user_outlined": {
     "symbol": "verified_user",
     "style": "outlined"
+  },
+  "upgrade_rounded": {
+    "symbol": "upgrade",
+    "style": "rounded"
   },
   "view_timeline_outlined": {
     "symbol": "view_timeline",

@@ -53,7 +53,7 @@ describe('session flow (route guard and expiry wiring)', () => {
     async (_, handlers, expectedRefreshes) => {
       session.setTokens(TOKENS);
       server.use(meAs(STAFF_USER));
-      // A screen that loads nothing of its own, so only these requests hit the backend.
+      // The demand list answers from the default handler, so only these requests are under test.
       app = renderApp('/schedule/slot-watches?x=1');
       await screen.findByRole('heading', { name: 'Avisos de hueco' });
       app.queryClient.setQueryData(['clients'], ['cached']);

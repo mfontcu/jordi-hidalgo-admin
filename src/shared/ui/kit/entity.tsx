@@ -100,10 +100,14 @@ export function Avatar({ src, size, viewLabel, className }: AvatarProps) {
 
 type EntityCardProps = {
   title: string;
+  /** Under the title, such as the client's email on a slot-watch card. */
+  subtitle?: string;
   /** Before the title, such as an avatar. */
   leading?: ReactNode;
   /** After the title, such as the status pill. */
   status: ReactNode;
+  /** Under the label rows, such as the upgrade note on a slot-watch card. */
+  note?: ReactNode;
   /** Label and value rows under the title. */
   meta: readonly (readonly [label: string, value: string])[];
   /** Width of the label column: 96px (AdminUserEntityCard) or 72px (AdminAppointmentCard). */
@@ -127,8 +131,10 @@ type EntityCardProps = {
  */
 export function EntityCard({
   title,
+  subtitle,
   leading,
   status,
+  note,
   meta,
   labelWidth = 96,
   clampValues = false,
@@ -146,7 +152,10 @@ export function EntityCard({
       <div className="pointer-events-none relative">
         <div className="flex items-center gap-3">
           {leading}
-          <h2 className="min-w-0 flex-1 text-[18px] font-extrabold text-on-surface">{title}</h2>
+          <div className="min-w-0 flex-1">
+            <h2 className="truncate text-[18px] font-extrabold text-on-surface">{title}</h2>
+            {subtitle && <p className="mt-0.5 truncate text-content-secondary">{subtitle}</p>}
+          </div>
           {status}
         </div>
         <dl className="mt-3.5 flex flex-col gap-2">
@@ -172,6 +181,7 @@ export function EntityCard({
             </div>
           ))}
         </dl>
+        {note}
       </div>
       <div className="relative z-10 mt-3.5 flex flex-wrap gap-1">
         {actions.map((action) => (

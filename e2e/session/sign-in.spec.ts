@@ -7,6 +7,7 @@ import {
   storedTokens,
   test,
 } from '../support/backend';
+import { mockHome } from '../support/home';
 import { loginPage, signedInShell } from '../support/login-page';
 import { mockServices } from '../support/services';
 import { mockUsers } from '../support/users';
@@ -18,6 +19,7 @@ test('signs in from the login screen, stores the tokens, and opens the dashboard
   backend,
 }) => {
   backend.on('POST', '/auth/login', { json: { ...OLD_TOKENS, user: STAFF_USER } });
+  mockHome(backend);
   const login = loginPage(page);
 
   await page.goto('/login');
@@ -112,8 +114,9 @@ test('sends a deep link without a session to the login screen, and opens it afte
 });
 
 test('Back after sign-in never shows the login screen again', async ({ page, backend }) => {
-  // The clients list asks for its rows.
+  // The clients list asks for its rows. Back can also land on the dashboard.
   mockUsers(backend);
+  mockHome(backend);
   backend.on('POST', '/auth/login', { json: { ...OLD_TOKENS, user: STAFF_USER } });
   backend.on('GET', '/auth/me', { json: STAFF_USER });
   const login = loginPage(page);
@@ -132,6 +135,7 @@ test('Back after sign-in never shows the login screen again', async ({ page, bac
 for (const redirect of ['https://evil.example/phish', '//evil.example/phish', '/login']) {
   test(`ignores the redirect ${redirect} and opens the dashboard`, async ({ page, backend }) => {
     backend.on('POST', '/auth/login', { json: { ...OLD_TOKENS, user: STAFF_USER } });
+    mockHome(backend);
     await page.goto(`/login?redirect=${encodeURIComponent(redirect)}`);
 
     await loginPage(page).signIn();
@@ -143,6 +147,7 @@ for (const redirect of ['https://evil.example/phish', '//evil.example/phish', '/
 test('skips the login screen and the old auth gate with a session', async ({ page, backend }) => {
   // The clients list asks for its rows.
   mockUsers(backend);
+  mockHome(backend);
   backend.on('GET', '/auth/me', { json: STAFF_USER });
   await seedSession(page, OLD_TOKENS);
 

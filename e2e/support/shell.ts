@@ -3,6 +3,7 @@ import type { Page } from '@playwright/test';
 import { type MockBackend, OLD_TOKENS, seedSession, STAFF_USER } from './backend';
 import { mockAppointments } from './appointments';
 import { mockBusiness } from './business';
+import { mockHome } from './home';
 import { mockSchedule } from './schedule';
 import { mockServices } from './services';
 import { mockUsers } from './users';
@@ -13,6 +14,7 @@ import { mockUsers } from './users';
  */
 export async function signedIn(page: Page, backend: MockBackend) {
   backend.on('GET', '/auth/me', { json: STAFF_USER });
+  mockHome(backend);
   mockServices(backend);
   mockUsers(backend);
   mockAppointments(backend);

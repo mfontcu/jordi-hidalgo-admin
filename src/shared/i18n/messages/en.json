@@ -105,6 +105,7 @@
   "adminCommonDelete": "Delete",
   "adminCommonConfirm": "Confirm",
   "adminCommonRetry": "Retry",
+  "adminCommonRefresh": "Refresh",
   "adminCommonPrevious": "Previous",
   "adminCommonNext": "Next",
   "adminCommonSaving": "Saving…",
