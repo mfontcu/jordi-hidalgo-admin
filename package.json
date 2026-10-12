@@ -31,6 +31,7 @@
     "icons:generate": "node scripts/icons-generate.mjs",
     "icons:check": "node scripts/icons-generate.mjs --check",
     "budget": "node scripts/bundle-budget.mjs",
+    "docs:lint": "node ../knowledge-base-hub/scripts/okf_lint.js --profile service --root . --catalog ../knowledge-base-hub/catalog",
     "check": "npm run typecheck && npm run lint && npm run format:check && npm run api:check && npm run i18n:check && npm run icons:check && npm run test && npm run build:e2e && npm run budget && npm run e2e"
   },
   "dependencies": {

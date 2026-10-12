@@ -90,6 +90,7 @@ npm run i18n:check     # Paridad de claves y sintaxis ICU
 npm run icons:generate # Regenera icons.gen.ts desde icons.json
 npm run icons:check    # Drift check de los iconos
 npm run budget         # Presupuesto del bundle (tras build)
+npm run docs:lint      # Valida docs/ con el motor OKF del hub
 ```
 
 Imagen de producción (nginx, CSP incluida):
@@ -99,6 +100,13 @@ docker build --build-arg VITE_API_BASE_URL=http://localhost:8080 -t jordi-hidalg
 docker run --rm -p 8089:80 jordi-hidalgo-admin:local
 PLAYWRIGHT_BASE_URL=http://localhost:8089 npm run e2e
 ```
+
+## Escribir documentación
+
+Al cambiar rutas, sesión, almacenamiento local o el despliegue, actualiza el documento de
+[docs/index.md](docs/index.md) y la [matriz de cobertura](docs/coverage-matrix.md). Reglas en el hub
+(`../knowledge-base-hub`, skill `okf-doc-writer`): `docs/` en inglés técnico, `status: draft` y
+`generated` al editar, sin `verified`. `npm run docs:lint` debe dar `ERRORS: 0`.
 
 ## Tests
 
@@ -131,3 +139,4 @@ PLAYWRIGHT_BASE_URL=http://localhost:8089 npm run e2e
 | `src/shared/config/env.ts`                | Variables de entorno                                                                                                                                                          |
 | `eslint.config.js`                        | Reglas de capas y de copy                                                                                                                                                     |
 | `deploy/*.template`, `Dockerfile`         | Imagen nginx de producción                                                                                                                                                    |
+| `docs/index.md`                           | Mapa de la documentación del componente (ADR-002)                                                                                                                             |
