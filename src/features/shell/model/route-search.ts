@@ -20,9 +20,13 @@ export const sidebarSearchSchema = z.object({
 export const BUSINESS_TABS = ['info', 'booking', 'notifications', 'legal', 'web', 'gallery'] as const;
 export type BusinessTab = (typeof BUSINESS_TABS)[number];
 
-/** `/business?tab=`. */
+/**
+ * `/business?tab=&doc=`. `doc` is the selected legal or web page code; ignored on other tabs and
+ * dropped when switching away from `legal` / `web`.
+ */
 export const businessSearchSchema = z.object({
   tab: z.enum(BUSINESS_TABS).optional().catch(undefined),
+  doc: text,
 });
 
 /** `backLabel`: the label of the back button when a screen was opened from another section. */

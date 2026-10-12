@@ -38,6 +38,8 @@ export default defineConfig({
         // The phone metadata and the country list load with the client form, in a chunk of their
         // own: together they would take the form's chunk past the lazy-chunk budget.
         codeSplitting: {
+          // Phone stays in its own lazy chunk (client form). Markdown stays with the business
+          // route's dynamic import of react-markdown — a named group pulled it into the first load.
           groups: [{ name: 'phone', test: /node_modules[\\/]libphonenumber-js|countries\.gen/ }],
         },
       },

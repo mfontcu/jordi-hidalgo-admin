@@ -36,7 +36,8 @@ const CHECKLIST: [path: string, title: string, section: string][] = [
   ['/schedule/day-agenda', 'Agenda del día', 'Agenda del día'],
   // The overview pins the first public service and today's bookable day in the URL (phase 9).
   ['/schedule/availability?serviceId=svc-1&day=2026-10-12', 'Disponibilidad', 'Disponibilidad'],
-  ['/business?tab=legal', 'Configuración del negocio', 'Negocio'],
+  // Legal pins the first document in `?doc=` once the list loads (phase 10 UX follow-up).
+  ['/business?tab=legal&doc=privacy_policy', 'Configuración del negocio', 'Negocio'],
   ['/schedule/slot-watches', 'Avisos de hueco', 'Avisos de hueco'],
 ];
 

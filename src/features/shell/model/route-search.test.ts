@@ -21,6 +21,14 @@ describe('tab schemas', () => {
   it('drop an unknown tab', () => {
     expect(businessSearchSchema.parse({ tab: 3 })).toEqual({ tab: undefined });
   });
+
+  it('keeps an optional CMS document code', () => {
+    expect(businessSearchSchema.parse({ tab: 'legal', doc: 'privacy_policy' })).toEqual({
+      tab: 'legal',
+      doc: 'privacy_policy',
+    });
+    expect(businessSearchSchema.parse({ doc: '  ' }).doc).toBeUndefined();
+  });
 });
 
 describe('appointmentFormSearchSchema', () => {

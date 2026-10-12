@@ -32,6 +32,10 @@
     "symbol": "arrow_forward",
     "style": "rounded"
   },
+  "article_outlined": {
+    "symbol": "article",
+    "style": "outlined"
+  },
   "block_outlined": {
     "symbol": "block",
     "style": "outlined"
@@ -128,6 +132,11 @@
     "symbol": "delete",
     "style": "outlined"
   },
+  "drag_indicator": {
+    "symbol": "drag_indicator",
+    "style": "outlined"
+  },
+
   "edit_calendar_outlined": {
     "symbol": "edit_calendar",
     "style": "outlined"
@@ -158,6 +167,18 @@
   },
   "flag_outlined": {
     "symbol": "flag",
+    "style": "outlined"
+  },
+  "format_bold": {
+    "symbol": "format_bold",
+    "style": "outlined"
+  },
+  "format_italic": {
+    "symbol": "format_italic",
+    "style": "outlined"
+  },
+  "format_list_bulleted": {
+    "symbol": "format_list_bulleted",
     "style": "outlined"
   },
   "history_outlined": {
@@ -200,6 +221,10 @@
     "symbol": "language",
     "style": "outlined"
   },
+  "link": {
+    "symbol": "link",
+    "style": "outlined"
+  },
   "lock_open_outlined": {
     "symbol": "lock_open",
     "style": "outlined"
@@ -236,6 +261,10 @@
     "symbol": "notifications_active",
     "style": "outlined"
   },
+  "notifications_none_outlined": {
+    "symbol": "notifications",
+    "style": "outlined"
+  },
   "pause_circle_outline": {
     "symbol": "pause_circle",
     "style": "outlined"
@@ -259,6 +288,10 @@
   "person_outline_rounded": {
     "symbol": "person",
     "style": "rounded"
+  },
+  "photo_library_outlined": {
+    "symbol": "photo_library",
+    "style": "outlined"
   },
   "play_circle_outline": {
     "symbol": "play_circle",

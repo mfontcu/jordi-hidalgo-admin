@@ -1067,6 +1067,7 @@
   "businessGalleryUploadImage": "Upload image",
   "businessGalleryMoveUp": "Move up",
   "businessGalleryMoveDown": "Move down",
+  "businessGalleryDragHandle": "Drag to reorder",
   "businessGalleryAltTextLabel": "Alt text — {locale}",
   "businessGalleryAltTextHint": "Describe the image for screen readers…",
   "businessGallerySaving": "Saving…",

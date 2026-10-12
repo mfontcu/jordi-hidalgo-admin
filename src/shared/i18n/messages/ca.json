@@ -1067,6 +1067,7 @@
   "businessGalleryUploadImage": "Pujar imatge",
   "businessGalleryMoveUp": "Pujar",
   "businessGalleryMoveDown": "Baixar",
+  "businessGalleryDragHandle": "Arrossega per reordenar",
   "businessGalleryAltTextLabel": "Text alternatiu — {locale}",
   "businessGalleryAltTextHint": "Descriu la imatge per a lectors de pantalla…",
   "businessGallerySaving": "Desant…",
