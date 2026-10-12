@@ -54,8 +54,8 @@ describe('session flow (route guard and expiry wiring)', () => {
       session.setTokens(TOKENS);
       server.use(meAs(STAFF_USER));
       // A screen that loads nothing of its own, so only these requests hit the backend.
-      app = renderApp('/clients?x=1');
-      await screen.findByRole('heading', { name: 'Clientes' });
+      app = renderApp('/schedule/slot-watches?x=1');
+      await screen.findByRole('heading', { name: 'Avisos de hueco' });
       app.queryClient.setQueryData(['clients'], ['cached']);
 
       let refreshes = 0;
@@ -72,7 +72,7 @@ describe('session flow (route guard and expiry wiring)', () => {
 
       expect(await screen.findByText(EXPIRED_NOTICE)).toBeInTheDocument();
       expect(app.router.state.location.pathname).toBe('/login');
-      expect(app.router.state.location.search).toEqual({ redirect: '/clients?x=1' });
+      expect(app.router.state.location.search).toEqual({ redirect: '/schedule/slot-watches?x=1' });
       expect(navigate).toHaveBeenCalledOnce();
       expect(refreshes).toBe(expectedRefreshes);
       expect(useSessionStore.getState()).toMatchObject({ accessToken: null, refreshToken: null });

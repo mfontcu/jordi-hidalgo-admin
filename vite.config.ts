@@ -29,7 +29,20 @@ export default defineConfig({
   resolve: {
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
   },
-  build: { manifest: true },
+  build: {
+    manifest: true,
+    // The phone picker's flags load as files when shown; inlined, all 246 would fill its chunk.
+    assetsInlineLimit: (file) => (file.includes('/flags/') ? false : undefined),
+    rolldownOptions: {
+      output: {
+        // The phone metadata and the country list load with the client form, in a chunk of their
+        // own: together they would take the form's chunk past the lazy-chunk budget.
+        codeSplitting: {
+          groups: [{ name: 'phone', test: /node_modules[\\/]libphonenumber-js|countries\.gen/ }],
+        },
+      },
+    },
+  },
   server: { port: 5173, strictPort: true },
   preview: { port: 4173, strictPort: true },
   test: {

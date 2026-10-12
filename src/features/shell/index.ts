@@ -4,6 +4,7 @@ export {
   backLabelSearchSchema,
   blockedSlotsSearchSchema,
   businessSearchSchema,
+  clientFormSearchSchema,
   sidebarSearchSchema,
 } from './model/route-search';
 export { AppShell } from './ui/app-shell';

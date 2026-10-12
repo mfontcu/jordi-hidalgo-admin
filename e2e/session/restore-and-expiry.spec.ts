@@ -10,6 +10,7 @@ import {
   test,
 } from '../support/backend';
 import { loginPage, signedInShell } from '../support/login-page';
+import { mockUsers } from '../support/users';
 
 // Session restore on load (Flutter AuthGateScreen / bootstrapFromStoredSession), refresh, expiry,
 // and blocked users (ApiHttpClient and AdminSessionListener).
@@ -25,6 +26,8 @@ test('restores the session on load and on reload, staying on the requested page'
   page,
   backend,
 }) => {
+  // The clients list asks for its rows.
+  mockUsers(backend);
   backend.on('GET', '/auth/me', { json: STAFF_USER });
   await seedSession(page, OLD_TOKENS);
 
@@ -42,6 +45,8 @@ test('restores the session on load and on reload, staying on the requested page'
 });
 
 test('refreshes an expired access token once on load and keeps the session', async ({ page, backend }) => {
+  // The clients list asks for its rows.
+  mockUsers(backend);
   backend.on('GET', '/auth/me', (request) =>
     bearerOf(request) === NEW_TOKENS.accessToken
       ? { json: STAFF_USER }

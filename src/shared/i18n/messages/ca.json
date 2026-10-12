@@ -1226,5 +1226,15 @@
   "staffActivatedToast": "Administrador activat.",
   "staffDeactivatedToast": "Administrador desactivat.",
   "staffStatusUpdateFailed": "No s'ha pogut actualitzar l'administrador.",
-  "staffFormProfileLockedHint": "Només lectura: el nom i les dades de contacte no s'editen des del panell."
+  "staffFormProfileLockedHint": "Només lectura: el nom i les dades de contacte no s'editen des del panell.",
+  "appointmentListLoadError": "No s'han pogut carregar les cites.",
+  "adminCommonClose": "Tanca",
+  "phoneCountryChange": "Canvia el prefix: {country}",
+  "phoneCountryNotFound": "No s'ha trobat cap país",
+  "clientCreatedToast": "Client creat.",
+  "clientUpdatedToast": "Client actualitzat.",
+  "clientBlockedToast": "Client bloquejat.",
+  "clientUnblockedToast": "Client desbloquejat.",
+  "clientListLoadError": "No s'han pogut carregar els clients.",
+  "staffListLoadError": "No s'han pogut carregar els administradors."
 }

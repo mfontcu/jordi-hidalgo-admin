@@ -3,6 +3,7 @@ import { useNavigate, useParams } from '@tanstack/react-router';
 
 import { useGoBack } from '@/shared/lib/use-go-back';
 
+import { usersKeys } from '../api/users.keys';
 import { sendPasswordSetupEmail, updateUser } from '../api/users.mutations';
 import { userDetailQueryOptions } from '../api/users.queries';
 import { staffUpdateInput } from '../model/staff-form';
@@ -62,6 +63,10 @@ export function useStaffDetail(feedback: Feedback) {
       void query.refetch();
     },
     goBack: useGoBack('/admins'),
+    /** After one of the account's appointments changes. */
+    refresh: () => {
+      void queryClient.invalidateQueries({ queryKey: usersKeys.detail(staffId), exact: true });
+    },
     edit: () => {
       void navigate({ to: '/admins/$staffId/form', params: { staffId } });
     },

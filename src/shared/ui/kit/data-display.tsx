@@ -35,13 +35,16 @@ export function EmptyState({ icon, title, message, action }: EmptyStateProps) {
   );
 }
 
-export type StatusTone = 'success' | 'danger' | 'neutral' | 'neutralStrong' | 'info';
+export type StatusTone = 'success' | 'danger' | 'warning' | 'neutral' | 'neutralStrong' | 'muted' | 'info';
 
 const TONES: Record<StatusTone, string> = {
   success: 'bg-success-bg text-success-fg',
   danger: 'bg-danger-bg text-danger-fg',
+  warning: 'bg-warning-bg text-warning-fg',
   neutral: 'bg-surface-muted text-content-secondary',
   neutralStrong: 'bg-surface-muted text-on-surface',
+  /** The muted content color (contentMuted), such as a rescheduled appointment. */
+  muted: 'bg-surface-muted text-content-muted',
   info: 'bg-info-bg text-info-fg',
 };
 
@@ -95,10 +98,23 @@ export function RefreshOverlay({ refreshing, children }: { refreshing: boolean; 
   );
 }
 
-type TableActionProps = Omit<ComponentProps<'button'>, 'children'> & { icon: IconName; label: string };
+/** The color of a row action and its hover (AdminTableActionVariant, AdminInlineActionVariant). */
+export type ActionTone = 'neutral' | 'success' | 'danger';
+
+const ACTION_TONES: Record<ActionTone, string> = {
+  neutral: 'text-content-secondary hover:bg-surface-muted',
+  success: 'text-success-fg hover:bg-success-bg',
+  danger: 'text-danger-fg hover:bg-danger-bg',
+};
+
+type TableActionProps = Omit<ComponentProps<'button'>, 'children'> & {
+  icon: IconName;
+  label: string;
+  tone?: ActionTone;
+};
 
 /** AdminTableAction: a small icon button with a tooltip, in a table's actions column. */
-export function TableAction({ icon, label, className, ...props }: TableActionProps) {
+export function TableAction({ icon, label, tone = 'neutral', className, ...props }: TableActionProps) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
@@ -106,7 +122,8 @@ export function TableAction({ icon, label, className, ...props }: TableActionPro
           type="button"
           aria-label={label}
           className={cn(
-            'inline-flex cursor-pointer items-center rounded-sm px-0.5 py-1 text-content-secondary hover:bg-surface-muted',
+            'inline-flex cursor-pointer items-center rounded-sm px-0.5 py-1',
+            ACTION_TONES[tone],
             className,
           )}
           {...props}
@@ -123,15 +140,24 @@ type InlineActionProps = Omit<ComponentProps<'button'>, 'children'> & {
   icon: IconName;
   label: string;
   compact?: boolean;
+  tone?: ActionTone;
 };
 
-/** AdminInlineAction: icon and label, neutral, for the actions of a card. */
-export function InlineAction({ icon, label, compact = false, className, ...props }: InlineActionProps) {
+/** AdminInlineAction: icon and label for the actions of a card. */
+export function InlineAction({
+  icon,
+  label,
+  compact = false,
+  tone = 'neutral',
+  className,
+  ...props
+}: InlineActionProps) {
   return (
     <button
       type="button"
       className={cn(
-        'inline-flex cursor-pointer items-center gap-1.5 rounded-sm font-bold text-content-secondary hover:bg-surface-muted',
+        'inline-flex cursor-pointer items-center gap-1.5 rounded-sm font-bold',
+        ACTION_TONES[tone],
         compact ? 'px-2 py-1.5 text-[13px]' : 'px-2.5 py-2 text-[14px]',
         className,
       )}

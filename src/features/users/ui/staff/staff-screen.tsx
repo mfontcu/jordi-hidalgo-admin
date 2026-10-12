@@ -3,25 +3,13 @@ import { useIntl } from 'react-intl';
 
 import { useDescribeFailure, type MessageId } from '@/shared/i18n';
 import { formatInstant, type DateLocale } from '@/shared/lib/business-time';
-import {
-  Button,
-  EmptyState,
-  FilterPicker,
-  ListPage,
-  RemovableChip,
-  SearchField,
-  Spinner,
-  StatCard,
-  SummaryGrid,
-  ToolbarField,
-  useListLayout,
-} from '@/shared/ui';
+import { EmptyState, ListPage, Spinner, StatCard, SummaryGrid } from '@/shared/ui';
 
 import { useStaffList } from '../../hooks/use-staff-list';
 import { activeCount, staffStatus, type AdminUser } from '../../model/admin-user';
 import type { StaffFilter } from '../../model/staff-search';
-import { DateFilterField, dateFilterLabel } from '../shared/date-filter-field';
 import { UsersRows, type UserExtraColumn } from '../shared/users-rows';
+import { UsersToolbar } from '../shared/users-toolbar';
 
 type StaffList = ReturnType<typeof useStaffList>;
 
@@ -59,7 +47,7 @@ export function StaffScreen() {
       ) : list.error ? (
         <EmptyState
           icon="error_outline"
-          title={intl.formatMessage({ id: 'staffLoadError' })}
+          title={intl.formatMessage({ id: 'staffListLoadError' })}
           message={describeFailure(list.error)}
           action={{
             label: intl.formatMessage({ id: 'adminCommonRetry' }),
@@ -110,103 +98,30 @@ function StaffSummary({ list }: { list: StaffList }) {
   );
 }
 
-/** AdminResourceListToolbar: search, date, filter, and new account; stacked on compact layouts. */
+const STAFF_FILTERS = ['all', 'active', 'inactive'] as const;
+
+const STAFF_FILTER_LABELS = {
+  all: 'staffFilterAll',
+  active: 'staffFilterActive',
+  inactive: 'staffFilterInactive',
+} as const satisfies Record<StaffFilter, MessageId>;
+
+/** AdminResourceListToolbar with the staff copy. */
 function StaffToolbar({ list }: { list: StaffList }) {
-  const intl = useIntl();
-  const text = (id: MessageId) => intl.formatMessage({ id });
-  const { compact } = useListLayout();
-
-  const statusLabels: Record<StaffFilter, string> = {
-    all: text('staffFilterAll'),
-    active: text('staffFilterActive'),
-    inactive: text('staffFilterInactive'),
-  };
-  const filterLabel = statusLabels[list.filter];
-  const dateLabel = dateFilterLabel(intl, list.dateFilter);
-  const fieldWidth = compact ? 'w-full' : 'w-[148px]';
-
-  const search = (
-    <SearchField
-      value={list.searchText}
-      onValueChange={list.setSearchText}
-      placeholder={text('adminStaffSearchHint')}
-      aria-label={text('adminStaffSearchHint')}
-      clearLabel={text('adminCommonClearSearch')}
-      className={compact ? undefined : 'min-w-0 flex-1'}
-    />
-  );
-  const date = (
-    <DateFilterField
-      compact={compact}
-      className={fieldWidth}
-      filter={list.dateFilter}
-      today={list.today}
-      range={list.dateRange}
-      title="staffDateFilterTitle"
-      subtitle="staffDateFilterSubtitle"
-      onPick={list.pickDate}
-      rangeOpen={list.rangeOpen}
-      onRangeOpenChange={list.setRangeOpen}
-      onApplyRange={list.applyRange}
-    />
-  );
-  const filter = (
-    <FilterPicker
-      compact={compact}
-      trigger={<ToolbarField icon="tune_rounded" label={filterLabel} className={fieldWidth} />}
-      title={text('staffFilterSheetTitle')}
-      subtitle={text('staffFilterSheetSubtitle')}
-      clearLabel={text('adminCommonClear')}
-      applyLabel={text('adminCommonApply')}
-      options={(['all', 'active', 'inactive'] as const).map((value) => ({
-        value,
-        label: statusLabels[value],
-      }))}
-      value={list.filter}
-      clearValue="all"
-      onApply={list.applyFilter}
-    />
-  );
-  const newStaff = (
-    <Button icon="add" onClick={list.newStaff} className={compact ? 'h-12 w-full' : 'h-12'}>
-      {text('adminStaffNewButton')}
-    </Button>
-  );
-
-  const chips = [
-    list.dateFilter.kind !== 'all' && { label: dateLabel, onRemove: list.clearDate },
-    list.filter !== 'all' && { label: filterLabel, onRemove: list.clearFilter },
-  ].filter((chip) => chip !== false);
-
   return (
-    <div className="flex flex-col gap-3">
-      {compact ? (
-        <>
-          {search}
-          {date}
-          {filter}
-          {newStaff}
-        </>
-      ) : (
-        <div className="flex items-center gap-3">
-          {search}
-          {date}
-          {filter}
-          {newStaff}
-        </div>
-      )}
-      {chips.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {chips.map((chip) => (
-            <RemovableChip
-              key={chip.label}
-              label={chip.label}
-              removeLabel={intl.formatMessage({ id: 'adminFilterRemove' }, { filter: chip.label })}
-              onRemove={chip.onRemove}
-            />
-          ))}
-        </div>
-      )}
-    </div>
+    <UsersToolbar
+      list={list}
+      filters={STAFF_FILTERS}
+      filterLabels={STAFF_FILTER_LABELS}
+      copy={{
+        searchHint: 'adminStaffSearchHint',
+        filterTitle: 'staffFilterSheetTitle',
+        filterSubtitle: 'staffFilterSheetSubtitle',
+        dateTitle: 'staffDateFilterTitle',
+        dateSubtitle: 'staffDateFilterSubtitle',
+        newButton: 'adminStaffNewButton',
+      }}
+      onNew={list.newStaff}
+    />
   );
 }

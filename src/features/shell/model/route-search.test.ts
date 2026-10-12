@@ -2,6 +2,7 @@ import {
   appointmentFormSearchSchema,
   blockedSlotsSearchSchema,
   businessSearchSchema,
+  clientFormSearchSchema,
   sidebarSearchSchema,
 } from './route-search';
 
@@ -53,5 +54,23 @@ describe('appointmentFormSearchSchema', () => {
     expect(parsed.clientId).toBeUndefined();
     expect(parsed.lockInitialUser).toBeUndefined();
     expect(appointmentFormSearchSchema.parse({ lockInitialUser: 'true' }).lockInitialUser).toBe(true);
+  });
+});
+
+describe('clientFormSearchSchema', () => {
+  it('keeps the appointment form prefill to return to', () => {
+    expect(
+      clientFormSearchSchema.parse({
+        returnTo: 'appointmentForm',
+        appointment: { prefillServiceId: 'svc-1', prefillDate: '2026-10-20', backLabel: 'Volver a citas' },
+      }),
+    ).toEqual({
+      returnTo: 'appointmentForm',
+      appointment: { prefillServiceId: 'svc-1', prefillDate: '2026-10-20', backLabel: 'Volver a citas' },
+    });
+  });
+
+  it('drops an unknown destination or prefill', () => {
+    expect(clientFormSearchSchema.parse({ returnTo: 'dashboard', appointment: 'x' })).toEqual({});
   });
 });

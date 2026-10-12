@@ -58,7 +58,7 @@ describe('signed-in shell', () => {
 
   it('highlights the section named by ?sidebar=', async () => {
     app = renderApp('/clients/form?sidebar=%2Fappointments');
-    await screen.findByRole('heading', { name: 'Formulario de cliente' });
+    await screen.findByRole('heading', { name: 'Nuevo cliente', level: 1 });
 
     expect(highlighted()).toEqual(['Citas']);
   });

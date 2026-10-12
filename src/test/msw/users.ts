@@ -66,3 +66,45 @@ export function usersList(
 export function userDetail(user = userDto()) {
   return http.get(`${API}/admin/users/${user.id}`, () => HttpResponse.json(user));
 }
+
+/** A client as the detail returns it: the list fields and the activity counts. */
+export function clientDto(overrides: Record<string, unknown> = {}) {
+  return userDto({
+    id: 'cli-1',
+    firstName: 'María',
+    lastName: 'Pérez',
+    fullName: 'María Pérez',
+    displayName: 'Mari',
+    adminAlias: 'Mari',
+    phone: '+34600111222',
+    email: 'maria@example.com',
+    internalNotes: 'Alérgica al tinte',
+    createdAt: '2026-02-03T10:00:00Z',
+    lastAppointmentAt: '2026-10-01T08:00:00Z',
+    nextAppointmentAt: '2026-10-20T14:30:00Z',
+    blockedAt: '',
+    blockedReason: '',
+    frequentServices: ['Corte', 'Barba'],
+    noShowCountLast90Days: 2,
+    rescheduleCountLast90Days: 1,
+    totalAppointments: 7,
+    ...overrides,
+  });
+}
+
+export const CLIENTS = [
+  clientDto(),
+  clientDto({
+    id: 'cli-2',
+    firstName: 'Luis',
+    lastName: 'Gómez',
+    fullName: 'Luis Gómez',
+    displayName: 'Luis Gómez',
+    adminAlias: '',
+    phone: '+34600333444',
+    email: '',
+    isActive: false,
+    lastAppointmentAt: '',
+    nextAppointmentAt: '',
+  }),
+];

@@ -7,7 +7,11 @@ type UserDto =
   | components['schemas']['dto.AdminUserListItemResponse'];
 type UserListDto = components['schemas']['dto.AdminUserListResponse'];
 
+// The backend sends an empty string for a missing instant.
+const instant = (value: string | undefined) => (value?.trim() ? value : null);
+
 export function toAdminUser(dto: UserDto): AdminUser {
+  const detail = 'totalAppointments' in dto ? dto : null;
   return {
     id: dto.id ?? '',
     firstName: dto.firstName ?? '',
@@ -20,8 +24,14 @@ export function toAdminUser(dto: UserDto): AdminUser {
     blockedReason: 'blockedReason' in dto ? (dto.blockedReason ?? '') : '',
     adminAlias: dto.adminAlias ?? '',
     internalNotes: 'internalNotes' in dto ? (dto.internalNotes ?? '') : '',
-    // The backend sends an empty string for a missing instant.
-    createdAt: dto.createdAt?.trim() ? dto.createdAt : null,
+    createdAt: instant(dto.createdAt),
+    lastAppointmentAt: instant(dto.lastAppointmentAt),
+    nextAppointmentAt: instant(dto.nextAppointmentAt),
+    blockedAt: instant(detail?.blockedAt),
+    frequentServices: detail?.frequentServices ?? [],
+    noShowCountLast90Days: detail?.noShowCountLast90Days ?? 0,
+    rescheduleCountLast90Days: detail?.rescheduleCountLast90Days ?? 0,
+    totalAppointments: detail?.totalAppointments ?? 0,
   };
 }
 

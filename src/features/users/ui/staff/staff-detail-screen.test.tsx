@@ -2,6 +2,7 @@ import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
 
+import { appointmentDto, appointmentsList, appointmentsListResponse } from '@/test/msw/appointments';
 import { API, meAs, STAFF_USER, TOKENS } from '@/test/msw/auth';
 import { server } from '@/test/msw/server';
 import { userDetail, userDto } from '@/test/msw/users';
@@ -22,6 +23,31 @@ afterEach(() => {
 });
 
 describe('staff detail', () => {
+  it('lists the appointments the account booked, named by the account', async () => {
+    const list = appointmentsList(() =>
+      appointmentsListResponse([
+        appointmentDto({ userId: 'usr-1', appointmentStart: '2026-01-15T09:00:00Z' }),
+      ]),
+    );
+    server.use(userDetail(), list.handler);
+    app = renderApp('/admins/usr-1');
+
+    const table = await screen.findByRole('table', { name: 'Citas del administrador' });
+    expect(within(table).getByText('15/01/2026 · 10:00')).toBeInTheDocument();
+    expect(within(table).getAllByText('Jordi Hidalgo')).toHaveLength(1);
+    expect(screen.getByRole('heading', { name: 'Citas del administrador' })).toBeInTheDocument();
+    expect(list.queries[0]?.get('userId')).toBe('usr-1');
+  });
+
+  it('says so when the account has no appointments', async () => {
+    server.use(userDetail(), appointmentsList().handler);
+    app = renderApp('/admins/usr-1');
+
+    expect(
+      await screen.findByText('Este administrador todavía no tiene citas registradas.'),
+    ).toBeInTheDocument();
+  });
+
   it('shows the account: summary, contact, account, and notes', async () => {
     server.use(userDetail());
     app = renderApp('/admins/usr-1');

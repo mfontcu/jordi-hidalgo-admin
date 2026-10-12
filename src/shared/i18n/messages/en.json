@@ -1226,5 +1226,15 @@
   "staffActivatedToast": "Administrator activated.",
   "staffDeactivatedToast": "Administrator deactivated.",
   "staffStatusUpdateFailed": "Could not update the administrator.",
-  "staffFormProfileLockedHint": "Read-only: name and contact details cannot be edited from the panel."
+  "staffFormProfileLockedHint": "Read-only: name and contact details cannot be edited from the panel.",
+  "appointmentListLoadError": "Could not load the appointments.",
+  "adminCommonClose": "Close",
+  "phoneCountryChange": "Change prefix: {country}",
+  "phoneCountryNotFound": "No country found",
+  "clientCreatedToast": "Client created.",
+  "clientUpdatedToast": "Client updated.",
+  "clientBlockedToast": "Client blocked.",
+  "clientUnblockedToast": "Client unblocked.",
+  "clientListLoadError": "Could not load the clients.",
+  "staffListLoadError": "Could not load the administrators."
 }

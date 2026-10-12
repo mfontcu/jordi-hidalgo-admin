@@ -94,6 +94,7 @@ export default tseslint.config(
       'src/app/routeTree.gen.ts',
       'src/shared/api/schema.gen.ts',
       'src/shared/ui/icons/icons.gen.ts',
+      'src/shared/lib/countries.gen.ts',
     ],
   },
 

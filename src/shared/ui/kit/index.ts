@@ -8,6 +8,7 @@ export {
   RefreshOverlay,
   StatusPill,
   TableAction,
+  type ActionTone,
   type PaginationLabels,
   type StatusTone,
 } from './data-display';
@@ -20,7 +21,7 @@ export {
   type DayRange,
 } from './date-pickers';
 export { detailLayoutFor, type DetailLayout } from './detail-layout';
-export { ConfirmDialog, LoadingBarrier, UnsavedChangesGuard } from './dialogs';
+export { ConfirmDialog, LoadingBarrier, PromptDialog, UnsavedChangesGuard } from './dialogs';
 export { Avatar, EntityCard } from './entity';
 export { ListPage, StatCard, SummaryGrid, useListLayout } from './list-page';
 export { listLayoutFor, type ListLayout } from './list-layout';
@@ -35,4 +36,5 @@ export {
   ToolbarField,
   type ChoiceOption,
 } from './toolbar';
+export { PhoneField, type PhoneFieldLabels } from './phone-field';
 export { useElementWidth } from './use-element-width';

@@ -28,6 +28,8 @@ type UsersRowsProps = {
   /** One column for staff (registration), two for clients (last and next appointment). */
   extraColumns: readonly UserExtraColumn[];
   status: (user: AdminUser) => { label: MessageId; tone: StatusTone };
+  /** The name of a row: staff show the name in the app, clients the alias first. Empty is "No name". */
+  nameOf?: (user: AdminUser) => string;
   onOpen: (userId: string) => void;
   onPageChange: (page: number) => void;
 };
@@ -42,6 +44,7 @@ export function UsersRows({
   nameHeader,
   extraColumns,
   status,
+  nameOf = fullNameOf,
   onOpen,
   onPageChange,
 }: UsersRowsProps) {
@@ -65,7 +68,13 @@ export function UsersRows({
           <ul className="flex flex-col gap-3">
             {page.items.map((user) => (
               <li key={user.id}>
-                <UserCard user={user} extraColumns={extraColumns} status={status} onOpen={onOpen} />
+                <UserCard
+                  user={user}
+                  extraColumns={extraColumns}
+                  status={status}
+                  nameOf={nameOf}
+                  onOpen={onOpen}
+                />
               </li>
             ))}
           </ul>
@@ -77,6 +86,7 @@ export function UsersRows({
           nameHeader={nameHeader}
           extraColumns={extraColumns}
           status={status}
+          nameOf={nameOf}
           onOpen={onOpen}
           footer={pagination}
         />
@@ -86,12 +96,13 @@ export function UsersRows({
 }
 
 type UsersTableProps = Pick<UsersRowsProps, 'nameHeader' | 'extraColumns' | 'status' | 'onOpen'> & {
+  nameOf: (user: AdminUser) => string;
   users: AdminUser[];
   footer: React.ReactNode;
 };
 
 /** AdminUsersListTable: resizable columns, the avatar beside the name, and a view action. */
-function UsersTable({ users, nameHeader, extraColumns, status, onOpen, footer }: UsersTableProps) {
+function UsersTable({ users, nameHeader, extraColumns, status, nameOf, onOpen, footer }: UsersTableProps) {
   const intl = useIntl();
 
   const columns = useMemo((): DataTableColumn<AdminUser>[] => {
@@ -115,7 +126,7 @@ function UsersTable({ users, nameHeader, extraColumns, status, onOpen, footer }:
           <span className="flex items-center gap-2.5">
             <Avatar src={user.avatarUrl} size={36} viewLabel={text('adminUserViewPhoto')} />
             <span className="min-w-0 flex-1 truncate font-bold text-on-surface">
-              {fullNameOf(user) || text('adminUserUnnamed')}
+              {nameOf(user) || text('adminUserUnnamed')}
             </span>
           </span>
         ),
@@ -169,7 +180,7 @@ function UsersTable({ users, nameHeader, extraColumns, status, onOpen, footer }:
         ),
       },
     ];
-  }, [intl, nameHeader, extraColumns, status, onOpen]);
+  }, [intl, nameHeader, extraColumns, status, nameOf, onOpen]);
 
   return (
     <DataTable
@@ -180,17 +191,20 @@ function UsersTable({ users, nameHeader, extraColumns, status, onOpen, footer }:
       onRowClick={(user) => {
         onOpen(user.id);
       }}
-      rowLabel={(user) => fullNameOf(user) || intl.formatMessage({ id: 'adminUserUnnamed' })}
+      rowLabel={(user) => nameOf(user) || intl.formatMessage({ id: 'adminUserUnnamed' })}
       resizable
       footer={footer}
     />
   );
 }
 
-type UserCardProps = Pick<UsersRowsProps, 'extraColumns' | 'status' | 'onOpen'> & { user: AdminUser };
+type UserCardProps = Pick<UsersRowsProps, 'extraColumns' | 'status' | 'onOpen'> & {
+  user: AdminUser;
+  nameOf: (user: AdminUser) => string;
+};
 
 /** AdminUserEntityCard: avatar, name, and status, then phone, email, and the extra columns. */
-function UserCard({ user, extraColumns, status, onOpen }: UserCardProps) {
+function UserCard({ user, extraColumns, status, nameOf, onOpen }: UserCardProps) {
   const intl = useIntl();
   const text = (id: MessageId) => intl.formatMessage({ id });
   const pill = status(user);
@@ -199,7 +213,7 @@ function UserCard({ user, extraColumns, status, onOpen }: UserCardProps) {
   };
   return (
     <EntityCard
-      title={fullNameOf(user) || text('adminUserUnnamed')}
+      title={nameOf(user) || text('adminUserUnnamed')}
       leading={<Avatar src={user.avatarUrl} size={44} viewLabel={text('adminUserViewPhoto')} />}
       status={<StatusPill label={text(pill.label)} tone={pill.tone} />}
       meta={[

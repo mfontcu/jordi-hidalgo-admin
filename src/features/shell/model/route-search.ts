@@ -54,3 +54,16 @@ export const appointmentFormSearchSchema = z.object({
 });
 
 export type AppointmentFormSearch = z.infer<typeof appointmentFormSearchSchema>;
+
+/**
+ * `/clients/form` (ClientFormScreen): `backLabel`, and when the appointment form opens it to
+ * create a client, `returnTo=appointmentForm` with that form's prefill, which it gets back with
+ * the new client in `clientId` and `clientLabel`.
+ */
+export const clientFormSearchSchema = z.object({
+  backLabel: text,
+  returnTo: z.literal('appointmentForm').optional().catch(undefined),
+  appointment: appointmentFormSearchSchema.optional().catch(undefined),
+});
+
+export type ClientFormSearch = z.infer<typeof clientFormSearchSchema>;

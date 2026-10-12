@@ -1,5 +1,10 @@
 export { userDetailQueryOptions, usersListQueryOptions } from './api/users.queries';
+export { clientsListParamsOf, clientsSearchSchema } from './model/clients-search';
 export { staffListParamsOf, staffSearchSchema } from './model/staff-search';
+export { ClientDetailScreen } from './ui/clients/client-detail-screen';
+export { ClientFormScreen } from './ui/clients/client-form-screen';
+export { ClientOperationalBanner } from './ui/clients/client-operational-banner';
+export { ClientsScreen } from './ui/clients/clients-screen';
 export { StaffDetailScreen } from './ui/staff/staff-detail-screen';
 export { StaffFormScreen } from './ui/staff/staff-form-screen';
 export { StaffScreen } from './ui/staff/staff-screen';

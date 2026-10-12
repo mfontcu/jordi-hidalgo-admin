@@ -20,6 +20,15 @@ export type AdminUser = {
   adminAlias: string;
   internalNotes: string;
   createdAt: string | null;
+  lastAppointmentAt: string | null;
+  nextAppointmentAt: string | null;
+  // The rest only the detail carries: a list item reads them as missing.
+  blockedAt: string | null;
+  /** Names of the services the client books most. */
+  frequentServices: string[];
+  noShowCountLast90Days: number;
+  rescheduleCountLast90Days: number;
+  totalAppointments: number;
 };
 
 export type AdminUserSummary = {

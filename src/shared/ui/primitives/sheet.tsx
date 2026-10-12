@@ -17,14 +17,15 @@ export const SheetClose = SheetPrimitive.Close;
  */
 export function SheetContent({
   className,
+  overlayClassName,
   children,
   handle = true,
   ...props
-}: ComponentProps<typeof SheetPrimitive.Content> & { handle?: boolean }) {
+}: ComponentProps<typeof SheetPrimitive.Content> & { handle?: boolean; overlayClassName?: string }) {
   const container = usePortalContainer();
   return (
     <SheetPrimitive.Portal container={container}>
-      <DialogOverlay />
+      <DialogOverlay className={overlayClassName} />
       <SheetPrimitive.Content
         className={cn(
           'fixed inset-x-0 bottom-0 z-50 mx-auto flex max-h-dvh w-full flex-col overflow-y-auto min-[700px]:max-w-[720px]',

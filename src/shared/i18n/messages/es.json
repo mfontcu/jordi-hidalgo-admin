@@ -1226,5 +1226,15 @@
   "staffActivatedToast": "Administrador activado.",
   "staffDeactivatedToast": "Administrador desactivado.",
   "staffStatusUpdateFailed": "No se pudo actualizar el administrador.",
-  "staffFormProfileLockedHint": "Solo lectura: el nombre y los datos de contacto no se editan desde el panel."
+  "staffFormProfileLockedHint": "Solo lectura: el nombre y los datos de contacto no se editan desde el panel.",
+  "appointmentListLoadError": "No se pudieron cargar las citas.",
+  "adminCommonClose": "Cerrar",
+  "phoneCountryChange": "Cambiar prefijo: {country}",
+  "phoneCountryNotFound": "No se ha encontrado ningún país",
+  "clientCreatedToast": "Cliente creado.",
+  "clientUpdatedToast": "Cliente actualizado.",
+  "clientBlockedToast": "Cliente bloqueado.",
+  "clientUnblockedToast": "Cliente desbloqueado.",
+  "clientListLoadError": "No se pudieron cargar los clientes.",
+  "staffListLoadError": "No se pudieron cargar los administradores."
 }

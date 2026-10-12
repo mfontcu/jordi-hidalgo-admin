@@ -168,8 +168,9 @@ const SHORT_MONTHS: Record<DateLocale, readonly string[]> = {
  * - `mediumDate`: `DateFormat.yMMMd` (es "d MMM y", ca "d MMM 'del' y", en "MMM d, y").
  * - `monthDay`: `DateFormat.MMMd` (es and ca "d MMM", en "MMM d").
  * - `longDate`: `DateFormat.yMMMMd` (es "d 'de' MMMM 'de' y", ca "d MMMM 'del' y", en "MMMM d, y").
+ * - `numericDate`: "dd/MM/yyyy" in every language (the appointment date label of app_api).
  */
-export type DateStyle = 'listDate' | 'mediumDate' | 'monthDay' | 'longDate';
+export type DateStyle = 'listDate' | 'mediumDate' | 'monthDay' | 'longDate' | 'numericDate';
 
 const STANDALONE_MONTHS: Record<DateLocale, readonly string[]> = {
   es: MONTHS.es,
@@ -214,6 +215,8 @@ export function formatDay(day: BusinessDay, locale: DateLocale, style: DateStyle
     case 'longDate':
       if (locale === 'en') return `${long} ${date}, ${year}`;
       return locale === 'ca' ? `${date} ${long} del ${year}` : `${date} de ${long} de ${year}`;
+    case 'numericDate':
+      return `${pad(date)}/${pad(month + 1)}/${pad(year, 4)}`;
   }
 }
 
@@ -221,4 +224,33 @@ export function formatDay(day: BusinessDay, locale: DateLocale, style: DateStyle
 export function formatInstant(instant: string | null | undefined, locale: DateLocale, style: DateStyle) {
   const day = businessDayOf(instant);
   return day ? formatDay(day, locale, style) : '—';
+}
+
+/** The salon clock time of an instant, "HH:mm" (`DateFormat.Hm` in every language); null when unreadable. */
+function timeOf(instant: string | null | undefined): string | null {
+  if (!instant) return null;
+  const time = Date.parse(instant);
+  if (Number.isNaN(time)) return null;
+  const date = new TZDate(time, BUSINESS_TIME_ZONE);
+  return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
+/** An instant's salon day and time, "{day} · HH:mm" (formatClientDateTime); a dash when missing. */
+export function formatInstantDateTime(
+  instant: string | null | undefined,
+  locale: DateLocale,
+  style: DateStyle,
+): string {
+  const day = businessDayOf(instant);
+  const time = timeOf(instant);
+  return day && time ? `${formatDay(day, locale, style)} · ${time}` : '—';
+}
+
+/**
+ * Whether an instant has come (isAppointmentScheduledStartInPastOrNow): an appointment can be
+ * completed or marked as a no-show from its start on. An unreadable instant has not.
+ */
+export function isPastOrNow(instant: string, now: number = Date.now()): boolean {
+  const time = Date.parse(instant);
+  return !Number.isNaN(time) && time <= now;
 }

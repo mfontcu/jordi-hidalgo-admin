@@ -21,6 +21,13 @@ const user: AdminUser = {
   adminAlias: 'Jordi H.',
   internalNotes: 'Dueño',
   createdAt: '2026-01-10T10:00:00Z',
+  lastAppointmentAt: null,
+  nextAppointmentAt: null,
+  blockedAt: null,
+  frequentServices: [],
+  noShowCountLast90Days: 0,
+  rescheduleCountLast90Days: 0,
+  totalAppointments: 0,
 };
 
 const valid: StaffFormInput = {

@@ -11,8 +11,10 @@ import {
   endOfMonth,
   formatDay,
   formatInstant,
+  formatInstantDateTime,
   formatMonth,
   isBusinessDay,
+  isPastOrNow,
   startOfMonth,
 } from './business-time';
 
@@ -97,5 +99,24 @@ describe('formats of the Flutter panel', () => {
   it('prints an instant by its salon day, and a dash without one', () => {
     expect(formatInstant('2026-10-10T22:30:00Z', 'es', 'listDate')).toBe('11 oct 2026');
     expect(formatInstant(null, 'es', 'listDate')).toBe('—');
+  });
+
+  it('prints the numeric date of the appointment labels', () => {
+    expect(formatDay('2026-03-05', 'ca', 'numericDate')).toBe('05/03/2026');
+  });
+
+  it('adds the salon time to an instant, across both daylight-saving changes', () => {
+    expect(formatInstantDateTime('2026-10-10T22:30:00Z', 'es', 'mediumDate')).toBe('11 oct 2026 · 00:30');
+    expect(formatInstantDateTime('2026-03-29T01:00:00Z', 'en', 'listDate')).toBe('29 Mar 2026 · 03:00');
+    expect(formatInstantDateTime('2026-10-25T01:30:00Z', 'es', 'numericDate')).toBe('25/10/2026 · 02:30');
+    expect(formatInstantDateTime('', 'es', 'mediumDate')).toBe('—');
+  });
+
+  it('tells whether an instant has come', () => {
+    const now = Date.parse('2026-10-12T09:00:00Z');
+    expect(isPastOrNow('2026-10-12T09:00:00Z', now)).toBe(true);
+    expect(isPastOrNow('2026-10-12T08:59:00Z', now)).toBe(true);
+    expect(isPastOrNow('2026-10-12T09:01:00Z', now)).toBe(false);
+    expect(isPastOrNow('not a date', now)).toBe(false);
   });
 });

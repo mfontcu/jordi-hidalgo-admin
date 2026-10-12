@@ -5,7 +5,7 @@ import { cn } from '@/shared/lib/cn';
 import { Icon } from '../icons/icon';
 import { Dialog, DialogContent, DialogTitle } from '../primitives/dialog';
 import { Spinner } from '../primitives/spinner';
-import { InlineAction } from './data-display';
+import { InlineAction, type ActionTone } from './data-display';
 
 type AvatarProps = {
   /** A presigned image URL from the API; without one, the person icon. */
@@ -104,8 +104,12 @@ type EntityCardProps = {
   leading?: ReactNode;
   /** After the title, such as the status pill. */
   status: ReactNode;
-  /** Label and value rows under the title (label column 96px). */
+  /** Label and value rows under the title. */
   meta: readonly (readonly [label: string, value: string])[];
+  /** Width of the label column: 96px (AdminUserEntityCard) or 72px (AdminAppointmentCard). */
+  labelWidth?: 96 | 72;
+  /** Values cut at two lines with an ellipsis (AdminAppointmentCard) instead of wrapping. */
+  clampValues?: boolean;
   /** Opens the entity: the whole card, with this name for assistive technology. */
   onOpen: () => void;
   /** Inline actions under the rows. */
@@ -113,6 +117,7 @@ type EntityCardProps = {
     icon: Parameters<typeof InlineAction>[0]['icon'];
     label: string;
     onClick: () => void;
+    tone?: ActionTone;
   }[];
 };
 
@@ -120,7 +125,16 @@ type EntityCardProps = {
  * The card of a list row on compact layouts (AdminServiceCard, AdminUserEntityCard): title and
  * status, then the label rows, then the inline actions. The whole card opens the entity.
  */
-export function EntityCard({ title, leading, status, meta, onOpen, actions }: EntityCardProps) {
+export function EntityCard({
+  title,
+  leading,
+  status,
+  meta,
+  labelWidth = 96,
+  clampValues = false,
+  onOpen,
+  actions,
+}: EntityCardProps) {
   return (
     <article className="relative rounded-lg border border-border bg-surface p-[18px] hover:bg-[color-mix(in_srgb,var(--on-surface)_4%,var(--surface))]">
       <button
@@ -138,9 +152,21 @@ export function EntityCard({ title, leading, status, meta, onOpen, actions }: En
         <dl className="mt-3.5 flex flex-col gap-2">
           {meta.map(([label, value]) => (
             <div key={label} className="flex items-start">
-              <dt className="w-24 shrink-0 text-[13px] font-bold text-content-secondary">{label}</dt>
+              <dt
+                className={cn(
+                  'shrink-0 text-[13px] font-bold text-content-secondary',
+                  labelWidth === 96 ? 'w-24' : 'w-[72px]',
+                )}
+              >
+                {label}
+              </dt>
               {/* A word longer than the row breaks anywhere, as Flutter wraps it. */}
-              <dd className="min-w-0 flex-1 text-[14px] leading-[1.4] [overflow-wrap:anywhere] text-on-surface">
+              <dd
+                className={cn(
+                  'min-w-0 flex-1 text-[14px] leading-[1.4] [overflow-wrap:anywhere] text-on-surface',
+                  clampValues && 'line-clamp-2',
+                )}
+              >
                 {value}
               </dd>
             </div>
@@ -154,6 +180,7 @@ export function EntityCard({ title, leading, status, meta, onOpen, actions }: En
             compact
             icon={action.icon}
             label={action.label}
+            tone={action.tone}
             onClick={action.onClick}
           />
         ))}

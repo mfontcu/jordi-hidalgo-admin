@@ -15,8 +15,8 @@ const CHECKLIST: [path: string, title: string, section: string][] = [
   ['/admins/usr-1/form', 'Editar administrador', 'Administradores'],
   ['/clients', 'Clientes', 'Clientes'],
   ['/clients/c-1?backLabel=Cita', 'Ficha de cliente', 'Clientes'],
-  ['/clients/form', 'Formulario de cliente', 'Clientes'],
-  ['/clients/c-1/form', 'Formulario de cliente', 'Clientes'],
+  ['/clients/form', 'Nuevo cliente', 'Clientes'],
+  ['/clients/c-1/form', 'Editar cliente', 'Clientes'],
   ['/schedule/working-hours', 'Horarios de trabajo', 'Horarios'],
   ['/schedule/blocked-slots?tab=recurring', 'Bloqueos', 'Bloqueos'],
   ['/schedule/blocked-slots/form', 'Formulario de bloqueo', 'Bloqueos'],
@@ -90,7 +90,7 @@ test('the sidebar parameter keeps the opening section highlighted, also after a 
   const ui = shell(page);
   await page.goto('/clients/form?sidebar=%2Fappointments');
 
-  await expect(ui.heading('Formulario de cliente')).toBeVisible();
+  await expect(ui.heading('Nuevo cliente')).toBeVisible();
   await expect(ui.highlighted).toHaveText('Citas');
   await page.reload();
   await expect(ui.highlighted).toHaveText('Citas');

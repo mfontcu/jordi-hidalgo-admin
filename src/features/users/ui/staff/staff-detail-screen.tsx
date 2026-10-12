@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 
+import { UserAppointments } from '@/features/appointments';
 import { useDescribeFailure, type MessageId } from '@/shared/i18n';
 import { formatInstant, type DateLocale } from '@/shared/lib/business-time';
 import { failureOf } from '@/shared/lib/failure';
@@ -215,6 +216,17 @@ function StaffDetailContent({
           {actions}
         </div>
       )}
+      {/* The account may also book: Flutter lists its appointments, so the section stays. */}
+      <InfoCard title={text('staffSectionAppointments')} icon="calendar_month_outlined">
+        <UserAppointments
+          userId={user.id}
+          label={text('staffSectionAppointments')}
+          customerName={name}
+          emptyMessage={text('staffAppointmentsEmpty')}
+          useTable={layout.twoColumns}
+          onChanged={detail.refresh}
+        />
+      </InfoCard>
       <ConfirmDialog
         open={confirmingDeactivate}
         onOpenChange={setConfirmingDeactivate}

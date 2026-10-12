@@ -9,6 +9,7 @@ import {
 } from '../support/backend';
 import { loginPage, signedInShell } from '../support/login-page';
 import { mockServices } from '../support/services';
+import { mockUsers } from '../support/users';
 
 // Sign-in paths of the Flutter panel's LoginScreen (features/auth) and its router redirect.
 
@@ -111,6 +112,8 @@ test('sends a deep link without a session to the login screen, and opens it afte
 });
 
 test('Back after sign-in never shows the login screen again', async ({ page, backend }) => {
+  // The clients list asks for its rows.
+  mockUsers(backend);
   backend.on('POST', '/auth/login', { json: { ...OLD_TOKENS, user: STAFF_USER } });
   backend.on('GET', '/auth/me', { json: STAFF_USER });
   const login = loginPage(page);
@@ -138,6 +141,8 @@ for (const redirect of ['https://evil.example/phish', '//evil.example/phish', '/
 }
 
 test('skips the login screen and the old auth gate with a session', async ({ page, backend }) => {
+  // The clients list asks for its rows.
+  mockUsers(backend);
   backend.on('GET', '/auth/me', { json: STAFF_USER });
   await seedSession(page, OLD_TOKENS);
 

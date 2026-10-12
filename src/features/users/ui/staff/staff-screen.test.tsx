@@ -187,7 +187,7 @@ describe('staff list', () => {
     app = renderApp('/admins');
     const user = userEvent.setup();
 
-    expect(await screen.findByText('No se pudo cargar el administrador.')).toBeInTheDocument();
+    expect(await screen.findByText('No se pudieron cargar los administradores.')).toBeInTheDocument();
     expect(
       screen.getByText('Ha ocurrido un error en el servidor. Inténtalo de nuevo más tarde.'),
     ).toBeInTheDocument();
