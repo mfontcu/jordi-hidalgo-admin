@@ -16,6 +16,8 @@ export function useListLayout(): ListLayout {
 type ListPageProps = {
   title: string;
   subtitle: string;
+  /** Between the header and the summary (`beforeSummary`), such as the blocked-slots tabs. */
+  beforeSummary?: ReactNode;
   /** Summary cards; folded into a disclosure on compact layouts. */
   summary?: ReactNode;
   /** Title of the folded summary. */
@@ -29,7 +31,15 @@ type ListPageProps = {
  * Under 700px the mobile header already shows the title, so the page leaves it out. Children read
  * the layout with `useListLayout`.
  */
-export function ListPage({ title, subtitle, summary, summaryLabel, toolbar, children }: ListPageProps) {
+export function ListPage({
+  title,
+  subtitle,
+  beforeSummary,
+  summary,
+  summaryLabel,
+  toolbar,
+  children,
+}: ListPageProps) {
   const [ref, width] = useElementWidth();
   const layout = listLayoutFor(width ?? 1440);
   const style = {
@@ -43,12 +53,14 @@ export function ListPage({ title, subtitle, summary, summaryLabel, toolbar, chil
       <div ref={ref} className="min-w-0">
         {width !== null && (
           <div style={style} className="flex flex-col">
-            <header className="mb-(--section-gap) max-[699px]:sr-only">
+            {/* Not a landmark: the shell already owns the page banner. */}
+            <div className="mb-(--section-gap) max-[699px]:sr-only">
               <h1 className="font-black text-on-surface" style={{ fontSize: layout.titleSize }}>
                 {title}
               </h1>
               <p className="mt-2 leading-[1.5] text-content-secondary">{subtitle}</p>
-            </header>
+            </div>
+            {beforeSummary && <div className="mb-(--section-gap)">{beforeSummary}</div>}
             {summary && (
               <div className="mb-(--section-gap)">
                 {layout.compact ? (
@@ -68,7 +80,7 @@ export function ListPage({ title, subtitle, summary, summaryLabel, toolbar, chil
 }
 
 /** AdminCollapsibleSummarySection: starts folded, to save room on compact layouts. */
-function CollapsibleSummary({ label, children }: { label: string; children: ReactNode }) {
+export function CollapsibleSummary({ label, children }: { label: string; children: ReactNode }) {
   const [expanded, setExpanded] = useState(false);
   return (
     <div className="overflow-hidden rounded-lg border border-outline-variant bg-surface">
@@ -108,17 +120,23 @@ export function SummaryGrid({ children, count }: { children: ReactNode; count: n
   );
 }
 
-type StatCardProps = { title: string; value: string; subtitle: string };
+type StatCardProps = {
+  title: string;
+  value: string;
+  subtitle: string;
+  /** A value size of its own (`valueFontSize`), such as 24px for a date; the layout's otherwise. */
+  valueSize?: number;
+};
 
 /** AdminStatCard: title, a large value, and a two-line subtitle, centered. */
-export function StatCard({ title, value, subtitle }: StatCardProps) {
+export function StatCard({ title, value, subtitle, valueSize }: StatCardProps) {
   const layout = useListLayout();
   return (
     <div className="flex h-full flex-col justify-center rounded-lg border border-border bg-surface px-4 py-3.5 text-center">
       <p className="truncate font-bold text-content-secondary">{title}</p>
       <p
         className="mt-3.5 truncate leading-none font-black text-on-surface"
-        style={{ fontSize: layout.summaryValueSize }}
+        style={{ fontSize: valueSize ?? layout.summaryValueSize }}
       >
         {value}
       </p>

@@ -3,6 +3,7 @@ import { useNavigate, useSearch } from '@tanstack/react-router';
 import { useCallback } from 'react';
 
 import { businessToday } from '@/shared/lib/business-time';
+import { useDateFilter } from '@/shared/lib/use-date-filter';
 import { useDebouncedText } from '@/shared/lib/use-debounced-text';
 
 import { usersListQueryOptions } from '../api/users.queries';
@@ -12,9 +13,8 @@ import {
   searchWithClientFilter,
   type ClientFilter,
 } from '../model/clients-search';
-import { dateFilterOf, type DateFilter } from '../model/date-filter';
+import { dateFilterOf, type DateFilter } from '@/shared/lib/date-filter';
 import { searchWithDate, searchWithPage, searchWithText } from '../model/list-search';
-import { useDateFilter } from './use-date-filter';
 
 /**
  * Clients list (ClientsScreen): the page of the URL's filters, the summary, the debounced search,

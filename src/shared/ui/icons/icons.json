@@ -1,5 +1,9 @@
 {
   "$comment": "Icons used by the panel. Key: the Flutter Icons.* name it replaces. Value: Material Symbols name and style (outlined or rounded). Regenerate with `npm run icons:generate`.",
+  "access_time": {
+    "symbol": "schedule",
+    "style": "outlined"
+  },
   "add": {
     "symbol": "add",
     "style": "outlined"
@@ -40,12 +44,36 @@
     "symbol": "calendar_month",
     "style": "outlined"
   },
+  "calendar_month_rounded": {
+    "symbol": "calendar_month",
+    "style": "rounded"
+  },
   "calendar_today_outlined": {
     "symbol": "calendar_today",
     "style": "outlined"
   },
+  "calendar_today_rounded": {
+    "symbol": "calendar_today",
+    "style": "rounded"
+  },
+  "calendar_view_week_outlined": {
+    "symbol": "calendar_view_week",
+    "style": "outlined"
+  },
   "cancel_outlined": {
     "symbol": "cancel",
+    "style": "outlined"
+  },
+  "check": {
+    "symbol": "check",
+    "style": "outlined"
+  },
+  "check_box_outline_blank": {
+    "symbol": "check_box_outline_blank",
+    "style": "outlined"
+  },
+  "check_box_outlined": {
+    "symbol": "check_box",
     "style": "outlined"
   },
   "check_circle_outline": {
@@ -100,6 +128,10 @@
     "symbol": "delete",
     "style": "outlined"
   },
+  "edit_calendar_outlined": {
+    "symbol": "edit_calendar",
+    "style": "outlined"
+  },
   "edit_outlined": {
     "symbol": "edit",
     "style": "outlined"
@@ -112,6 +144,10 @@
     "symbol": "event_available",
     "style": "outlined"
   },
+  "event_busy_outlined": {
+    "symbol": "event_busy",
+    "style": "outlined"
+  },
   "event_outlined": {
     "symbol": "event",
     "style": "outlined"
@@ -120,6 +156,10 @@
     "symbol": "keyboard_arrow_down",
     "style": "rounded"
   },
+  "flag_outlined": {
+    "symbol": "flag",
+    "style": "outlined"
+  },
   "history_outlined": {
     "symbol": "history",
     "style": "outlined"
@@ -127,6 +167,10 @@
   "info_outline": {
     "symbol": "info",
     "style": "outlined"
+  },
+  "info_outline_rounded": {
+    "symbol": "info",
+    "style": "rounded"
   },
   "insights_outlined": {
     "symbol": "show_chart",
@@ -147,6 +191,10 @@
   "keyboard_double_arrow_right_rounded": {
     "symbol": "keyboard_double_arrow_right",
     "style": "rounded"
+  },
+  "keyboard_outlined": {
+    "symbol": "keyboard",
+    "style": "outlined"
   },
   "language": {
     "symbol": "language",
@@ -176,12 +224,28 @@
     "symbol": "menu",
     "style": "rounded"
   },
+  "notes_outlined": {
+    "symbol": "notes",
+    "style": "outlined"
+  },
+  "notes_rounded": {
+    "symbol": "notes",
+    "style": "rounded"
+  },
   "notifications_active_outlined": {
     "symbol": "notifications_active",
     "style": "outlined"
   },
+  "pause_circle_outline": {
+    "symbol": "pause_circle",
+    "style": "outlined"
+  },
   "people_outline": {
     "symbol": "group",
+    "style": "outlined"
+  },
+  "person_add_outlined": {
+    "symbol": "person_add",
     "style": "outlined"
   },
   "person_off_outlined": {
@@ -196,6 +260,14 @@
     "symbol": "person",
     "style": "rounded"
   },
+  "play_circle_outline": {
+    "symbol": "play_circle",
+    "style": "outlined"
+  },
+  "public_outlined": {
+    "symbol": "public",
+    "style": "outlined"
+  },
   "radio_button_checked": {
     "symbol": "radio_button_checked",
     "style": "outlined"
@@ -207,6 +279,10 @@
   "refresh": {
     "symbol": "refresh",
     "style": "outlined"
+  },
+  "repeat_rounded": {
+    "symbol": "repeat",
+    "style": "rounded"
   },
   "restart_alt_rounded": {
     "symbol": "restart_alt",
@@ -220,8 +296,16 @@
     "symbol": "schedule",
     "style": "outlined"
   },
+  "schedule_rounded": {
+    "symbol": "schedule",
+    "style": "rounded"
+  },
   "search": {
     "symbol": "search",
+    "style": "outlined"
+  },
+  "send_outlined": {
+    "symbol": "send",
     "style": "outlined"
   },
   "sticky_note_2_outlined": {
@@ -232,12 +316,20 @@
     "symbol": "storefront",
     "style": "outlined"
   },
+  "task_alt_outlined": {
+    "symbol": "task_alt",
+    "style": "outlined"
+  },
   "toggle_on_outlined": {
     "symbol": "toggle_on",
     "style": "outlined"
   },
   "translate_outlined": {
     "symbol": "translate",
+    "style": "outlined"
+  },
+  "tune_outlined": {
+    "symbol": "tune",
     "style": "outlined"
   },
   "tune_rounded": {

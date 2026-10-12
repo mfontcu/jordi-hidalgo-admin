@@ -1,6 +1,5 @@
 import {
   appointmentFormSearchSchema,
-  blockedSlotsSearchSchema,
   businessSearchSchema,
   clientFormSearchSchema,
   sidebarSearchSchema,
@@ -16,12 +15,10 @@ describe('sidebarSearchSchema', () => {
 
 describe('tab schemas', () => {
   it('accept the Flutter tab slugs', () => {
-    expect(blockedSlotsSearchSchema.parse({ tab: 'recurring' })).toEqual({ tab: 'recurring' });
     expect(businessSearchSchema.parse({ tab: 'gallery' })).toEqual({ tab: 'gallery' });
   });
 
   it('drop an unknown tab', () => {
-    expect(blockedSlotsSearchSchema.parse({ tab: 'weekly' })).toEqual({ tab: undefined });
     expect(businessSearchSchema.parse({ tab: 3 })).toEqual({ tab: undefined });
   });
 });

@@ -18,19 +18,19 @@ const CHECKLIST: [path: string, title: string, section: string][] = [
   ['/clients/form', 'Nuevo cliente', 'Clientes'],
   ['/clients/c-1/form', 'Editar cliente', 'Clientes'],
   ['/schedule/working-hours', 'Horarios de trabajo', 'Horarios'],
-  ['/schedule/blocked-slots?tab=recurring', 'Bloqueos', 'Bloqueos'],
-  ['/schedule/blocked-slots/form', 'Formulario de bloqueo', 'Bloqueos'],
+  ['/schedule/blocked-slots?tab=recurring', 'Bloqueos recurrentes', 'Bloqueos'],
+  ['/schedule/blocked-slots/form', 'Nuevo bloqueo', 'Bloqueos'],
   ['/schedule/blocked-slots/b-1', 'Detalle del bloqueo', 'Bloqueos'],
-  ['/schedule/blocked-slots/b-1/form', 'Formulario de bloqueo', 'Bloqueos'],
-  ['/schedule/recurring-blocked-slots/form', 'Formulario de bloqueo recurrente', 'Bloqueos'],
+  ['/schedule/blocked-slots/b-1/form', 'Editar bloqueo', 'Bloqueos'],
+  ['/schedule/recurring-blocked-slots/form', 'Nuevo bloqueo recurrente', 'Bloqueos'],
   ['/schedule/recurring-blocked-slots/r-1', 'Detalle de bloqueo recurrente', 'Bloqueos'],
-  ['/schedule/recurring-blocked-slots/r-1/form', 'Formulario de bloqueo recurrente', 'Bloqueos'],
+  ['/schedule/recurring-blocked-slots/r-1/form', 'Editar bloqueo recurrente', 'Bloqueos'],
   ['/appointments', 'Citas', 'Citas'],
   ['/appointments/a-1', 'Detalle de cita', 'Citas'],
   ['/appointments/a-1/reschedule', 'Reprogramar cita', 'Citas'],
   [
     '/appointments/form?clientId=c-1&clientLabel=Ana&lockInitialUser=true&prefillServiceId=s-1&prefillDate=2026-10-12&prefillTime=10%3A30',
-    'Formulario de cita',
+    'Nueva cita',
     'Citas',
   ],
   ['/schedule/day-agenda', 'Agenda del día', 'Agenda del día'],
@@ -67,7 +67,7 @@ test('sidebar navigation, back, and forward', async ({ page }) => {
   await expect(ui.heading('Citas')).toBeVisible();
   await expect(page).toHaveURL('/appointments');
   await ui.section('Bloqueos').click();
-  await expect(ui.heading('Bloqueos')).toBeVisible();
+  await expect(ui.heading('Bloqueos de agenda')).toBeVisible();
   await expect(page).toHaveURL('/schedule/blocked-slots');
 
   await page.goBack();
@@ -82,7 +82,7 @@ test('sidebar navigation, back, and forward', async ({ page }) => {
   await page.goForward();
   await expect(ui.heading('Citas')).toBeVisible();
   await page.goForward();
-  await expect(ui.heading('Bloqueos')).toBeVisible();
+  await expect(ui.heading('Bloqueos de agenda')).toBeVisible();
   await expect(ui.highlighted).toHaveText('Bloqueos');
 });
 
@@ -106,9 +106,13 @@ const ALIASES: [from: string, to: string, title: string][] = [
   ['/services/detail', '/services', 'Servicios'],
   ['/clients/detail', '/clients', 'Clientes'],
   ['/admins/detail', '/admins', 'Administradores'],
-  ['/schedule/blocked-slots/detail', '/schedule/blocked-slots', 'Bloqueos'],
-  ['/schedule/recurring-blocked-slots', '/schedule/blocked-slots?tab=recurring', 'Bloqueos'],
-  ['/schedule/recurring-blocked-slots/detail', '/schedule/blocked-slots?tab=recurring', 'Bloqueos'],
+  ['/schedule/blocked-slots/detail', '/schedule/blocked-slots', 'Bloqueos de agenda'],
+  ['/schedule/recurring-blocked-slots', '/schedule/blocked-slots?tab=recurring', 'Bloqueos recurrentes'],
+  [
+    '/schedule/recurring-blocked-slots/detail',
+    '/schedule/blocked-slots?tab=recurring',
+    'Bloqueos recurrentes',
+  ],
 ];
 
 for (const [from, to, title] of ALIASES) {

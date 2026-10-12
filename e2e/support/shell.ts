@@ -2,6 +2,7 @@ import type { Page } from '@playwright/test';
 
 import { type MockBackend, OLD_TOKENS, seedSession, STAFF_USER } from './backend';
 import { mockAppointments } from './appointments';
+import { mockSchedule } from './schedule';
 import { mockServices } from './services';
 import { mockUsers } from './users';
 
@@ -14,6 +15,7 @@ export async function signedIn(page: Page, backend: MockBackend) {
   mockServices(backend);
   mockUsers(backend);
   mockAppointments(backend);
+  mockSchedule(backend);
   await seedSession(page, OLD_TOKENS);
 }
 

@@ -1,11 +1,8 @@
 import { z } from 'zod';
 
-import {
-  dateFilterSearch,
-  dateFilterSearchSchema,
-  type DateFilter,
-  type DateFilterSearch,
-} from './date-filter';
+import { dateFilterSearch, type DateFilter, type DateFilterSearch } from '@/shared/lib/date-filter';
+
+import { dateFilterSearchSchema } from './date-filter';
 
 // Search parameters every users list shares (`/admins`, `/clients`): the list filters live in the
 // URL (ADR-003, "Data flow"), so a filtered list survives a reload and can be shared. An invalid

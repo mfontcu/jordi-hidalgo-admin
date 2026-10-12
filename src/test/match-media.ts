@@ -1,10 +1,10 @@
 // jsdom has no matchMedia and no ResizeObserver. This matchMedia answers `(min-width: Npx)`,
-// `(max-width: Npx)`, and `(prefers-color-scheme: dark)` from a simulated viewport, and notifies
-// listeners on change. The ResizeObserver reports every observed element as wide as the viewport.
+// `(max-width: Npx)`, `(prefers-color-scheme: dark)`, `(pointer: fine)`, and
+// `(orientation: landscape)` from a simulated viewport, and notifies listeners on change. The ResizeObserver reports every observed element as wide as the viewport.
 
-type Viewport = { width: number; prefersDark: boolean };
+type Viewport = { width: number; height: number; prefersDark: boolean; finePointer: boolean };
 
-const DEFAULT_VIEWPORT: Viewport = { width: 1440, prefersDark: false };
+const DEFAULT_VIEWPORT: Viewport = { width: 1440, height: 900, prefersDark: false, finePointer: true };
 let viewport: Viewport = { ...DEFAULT_VIEWPORT };
 const lists = new Set<FakeMediaQueryList>();
 const observers = new Set<FakeResizeObserver>();
@@ -16,6 +16,8 @@ function evaluate(query: string): boolean {
     const maxWidth = /max-width:\s*([\d.]+)px/.exec(part);
     if (maxWidth) return viewport.width <= Number(maxWidth[1]);
     if (part.includes('prefers-color-scheme: dark')) return viewport.prefersDark;
+    if (part.includes('pointer: fine')) return viewport.finePointer;
+    if (part.includes('orientation: landscape')) return viewport.width > viewport.height;
     return false;
   });
 }

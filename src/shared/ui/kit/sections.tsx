@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 import { cn } from '@/shared/lib/cn';
 
@@ -34,8 +34,9 @@ export function PageHeader({
   backAlign = 'start',
 }: PageHeaderProps) {
   return (
-    // Under 700px the back button spans the width, centered, as a TextButton alone in a ListView.
-    <header className="flex flex-col items-start max-[699px]:items-stretch">
+    // Not a landmark: the shell already owns the page banner. Under 700px the back button
+    // spans the width, centered, as a TextButton alone in a ListView.
+    <div className="flex flex-col items-start max-[699px]:items-stretch">
       <Button
         variant="text"
         icon="arrow_back_rounded"
@@ -52,7 +53,7 @@ export function PageHeader({
           {subtitle}
         </p>
       </div>
-    </header>
+    </div>
   );
 }
 
@@ -117,17 +118,34 @@ export function MutedPanel({ children, className }: { children: ReactNode; class
   return <div className={cn('rounded-md bg-surface-muted p-4', className)}>{children}</div>;
 }
 
+type DetailRowProps = {
+  label: string;
+  value: string;
+  /** The label column: 130px (the service and user details), 110px (the blocked slot's). */
+  labelWidth?: number;
+  /** 15px (the service and user details), 14px (the blocked slot's). */
+  valueSize?: 14 | 15;
+};
+
 /**
- * `_DetailRow`: label (130px) and value side by side; stacked when the row is narrower than 340px.
+ * `_DetailRow`: label and value side by side; stacked when the row is narrower than 340px.
  */
-export function DetailRow({ label, value }: { label: string; value: string }) {
+export function DetailRow({ label, value, labelWidth = 130, valueSize = 15 }: DetailRowProps) {
   return (
     <div className="@container">
       <div className="flex items-start @max-[339px]:flex-col @max-[339px]:gap-1">
-        <dt className="w-[130px] shrink-0 text-[13px] font-bold text-content-secondary @max-[339px]:w-auto">
+        <dt
+          className="w-(--label-width) shrink-0 text-[13px] font-bold text-content-secondary @max-[339px]:w-auto"
+          style={{ '--label-width': `${labelWidth}px` } as CSSProperties}
+        >
           {label}
         </dt>
-        <dd className="min-w-0 flex-1 text-[15px] leading-[1.4] [overflow-wrap:anywhere] text-on-surface">
+        <dd
+          className={cn(
+            'min-w-0 flex-1 leading-[1.4] [overflow-wrap:anywhere] text-on-surface',
+            valueSize === 15 ? 'text-[15px]' : 'text-[14px]',
+          )}
+        >
           {value}
         </dd>
       </div>

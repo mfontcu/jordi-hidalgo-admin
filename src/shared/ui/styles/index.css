@@ -33,6 +33,16 @@
    * English-like geometry, so each style has a line height and letter spacing even where
    * theme.dart sets only the size and weight.
    */
+  /* displayLarge: the time picker's hour and minute. */
+  --text-display-lg: 57px;
+  --text-display-lg--line-height: 1.12;
+  --text-display-lg--letter-spacing: -0.25px;
+  --text-display-lg--font-weight: 400;
+  /* displayMedium: the time picker's hour and minute fields in input mode. */
+  --text-display-md: 45px;
+  --text-display-md--line-height: 1.16;
+  --text-display-md--letter-spacing: 0;
+  --text-display-md--font-weight: 400;
   --text-headline-lg: 32px;
   --text-headline-lg--line-height: 1.25;
   --text-headline-lg--letter-spacing: 0;
@@ -191,6 +201,9 @@
   --color-warning-fg: var(--warning-fg);
   --color-danger-bg: var(--danger-bg);
   --color-danger-fg: var(--danger-fg);
+  --color-danger-accent: var(--danger-accent);
+  --color-chip-surface: var(--chip-surface);
+  --color-field-grey: var(--field-grey);
   --color-info-bg: var(--info-bg);
   --color-info-fg: var(--info-fg);
 

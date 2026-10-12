@@ -165,6 +165,14 @@ export default tseslint.config(
           selector: 'CallExpression[callee.property.name=/^toLocale/]',
           message: 'Format dates and times only in shared/lib/business-time.ts.',
         },
+        {
+          selector: "CallExpression[callee.object.name='Date'][callee.property.name='parse']",
+          message: 'Parse instants only in shared/lib/business-time.ts.',
+        },
+        {
+          selector: "CallExpression[callee.object.name='Date'][callee.property.name='UTC']",
+          message: 'Build instants only in shared/lib/business-time.ts.',
+        },
       ],
     },
   },
@@ -202,6 +210,14 @@ export default tseslint.config(
         {
           selector: 'CallExpression[callee.property.name=/^toLocale/]',
           message: 'Format dates and times only in shared/lib/business-time.ts.',
+        },
+        {
+          selector: "CallExpression[callee.object.name='Date'][callee.property.name='parse']",
+          message: 'Parse instants only in shared/lib/business-time.ts.',
+        },
+        {
+          selector: "CallExpression[callee.object.name='Date'][callee.property.name='UTC']",
+          message: 'Build instants only in shared/lib/business-time.ts.',
         },
       ],
     },

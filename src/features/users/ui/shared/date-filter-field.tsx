@@ -1,20 +1,16 @@
 import { useIntl, type IntlShape } from 'react-intl';
 
-import type { MessageId } from '@/shared/i18n';
+import { dateRangeDialogLabels, type MessageId } from '@/shared/i18n';
 import { formatDay, type BusinessDay, type DateLocale } from '@/shared/lib/business-time';
-import { ActionPicker, DateRangeDialog, ToolbarField, type ActionOption } from '@/shared/ui';
+import { dateRangeLabel, type DateFilter, type DatePick } from '@/shared/lib/date-filter';
+import { DateFilterField as KitDateFilterField, type ActionOption } from '@/shared/ui';
 
-import {
-  DATE_QUICK_PICKS,
-  dateRangeLabel,
-  type DateFilter,
-  type DateQuickPick,
-} from '../../model/date-filter';
+import { DATE_QUICK_PICKS } from '../../model/date-filter';
 
 const ICONS = {
-  allTime: 'all_inclusive_rounded',
+  all: 'all_inclusive_rounded',
   today: 'calendar_today_outlined',
-  thisMonth: 'calendar_today_outlined',
+  month: 'calendar_today_outlined',
   custom: 'event_outlined',
 } as const;
 
@@ -27,8 +23,17 @@ export function dateFilterLabel(intl: IntlShape, filter: DateFilter): string {
       return intl.formatMessage({ id: 'clientDateAllHistory' });
     case 'today':
       return intl.formatMessage({ id: 'appointmentDateToday' });
+    case 'tomorrow':
+      return intl.formatMessage({ id: 'appointmentDateTomorrow' });
+    case 'thisWeek':
+      return intl.formatMessage({ id: 'appointmentDateThisWeek' });
+    case 'thisMonth':
     case 'month':
       return intl.formatMessage({ id: 'adminCommonThisMonth' });
+    case 'next7Days':
+      return intl.formatMessage({ id: 'scheduleBlockedSlotDateNext7Days' });
+    case 'nextMonth':
+      return intl.formatMessage({ id: 'scheduleBlockedSlotDateNextMonth' });
     case 'range':
       return dateRangeLabel(filter.from, filter.to, localeOf(intl));
   }
@@ -43,90 +48,44 @@ type DateFilterFieldProps = {
   range: { from: BusinessDay; to: BusinessDay } | null;
   title: MessageId;
   subtitle: MessageId;
-  onPick: (pick: DateQuickPick) => void;
+  onPick: (pick: DatePick) => void;
   rangeOpen: boolean;
   onRangeOpenChange: (open: boolean) => void;
   onApplyRange: (from: BusinessDay, to: BusinessDay) => void;
 };
 
-/**
- * The registration-date filter of a users list: a toolbar field that opens the quick picks
- * (showAdminDateQuickPickSheet); "Choose a range…" opens the range picker.
- */
-export function DateFilterField({
-  compact,
-  className,
-  filter,
-  today,
-  range,
-  title,
-  subtitle,
-  onPick,
-  rangeOpen,
-  onRangeOpenChange,
-  onApplyRange,
-}: DateFilterFieldProps) {
+/** The registration-date filter of a users list, with the users lists' quick picks. */
+export function DateFilterField({ filter, title, subtitle, ...props }: DateFilterFieldProps) {
   const intl = useIntl();
   const text = (id: MessageId) => intl.formatMessage({ id });
   const locale = localeOf(intl);
 
   // clientDateQuickPickLabel.
-  const pickLabels: Record<DateQuickPick, string> = {
-    allTime: text('clientDateAllHistory'),
+  const pickLabels: Record<(typeof DATE_QUICK_PICKS)[number], string> = {
+    all: text('clientDateAllHistory'),
     today: intl.formatMessage(
       { id: 'appointmentDateTodayWithDate' },
-      { date: formatDay(today, locale, 'longDate') },
+      { date: formatDay(props.today, locale, 'longDate') },
     ),
-    thisMonth: text('adminCommonThisMonth'),
+    month: text('adminCommonThisMonth'),
     custom: text('clientDateCustomRange'),
   };
-  const options: ActionOption<DateQuickPick>[] = DATE_QUICK_PICKS.map((pick) => ({
+  const options: ActionOption<DatePick>[] = DATE_QUICK_PICKS.map((pick) => ({
     value: pick,
     icon: ICONS[pick],
     label: pickLabels[pick],
   }));
 
   return (
-    <>
-      <ActionPicker
-        compact={compact}
-        trigger={
-          <ToolbarField
-            icon="calendar_today_outlined"
-            label={dateFilterLabel(intl, filter)}
-            className={className}
-          />
-        }
-        title={text(title)}
-        subtitle={text(subtitle)}
-        options={options}
-        onPick={onPick}
-      />
-      <DateRangeDialog
-        open={rangeOpen}
-        onOpenChange={onRangeOpenChange}
-        initial={range}
-        today={today}
-        language={locale}
-        formatDay={(day) => formatDay(day, locale, 'listDate')}
-        labels={{
-          title: text('clientDateChooseRangeTitle'),
-          start: text('adminDateRangeStartLabel'),
-          end: text('adminDateRangeEndLabel'),
-          notSelected: text('adminDateRangeNotSelected'),
-          last7Days: text('adminDateRangePresetLast7Days'),
-          last30Days: text('adminDateRangePresetLast30Days'),
-          thisMonth: text('adminCommonThisMonth'),
-          clear: text('clientDateClearRange'),
-          cancel: text('adminCommonCancel'),
-          apply: text('clientDateApplyRange'),
-          previousMonth: text('dayAgendaPrevMonth'),
-          nextMonth: text('dayAgendaNextMonth'),
-        }}
-        onApply={({ from, to }) => {
-          onApplyRange(from, to);
-        }}
-      />
-    </>
+    <KitDateFilterField
+      {...props}
+      label={dateFilterLabel(intl, filter)}
+      title={text(title)}
+      subtitle={text(subtitle)}
+      options={options}
+      language={locale}
+      rangeLabels={dateRangeDialogLabels(intl)}
+      formatDay={(day) => formatDay(day, locale, 'listDate')}
+    />
   );
 }

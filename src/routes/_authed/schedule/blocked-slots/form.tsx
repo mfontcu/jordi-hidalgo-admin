@@ -1,8 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { RoutePlaceholderScreen } from '@/features/shell';
+import { BlockedSlotFormScreen } from '@/features/schedule';
 
 export const Route = createFileRoute('/_authed/schedule/blocked-slots/form')({
   staticData: { screen: 'blockedSlotForm' },
-  component: RoutePlaceholderScreen,
+  component: BlockedSlotFormScreen,
 });

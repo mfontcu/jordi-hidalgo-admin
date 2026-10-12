@@ -5,6 +5,7 @@ import { session } from '@/shared/api';
 import { useLocaleStore } from '@/shared/i18n';
 import { useThemeStore } from '@/shared/ui';
 import { setViewport } from '@/test/match-media';
+import { appointmentDetail, appointmentDto, customerPushMessages } from '@/test/msw/appointments';
 import { meAs, STAFF_USER, TOKENS } from '@/test/msw/auth';
 import { server } from '@/test/msw/server';
 import { renderApp } from '@/test/render-app';
@@ -92,6 +93,7 @@ describe('signed-in shell', () => {
   it('under 700px shows the mobile header and opens the sidebar in a drawer', async () => {
     setViewport({ width: 390 });
     const user = userEvent.setup();
+    server.use(appointmentDetail(appointmentDto({ id: 'a-1' })), customerPushMessages());
     app = renderApp('/appointments/a-1');
 
     const banner = await screen.findByRole('banner');

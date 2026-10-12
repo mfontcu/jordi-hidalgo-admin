@@ -17,14 +17,6 @@ export const sidebarSearchSchema = z.object({
   sidebar: z.enum(SECTION_PATHS).optional().catch(undefined),
 });
 
-export const BLOCKED_SLOT_TABS = ['punctual', 'recurring'] as const;
-export type BlockedSlotTab = (typeof BLOCKED_SLOT_TABS)[number];
-
-/** `/schedule/blocked-slots?tab=`. */
-export const blockedSlotsSearchSchema = z.object({
-  tab: z.enum(BLOCKED_SLOT_TABS).optional().catch(undefined),
-});
-
 export const BUSINESS_TABS = ['info', 'booking', 'notifications', 'legal', 'web', 'gallery'] as const;
 export type BusinessTab = (typeof BUSINESS_TABS)[number];
 

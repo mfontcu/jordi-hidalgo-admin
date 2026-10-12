@@ -9,9 +9,19 @@ export const BUSINESS_TIME_ZONE = 'Europe/Madrid';
 /** A salon calendar day, 'YYYY-MM-DD'. */
 export type BusinessDay = string;
 
+/** A salon clock time, 'HH:mm' from 00:00 to 23:59, as business hours and recurring rules carry it. */
+export type ClockTime = string;
+
+/** A day of the week as the API numbers it: 1 is Monday, 7 is Sunday (Dart's `DateTime.weekday`). */
+export type Weekday = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+
+export const WEEKDAYS: readonly Weekday[] = [1, 2, 3, 4, 5, 6, 7];
+
 export type DateLocale = 'es' | 'ca' | 'en';
 
 const DAY_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
+const TIME_PATTERN = /^([01]\d|2[0-3]):([0-5]\d)$/;
+const MINUTES_PER_DAY = 24 * 60;
 
 const pad = (value: number, length = 2) => String(value).padStart(length, '0');
 
@@ -70,6 +80,103 @@ export function addMonths(day: BusinessDay, months: number): BusinessDay {
 /** Negative, zero, or positive, as `a` is before, the same as, or after `b`. */
 export function compareDays(a: BusinessDay, b: BusinessDay): number {
   return a < b ? -1 : a > b ? 1 : 0;
+}
+
+/** The day of the week of a salon day. */
+export function weekdayOf(day: BusinessDay): Weekday {
+  const { year, month, date } = partsOf(day);
+  const sundayFirst = new TZDate(year, month, date, BUSINESS_TIME_ZONE).getDay();
+  return (sundayFirst === 0 ? 7 : sundayFirst) as Weekday;
+}
+
+/**
+ * The first `weekday` from `from` on. With `includeFrom`, `from` itself counts
+ * (scheduleNextRecurringOccurrenceFromModel); without it, the same weekday is a week later
+ * (scheduleNextDateForWeekday).
+ */
+export function nextDayOfWeekday(from: BusinessDay, weekday: Weekday, includeFrom: boolean): BusinessDay {
+  const ahead = (weekday - weekdayOf(from) + 7) % 7;
+  return addDays(from, ahead === 0 && !includeFrom ? 7 : ahead);
+}
+
+/** Whether `value` is a clock time written 'HH:mm'. */
+export function isClockTime(value: string): boolean {
+  return TIME_PATTERN.test(value);
+}
+
+/**
+ * A clock time from the API or a field ('9:00', '09:00 '), as 'HH:mm'; null when it is not one
+ * (parseAdminTimeOfDay).
+ */
+export function parseClockTime(value: string | null | undefined): ClockTime | null {
+  const match = /^(\d{1,2}):(\d{1,2})$/.exec(value?.trim() ?? '');
+  if (!match) return null;
+  const hours = Number(match[1]);
+  const minutes = Number(match[2]);
+  if (hours > 23 || minutes > 59) return null;
+  return `${pad(hours)}:${pad(minutes)}`;
+}
+
+/** Minutes from midnight of a clock time. */
+export function minutesOfDay(time: ClockTime): number {
+  const match = TIME_PATTERN.exec(time);
+  if (!match) throw new Error(`Not a clock time: ${time}`);
+  return Number(match[1]) * 60 + Number(match[2]);
+}
+
+/** The clock time `minutes` from midnight, held between 00:00 and 23:59 (`_addMinutes`'s clamp). */
+export function clockTimeOf(minutes: number): ClockTime {
+  const held = Math.min(Math.max(Math.trunc(minutes), 0), MINUTES_PER_DAY - 1);
+  return `${pad(Math.floor(held / 60))}:${pad(held % 60)}`;
+}
+
+/** A clock time moved by `minutes`, held between 00:00 and 23:59. */
+export function addMinutes(time: ClockTime, minutes: number): ClockTime {
+  return clockTimeOf(minutesOfDay(time) + minutes);
+}
+
+/**
+ * The instant of a salon day at a salon clock time, as the API takes it. On the spring change a
+ * time that does not exist (02:00–02:59) moves forward by the hour skipped, and on the autumn
+ * change a time that happens twice is the first one, in summer time, as JavaScript and Dart
+ * build local times.
+ */
+export function instantAt(day: BusinessDay, time: ClockTime): string {
+  const { year, month, date } = partsOf(day);
+  const minutes = minutesOfDay(time);
+  const local = new TZDate(year, month, date, Math.floor(minutes / 60), minutes % 60, BUSINESS_TIME_ZONE);
+  return new Date(local.getTime()).toISOString();
+}
+
+/** An instant `minutes` later, as the API takes it (an appointment's end from its duration). */
+export function addMinutesToInstant(instant: string, minutes: number): string {
+  const time = Date.parse(instant);
+  return Number.isNaN(time) ? instant : new Date(time + minutes * 60_000).toISOString();
+}
+
+/** Negative, zero, or positive, as instant `a` is before, the same as, or after `b`. */
+export function compareInstants(a: string, b: string): number {
+  return Date.parse(a) - Date.parse(b);
+}
+
+/** Whether an instant is still to come. An unreadable instant is not. */
+export function isFuture(instant: string, now: number = Date.now()): boolean {
+  const time = Date.parse(instant);
+  return !Number.isNaN(time) && time > now;
+}
+
+/**
+ * Whether a block closes a whole salon day: it starts at 00:00 and lasts until 23:59 of that day
+ * or later, in salon time. Flutter and the backend take any block of 23 hours or more, which
+ * misses the 23-hour spring day; the panel saves a full day from 00:00 to 23:59 as Flutter does.
+ */
+export function isFullDayRange(startInstant: string, endInstant: string): boolean {
+  const startDay = businessDayOf(startInstant);
+  const endDay = businessDayOf(endInstant);
+  const start = clockTimeOfInstant(startInstant);
+  const end = clockTimeOfInstant(endInstant);
+  if (!startDay || !endDay || !start || !end || start !== '00:00') return false;
+  return compareDays(endDay, startDay) > 0 || end === '23:59';
 }
 
 /** The instant a salon day starts (00:00:00), as the API takes it. */
@@ -169,8 +276,12 @@ const SHORT_MONTHS: Record<DateLocale, readonly string[]> = {
  * - `monthDay`: `DateFormat.MMMd` (es and ca "d MMM", en "MMM d").
  * - `longDate`: `DateFormat.yMMMMd` (es "d 'de' MMMM 'de' y", ca "d MMMM 'del' y", en "MMMM d, y").
  * - `numericDate`: "dd/MM/yyyy" in every language (the appointment date label of app_api).
+ * - `paddedListDate`: `DateFormat('dd MMM y')` in every language (formatScheduleListDate).
+ * - `dayMonth`: `DateFormat('d MMM')` in every language (formatScheduleShortDate), where `monthDay`
+ *   puts the month first in English.
  */
-export type DateStyle = 'listDate' | 'mediumDate' | 'monthDay' | 'longDate' | 'numericDate';
+export type DateStyle =
+  'listDate' | 'mediumDate' | 'monthDay' | 'longDate' | 'numericDate' | 'paddedListDate' | 'dayMonth';
 
 const STANDALONE_MONTHS: Record<DateLocale, readonly string[]> = {
   es: MONTHS.es,
@@ -217,7 +328,23 @@ export function formatDay(day: BusinessDay, locale: DateLocale, style: DateStyle
       return locale === 'ca' ? `${date} ${long} del ${year}` : `${date} de ${long} de ${year}`;
     case 'numericDate':
       return `${pad(date)}/${pad(month + 1)}/${pad(year, 4)}`;
+    case 'paddedListDate':
+      return `${pad(date)} ${short} ${year}`;
+    case 'dayMonth':
+      return `${date} ${short}`;
   }
+}
+
+// `DateFormat.E` (intl's STANDALONESHORTWEEKDAYS), Monday first.
+const SHORT_WEEKDAYS: Record<DateLocale, readonly string[]> = {
+  es: ['lun', 'mar', 'mié', 'jue', 'vie', 'sáb', 'dom'],
+  ca: ['dl.', 'dt.', 'dc.', 'dj.', 'dv.', 'ds.', 'dg.'],
+  en: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+};
+
+/** A weekday's short name, `DateFormat.E` ("lun", "dl.", "Mon"). */
+export function formatWeekdayShort(weekday: Weekday, locale: DateLocale): string {
+  return SHORT_WEEKDAYS[locale][weekday - 1] ?? '';
 }
 
 /** An instant from the API as the Flutter panel prints its day; a dash when it is missing. */
@@ -226,8 +353,8 @@ export function formatInstant(instant: string | null | undefined, locale: DateLo
   return day ? formatDay(day, locale, style) : '—';
 }
 
-/** The salon clock time of an instant, "HH:mm" (`DateFormat.Hm` in every language); null when unreadable. */
-function timeOf(instant: string | null | undefined): string | null {
+/** The salon clock time of an instant, 'HH:mm'; null when it is missing or unreadable. */
+export function clockTimeOfInstant(instant: string | null | undefined): ClockTime | null {
   if (!instant) return null;
   const time = Date.parse(instant);
   if (Number.isNaN(time)) return null;
@@ -235,15 +362,29 @@ function timeOf(instant: string | null | undefined): string | null {
   return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
 }
 
-/** An instant's salon day and time, "{day} · HH:mm" (formatClientDateTime); a dash when missing. */
+/**
+ * How a clock time is printed: `Hm` is `DateFormat.Hm`, "H:mm" in Spanish and Catalan and "HH:mm"
+ * in English; `HH:mm` pads the hour in every language (app_api labels, formatAdminTimeOfDay).
+ */
+export type ClockStyle = 'Hm' | 'HH:mm';
+
+export function formatClockTime(time: ClockTime, locale: DateLocale, clock: ClockStyle): string {
+  return clock === 'Hm' && locale !== 'en' && time.startsWith('0') ? time.slice(1) : time;
+}
+
+/**
+ * An instant's salon day and time, "{day} · {time}"; a dash when missing. The client screens use
+ * `DateFormat.Hm` (formatClientDateTime), the appointment labels of app_api "HH:mm".
+ */
 export function formatInstantDateTime(
   instant: string | null | undefined,
   locale: DateLocale,
   style: DateStyle,
+  clock: ClockStyle = 'Hm',
 ): string {
   const day = businessDayOf(instant);
-  const time = timeOf(instant);
-  return day && time ? `${formatDay(day, locale, style)} · ${time}` : '—';
+  const time = clockTimeOfInstant(instant);
+  return day && time ? `${formatDay(day, locale, style)} · ${formatClockTime(time, locale, clock)}` : '—';
 }
 
 /**

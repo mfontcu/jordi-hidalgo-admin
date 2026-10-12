@@ -2,7 +2,6 @@ export type { ShellScreen } from './model/header';
 export {
   appointmentFormSearchSchema,
   backLabelSearchSchema,
-  blockedSlotsSearchSchema,
   businessSearchSchema,
   clientFormSearchSchema,
   sidebarSearchSchema,

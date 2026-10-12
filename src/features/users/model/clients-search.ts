@@ -3,7 +3,7 @@ import { z } from 'zod';
 import type { BusinessDay } from '@/shared/lib/business-time';
 
 import { USERS_PAGE_SIZE, type UserListParams } from './admin-user';
-import { dateFilterOf, dateFilterQuery } from './date-filter';
+import { dateFilterOf, dateFilterQuery } from '@/shared/lib/date-filter';
 import { listSearchShape } from './list-search';
 
 // Search parameters of `/clients`: the shared list parameters and the status, kept in the URL as

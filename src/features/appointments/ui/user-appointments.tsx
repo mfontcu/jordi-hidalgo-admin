@@ -169,7 +169,7 @@ function statusLabel(intl: IntlShape, status: string): string {
 
 /** The time of a row: app_api's "dd/MM/yyyy · HH:mm" label, in salon time. */
 function timeLabel(intl: IntlShape, item: AppointmentItem): string {
-  return formatInstantDateTime(item.start, intl.locale as DateLocale, 'numericDate');
+  return formatInstantDateTime(item.start, intl.locale as DateLocale, 'numericDate', 'HH:mm');
 }
 
 type TableProps = {

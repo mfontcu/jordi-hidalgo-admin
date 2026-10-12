@@ -3,10 +3,11 @@ import { useNavigate, useSearch } from '@tanstack/react-router';
 import { useCallback } from 'react';
 
 import { businessToday } from '@/shared/lib/business-time';
+import { useDateFilter } from '@/shared/lib/use-date-filter';
 import { useDebouncedText } from '@/shared/lib/use-debounced-text';
 
 import { usersListQueryOptions } from '../api/users.queries';
-import { dateFilterOf, type DateFilter } from '../model/date-filter';
+import { dateFilterOf, type DateFilter } from '@/shared/lib/date-filter';
 import {
   searchWithDate,
   searchWithFilter,
@@ -16,7 +17,6 @@ import {
   staffListParamsOf,
   type StaffFilter,
 } from '../model/staff-search';
-import { useDateFilter } from './use-date-filter';
 
 /**
  * Staff list (StaffAdminsScreen): the page of the URL's filters, the summary, the debounced search,

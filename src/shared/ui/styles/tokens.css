@@ -54,6 +54,9 @@
   --warning-fg: #b86b00;
   --danger-bg: #ffebee;
   --danger-fg: #c62828;
+  --danger-accent: #ff5252; /* Colors.redAccent: AdminTimePickerField's error border and text */
+  --chip-surface: #fef7ff; /* ChoiceChip's unselected fill: Material 3's baseline surface, which the theme leaves */
+  --field-grey: #9e9e9e; /* Colors.grey: AdminDateInputField's border, in both modes */
   --info-bg: #eaf1ff;
   --info-fg: #2f5fbf;
 
@@ -104,6 +107,9 @@
   --warning-fg: #ffb74d;
   --danger-bg: #3d1f24;
   --danger-fg: #ef9a9a;
+  --danger-accent: #ff5252;
+  --chip-surface: #141218;
+  --field-grey: #9e9e9e;
   --info-bg: #1a2740;
   --info-fg: #90caf9;
 

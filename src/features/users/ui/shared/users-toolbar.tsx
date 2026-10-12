@@ -4,7 +4,7 @@ import type { MessageId } from '@/shared/i18n';
 import type { BusinessDay } from '@/shared/lib/business-time';
 import { Button, FilterPicker, RemovableChip, SearchField, ToolbarField, useListLayout } from '@/shared/ui';
 
-import type { DateFilter, DateQuickPick } from '../../model/date-filter';
+import type { DateFilter, DatePick } from '@/shared/lib/date-filter';
 import { DateFilterField, dateFilterLabel } from './date-filter-field';
 
 /** What the toolbar reads from a list hook (useStaffList, useClientsList). */
@@ -17,7 +17,7 @@ type ToolbarList<F extends string> = {
   today: BusinessDay;
   dateFilter: DateFilter;
   dateRange: { from: BusinessDay; to: BusinessDay } | null;
-  pickDate: (pick: DateQuickPick) => void;
+  pickDate: (pick: DatePick) => void;
   rangeOpen: boolean;
   setRangeOpen: (open: boolean) => void;
   applyRange: (from: BusinessDay, to: BusinessDay) => void;

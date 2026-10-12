@@ -1,4 +1,5 @@
 export { userDetailQueryOptions, usersListQueryOptions } from './api/users.queries';
+export { displayNameOf } from './model/client';
 export { clientsListParamsOf, clientsSearchSchema } from './model/clients-search';
 export { staffListParamsOf, staffSearchSchema } from './model/staff-search';
 export { ClientDetailScreen } from './ui/clients/client-detail-screen';

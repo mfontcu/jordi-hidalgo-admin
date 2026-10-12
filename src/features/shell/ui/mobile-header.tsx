@@ -16,7 +16,10 @@ export function MobileHeader({ onOpenMenu }: { onOpenMenu: () => void }) {
 
   return (
     // Scaffold background, outlineVariant bottom border, shadow at 6% with a 16px blur 4px down.
-    <header className="sticky top-0 z-10 border-b border-outline-variant bg-background px-3 pt-3 pb-3.5 shadow-[0_4px_16px_rgb(0_0_0/0.06)]">
+    <header
+      role="banner"
+      className="sticky top-0 z-10 border-b border-outline-variant bg-background px-3 pt-3 pb-3.5 shadow-[0_4px_16px_rgb(0_0_0/0.06)]"
+    >
       <div className="flex items-center gap-3">
         <Button
           variant="icon"

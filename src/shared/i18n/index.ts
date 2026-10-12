@@ -3,4 +3,5 @@ export { useLocaleStore } from './locale-store';
 export { DEFAULT_LOCALE, detectLocale, isLocale, LOCALES, type Locale } from './locales';
 export { loadMessages, type MessageId, type Messages } from './messages';
 export { failureMessage, useDescribeFailure, type FailureMessage } from './failure-message';
+export { dateRangeDialogLabels } from './date-range-labels';
 export { paginationLabels } from './pagination-labels';

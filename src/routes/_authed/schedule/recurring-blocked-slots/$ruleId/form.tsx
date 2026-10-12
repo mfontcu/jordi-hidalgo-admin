@@ -1,8 +1,19 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { RoutePlaceholderScreen } from '@/features/shell';
+import {
+  recurringRuleDetailQueryOptions,
+  RecurringRuleFormScreen,
+  ruleExceptionsQueryOptions,
+} from '@/features/schedule';
+
+// A failed prefetch is the screen's to show.
+const ignore = () => undefined;
 
 export const Route = createFileRoute('/_authed/schedule/recurring-blocked-slots/$ruleId/form')({
   staticData: { screen: 'recurringBlockedSlotForm' },
-  component: RoutePlaceholderScreen,
+  loader: ({ context, params }) => {
+    void context.queryClient.query(recurringRuleDetailQueryOptions(params.ruleId)).catch(ignore);
+    void context.queryClient.query(ruleExceptionsQueryOptions(params.ruleId)).catch(ignore);
+  },
+  component: RecurringRuleFormScreen,
 });

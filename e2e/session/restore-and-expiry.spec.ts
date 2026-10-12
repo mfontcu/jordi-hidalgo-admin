@@ -10,6 +10,7 @@ import {
   test,
 } from '../support/backend';
 import { loginPage, signedInShell } from '../support/login-page';
+import { mockSchedule } from '../support/schedule';
 import { mockUsers } from '../support/users';
 
 // Session restore on load (Flutter AuthGateScreen / bootstrapFromStoredSession), refresh, expiry,
@@ -138,6 +139,7 @@ test('signs in again after an expiry and returns to the page that was open', asy
   );
   backend.on('POST', '/auth/refresh', { status: 401, text: 'unauthorized' });
   backend.on('POST', '/auth/login', { json: { ...NEW_TOKENS, user: STAFF_USER } });
+  mockSchedule(backend);
   await seedSession(page, OLD_TOKENS);
 
   await page.goto('/schedule/working-hours');
