@@ -2,8 +2,11 @@ import { queryOptions } from '@tanstack/react-query';
 
 import { apiClient, unwrap } from '@/shared/api';
 
+import { parseClockTime, type Weekday } from '@/shared/lib/business-time';
+
 import type { AppointmentItem, UserAppointmentsParams } from '../model/appointment';
 import type { AppointmentListParams } from '../model/appointments-search';
+import type { AgendaBlock, AgendaRecurringRule, AgendaWorkingDay } from '../model/day-agenda';
 import { appointmentsKeys } from './appointments.keys';
 import {
   toAppointmentDetail,
@@ -255,5 +258,87 @@ export function formClientQueryOptions(userId: string) {
     },
     staleTime: STALE_TIME,
     enabled: userId.trim() !== '',
+  });
+}
+
+const weekdayOf = (value: number | undefined) => (value ?? 0) as Weekday;
+const clock = (value: string | undefined) => parseClockTime(value) ?? '00:00';
+
+/** Working hours for the day-agenda timeline (GET /admin/business-hours). */
+export function agendaWorkingHoursQueryOptions() {
+  return queryOptions({
+    queryKey: appointmentsKeys.agendaWorkingHours(),
+    queryFn: async ({ signal }): Promise<AgendaWorkingDay[]> => {
+      const result = unwrap(await apiClient.GET('/admin/business-hours', { signal }));
+      return (result.days ?? []).map((day) => {
+        const shifts = (day.slots ?? [])
+          .filter((slot) => slot.isActive !== false)
+          .map((slot) => ({ start: clock(slot.startTime), end: clock(slot.endTime) }));
+        return {
+          weekday: weekdayOf(day.weekday),
+          isActive: day.isActive ?? false,
+          shifts,
+        };
+      });
+    },
+    meta: { localized: true },
+    staleTime: STALE_TIME,
+  });
+}
+
+/**
+ * Punctual blocked slots for the agenda window. Flutter loads pageSize 50 (day) or 200 (week).
+ */
+export function agendaBlockedSlotsQueryOptions(dateFrom: string, dateTo: string, pageSize: number) {
+  return queryOptions({
+    queryKey: appointmentsKeys.agendaBlockedSlots(dateFrom, dateTo, pageSize),
+    queryFn: async ({ signal }): Promise<AgendaBlock[]> => {
+      const result = unwrap(
+        await apiClient.GET('/admin/blocked-slots', {
+          params: {
+            query: {
+              page: 1,
+              page_size: pageSize,
+              type: 'all',
+              date_from: dateFrom,
+              date_to: dateTo,
+            },
+          },
+          signal,
+        }),
+      );
+      return (result.items ?? []).map((item) => ({
+        id: item.id ?? '',
+        startAt: item.start_at ?? '',
+        endAt: item.end_at ?? '',
+        reason: item.reason ?? '',
+        isRecurring: false,
+      }));
+    },
+    staleTime: STALE_TIME,
+  });
+}
+
+/** Active recurring rules for the agenda (Flutter clears the weekday filter). */
+export function agendaRecurringRulesQueryOptions() {
+  return queryOptions({
+    queryKey: appointmentsKeys.agendaRecurringRules(),
+    queryFn: async ({ signal }): Promise<AgendaRecurringRule[]> => {
+      const result = unwrap(
+        await apiClient.GET('/admin/recurring-blocked-slots', {
+          params: { query: { status: 'active' } },
+          signal,
+        }),
+      );
+      return (result.items ?? []).map((item) => ({
+        id: item.id ?? '',
+        weekday: weekdayOf(item.weekday),
+        start: clock(item.start_time),
+        end: clock(item.end_time),
+        reason: item.reason ?? '',
+        isActive: item.is_active ?? false,
+      }));
+    },
+    staleTime: STALE_TIME,
   });
 }

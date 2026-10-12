@@ -89,6 +89,17 @@ export function weekdayOf(day: BusinessDay): Weekday {
   return (sundayFirst === 0 ? 7 : sundayFirst) as Weekday;
 }
 
+/** Monday of the salon week that contains `day` (Dart `weekday` 1 = Monday). */
+export function startOfWeek(day: BusinessDay): BusinessDay {
+  return addDays(day, 1 - weekdayOf(day));
+}
+
+/** The seven salon days of the week that contains `day`, Monday first. */
+export function weekDaysOf(day: BusinessDay): BusinessDay[] {
+  const start = startOfWeek(day);
+  return [0, 1, 2, 3, 4, 5, 6].map((offset) => addDays(start, offset));
+}
+
 /**
  * The first `weekday` from `from` on. With `includeFrom`, `from` itself counts
  * (scheduleNextRecurringOccurrenceFromModel); without it, the same weekday is a week later
@@ -152,6 +163,11 @@ export function instantAt(day: BusinessDay, time: ClockTime): string {
 export function addMinutesToInstant(instant: string, minutes: number): string {
   const time = Date.parse(instant);
   return Number.isNaN(time) ? instant : new Date(time + minutes * 60_000).toISOString();
+}
+
+/** An API instant from an epoch millisecond (the "now" line of the day agenda). */
+export function instantFromEpoch(epochMs: number = Date.now()): string {
+  return new Date(epochMs).toISOString();
 }
 
 /** Negative, zero, or positive, as instant `a` is before, the same as, or after `b`. */

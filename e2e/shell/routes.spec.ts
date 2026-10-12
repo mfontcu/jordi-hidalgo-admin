@@ -34,12 +34,15 @@ const CHECKLIST: [path: string, title: string, section: string][] = [
     'Citas',
   ],
   ['/schedule/day-agenda', 'Agenda del día', 'Agenda del día'],
-  ['/schedule/availability', 'Disponibilidad', 'Disponibilidad'],
+  // The overview pins the first public service and today's bookable day in the URL (phase 9).
+  ['/schedule/availability?serviceId=svc-1&day=2026-10-12', 'Disponibilidad', 'Disponibilidad'],
   ['/business?tab=legal', 'Configuración del negocio', 'Negocio'],
   ['/schedule/slot-watches', 'Avisos de hueco', 'Avisos de hueco'],
 ];
 
 test.beforeEach(async ({ page, backend }) => {
+  // Fixed salon "today" so availability's URL pin (`day=`) stays stable across CI days.
+  await page.clock.install({ time: new Date('2026-10-12T08:00:00Z') });
   await signedIn(page, backend);
 });
 

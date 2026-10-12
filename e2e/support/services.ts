@@ -68,6 +68,17 @@ export function mockServices(backend: MockBackend) {
   };
   const find = (id: string) => services.find((service) => service.id === id);
 
+  // Public catalog used by the availability overview (same DTOs as admin, without pagination).
+  backend.on('GET', '/services', (request) => {
+    const locale = localeOf(request.headers()['accept-language']);
+    return {
+      json: services
+        .filter((service) => service.isActive && service.showOnPublicSite)
+        .map((service) => dto(service, locale))
+        .sort((a, b) => a.displayOrder - b.displayOrder),
+    };
+  });
+
   backend.on('GET', '/admin/services', (request) => {
     const locale = localeOf(request.headers()['accept-language']);
     const query = new URL(request.url()).searchParams;

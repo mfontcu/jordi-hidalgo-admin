@@ -26,10 +26,10 @@ const SEED_RULE: Rule = {
 
 const SEED_SLOT: Body = {
   id: 'b-1',
-  starts_at: '2026-10-12T08:00:00Z',
-  ends_at: '2026-10-12T10:00:00Z',
+  start_at: '2026-10-12T08:00:00Z',
+  end_at: '2026-10-12T10:00:00Z',
   reason: 'Vacaciones',
-  is_full_day: false,
+  show_on_public_site: true,
   created_at: STAMP,
   updated_at: STAMP,
 };

@@ -24,4 +24,10 @@ export const appointmentsKeys = {
   formUsers: (role: 'customer' | 'admin', search: string) =>
     [...appointmentsKeys.formLookups(), 'users', role, search] as const,
   formClient: (userId: string) => [...appointmentsKeys.formLookups(), 'client', userId] as const,
+  /** Day agenda supporting reads (working hours, punctual blocks, recurring rules). */
+  agenda: () => [...appointmentsKeys.all, 'agenda'] as const,
+  agendaWorkingHours: () => [...appointmentsKeys.agenda(), 'working-hours'] as const,
+  agendaBlockedSlots: (dateFrom: string, dateTo: string, pageSize: number) =>
+    [...appointmentsKeys.agenda(), 'blocked', dateFrom, dateTo, pageSize] as const,
+  agendaRecurringRules: () => [...appointmentsKeys.agenda(), 'recurring'] as const,
 };

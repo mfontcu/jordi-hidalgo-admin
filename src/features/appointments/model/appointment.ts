@@ -10,7 +10,11 @@ export type AppointmentItem = {
   userId: string;
   customerName: string;
   customerAvatarUrl: string;
+  /** Empty when the API omits the nested service. */
+  serviceId: string;
   serviceName: string;
+  customerPhone: string;
+  customerEmail: string;
   start: string;
   /** The API's end, else the start plus the service's duration. */
   end: string;

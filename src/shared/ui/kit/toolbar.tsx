@@ -249,20 +249,36 @@ export function FilterPicker<T extends string>({
   );
 }
 
-type RemovableChipProps = { label: string; removeLabel: string; onRemove: () => void };
+type RemovableChipProps = {
+  label: string;
+  removeLabel: string;
+  onRemove: () => void;
+  /** Shorter chip for narrow toolbars (day agenda filters). */
+  dense?: boolean;
+};
 
 /** The active filter beside the search, with a button that removes it. */
-export function RemovableChip({ label, removeLabel, onRemove }: RemovableChipProps) {
+export function RemovableChip({ label, removeLabel, onRemove, dense = false }: RemovableChipProps) {
   return (
-    <span className="inline-flex h-8 max-w-full items-center gap-1 rounded-pill border border-selection-border bg-selection-bg pr-1 pl-3 text-body-md font-bold text-selection-fg">
+    <span
+      className={
+        dense
+          ? 'inline-flex h-7 max-w-full items-center gap-0.5 rounded-pill border border-selection-border bg-selection-bg pr-0.5 pl-2.5 text-[12px] font-bold text-selection-fg'
+          : 'inline-flex h-8 max-w-full items-center gap-1 rounded-pill border border-selection-border bg-selection-bg pr-1 pl-3 text-body-md font-bold text-selection-fg'
+      }
+    >
       <span className="truncate">{label}</span>
       <button
         type="button"
         aria-label={removeLabel}
         onClick={onRemove}
-        className="inline-flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-pill hover:bg-selection-fg/10"
+        className={
+          dense
+            ? 'inline-flex size-5 shrink-0 cursor-pointer items-center justify-center rounded-pill hover:bg-selection-fg/10'
+            : 'inline-flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-pill hover:bg-selection-fg/10'
+        }
       >
-        <Icon name="close_rounded" size={16} />
+        <Icon name="close_rounded" size={dense ? 14 : 16} />
       </button>
     </span>
   );

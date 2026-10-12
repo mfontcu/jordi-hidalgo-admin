@@ -28,6 +28,8 @@ import {
   nextDayOfWeekday,
   parseClockTime,
   startOfMonth,
+  startOfWeek,
+  weekDaysOf,
   weekdayOf,
 } from './business-time';
 
@@ -229,5 +231,19 @@ describe('weekdays', () => {
     expect(nextDayOfWeekday('2026-10-12', 1, false)).toBe('2026-10-19');
     expect(nextDayOfWeekday('2026-10-12', 3, false)).toBe('2026-10-14');
     expect(nextDayOfWeekday('2026-10-24', 7, true)).toBe('2026-10-25');
+  });
+
+  it('starts the week on Monday and lists its seven days', () => {
+    expect(startOfWeek('2026-10-14')).toBe('2026-10-12');
+    expect(startOfWeek('2026-10-12')).toBe('2026-10-12');
+    expect(weekDaysOf('2026-10-15')).toEqual([
+      '2026-10-12',
+      '2026-10-13',
+      '2026-10-14',
+      '2026-10-15',
+      '2026-10-16',
+      '2026-10-17',
+      '2026-10-18',
+    ]);
   });
 });
