@@ -106,7 +106,7 @@ export function ShiftEditor({
   );
 }
 
-const hintClass = 'mt-2 text-[13px] leading-[1.45] text-content-secondary';
+const hintClass = 'mt-2 text-label text-muted-foreground';
 
 type ContentProps = {
   /** In the sheet, the title and hint name the dialog; in the panel they are plain text. */
@@ -181,15 +181,15 @@ function EditorContent({ inSheet, day, slot, onSave, onDelete, onCancel }: Conte
   );
 
   return (
-    <div className={cn('flex flex-col px-[22px] pb-[22px]', inSheet ? 'pt-1' : 'pt-[22px]')}>
+    <div className={cn('flex flex-col px-5 pb-5', inSheet ? 'pt-1' : 'pt-5')}>
       <div className="flex items-start">
         <div className="min-w-0 flex-1">
           {inSheet ? (
-            <SheetTitle className="text-[22px] font-black">{title}</SheetTitle>
+            <SheetTitle className="text-heading">{title}</SheetTitle>
           ) : (
-            <h2 className="text-[22px] font-black text-on-surface">{title}</h2>
+            <h2 className="text-heading text-foreground">{title}</h2>
           )}
-          <p className="mt-1.5 text-[14px] font-bold text-accent-fg">{day.label}</p>
+          <p className="mt-1.5 text-body-strong text-foreground">{day.label}</p>
         </div>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -206,7 +206,7 @@ function EditorContent({ inSheet, day, slot, onSave, onDelete, onCancel }: Conte
         <p className={hintClass}>{text('scheduleEditTimeRangeHint')}</p>
       )}
       <div className={narrow ? 'mt-5 flex flex-col gap-4' : 'mt-5 grid grid-cols-2 gap-3'}>{fields}</div>
-      <div className={narrow ? 'mt-6 flex flex-col gap-3' : 'mt-6 flex gap-3 [&>*]:flex-1'}>
+      <div className={narrow ? 'mt-6 flex flex-col gap-3' : 'mt-6 flex flex-wrap gap-3'}>
         {save}
         {remove}
       </div>

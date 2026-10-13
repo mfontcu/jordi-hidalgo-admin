@@ -1,4 +1,4 @@
-import { useState, useSyncExternalStore, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 
 import {
   addDays,
@@ -27,27 +27,17 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '../primitives/sheet';
-import { AccentIcon } from './toolbar';
+import { AccentIcon, useWindowNarrowerThan } from './toolbar';
 
-/** Whether the window is narrower than `width` (Flutter `MediaQuery.sizeOf(context).width`). */
-export function useWindowNarrowerThan(width: number): boolean {
-  const query = `(max-width: ${width - 0.02}px)`;
-  return useSyncExternalStore(
-    (onChange) => {
-      const list = window.matchMedia(query);
-      list.addEventListener('change', onChange);
-      return () => {
-        list.removeEventListener('change', onChange);
-      };
-    },
-    () => window.matchMedia(query).matches,
-  );
-}
+export { useWindowNarrowerThan };
 
 export type ActionOption<T extends string> = { value: T; icon: IconName; label: string };
 
 type ActionPickerProps<T extends string> = {
-  /** A sheet from the bottom on compact layouts, a panel under the trigger otherwise. */
+  /**
+   * Kept so current screens still type-check. The container follows the viewport: a sheet under
+   * 768px, a popover from 768px.
+   */
   compact: boolean;
   trigger: ReactNode;
   title: string;
@@ -57,21 +47,19 @@ type ActionPickerProps<T extends string> = {
 };
 
 /**
- * A list of actions to pick one from (showAdminDateQuickPickSheet, showAdminActionListSheet): a
- * tile per option. Flutter opens a bottom sheet at every width; on wide layouts this opens a panel
- * under the trigger, as the list filter does.
+ * A list of actions to pick one from: a tile per option. Under 768px a sheet; from 768px a popover.
  */
 export function ActionPicker<T extends string>({
-  compact,
   trigger,
   title,
   subtitle,
   options,
   onPick,
 }: ActionPickerProps<T>) {
+  const sheet = useWindowNarrowerThan(768);
   const [open, setOpen] = useState(false);
   const tiles = (
-    <ul className="flex flex-col gap-2.5">
+    <ul className="flex flex-col gap-2">
       {options.map((option) => (
         <li key={option.value}>
           <button
@@ -80,18 +68,18 @@ export function ActionPicker<T extends string>({
               setOpen(false);
               onPick(option.value);
             }}
-            className="flex w-full cursor-pointer items-center gap-3 rounded-md border border-outline-variant bg-surface p-4 text-left hover:bg-[color-mix(in_srgb,var(--on-surface)_4%,var(--surface))]"
+            className="flex w-full cursor-pointer items-center gap-3 rounded-md border border-border bg-card p-3 text-left hover:bg-muted"
           >
             <AccentIcon name={option.icon} size={20} compact />
-            <span className="min-w-0 flex-1 font-bold text-on-surface">{option.label}</span>
-            <Icon name="chevron_right_rounded" className="text-icon-accent/65" />
+            <span className="min-w-0 flex-1 text-body-strong text-foreground">{option.label}</span>
+            <Icon name="chevron_right_rounded" size={20} className="text-muted-foreground" />
           </button>
         </li>
       ))}
     </ul>
   );
 
-  if (compact) {
+  if (sheet) {
     return (
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>{trigger}</SheetTrigger>
@@ -111,9 +99,9 @@ export function ActionPicker<T extends string>({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
-      <PopoverContent align="end" className="flex w-[420px] flex-col p-5">
-        <p className="text-dialog-title font-black text-on-surface">{title}</p>
-        <p className="mt-2 text-body-md leading-[1.5] text-content-secondary">{subtitle}</p>
+      <PopoverContent align="end" className="flex w-80 flex-col">
+        <p className="text-heading text-foreground">{title}</p>
+        <p className="mt-1 text-body text-muted-foreground">{subtitle}</p>
         <div className="mt-5">{tiles}</div>
       </PopoverContent>
     </Popover>
@@ -184,8 +172,8 @@ export function DateRangeDialog({ open, onOpenChange, ...props }: DateRangeDialo
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent aria-describedby={undefined} className="max-w-[720px] p-5">
-        <DialogTitle className="mb-4 text-[22px] font-black">{props.labels.title}</DialogTitle>
+      <DialogContent aria-describedby={undefined} className="max-w-[720px]">
+        <DialogTitle className="mb-4">{props.labels.title}</DialogTitle>
         {content}
       </DialogContent>
     </Dialog>
@@ -270,7 +258,7 @@ function DateRangeContent({
             tapEndpoint('start');
           }}
         />
-        <Icon name="arrow_forward_rounded" size={18} className="mx-2 text-content-secondary" />
+        <Icon name="arrow_forward_rounded" size={20} className="mx-2 text-muted-foreground" />
         <EndpointField
           label={labels.end}
           value={end ? formatDay(end) : labels.notSelected}
@@ -313,7 +301,7 @@ function DateRangeContent({
           }}
         />
       </div>
-      <div className="mt-4 rounded-lg border border-outline-variant bg-surface p-3.5">
+      <div className="mt-4 rounded-lg border border-border bg-card p-3">
         <div className="flex items-center">
           <Button
             variant="icon"
@@ -324,7 +312,7 @@ function DateRangeContent({
           >
             <Icon name="chevron_left_rounded" />
           </Button>
-          <p className="flex-1 text-center text-[15px] font-extrabold text-on-surface">
+          <p className="flex-1 text-center text-body-strong text-foreground">
             {months === 2 ? `${monthTitle(month)} – ${monthTitle(addMonths(month, 1))}` : monthTitle(month)}
           </p>
           <Button
@@ -356,7 +344,7 @@ function DateRangeContent({
             setSelection((current) => selectDay(current, dateToDay(value)));
           }}
           classNames={{
-            root: 'relative mt-2 w-full text-on-surface',
+            root: 'relative mt-2 w-full text-foreground',
             months: 'relative flex gap-3',
             month: 'flex min-w-0 flex-1 flex-col',
             month_caption: 'hidden',
@@ -391,14 +379,14 @@ function EndpointField({ label, value, active, onClick }: EndpointFieldProps) {
       aria-pressed={active}
       onClick={onClick}
       className={cn(
-        'flex min-w-0 flex-1 cursor-pointer flex-col items-start rounded-md bg-surface p-3 text-left hover:bg-[color-mix(in_srgb,var(--on-surface)_4%,var(--surface))]',
-        active ? 'border-[1.5px] border-accent-fg' : 'border border-outline-variant',
+        'flex min-w-0 flex-1 cursor-pointer flex-col items-start rounded-md bg-card p-3 text-left hover:bg-muted',
+        active ? 'border border-foreground' : 'border border-border',
       )}
     >
-      <span className={cn('text-[12px] font-bold', active ? 'text-accent-fg' : 'text-content-secondary')}>
+      <span className={cn('text-caption', active ? 'text-foreground' : 'text-muted-foreground')}>
         {label}
       </span>
-      <span className="mt-1 w-full truncate text-[15px] font-extrabold text-on-surface">{value}</span>
+      <span className="mt-1 w-full truncate text-body-strong text-foreground">{value}</span>
     </button>
   );
 }
@@ -417,8 +405,8 @@ function PresetChip({
       type="button"
       onClick={onClick}
       className={cn(
-        'inline-flex h-8 cursor-pointer items-center rounded-pill border border-outline-variant bg-surface px-4 text-body-md font-bold hover:bg-[color-mix(in_srgb,var(--on-surface)_8%,var(--surface))]',
-        muted ? 'text-content-secondary' : 'text-on-surface',
+        'inline-flex h-8 cursor-pointer items-center rounded-md border border-border bg-card px-3 text-label hover:bg-muted',
+        muted ? 'text-muted-foreground' : 'text-foreground',
       )}
     >
       {label}

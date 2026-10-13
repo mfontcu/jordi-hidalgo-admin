@@ -31,15 +31,13 @@ async function buttonNamed(name: string, index = 0) {
   return button;
 }
 
-/** Types a time in the picker that `field` opens (input mode, as with a mouse). */
+/** Types a clock time in the picker that `field` opens, then confirms. */
 async function pickTime(user: User, field: HTMLElement, time: string) {
   await user.click(field);
   const dialog = await screen.findByRole('dialog', { name: /Selecciona hora/ });
-  const [hour, minute] = time.split(':');
-  await user.clear(within(dialog).getByLabelText('Hora'));
-  await user.type(within(dialog).getByLabelText('Hora'), hour ?? '');
-  await user.clear(within(dialog).getByLabelText('Minuto'));
-  await user.type(within(dialog).getByLabelText('Minuto'), minute ?? '');
+  const input = within(dialog).getByLabelText('Hora');
+  await user.clear(input);
+  await user.type(input, time);
   await user.click(within(dialog).getByRole('button', { name: 'Seleccionar' }));
 }
 

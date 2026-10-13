@@ -36,38 +36,38 @@ export function ExceptionSheet({ rule, exception }: ExceptionSheetProps) {
 
   return (
     <Sheet open={exception.open} onOpenChange={exception.setOpen}>
-      <SheetContent className="rounded-t-[28px]">
+      <SheetContent>
         <div className="flex flex-col px-6 pt-1 pb-6">
-          <SheetTitle className="text-[24px] font-black">
+          <SheetTitle className="text-heading">
             {text('scheduleRecurringBlockedSlotExceptionSheetTitle')}
           </SheetTitle>
-          <SheetDescription className="mt-2 text-body-lg leading-[1.5] text-content-secondary">
+          <SheetDescription className="mt-2 text-body text-muted-foreground">
             {intl.formatMessage(
               { id: 'scheduleRecurringBlockedSlotExceptionSheetSubtitle' },
               { weekday, timeRange: range },
             )}
           </SheetDescription>
-          <MutedPanel className="mt-5 rounded-lg p-[18px]">
-            <p className="text-[18px] font-black text-on-surface">{dotted(weekday, range)}</p>
-            <p className="mt-2 leading-[1.45] text-content-secondary">{ruleReasonText(intl, rule)}</p>
+          <MutedPanel className="mt-5 rounded-lg p-4">
+            <p className="text-heading text-foreground">{dotted(weekday, range)}</p>
+            <p className="mt-2 text-body text-muted-foreground">{ruleReasonText(intl, rule)}</p>
           </MutedPanel>
-          <p className="mt-5 mb-2 font-extrabold text-on-surface">
+          <p className="mt-5 mb-2 text-body-strong text-foreground">
             {text('scheduleRecurringBlockedSlotExceptionDateLabel')}
           </p>
           <button
             type="button"
             aria-expanded={exception.calendarOpen}
             onClick={exception.toggleCalendar}
-            className="flex w-full cursor-pointer items-center gap-3 rounded-[18px] border border-outline-variant bg-surface p-4 text-left hover:bg-[color-mix(in_srgb,var(--on-surface)_4%,var(--surface))]"
+            className="flex w-full cursor-pointer items-center gap-3 rounded-md border border-border bg-card p-4 text-left hover:bg-muted"
           >
-            <Icon name="calendar_today_rounded" className="text-on-surface" />
-            <span className="min-w-0 flex-1 font-bold text-on-surface">
+            <Icon name="calendar_today_rounded" className="text-foreground" />
+            <span className="min-w-0 flex-1 text-body-strong text-foreground">
               {formatDay(exception.day, locale, 'paddedListDate')}
             </span>
-            <Icon name="calendar_month_rounded" className="text-content-secondary" />
+            <Icon name="calendar_month_rounded" className="text-muted-foreground" />
           </button>
           {exception.calendarOpen && days && (
-            <div className="mt-3 rounded-lg border border-outline-variant bg-surface px-2 pt-2 pb-3">
+            <div className="mt-3 rounded-lg border border-border bg-card px-2 pt-2 pb-3">
               <Calendar
                 mode="single"
                 language={locale}
@@ -93,7 +93,7 @@ export function ExceptionSheet({ rule, exception }: ExceptionSheetProps) {
               </div>
             </div>
           )}
-          <Label htmlFor={reasonId} className="mt-[18px] mb-2 font-extrabold">
+          <Label htmlFor={reasonId} className="mt-4 mb-2 text-body-strong">
             {text('scheduleRecurringBlockedSlotExceptionReasonLabel')}
           </Label>
           <Textarea
@@ -106,7 +106,7 @@ export function ExceptionSheet({ rule, exception }: ExceptionSheetProps) {
               exception.setReason(event.target.value);
             }}
           />
-          <div className="mt-6 flex gap-3 [&>*]:flex-1">
+          <div className="mt-6 flex justify-end gap-3">
             <Button
               variant="secondary"
               icon="close_rounded"

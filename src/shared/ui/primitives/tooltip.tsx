@@ -5,7 +5,7 @@ import { cn } from '@/shared/lib/cn';
 
 import { usePortalContainer } from '../portal-container';
 
-/** Wrap the app once. Like Flutter's Tooltip, it shows with no delay on hover. */
+/** Wrap the app once. Shows with no delay on hover. */
 export function TooltipProvider({
   delayDuration = 0,
   ...props
@@ -16,10 +16,7 @@ export function TooltipProvider({
 export const Tooltip = TooltipPrimitive.Root;
 export const TooltipTrigger = TooltipPrimitive.Trigger;
 
-/**
- * Material tooltip (Flutter defaults): grey 90% in light mode and white 90% in dark mode, 4px
- * radius, below the target; 12px text and 24px height on desktop, 14px and 32px on touch.
- */
+/** Ink tooltip on a light page, paper tooltip in dark. Border, 8px radius, no shadow. */
 export function TooltipContent({
   className,
   side = 'bottom',
@@ -33,8 +30,7 @@ export function TooltipContent({
         side={side}
         sideOffset={sideOffset}
         className={cn(
-          'z-50 flex min-h-6 max-w-xs items-center rounded-m3-small bg-tooltip-bg px-2 py-1 text-body-sm text-tooltip-fg',
-          'pointer-coarse:min-h-8 pointer-coarse:px-4 pointer-coarse:text-body-md',
+          'z-50 flex max-w-xs items-center rounded-lg border border-border bg-foreground px-2 py-1 text-caption text-background',
           'data-[state=delayed-open]:animate-fade-in data-[state=instant-open]:animate-fade-in data-[state=closed]:animate-fade-out',
           className,
         )}

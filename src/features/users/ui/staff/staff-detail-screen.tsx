@@ -47,11 +47,9 @@ export function StaffDetailScreen() {
           <PageHeader
             title={intl.formatMessage({ id: 'staffDetailTitle' })}
             subtitle={intl.formatMessage({ id: 'staffDetailSubtitle' })}
-            titleSize={layout.titleSize}
-            subtitleSize={layout.subtitleSize}
             back={{ label: intl.formatMessage({ id: 'staffBackToList' }), onClick: detail.goBack }}
           />
-          <div style={{ marginTop: width < 700 ? 12 : layout.gap }}>
+          <div style={{ marginTop: width < 768 ? 12 : layout.gap }}>
             {detail.isLoading ? (
               <div className="flex justify-center py-12">
                 <Spinner size={36} className="text-primary" />
@@ -124,7 +122,7 @@ function StaffDetailContent({
   const notes = (
     <InfoCard title={text('clientNotesSectionTitle')} icon="sticky_note_2_outlined">
       <MutedPanel>
-        <p className="leading-[1.5] whitespace-pre-line text-content-secondary">
+        <p className="text-body whitespace-pre-line text-muted-foreground">
           {user.internalNotes.trim() || text('clientNotesEmpty')}
         </p>
       </MutedPanel>
@@ -184,8 +182,8 @@ function StaffDetailContent({
             <div className="flex items-center gap-4">
               <Avatar src={user.avatarUrl} size={72} viewLabel={text('adminUserViewPhoto')} />
               <div className="min-w-0 flex-1">
-                <p className="text-[28px] leading-[1.05] font-black text-on-surface">{name}</p>
-                <p className="mt-2 text-[15px] leading-[1.5] text-content-secondary">
+                <p className="text-title text-foreground">{name}</p>
+                <p className="mt-2 text-body text-muted-foreground">
                   {intl.formatMessage({ id: 'staffRegisteredSummary' }, { date: registered })}
                 </p>
               </div>

@@ -170,9 +170,9 @@ export function UnsavedChangesGuard({ when, labels }: UnsavedChangesGuardProps) 
 export function LoadingBarrier({ message }: { message: ReactNode }) {
   return (
     <div role="status" className="fixed inset-0 z-50 flex items-center justify-center bg-black/45">
-      <div className="flex items-center gap-[18px] rounded-lg bg-surface px-7 py-[22px] shadow-m3-3">
-        <Spinner size={28} className="text-primary" />
-        <span className="text-[16px] font-extrabold text-on-surface">{message}</span>
+      <div className="flex items-center gap-4 rounded-lg border border-border bg-card px-5 py-4">
+        <Spinner size={20} className="text-foreground" />
+        <span className="text-body-strong text-foreground">{message}</span>
       </div>
     </div>
   );

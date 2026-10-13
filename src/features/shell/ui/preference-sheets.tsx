@@ -47,11 +47,7 @@ type OptionSheetProps<T extends string> = SheetProps & {
   onSelect: (value: T) => void;
 };
 
-/**
- * The app_ui selector sheets: a plain modal bottom sheet (no drag handle, Material's 640px maximum
- * width, 24px top corners), a centered 18/w800 title, and one outlined tile per option with a
- * radio icon.
- */
+/** Language and theme sheets: a centered heading and one outlined option per choice. */
 function OptionSheet<T extends string>({
   open,
   onOpenChange,
@@ -63,11 +59,9 @@ function OptionSheet<T extends string>({
   const intl = useIntl();
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent handle={false} aria-describedby={undefined} className="min-[700px]:max-w-[640px]">
+      <SheetContent handle={false} aria-describedby={undefined}>
         <div className="flex flex-col px-4 pt-5 pb-6">
-          <SheetTitle className="text-center text-title-lg font-extrabold">
-            {intl.formatMessage({ id: title })}
-          </SheetTitle>
+          <SheetTitle className="text-center text-heading">{intl.formatMessage({ id: title })}</SheetTitle>
           <div
             role="radiogroup"
             aria-label={intl.formatMessage({ id: title })}
@@ -85,10 +79,9 @@ function OptionSheet<T extends string>({
                     onSelect(option.value);
                     onOpenChange(false);
                   }}
-                  // _ThemeOptionTile: 18px radius, onSurface border when selected, 16x14 padding, 15/w700.
                   className={cn(
-                    'min-h-0 justify-between rounded-[18px] px-4 py-3.5 text-[15px] font-bold',
-                    checked ? 'border-on-surface' : 'border-outline-variant',
+                    'min-h-0 justify-between rounded-md px-4 py-3.5 text-body-strong',
+                    checked ? 'border-foreground' : 'border-border',
                   )}
                 >
                   {intl.formatMessage({ id: option.label })}

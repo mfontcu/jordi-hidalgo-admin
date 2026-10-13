@@ -2,12 +2,12 @@ import { cn } from './cn';
 
 describe('cn', () => {
   it('keeps a type-scale size next to a text color', () => {
-    expect(cn('text-body-md text-on-surface')).toBe('text-body-md text-on-surface');
+    expect(cn('text-body text-foreground')).toBe('text-body text-foreground');
   });
 
   it('lets the last of two conflicting utilities win', () => {
-    expect(cn('text-body-md', 'text-title-lg')).toBe('text-title-lg');
-    expect(cn('bg-surface', 'bg-primary')).toBe('bg-primary');
+    expect(cn('text-body', 'text-heading')).toBe('text-heading');
+    expect(cn('bg-card', 'bg-primary')).toBe('bg-primary');
     expect(cn('rounded-md', 'rounded-pill')).toBe('rounded-pill');
   });
 

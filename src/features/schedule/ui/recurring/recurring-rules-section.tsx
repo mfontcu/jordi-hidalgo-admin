@@ -100,16 +100,11 @@ function Summary({ list }: { list: List }) {
   const text = textOf(intl);
   const summary = list.list?.summary;
   const next = list.list ? nextRuleOf(list.list) : null;
-  const card = (
-    key: 'ActiveRules' | 'AffectedDays' | 'WeeklyRanges' | 'NextApplication',
-    value: string,
-    valueSize?: number,
-  ) => (
+  const card = (key: 'ActiveRules' | 'AffectedDays' | 'WeeklyRanges' | 'NextApplication', value: string) => (
     <StatCard
       title={text(`scheduleRecurringSummary${key}Title`)}
       value={value}
       subtitle={text(`scheduleRecurringSummary${key}Subtitle`)}
-      valueSize={valueSize}
     />
   );
   return (
@@ -117,7 +112,7 @@ function Summary({ list }: { list: List }) {
       {card('ActiveRules', String(summary?.activeRules ?? 0))}
       {card('AffectedDays', String(summary?.affectedDays ?? 0))}
       {card('WeeklyRanges', String(summary?.weeklyRanges ?? 0))}
-      {card('NextApplication', next ? nextOccurrenceLabel(next, list.today, localeOf(intl)) : '—', 24)}
+      {card('NextApplication', next ? nextOccurrenceLabel(next, list.today, localeOf(intl)) : '—')}
     </SummaryGrid>
   );
 }

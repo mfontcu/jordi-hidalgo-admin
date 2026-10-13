@@ -18,9 +18,9 @@ export function SidebarIconButton({ icon, label, onClick, small = false }: Sideb
           variant="icon"
           aria-label={label}
           onClick={onClick}
-          className={cn('text-sidebar-foreground-muted', small && 'h-7 w-8 min-h-0')}
+          className={cn('text-sidebar-muted', small && 'h-7 w-8 min-h-0')}
         >
-          <Icon name={icon} size={small ? 20 : 24} />
+          <Icon name={icon} size={20} />
         </Button>
       </TooltipTrigger>
       <TooltipContent>{label}</TooltipContent>

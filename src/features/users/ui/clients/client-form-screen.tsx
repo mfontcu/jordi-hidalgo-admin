@@ -32,7 +32,7 @@ import type { ClientFormInput } from '../../model/client-form';
 /** ClientFormScreen's layout: compact under 960px of content. */
 function formLayoutFor(width: number) {
   const compact = width < 960;
-  return { compact, padding: compact ? 16 : 24, titleSize: compact ? 24 : 30 };
+  return { compact, padding: compact ? 16 : 24 };
 }
 
 type Layout = ReturnType<typeof formLayoutFor>;
@@ -69,12 +69,10 @@ export function ClientFormScreen() {
           <PageHeader
             title={intl.formatMessage({ id: data.isEdit ? 'clientFormEditTitle' : 'clientFormNewTitle' })}
             subtitle={intl.formatMessage({ id: subtitle })}
-            titleSize={layout.titleSize}
-            subtitleSize={14}
             back={{ label: backLabel, onClick: data.goBack }}
             backAlign="center"
           />
-          <div style={{ marginTop: width < 700 ? 12 : 24 }}>
+          <div style={{ marginTop: width < 768 ? 12 : 24 }}>
             {data.isLoading ? (
               <div className="flex justify-center py-12">
                 <Spinner size={36} className="text-primary" />
@@ -143,7 +141,7 @@ function ClientFormContent({ user, layout, onCancel }: ContentProps) {
           type={name === 'email' ? 'email' : 'text'}
           placeholder={text(hint)}
           readOnly={locked}
-          className={cn(locked && 'bg-surface-muted')}
+          className={cn(locked && 'bg-card')}
           {...described(id, error)}
           {...register(name)}
         />
@@ -235,8 +233,8 @@ function ClientFormContent({ user, layout, onCancel }: ContentProps) {
   const status = user ? clientStatus(user) : null;
   const statusField = status ? (
     <MutedPanel className="flex items-center gap-3 p-3.5">
-      <span className="flex-1 font-bold text-on-surface">{text('clientAccountStatusTitle')}</span>
-      <span className="font-bold text-content-secondary">{text(status.label)}</span>
+      <span className="flex-1 font-bold text-foreground">{text('clientAccountStatusTitle')}</span>
+      <span className="font-bold text-muted-foreground">{text(status.label)}</span>
     </MutedPanel>
   ) : (
     <Controller
@@ -244,7 +242,7 @@ function ClientFormContent({ user, layout, onCancel }: ContentProps) {
       name="isActive"
       render={({ field: { value, onChange } }) => (
         <MutedPanel className="flex items-center gap-3 p-3.5">
-          <label htmlFor="client-isActive" className="flex-1 font-bold text-on-surface">
+          <label htmlFor="client-isActive" className="flex-1 font-bold text-foreground">
             {text('clientActiveOnCreate')}
           </label>
           <Switch id="client-isActive" checked={value} onCheckedChange={onChange} />

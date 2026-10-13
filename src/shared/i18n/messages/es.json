@@ -1147,7 +1147,7 @@
   "slotWatchAdminViewAppointment": "Ver cita",
   "slotWatchAdminViewClient": "Ver cliente",
   "devKitTitle": "Kit visual",
-  "devKitSubtitle": "Solo en desarrollo. Compáralo con el panel Flutter en claro y en oscuro.",
+  "devKitSubtitle": "Solo en desarrollo. Tablero de revisión del sistema visual, en claro y en oscuro.",
   "devKitModeBoth": "Lado a lado",
   "devKitSectionColors": "Colores",
   "devKitSectionTypography": "Tipografía",

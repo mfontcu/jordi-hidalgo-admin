@@ -25,9 +25,9 @@ import { useAppointmentForm } from '../hooks/use-appointment-form';
 import { TimeSlotPicker } from './time-slot-picker';
 
 function formLayoutFor(width: number) {
-  if (width < 640) return { padding: 16, gap: 20, titleSize: 24, subtitleSize: 14, twoColumns: false };
-  if (width < 1040) return { padding: 20, gap: 22, titleSize: 28, subtitleSize: 14, twoColumns: false };
-  return { padding: 24, gap: 24, titleSize: 30, subtitleSize: 15, twoColumns: true };
+  if (width < 640) return { padding: 16, gap: 20, twoColumns: false };
+  if (width < 1040) return { padding: 20, gap: 22, twoColumns: false };
+  return { padding: 24, gap: 24, twoColumns: true };
 }
 
 /** `/appointments/form` (AppointmentFormScreen). */
@@ -51,13 +51,11 @@ export function AppointmentFormScreen() {
           <PageHeader
             title={text('appointmentFormNewTitle')}
             subtitle={text('appointmentFormNewSubtitle')}
-            titleSize={layout.titleSize}
-            subtitleSize={layout.subtitleSize}
             back={{ label: backLabel, onClick: form.goBack }}
           />
           <form
             className="flex flex-col gap-5"
-            style={{ marginTop: width < 700 ? 12 : layout.gap }}
+            style={{ marginTop: width < 768 ? 12 : layout.gap }}
             onSubmit={(event) => {
               event.preventDefault();
               form.submit();
@@ -104,7 +102,7 @@ export function AppointmentFormScreen() {
                         ),
                       }}
                     >
-                      <div className="border-b border-outline-variant p-2">
+                      <div className="border-b border-border p-2">
                         <SearchField
                           value={form.clientSearchText}
                           onValueChange={form.setClientSearchText}
@@ -134,7 +132,7 @@ export function AppointmentFormScreen() {
                       </Button>
                     )}
                     {form.clientDetailLoading && (
-                      <p className="text-[13px] text-content-secondary">
+                      <p className="text-label text-muted-foreground">
                         {text('appointmentClientOperationalLoading')}
                       </p>
                     )}
@@ -161,7 +159,7 @@ export function AppointmentFormScreen() {
                         ),
                       }}
                     >
-                      <div className="border-b border-outline-variant p-2">
+                      <div className="border-b border-border p-2">
                         <SearchField
                           value={form.serviceSearchText}
                           onValueChange={form.setServiceSearchText}
@@ -196,7 +194,7 @@ export function AppointmentFormScreen() {
                 <InfoCard title={text('appointmentFormSectionStatusNotes')} icon="sticky_note_2_outlined">
                   <div className="flex flex-col gap-4">
                     <MutedPanel className="flex items-center justify-between gap-3 p-4">
-                      <p className="text-[15px] font-bold text-on-surface">
+                      <p className="text-body-strong text-foreground">
                         {text(form.confirmed ? 'appointmentFormConfirmed' : 'appointmentFormPending')}
                       </p>
                       <Switch

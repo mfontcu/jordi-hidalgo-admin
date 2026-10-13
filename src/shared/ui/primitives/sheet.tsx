@@ -11,15 +11,14 @@ export const SheetTrigger = SheetPrimitive.Trigger;
 export const SheetClose = SheetPrimitive.Close;
 
 /**
- * Modal bottom sheet (showAdminModalBottomSheet): rises from the bottom with a drag handle, surface
- * color, AdminRadius.xl top corners, full width on narrow screens and at most 720px wide otherwise.
- * `handle={false}` leaves out the drag handle, as a plain showModalBottomSheet does.
+ * Bottom sheet: 8px radius on the top corners, full width under 768px and at most 480px from
+ * there. No drag handle. `handle` stays on the props so existing call sites still type-check.
  */
 export function SheetContent({
   className,
   overlayClassName,
   children,
-  handle = true,
+  handle: _handle = true, // eslint-disable-line @typescript-eslint/no-unused-vars -- kept off the DOM; call sites still pass it
   ...props
 }: ComponentProps<typeof SheetPrimitive.Content> & { handle?: boolean; overlayClassName?: string }) {
   const container = usePortalContainer();
@@ -28,28 +27,22 @@ export function SheetContent({
       <DialogOverlay className={overlayClassName} />
       <SheetPrimitive.Content
         className={cn(
-          'fixed inset-x-0 bottom-0 z-50 mx-auto flex max-h-dvh w-full flex-col overflow-y-auto min-[700px]:max-w-[720px]',
-          'rounded-t-xl bg-surface text-on-surface outline-none',
+          'fixed inset-x-0 bottom-0 z-50 mx-auto flex max-h-dvh w-full flex-col overflow-y-auto min-[768px]:max-w-[480px]',
+          'rounded-t-lg bg-card text-foreground outline-none',
           'data-[state=open]:animate-sheet-in data-[state=closed]:animate-sheet-out',
           className,
         )}
         {...props}
       >
-        {/* Material 3 drag handle: 32x4, on-surface-variant at 40%, in a 48px-high area. */}
-        {handle && (
-          <div aria-hidden className="flex h-12 shrink-0 items-center justify-center">
-            <div className="h-1 w-8 rounded-pill bg-on-surface-variant/40" />
-          </div>
-        )}
         {children}
       </SheetPrimitive.Content>
     </SheetPrimitive.Portal>
   );
 }
 
-/** Body of a sheet (AdminSheetScaffold): 20px side and bottom padding, 8px under the handle. */
+/** Body of a sheet: 20px padding. */
 export function SheetBody({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cn('flex flex-col px-5 pt-2 pb-5', className)} {...props} />;
+  return <div className={cn('flex flex-col p-5', className)} {...props} />;
 }
 
 export function SheetHeader({ className, ...props }: ComponentProps<'div'>) {
@@ -61,19 +54,11 @@ export function SheetFooter({ className, ...props }: ComponentProps<'div'>) {
 }
 
 export function SheetTitle({ className, ...props }: ComponentProps<typeof SheetPrimitive.Title>) {
-  return (
-    <SheetPrimitive.Title
-      className={cn('text-dialog-title font-black text-on-surface', className)}
-      {...props}
-    />
-  );
+  return <SheetPrimitive.Title className={cn('text-heading text-foreground', className)} {...props} />;
 }
 
 export function SheetDescription({ className, ...props }: ComponentProps<typeof SheetPrimitive.Description>) {
   return (
-    <SheetPrimitive.Description
-      className={cn('text-body-md leading-[1.5] text-content-secondary', className)}
-      {...props}
-    />
+    <SheetPrimitive.Description className={cn('text-body text-muted-foreground', className)} {...props} />
   );
 }

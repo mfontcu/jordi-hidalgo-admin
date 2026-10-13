@@ -1,12 +1,10 @@
-/* Roboto, Flutter web's default font, served from the panel itself (the CSP allows only 'self'). */
-/* Latin and Latin Extended cover es, ca, and en; weights used by the theme and Material 3. */
-@import '@fontsource/roboto/latin-400.css';
-@import '@fontsource/roboto/latin-ext-400.css';
-@import '@fontsource/roboto/latin-500.css';
-@import '@fontsource/roboto/latin-ext-500.css';
-@import '@fontsource/roboto/latin-700.css';
-@import '@fontsource/roboto/latin-ext-700.css';
-@import '@fontsource/roboto/latin-800.css';
-@import '@fontsource/roboto/latin-ext-800.css';
-@import '@fontsource/roboto/latin-900.css';
-@import '@fontsource/roboto/latin-ext-900.css';
+/* Source Sans 3, self-hosted (the CSP allows only 'self'). */
+/* Latin and Latin Extended cover es, ca, and en. Weights 400, 500, 600, and 700. */
+@import '@fontsource/source-sans-3/latin-400.css';
+@import '@fontsource/source-sans-3/latin-ext-400.css';
+@import '@fontsource/source-sans-3/latin-500.css';
+@import '@fontsource/source-sans-3/latin-ext-500.css';
+@import '@fontsource/source-sans-3/latin-600.css';
+@import '@fontsource/source-sans-3/latin-ext-600.css';
+@import '@fontsource/source-sans-3/latin-700.css';
+@import '@fontsource/source-sans-3/latin-ext-700.css';

@@ -111,12 +111,12 @@ export function LegalTab({ documents, selectedCode, onSelectCode }: LegalTabProp
                 className={cn(
                   'rounded-lg border px-4 py-3 text-left',
                   doc.code === legal.selected?.code
-                    ? 'border-selection-border bg-selection-bg'
-                    : 'border-outline-variant hover:bg-[color-mix(in_srgb,var(--on-surface)_4%,var(--surface))]',
+                    ? 'border-border bg-selection-wash'
+                    : 'border-border hover:bg-[color-mix(in_srgb,var(--foreground)_4%,var(--card))]',
                 )}
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-extrabold text-on-surface">{docLabel(doc)}</span>
+                  <span className="text-body-strong text-foreground">{docLabel(doc)}</span>
                   <StatusPill
                     tone={doc.isActive ? 'success' : 'neutral'}
                     label={doc.isActive ? text('legalStatusActive') : text('legalStatusInactive')}
@@ -125,12 +125,12 @@ export function LegalTab({ documents, selectedCode, onSelectCode }: LegalTabProp
               </button>
             ))}
           </div>
-          <div className="w-px shrink-0 bg-outline-variant" />
+          <div className="w-px shrink-0 bg-border" />
           <div className="min-w-0 flex-1">
             {legal.selected ? (
               <LegalEditor legal={legal} docLabel={docLabel(legal.selected)} />
             ) : (
-              <p className="text-body-md text-content-secondary">{text('legalSelectDocument')}</p>
+              <p className="text-body text-muted-foreground">{text('legalSelectDocument')}</p>
             )}
           </div>
         </div>
@@ -142,12 +142,12 @@ export function LegalTab({ documents, selectedCode, onSelectCode }: LegalTabProp
               <details
                 key={doc.code}
                 open={open}
-                className="rounded-lg border border-outline-variant"
+                className="rounded-lg border border-border"
                 onToggle={(event) => {
                   if ((event.target as HTMLDetailsElement).open) legal.selectDocument(doc.code);
                 }}
               >
-                <summary className="cursor-pointer list-none px-4 py-3 font-extrabold text-on-surface">
+                <summary className="cursor-pointer list-none px-4 py-3 text-body-strong text-foreground">
                   <div className="flex items-center justify-between gap-2">
                     <span>{docLabel(doc)}</span>
                     <StatusPill
@@ -156,7 +156,7 @@ export function LegalTab({ documents, selectedCode, onSelectCode }: LegalTabProp
                     />
                   </div>
                 </summary>
-                <div className="border-t border-outline-variant px-4 py-4">
+                <div className="border-t border-border px-4 py-4">
                   {legal.selected?.code === doc.code ? (
                     <LegalEditor legal={legal} docLabel={docLabel(doc)} />
                   ) : null}
@@ -179,9 +179,9 @@ function LegalEditor({ legal, docLabel }: { legal: ReturnType<typeof useLegal>; 
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h3 className="text-[18px] font-extrabold text-on-surface">{docLabel}</h3>
+        <h3 className="text-heading text-foreground">{docLabel}</h3>
         <div className="flex items-center gap-3">
-          <span className="text-body-md text-content-secondary">
+          <span className="text-body text-muted-foreground">
             {doc.isActive ? text('legalStatusActive') : text('legalStatusInactive')}
           </span>
           <Switch
@@ -196,7 +196,7 @@ function LegalEditor({ legal, docLabel }: { legal: ReturnType<typeof useLegal>; 
       </div>
 
       <div>
-        <p className="mb-2 text-label-lg font-bold text-on-surface">{text('legalVisibilityHeading')}</p>
+        <p className="mb-2 text-body-strong text-foreground">{text('legalVisibilityHeading')}</p>
         <SurfacesChips
           value={doc.publicSurfaces}
           disabled={legal.isSavingSurfaces(doc.code)}

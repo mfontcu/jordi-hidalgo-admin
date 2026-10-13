@@ -121,15 +121,15 @@ function ClientCell({ watch }: { watch: SlotWatch }) {
   return (
     <span className="flex min-w-0 items-center gap-1.5">
       <span className="min-w-0">
-        <span className="block truncate font-bold text-on-surface">{name}</span>
-        {email && <span className="block truncate text-[13px] text-content-secondary">{email}</span>}
+        <span className="block truncate font-bold text-foreground">{name}</span>
+        {email && <span className="block truncate text-label text-muted-foreground">{email}</span>}
       </span>
       {isUpgrade(watch) && (
         <Icon
           name="upgrade_rounded"
           size={18}
           label={text('slotWatchAdminUpgrade')}
-          className="text-info-fg"
+          className="text-selection"
         />
       )}
     </span>
@@ -145,7 +145,7 @@ function SlotWatchTable({ rows, isCancelling, onOpen, onClient, onCancel, footer
 
   const columns = useMemo((): DataTableColumn<SlotWatch>[] => {
     const secondary = (value: string) => (
-      <span className="block truncate text-content-secondary">{value}</span>
+      <span className="block truncate text-muted-foreground">{value}</span>
     );
     const windowColumn: DataTableColumn<SlotWatch> = {
       id: 'window',
@@ -155,8 +155,8 @@ function SlotWatchTable({ rows, isCancelling, onOpen, onClient, onCancel, footer
       grow: 3,
       cell: (watch) => (
         <span className="block min-w-0">
-          <span className="block truncate text-on-surface">{datesOf(watch)}</span>
-          <span className="block truncate text-[13px] text-content-secondary">{windowOf(watch)}</span>
+          <span className="block truncate text-foreground">{datesOf(watch)}</span>
+          <span className="block truncate text-label text-muted-foreground">{windowOf(watch)}</span>
         </span>
       ),
     };
@@ -210,7 +210,7 @@ function SlotWatchTable({ rows, isCancelling, onOpen, onClient, onCancel, footer
         initialWidth: 160,
         minWidth: 120,
         grow: 2,
-        cell: (watch) => <span className="block truncate text-on-surface">{serviceName(watch)}</span>,
+        cell: (watch) => <span className="block truncate text-foreground">{serviceName(watch)}</span>,
       },
       windowColumn,
       {
@@ -228,7 +228,7 @@ function SlotWatchTable({ rows, isCancelling, onOpen, onClient, onCancel, footer
         header: text('slotWatchAdminColumnNotified'),
         fixedWidth: 130,
         align: 'center',
-        cell: (watch) => <span className="font-bold text-on-surface">{watch.notifyCount}</span>,
+        cell: (watch) => <span className="font-bold text-foreground">{watch.notifyCount}</span>,
       },
       {
         id: 'expires',
@@ -300,8 +300,8 @@ function SlotWatchCard({
       status={<SlotWatchStatus watch={watch} />}
       note={
         isUpgrade(watch) ? (
-          <span className="mt-2 flex items-center gap-1.5 text-content-secondary">
-            <Icon name="upgrade_rounded" size={18} className="text-info-fg" />
+          <span className="mt-2 flex items-center gap-1.5 text-muted-foreground">
+            <Icon name="upgrade_rounded" size={18} className="text-selection" />
             {text('slotWatchAdminUpgrade')}
           </span>
         ) : undefined

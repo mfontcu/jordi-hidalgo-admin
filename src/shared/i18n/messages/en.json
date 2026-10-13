@@ -1147,7 +1147,7 @@
   "slotWatchAdminViewAppointment": "View appointment",
   "slotWatchAdminViewClient": "View customer",
   "devKitTitle": "Visual kit",
-  "devKitSubtitle": "Development only. Compare it with the Flutter panel in light and dark mode.",
+  "devKitSubtitle": "Development only. Review board of the visual system, in light and dark mode.",
   "devKitModeBoth": "Side by side",
   "devKitSectionColors": "Colors",
   "devKitSectionTypography": "Typography",

@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 
 import { useDescribeFailure, type MessageId } from '@/shared/i18n';
 import { addDays, type BusinessDay, type DateLocale } from '@/shared/lib/business-time';
+import { cn } from '@/shared/lib/cn';
 import {
   Button,
   ConfirmDialog,
@@ -94,7 +95,7 @@ export function DayAgendaScreen() {
         }
       >
         {agenda.selectedDayClosed && agenda.layoutScope === 'day' ? (
-          <p className="mb-3 rounded-lg border border-warning-fg/30 bg-warning-bg px-3 py-2 text-sm font-semibold text-warning-fg">
+          <p className="mb-3 rounded-lg border border-warning/30 bg-warning-wash px-3 py-2 text-body-strong text-warning">
             {text('dayAgendaClosedDayBanner')}
           </p>
         ) : null}
@@ -292,12 +293,12 @@ function DayAgendaToolbar({ agenda, onPickDay }: { agenda: Agenda; onPickDay: ()
           </div>
         ) : null}
         {agenda.showAppointments ? (
-          <span className="text-sm font-semibold text-content-secondary">
+          <span className="text-body-strong text-muted-foreground">
             {text('dayAgendaCountAppointments', { count: agenda.summary.total })}
           </span>
         ) : null}
         {agenda.showBlockedSlots ? (
-          <span className="text-sm font-semibold text-content-secondary">
+          <span className="text-body-strong text-muted-foreground">
             {text('dayAgendaCountBlockedSlots', { count: agenda.blockedSlots.length })}
           </span>
         ) : null}
@@ -424,15 +425,13 @@ function LayerToggle({
       onClick={() => {
         onPressedChange(!pressed);
       }}
-      className={
+      className={cn(
+        'rounded-md border px-3 py-1.5 text-label',
+        dense && 'px-2.5 py-1',
         pressed
-          ? dense
-            ? 'rounded-pill border border-selection-border bg-selection-bg px-2.5 py-1 text-[12px] font-bold text-selection-fg'
-            : 'rounded-pill border border-selection-border bg-selection-bg px-3 py-1.5 text-sm font-bold text-selection-fg'
-          : dense
-            ? 'rounded-pill border border-border bg-surface px-2.5 py-1 text-[12px] font-bold text-content-secondary'
-            : 'rounded-pill border border-border bg-surface px-3 py-1.5 text-sm font-bold text-content-secondary'
-      }
+          ? 'border-border bg-selection-wash text-selection'
+          : 'border-border bg-card text-muted-foreground',
+      )}
     >
       {label}
     </button>

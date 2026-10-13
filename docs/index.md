@@ -12,10 +12,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-13T09:35:00Z'
+  at: '2026-10-13T15:10:00Z'
 verified:
-  - by: "human:mfontcuberta"
-    at: "2026-10-13T09:41:23Z"
+  - by: 'human:mfontcuberta'
+    at: '2026-10-13T15:10:00Z'
 ---
 
 # Hidalgo Junior admin panel
@@ -33,3 +33,4 @@ Reading order:
 4. [Backend API consumption](./contracts/backend-api.md): every backend operation the panel calls and how errors are handled.
 5. [Operations](./operations.md): configuration, release, rollback, observability, troubleshooting.
 6. [Coverage matrix](./coverage-matrix.md): where each enumerated item is documented.
+7. [Design system](./design-system.md): tokens, type, layout, and component anatomy.

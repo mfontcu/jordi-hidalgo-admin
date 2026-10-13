@@ -20,9 +20,9 @@ import { formatPrice, statusLabelOf } from '../model/appointment';
 import { TimeSlotPicker } from './time-slot-picker';
 
 function formLayoutFor(width: number) {
-  if (width < 640) return { padding: 16, gap: 20, titleSize: 24, subtitleSize: 14 };
-  if (width < 1040) return { padding: 20, gap: 22, titleSize: 28, subtitleSize: 14 };
-  return { padding: 24, gap: 24, titleSize: 30, subtitleSize: 15 };
+  if (width < 640) return { padding: 16, gap: 20 };
+  if (width < 1040) return { padding: 20, gap: 22 };
+  return { padding: 24, gap: 24 };
 }
 
 /** `/appointments/{id}/reschedule` (AppointmentRescheduleScreen). */
@@ -59,11 +59,9 @@ export function AppointmentRescheduleScreen() {
           <PageHeader
             title={text('appointmentRescheduleTitle')}
             subtitle={text('appointmentRescheduleSubtitle')}
-            titleSize={layout.titleSize}
-            subtitleSize={layout.subtitleSize}
             back={{ label: text('appointmentBackToDetail'), onClick: reschedule.goBack }}
           />
-          <div style={{ marginTop: width < 700 ? 12 : layout.gap }} className="flex flex-col gap-5">
+          <div style={{ marginTop: width < 768 ? 12 : layout.gap }} className="flex flex-col gap-5">
             {reschedule.isLoading ? (
               <div className="flex justify-center py-12">
                 <Spinner size={36} className="text-primary" />
@@ -82,14 +80,14 @@ export function AppointmentRescheduleScreen() {
             ) : (
               <>
                 <SummaryCard className="p-5">
-                  <p className="text-[14px] font-bold text-content-secondary">
+                  <p className="text-label text-muted-foreground">
                     {text('appointmentRescheduleSectionCurrent')}
                   </p>
-                  <p className="mt-2 text-[28px] leading-[1.05] font-black text-on-surface">
+                  <p className="mt-2 text-title text-foreground">
                     {appointment.customerName.trim() || text('appointmentNoClient')}
                   </p>
-                  <p className="mt-2 text-[15px] leading-[1.5] text-content-secondary">{currentWhen}</p>
-                  <p className="mt-1 text-[14px] text-content-secondary">{currentMeta}</p>
+                  <p className="mt-2 text-body text-muted-foreground">{currentWhen}</p>
+                  <p className="mt-1 text-body text-muted-foreground">{currentMeta}</p>
                 </SummaryCard>
 
                 <InfoCard title={text('appointmentRescheduleSectionPlan')} icon="edit_calendar_outlined">

@@ -58,26 +58,19 @@ import { KIT_COLOR_GROUPS, KIT_RADIUS, KIT_SPACING, KIT_TONES, KIT_TYPE_SCALE } 
 
 // Literal class names, so Tailwind finds them when it scans the source.
 const TYPE_CLASS: Record<(typeof KIT_TYPE_SCALE)[number], string> = {
-  'headline-lg': 'text-headline-lg',
-  'headline-md': 'text-headline-md',
-  'headline-sm': 'text-headline-sm',
-  'title-lg': 'text-title-lg',
-  'title-md': 'text-title-md',
-  'title-sm': 'text-title-sm',
-  'body-lg': 'text-body-lg',
-  'body-md': 'text-body-md text-on-surface-secondary',
-  'body-sm': 'text-body-sm text-on-surface-muted',
-  'label-lg': 'text-label-lg',
-  'label-md': 'text-label-md',
-  'label-sm': 'text-label-sm',
-  button: 'text-button font-extrabold',
+  title: 'text-title',
+  heading: 'text-heading',
+  body: 'text-body',
+  'body-strong': 'text-body-strong',
+  label: 'text-label',
+  caption: 'text-caption',
 };
 
 const TONE_CLASS: Record<(typeof KIT_TONES)[number], string> = {
-  success: 'bg-success-bg text-success-fg',
-  warning: 'bg-warning-bg text-warning-fg',
-  danger: 'bg-danger-bg text-danger-fg',
-  info: 'bg-info-bg text-info-fg',
+  success: 'bg-success-wash text-success',
+  warning: 'bg-warning-wash text-warning',
+  danger: 'bg-destructive-wash text-destructive',
+  info: 'bg-selection-wash text-selection',
 };
 
 const TONE_LABEL: Record<(typeof KIT_TONES)[number], MessageId> = {
@@ -105,8 +98,8 @@ const SIDEBAR_ITEMS: { icon: IconName; label: MessageId; active?: boolean }[] = 
 /** A titled block of the kit, drawn as an admin section card. */
 function KitSection({ title, children }: { title: MessageId; children: ReactNode }) {
   return (
-    <section className="flex flex-col gap-4 rounded-lg border border-border bg-surface p-5">
-      <h2 className="text-title-lg">
+    <section className="flex flex-col gap-4 rounded-lg border border-border bg-card p-5">
+      <h2 className="text-heading">
         <FormattedMessage id={title} />
       </h2>
       {children}
@@ -119,7 +112,7 @@ function Row({ children, className }: { children: ReactNode; className?: string 
 }
 
 function Caption({ children }: { children: ReactNode }) {
-  return <code className="font-mono text-label-sm text-content-muted">{children}</code>;
+  return <code className="font-mono text-caption text-muted-foreground">{children}</code>;
 }
 
 export function ColorsSection() {
@@ -132,7 +125,7 @@ export function ColorsSection() {
             {tokens.map((token) => (
               <div key={token} className="flex items-center gap-2">
                 <span
-                  className="size-8 shrink-0 rounded-xs border border-outline-variant"
+                  className="size-8 shrink-0 rounded-xs border border-border"
                   style={{ background: `var(--${token})` }}
                 />
                 <Caption>{token}</Caption>
@@ -143,10 +136,7 @@ export function ColorsSection() {
       ))}
       <Row>
         {KIT_TONES.map((tone) => (
-          <span
-            key={tone}
-            className={cn('rounded-pill px-3 py-1.5 text-label-md font-bold', TONE_CLASS[tone])}
-          >
+          <span key={tone} className={cn('rounded-full px-3 py-1.5 text-label', TONE_CLASS[tone])}>
             <FormattedMessage id={TONE_LABEL[tone]} />
           </span>
         ))}
@@ -176,7 +166,7 @@ export function SpacingSection() {
       <div className="flex flex-wrap items-end gap-4">
         {KIT_SPACING.map(([name, px]) => (
           <div key={name} className="flex flex-col items-center gap-1">
-            <span className="block h-8 bg-accent-fg" style={{ width: px }} />
+            <span className="block h-8 bg-foreground" style={{ width: px }} />
             <Caption>{name}</Caption>
           </div>
         ))}
@@ -184,10 +174,7 @@ export function SpacingSection() {
       <div className="flex flex-wrap gap-4">
         {KIT_RADIUS.map(([name, px]) => (
           <div key={name} className="flex flex-col items-center gap-1">
-            <span
-              className="block size-14 border border-outline bg-surface-muted"
-              style={{ borderRadius: px }}
-            />
+            <span className="block size-14 border border-border bg-card" style={{ borderRadius: px }} />
             <Caption>{name}</Caption>
           </div>
         ))}
@@ -201,14 +188,14 @@ export function IconsSection() {
     <KitSection title="devKitSectionIcons">
       <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-3">
         {ICON_NAMES.map((name) => (
-          <div key={name} className="flex items-center gap-2 text-on-surface-variant">
+          <div key={name} className="flex items-center gap-2 text-foreground">
             <Icon name={name} />
             <Caption>{name}</Caption>
           </div>
         ))}
       </div>
       <Row>
-        <span className="flex size-10 items-center justify-center rounded-sm bg-icon-accent-bg text-icon-accent">
+        <span className="flex size-10 items-center justify-center rounded-sm bg-selection-wash text-foreground">
           <Icon name="event_available_outlined" size={20} />
         </span>
       </Row>
@@ -356,7 +343,7 @@ export function SelectSection() {
 
 function Labeled({ children, label }: { children: ReactNode; label: MessageId }) {
   return (
-    <label className="flex items-center text-body-md text-on-surface">
+    <label className="flex items-center text-body text-foreground">
       {children}
       <FormattedMessage id={label} />
     </label>
@@ -447,8 +434,8 @@ export function OverlaysSection({ language, toasterId }: { language: CalendarLoc
               <FormattedMessage id="devKitOpenDrawer" />
             </Button>
           </DrawerTrigger>
-          <DrawerContent className="bg-sidebar-background p-5">
-            <DrawerTitle className="text-title-lg text-sidebar-foreground">
+          <DrawerContent className="bg-sidebar p-5">
+            <DrawerTitle className="text-heading text-sidebar-foreground">
               <FormattedMessage id="adminBrandName" />
             </DrawerTitle>
           </DrawerContent>
@@ -560,31 +547,30 @@ export function CalendarSection({ language }: { language: CalendarLocale }) {
   );
 }
 
-/** Sample of the always-dark sidebar (admin_sidebar.dart), to check its tokens in both modes. */
+/** Sample of the always-dark sidebar, so its tokens can be checked in both modes. */
 export function SidebarSection() {
   return (
     <KitSection title="devKitSectionSidebar">
-      <nav className="flex w-64 flex-col gap-1 rounded-lg bg-sidebar-background p-3">
-        <div className="mb-2 flex flex-col rounded-md bg-sidebar-surface p-3">
-          <span className="text-title-md font-extrabold text-sidebar-foreground">
+      <nav className="flex w-64 flex-col gap-1 rounded-lg bg-sidebar p-3">
+        <div className="mb-2 flex flex-col gap-1 px-3.5 py-3">
+          <span className="text-heading text-sidebar-foreground">
             <FormattedMessage id="adminBrandName" />
           </span>
-          <span className="text-body-sm text-sidebar-foreground-muted">
+          <span className="text-caption text-sidebar-muted">
             <FormattedMessage id="adminNavPanelSubtitle" />
           </span>
         </div>
         {SIDEBAR_ITEMS.map(({ icon, label, active }) => (
-          <span
-            key={label}
-            className={cn(
-              'flex items-center gap-3 rounded-sm border px-3 py-2.5 text-label-lg font-bold',
-              active
-                ? 'border-sidebar-accent-border bg-sidebar-accent-bg text-sidebar-accent-fg'
-                : 'border-transparent text-sidebar-foreground-muted',
-            )}
-          >
-            <Icon name={icon} size={20} />
-            <FormattedMessage id={label} />
+          <span key={label} className="relative flex items-center gap-3 rounded-md px-3.5 py-3">
+            {active && <span aria-hidden className="absolute inset-y-1.5 left-0 w-0.5 bg-sidebar-active" />}
+            <Icon
+              name={icon}
+              size={20}
+              className={active ? 'text-sidebar-foreground' : 'text-sidebar-muted'}
+            />
+            <span className={active ? 'text-body-strong text-sidebar-foreground' : 'text-sidebar-muted'}>
+              <FormattedMessage id={label} />
+            </span>
           </span>
         ))}
       </nav>

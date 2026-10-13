@@ -31,14 +31,14 @@ type SectionSwitcherProps = {
 };
 
 /**
- * Six section buttons like Flutter `BusinessSectionSwitcher`. Under 700px the row scrolls and
+ * Six section buttons. Under 768px the row scrolls and
  * padding tightens; under 500px labels hide and the icon keeps the accessible name.
  */
 export function SectionSwitcher({ value, onValueChange }: SectionSwitcherProps) {
   const intl = useIntl();
   const text = textOf(intl);
   const [ref, width] = useElementWidth();
-  const compact = (width ?? 1440) < 700;
+  const compact = (width ?? 1440) < 768;
   const iconsOnly = (width ?? 1440) < 500;
 
   return (
@@ -67,20 +67,20 @@ export function SectionSwitcher({ value, onValueChange }: SectionSwitcherProps) 
                   'flex cursor-pointer items-center justify-center gap-2 rounded-lg',
                   compact ? 'shrink-0 px-2.5 py-2.5' : 'min-w-0 flex-1 px-3.5 py-3',
                   selected
-                    ? 'border border-selection-border bg-selection-bg text-selection-fg'
-                    : 'border border-transparent text-on-surface hover:bg-[color-mix(in_srgb,var(--on-surface)_4%,var(--surface))]',
+                    ? 'border border-border bg-selection-wash text-selection'
+                    : 'border border-transparent text-foreground hover:bg-[color-mix(in_srgb,var(--foreground)_4%,var(--card))]',
                 )}
               >
                 <Icon
                   name={section.icon}
                   size={20}
-                  className={selected ? 'text-selection-fg' : 'text-icon-accent opacity-55'}
+                  className={selected ? 'text-selection' : 'text-foreground opacity-55'}
                 />
                 {!iconsOnly && (
                   <span
                     className={cn(
-                      'truncate font-extrabold',
-                      selected ? 'text-selection-fg' : 'text-on-surface',
+                      'truncate text-body-strong',
+                      selected ? 'text-selection' : 'text-foreground',
                     )}
                   >
                     {label}

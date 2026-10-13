@@ -20,15 +20,18 @@ export function LoginFormCard({ form }: LoginFormCardProps) {
   return (
     <Card className="p-6">
       <form noValidate onSubmit={(event) => void form.submit(event)}>
-        <p className="font-bold text-content-secondary">
+        <p className="font-bold text-muted-foreground">
           <FormattedMessage id="authLoginSectionLabel" />
         </p>
-        <h1 className="mt-2 text-login-title font-black text-on-surface">
+        <h1 className="mt-2 text-title text-foreground">
           <FormattedMessage id="authLoginTitle" />
         </h1>
 
         {form.errorKey && (
-          <p role="alert" className="mt-4 w-full rounded-md bg-danger-bg p-3 font-semibold text-danger-fg">
+          <p
+            role="alert"
+            className="mt-4 w-full rounded-md bg-destructive-wash p-3 font-semibold text-destructive"
+          >
             <FormattedMessage id={form.errorKey} />
           </p>
         )}
@@ -92,7 +95,7 @@ export function LoginFormCard({ form }: LoginFormCardProps) {
           </span>
         </Button>
 
-        <p className="mt-3 text-center text-login-caption text-content-muted">
+        <p className="mt-3 text-center text-caption text-muted-foreground">
           <FormattedMessage id="authRestrictedAccess" />
         </p>
       </form>

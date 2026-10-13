@@ -12,10 +12,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-12T14:06:00Z'
+  at: '2026-10-13T15:10:00Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-12T14:13:05Z'
+    at: '2026-10-13T15:10:00Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -37,7 +37,7 @@ files. ✅ = documented. — = the surface does not exist (stated in the linked 
 | Route | `sidebar` search parameter                                                               | navigation.md#sidebar-sections           | ✅     |
 | Route | Navigation operations                                                                    | navigation.md#navigation-model           | ✅     |
 | Route | Screen graph                                                                             | navigation.md#screen-graph               | ✅     |
-| Route | Layouts under 700 px, 700–1099 px, and from 1100 px                                      | navigation.md#responsive-layout          | ✅     |
+| Route | Layouts under 768 px, 768–1023 px, and from 1024 px                                      | navigation.md#responsive-layout          | ✅     |
 
 ## Guards and client state
 
@@ -103,6 +103,12 @@ files. ✅ = documented. — = the surface does not exist (stated in the linked 
 | Config          | `VITE_API_BASE_URL`                                                          | operations.md#environments-and-configuration, overview.md#business-invariants | ✅     |
 | Analytics event | None                                                                         | operations.md#observability                                                   | —      |
 | Release target  | Web, `https://admin.hidalgojunior.com`, Docker image as the alternative host | operations.md#release, operations.md#rollback                                 | ✅     |
+
+## Design
+
+| Kind                 | Item                              | Documented in    | Status |
+| -------------------- | --------------------------------- | ---------------- | ------ |
+| Presentation mapping | Tokens, type, layout, and anatomy | design-system.md | ✅     |
 
 ## Hub capabilities and journeys
 

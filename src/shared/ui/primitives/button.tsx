@@ -7,39 +7,34 @@ import { cn } from '@/shared/lib/cn';
 import { Icon, type IconName } from '../icons/icon';
 import { Spinner } from './spinner';
 
-// Material state layer: the foreground color over the button at 8% (hover) or 10% (pressed).
-const stateLayer =
-  'relative isolate overflow-hidden before:absolute before:inset-0 before:-z-10 before:bg-current before:opacity-0 before:transition-opacity hover:before:opacity-[var(--state-hover)] active:before:opacity-[var(--state-pressed)] focus-visible:before:opacity-[var(--state-focus)] disabled:before:hidden';
-
-// Flutter panel buttons (app/theme.dart and actions/admin_buttons.dart).
 const buttonVariants = cva(
   [
-    'inline-flex min-h-control shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap select-none',
-    'disabled:cursor-default [&_svg]:pointer-events-none',
-    stateLayer,
+    'inline-flex h-control shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md px-3 whitespace-nowrap select-none',
+    'text-body-strong transition-colors duration-150 ease-out',
+    'disabled:cursor-default',
   ],
   {
     variants: {
       variant: {
-        /** AdminPrimaryButton: filled, primary color. */
+        /** Filled ink button. */
         primary:
-          'rounded-md bg-primary px-[18px] text-button font-extrabold text-on-primary disabled:bg-disabled-container disabled:text-disabled-content',
-        /** AdminSecondaryButton: outlined. */
+          'bg-primary text-primary-foreground hover:bg-primary-hover disabled:bg-disabled disabled:text-disabled-foreground disabled:hover:bg-disabled',
+        /** Outlined button. */
         secondary:
-          'rounded-md border border-border px-[18px] text-button font-extrabold text-on-surface disabled:border-disabled-container disabled:text-disabled-content',
-        /** AdminDangerButton: filled, danger color. */
+          'border border-border bg-transparent text-foreground hover:bg-muted disabled:border-disabled disabled:text-disabled-foreground disabled:hover:bg-transparent',
+        /** Filled danger button. */
         danger:
-          'rounded-md bg-danger-fg px-[18px] text-button font-extrabold text-surface disabled:bg-disabled-container disabled:text-disabled-content',
-        /** ElevatedButton tinted with the success pair (activate a staff account). */
+          'bg-destructive text-destructive-foreground disabled:bg-disabled disabled:text-disabled-foreground',
+        /** Tonal success (activate a staff account). */
         successTonal:
-          'rounded-md bg-success-bg px-[18px] text-button font-extrabold text-success-fg disabled:bg-disabled-container disabled:text-disabled-content',
-        /** ElevatedButton tinted with the danger pair (deactivate a staff account). */
+          'bg-success-wash text-success hover:bg-muted disabled:bg-disabled disabled:text-disabled-foreground disabled:hover:bg-disabled',
+        /** Tonal danger (deactivate a staff account). */
         dangerTonal:
-          'rounded-md bg-danger-bg px-[18px] text-button font-extrabold text-danger-fg disabled:bg-disabled-container disabled:text-disabled-content',
-        /** AdminTextButton: text only, brand blue, stadium shape. */
-        text: 'rounded-pill px-3 text-button font-bold text-text-action disabled:text-disabled-content',
-        /** IconButton: round, icon only. Give it an aria-label. */
-        icon: 'size-control rounded-pill text-on-surface-variant disabled:text-disabled-content',
+          'bg-destructive-wash text-destructive hover:bg-muted disabled:bg-disabled disabled:text-disabled-foreground disabled:hover:bg-disabled',
+        /** Text only. Same radius as the other controls. */
+        text: 'bg-transparent text-foreground hover:bg-muted disabled:text-disabled-foreground disabled:hover:bg-transparent',
+        /** Icon only. A 6px square, the control height on each side. Give it an aria-label. */
+        icon: 'size-control p-0 text-muted-foreground hover:bg-muted disabled:text-disabled-foreground disabled:hover:bg-transparent',
       },
     },
     defaultVariants: { variant: 'primary' },
@@ -48,7 +43,7 @@ const buttonVariants = cva(
 
 type ButtonProps = ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {
-    /** Leading icon (18px). In the `icon` variant, the only content (24px). */
+    /** Leading icon (20px). In the `icon` variant, the only content. */
     icon?: IconName;
     /** Shows a spinner in place of the icon and disables the button. */
     loading?: boolean;
@@ -77,8 +72,7 @@ export function Button({
     );
   }
 
-  const iconSize = variant === 'icon' ? 24 : 18;
-  const leading = loading ? <Spinner size={18} /> : icon ? <Icon name={icon} size={iconSize} /> : null;
+  const leading = loading ? <Spinner size={20} /> : icon ? <Icon name={icon} size={20} /> : null;
 
   return (
     <button

@@ -1147,7 +1147,7 @@
   "slotWatchAdminViewAppointment": "Veure cita",
   "slotWatchAdminViewClient": "Veure client",
   "devKitTitle": "Kit visual",
-  "devKitSubtitle": "Només en desenvolupament. Compara’l amb el panell Flutter en clar i en fosc.",
+  "devKitSubtitle": "Només en desenvolupament. Tauler de revisió del sistema visual, en clar i en fosc.",
   "devKitModeBoth": "Costat a costat",
   "devKitSectionColors": "Colors",
   "devKitSectionTypography": "Tipografia",

@@ -12,8 +12,7 @@ type SegmentedTabsProps<T extends string> = {
 };
 
 /**
- * `_BlockedSlotsSectionSwitcher`: equal tabs in a bordered bar; the selected one is filled with the
- * text color and its icon and label take the surface color.
+ * Equal tabs. The selected one is an underline in the foreground, weight 600.
  */
 export function SegmentedTabs<T extends string>({
   label,
@@ -22,11 +21,7 @@ export function SegmentedTabs<T extends string>({
   onValueChange,
 }: SegmentedTabsProps<T>) {
   return (
-    <div
-      role="tablist"
-      aria-label={label}
-      className="flex gap-1.5 rounded-[18px] border border-outline-variant bg-surface p-1"
-    >
+    <div role="tablist" aria-label={label} className="flex border-b border-border">
       {tabs.map((tab) => {
         const selected = tab.value === value;
         return (
@@ -39,18 +34,12 @@ export function SegmentedTabs<T extends string>({
               onValueChange(tab.value);
             }}
             className={cn(
-              'flex min-w-0 flex-1 cursor-pointer items-center justify-center gap-2.5 rounded-sm px-4 py-3.5',
-              selected
-                ? 'bg-on-surface text-surface'
-                : 'text-on-surface hover:bg-[color-mix(in_srgb,var(--on-surface)_4%,var(--surface))]',
+              'flex min-w-0 flex-1 cursor-pointer items-center justify-center gap-2 border-b-2 px-3 py-2.5 text-body-strong',
+              selected ? 'border-foreground text-foreground' : 'border-transparent text-muted-foreground',
             )}
           >
-            <Icon
-              name={tab.icon}
-              size={20}
-              className={selected ? 'text-surface' : 'text-content-secondary'}
-            />
-            <span className="truncate font-extrabold">{tab.label}</span>
+            <Icon name={tab.icon} size={20} />
+            <span className="truncate">{tab.label}</span>
           </button>
         );
       })}

@@ -79,7 +79,7 @@ function BlockedSlotsTable({ slots, onOpen, onDelete, footer }: TableProps) {
     const text = textOf(intl);
     const locale = localeOf(intl);
     const secondary = (value: string) => (
-      <span className="block truncate text-content-secondary">{value}</span>
+      <span className="block truncate text-muted-foreground">{value}</span>
     );
     return [
       {
@@ -89,7 +89,7 @@ function BlockedSlotsTable({ slots, onOpen, onDelete, footer }: TableProps) {
         minWidth: 120,
         grow: 2,
         cell: (slot) => (
-          <span className="block truncate font-bold text-on-surface">{blockedSlotDate(slot, locale)}</span>
+          <span className="block truncate font-bold text-foreground">{blockedSlotDate(slot, locale)}</span>
         ),
       },
       {

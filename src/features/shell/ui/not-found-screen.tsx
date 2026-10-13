@@ -7,11 +7,11 @@ import { Button, Icon } from '@/shared/ui';
 export function NotFoundScreen() {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-3 p-6 text-center">
-      <Icon name="error_outline" size={48} className="text-content-muted" />
-      <h1 className="text-title-lg text-on-surface">
+      <Icon name="error_outline" size={48} className="text-muted-foreground" />
+      <h1 className="text-heading text-foreground">
         <FormattedMessage id="shellNotFoundTitle" />
       </h1>
-      <p className="max-w-md text-body-lg">
+      <p className="max-w-md text-body">
         <FormattedMessage id="shellNotFoundMessage" />
       </p>
       <Button asChild variant="secondary" className="mt-3">

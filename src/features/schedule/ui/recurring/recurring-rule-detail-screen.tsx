@@ -52,11 +52,9 @@ export function RecurringRuleDetailScreen() {
           <PageHeader
             title={text('scheduleRecurringBlockedSlotDetailTitle')}
             subtitle={text('scheduleRecurringBlockedSlotDetailSubtitle')}
-            titleSize={layout.titleSize}
-            subtitleSize={layout.subtitleSize}
             back={{ label: text('scheduleRecurringBlockedSlotBack'), onClick: detail.goBack }}
           />
-          <div style={{ marginTop: width < 700 ? 12 : layout.gap }}>
+          <div style={{ marginTop: width < 768 ? 12 : layout.gap }}>
             {detail.isLoading ? (
               <div className="flex justify-center py-12">
                 <Spinner size={36} className="text-primary" />
@@ -94,7 +92,7 @@ function DetailContent({ rule, layout, detail }: ContentProps) {
   const text = textOf(intl);
   const locale = localeOf(intl);
   const describeFailure = useDescribeFailure();
-  const narrowWindow = useWindowNarrowerThan(700);
+  const narrowWindow = useWindowNarrowerThan(768);
   const exception = useRuleException(rule, {
     onSaved: () => {
       showToast(text('scheduleRecurringBlockedSlotExceptionSaveSuccess'));
@@ -113,14 +111,14 @@ function DetailContent({ rule, layout, detail }: ContentProps) {
 
   const summaryMain = (
     <div className="min-w-0 flex-1">
-      <p className="text-[28px] leading-[1.05] font-black text-on-surface">{dotted(weekday, range)}</p>
-      <p className="mt-2 text-[15px] leading-[1.5] text-content-secondary">
+      <p className="text-title text-foreground">{dotted(weekday, range)}</p>
+      <p className="mt-2 text-body text-muted-foreground">
         {intl.formatMessage(
           { id: 'scheduleRecurringBlockedSlotDetailNextApplication' },
           { occurrence: next },
         )}
       </p>
-      <span className="mt-4 inline-block rounded-pill bg-info-bg px-3.5 py-2.5 font-bold text-info-fg">
+      <span className="mt-4 inline-block rounded-full bg-selection-wash px-3 py-1.5 text-label text-selection">
         {affected}
       </span>
     </div>
@@ -144,8 +142,8 @@ function DetailContent({ rule, layout, detail }: ContentProps) {
 
   const row = (label: string, value: string) => (
     <div className="flex items-start">
-      <dt className="w-[150px] shrink-0 font-bold text-content-secondary">{label}</dt>
-      <dd className="min-w-0 flex-1 leading-[1.45] [overflow-wrap:anywhere] text-on-surface">{value}</dd>
+      <dt className="w-[150px] shrink-0 font-bold text-muted-foreground">{label}</dt>
+      <dd className="min-w-0 flex-1 text-body [overflow-wrap:anywhere] text-foreground">{value}</dd>
     </div>
   );
   const configuration = (
@@ -182,7 +180,7 @@ function DetailContent({ rule, layout, detail }: ContentProps) {
   const actions = (
     <InfoCard title={text('scheduleBlockedSlotFormActionsSection')} icon="bolt_outlined">
       <div className="flex flex-col gap-3">
-        <div className={narrowWindow ? 'flex flex-col gap-3' : 'flex gap-3 [&>*]:flex-1'}>
+        <div className={narrowWindow ? 'flex flex-col gap-3' : 'flex flex-wrap gap-3'}>
           <Button icon="edit_outlined" onClick={detail.edit}>
             {text('scheduleRecurringBlockedSlotActionEditRule')}
           </Button>

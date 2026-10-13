@@ -107,9 +107,9 @@ export function DataTable<T extends RowData>({
     (widths[id] ?? 0) + (index === 0 ? SIDE_PADDING : 0) + (index === lastIndex ? SIDE_PADDING : 0);
 
   return (
-    // Flutter wraps the table in a Card and an outline-variant Container; the Card's border is the
+    // Flutter wraps the table in a Card and a bordered container; the Card's border is the
     // one that shows.
-    <div className="rounded-lg border border-border bg-surface">
+    <div className="rounded-lg border border-border bg-card">
       <div ref={ref} className="overflow-hidden rounded-lg">
         <div className="relative">
           <div
@@ -129,7 +129,7 @@ export function DataTable<T extends RowData>({
                   <col key={column.id} style={{ width: cellWidth(column.id, index) }} />
                 ))}
               </colgroup>
-              <thead className="bg-surface-muted">
+              <thead className="bg-muted">
                 <tr>
                   {headers.map((header, index) => {
                     const column = columns[index];
@@ -141,7 +141,7 @@ export function DataTable<T extends RowData>({
                         // Headers stay on the left whatever the column's alignment: Flutter lays the
                         // label out in a Stack, where its textAlign has no room to apply.
                         className={cn(
-                          'group/header relative py-3.5 text-left text-[13px] font-extrabold text-content-secondary',
+                          'group/header relative py-3 text-left text-label text-muted-foreground',
                           edge(index),
                         )}
                       >
@@ -156,7 +156,7 @@ export function DataTable<T extends RowData>({
                               index === lastIndex ? 'right-3.5' : '-right-0.5',
                             )}
                           >
-                            <span className="h-4 w-px rounded-pill bg-outline-variant/45" />
+                            <span className="h-4 w-px bg-border" />
                           </span>
                         )}
                       </th>
@@ -171,10 +171,7 @@ export function DataTable<T extends RowData>({
                   return (
                     <tr
                       key={row.id}
-                      className={cn(
-                        'relative bg-surface hover:bg-row-hover',
-                        !last && 'border-b border-outline-variant',
-                      )}
+                      className={cn('relative bg-card hover:bg-muted', !last && 'border-b border-border')}
                     >
                       {columns.map((column, index) => (
                         <td
@@ -220,13 +217,13 @@ export function DataTable<T extends RowData>({
   );
 }
 
-/** `_HorizontalFade`: 28px from the fade-edge color to transparent, over a clipped edge. */
+/** 28px from the card color to transparent, over a clipped edge. */
 function Fade({ side }: { side: 'left' | 'right' }) {
   return (
     <div
       aria-hidden
       className={cn(
-        'pointer-events-none absolute inset-y-0 w-7 from-fade-edge to-transparent',
+        'pointer-events-none absolute inset-y-0 w-7 from-card to-transparent',
         side === 'left' ? 'left-0 bg-linear-to-r' : 'right-0 bg-linear-to-l',
       )}
     />

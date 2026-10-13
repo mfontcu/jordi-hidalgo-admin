@@ -30,8 +30,7 @@ test('main journey: a block over an appointment, a rule with an exception, and a
   ] as const) {
     await page.getByRole('button', { name: field, exact: true }).click();
     const picker = page.getByRole('dialog');
-    await picker.getByRole('textbox', { name: 'Hora', exact: true }).fill(hour);
-    await picker.getByRole('textbox', { name: 'Minuto', exact: true }).fill('00');
+    await picker.getByRole('textbox', { name: 'Hora', exact: true }).fill(`${hour}:00`);
     await picker.getByRole('button', { name: 'Seleccionar' }).click();
   }
   await page.getByLabel('Motivo').fill('Formación');
@@ -81,7 +80,7 @@ test('main journey: a block over an appointment, a rule with an exception, and a
   await page.getByRole('button', { name: 'Editar' }).first().click();
   await page.getByRole('button', { name: /Fin/ }).click();
   const picker = page.getByRole('dialog', { name: /Selecciona hora/ });
-  await picker.getByRole('textbox', { name: 'Hora', exact: true }).fill('14');
+  await picker.getByRole('textbox', { name: 'Hora', exact: true }).fill('14:00');
   await picker.getByRole('button', { name: 'Seleccionar' }).click();
   await page.getByRole('button', { name: 'Guardar franja' }).click();
   await expect(page.getByText('09:00 - 14:00').first()).toBeVisible();

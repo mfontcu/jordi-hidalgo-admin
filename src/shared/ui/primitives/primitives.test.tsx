@@ -42,7 +42,7 @@ describe('Button', () => {
         <a href="/services">Servicios</a>
       </Button>,
     );
-    expect(screen.getByRole('link', { name: 'Servicios' })).toHaveClass('text-text-action');
+    expect(screen.getByRole('link', { name: 'Servicios' })).toHaveClass('text-foreground');
   });
 });
 
@@ -65,6 +65,15 @@ describe('Checkbox and Switch', () => {
 
     await userEvent.click(screen.getByRole('switch', { name: 'Visible en la web' }));
     expect(onCheckedChange).toHaveBeenCalledWith(true);
+  });
+
+  it('draws the adaptive tone on the primary track', () => {
+    render(<Switch tone="adaptive" checked aria-label="Activa" />);
+
+    const control = screen.getByRole('switch', { name: 'Activa' });
+    expect(control).toHaveAttribute('data-tone', 'adaptive');
+    expect(control.querySelector('span')).toHaveClass('group-data-[state=checked]:bg-primary');
+    expect(control.innerHTML).not.toContain('switch-adaptive');
   });
 });
 
@@ -95,7 +104,7 @@ describe('Toast', () => {
 
     showErrorToast('No se pudo actualizar el estado.');
     const error = await screen.findByText('No se pudo actualizar el estado.');
-    expect(error.closest('[data-sonner-toast]')).toHaveClass('bg-danger-fg!');
+    expect(error.closest('[data-sonner-toast]')).toHaveClass('bg-destructive!');
   });
 });
 

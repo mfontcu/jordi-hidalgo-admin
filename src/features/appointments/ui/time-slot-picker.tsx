@@ -109,13 +109,13 @@ export function TimeSlotPicker({
         </FormField>
       )}
       <div>
-        <p className="mb-2 text-[13px] font-bold text-content-secondary">{text('appointmentFieldTime')}</p>
+        <p className="mb-2 text-label text-muted-foreground">{text('appointmentFieldTime')}</p>
         {slotsLoading ? (
           <div className="flex justify-center py-4">
             <Spinner size={24} className="text-primary" />
           </div>
         ) : slots.length === 0 ? (
-          <p className="text-content-secondary">{text('appointmentFormNoSlotsDay')}</p>
+          <p className="text-muted-foreground">{text('appointmentFormNoSlotsDay')}</p>
         ) : (
           <ul className="flex flex-wrap gap-2" aria-label={text('appointmentFieldTime')}>
             {slots.map((slot) => {
@@ -130,13 +130,13 @@ export function TimeSlotPicker({
                       onTimeChange(slot.time);
                     }}
                     className={cn(
-                      'h-10 min-w-16 rounded-[10px] border px-3 text-[14px] font-bold',
-                      selected && 'border-primary bg-primary text-on-primary',
+                      'h-10 min-w-16 rounded-md border px-3 text-body-strong',
+                      selected && 'border-primary bg-primary text-primary-foreground',
                       !selected &&
                         slot.isAvailable &&
-                        'border-outline-variant bg-surface text-on-surface hover:bg-on-surface/4',
+                        'border-border bg-card text-foreground hover:bg-foreground/4',
                       !slot.isAvailable &&
-                        'cursor-not-allowed border-outline-variant/60 bg-surface-muted text-content-secondary/50 line-through',
+                        'cursor-not-allowed border-border/60 bg-card text-muted-foreground/50 line-through',
                     )}
                   >
                     {slot.time}
@@ -147,7 +147,7 @@ export function TimeSlotPicker({
           </ul>
         )}
       </div>
-      {proposal && <p className="text-[13px] leading-[1.4] text-content-secondary">{proposal}</p>}
+      {proposal && <p className="text-label text-muted-foreground">{proposal}</p>}
     </div>
   );
 }

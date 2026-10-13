@@ -30,11 +30,9 @@ import type { ServiceFormInput } from '../model/service-form';
 
 /** `_ServiceFormLayoutSpec`, by the screen's width. */
 function formLayoutFor(width: number) {
-  if (width < 640)
-    return { padding: 16, gap: 20, gapLarge: 24, titleSize: 24, subtitleSize: 14, twoColumns: false };
-  if (width < 1040)
-    return { padding: 20, gap: 22, gapLarge: 26, titleSize: 28, subtitleSize: 14, twoColumns: false };
-  return { padding: 24, gap: 24, gapLarge: 28, titleSize: 30, subtitleSize: 15, twoColumns: true };
+  if (width < 640) return { padding: 16, gap: 20, gapLarge: 24, twoColumns: false };
+  if (width < 1040) return { padding: 20, gap: 22, gapLarge: 26, twoColumns: false };
+  return { padding: 24, gap: 24, gapLarge: 28, twoColumns: true };
 }
 
 type Layout = ReturnType<typeof formLayoutFor>;
@@ -59,11 +57,9 @@ export function ServiceFormScreen() {
             subtitle={intl.formatMessage({
               id: isNewVersion ? 'serviceFormNewVersionSubtitle' : 'serviceFormNewSubtitle',
             })}
-            titleSize={layout.titleSize}
-            subtitleSize={layout.subtitleSize}
             back={{ label: intl.formatMessage({ id: 'serviceBackToList' }), onClick: data.goBack }}
           />
-          <div style={{ marginTop: width < 700 ? 12 : layout.gap }}>
+          <div style={{ marginTop: width < 768 ? 12 : layout.gap }}>
             {data.isLoading ? (
               <div className="flex justify-center py-12">
                 <Spinner size={36} className="text-primary" />
@@ -251,7 +247,7 @@ function ServiceFormContent({ base, categories, layout, onCancel }: ContentProps
           name="isActive"
           render={({ field: { value, onChange } }) => (
             <MutedPanel className="flex items-center gap-3">
-              <p className="flex-1 leading-[1.5] text-content-secondary">
+              <p className="flex-1 text-body text-muted-foreground">
                 {text(value ? 'serviceFormActiveVersionHint' : 'serviceFormInactiveVersionHint')}
               </p>
               <Switch
@@ -267,7 +263,7 @@ function ServiceFormContent({ base, categories, layout, onCancel }: ContentProps
           name="showOnPublicSite"
           render={({ field: { value, onChange } }) => (
             <MutedPanel className="flex items-center gap-3">
-              <p className="flex-1 leading-[1.5] text-content-secondary">
+              <p className="flex-1 text-body text-muted-foreground">
                 {text(value ? 'serviceFormWebVisibleHint' : 'serviceFormWebHiddenHint')}
               </p>
               <Switch
@@ -309,11 +305,9 @@ function ServiceFormContent({ base, categories, layout, onCancel }: ContentProps
     >
       {base && (
         <SummaryCard className="p-5">
-          <p className="text-[14px] font-bold text-content-secondary">
-            {text('serviceFormBaseServiceTitle')}
-          </p>
-          <p className="mt-2 text-[28px] leading-[1.05] font-black text-on-surface">{base.name}</p>
-          <p className="mt-2 text-[15px] leading-[1.5] text-content-secondary">{serviceLine(base)}</p>
+          <p className="text-label text-muted-foreground">{text('serviceFormBaseServiceTitle')}</p>
+          <p className="mt-2 text-title text-foreground">{base.name}</p>
+          <p className="mt-2 text-body text-muted-foreground">{serviceLine(base)}</p>
         </SummaryCard>
       )}
       <div>

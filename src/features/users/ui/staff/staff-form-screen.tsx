@@ -28,7 +28,7 @@ import type { StaffFormInput } from '../../model/staff-form';
 /** StaffAdminFormScreen's layout: compact under 960px of content. */
 function formLayoutFor(width: number) {
   const compact = width < 960;
-  return { compact, padding: compact ? 16 : 24, titleSize: compact ? 24 : 30 };
+  return { compact, padding: compact ? 16 : 24 };
 }
 
 type Layout = ReturnType<typeof formLayoutFor>;
@@ -49,12 +49,10 @@ export function StaffFormScreen() {
           <PageHeader
             title={intl.formatMessage({ id: isEdit ? 'staffFormEditTitle' : 'staffFormNewTitle' })}
             subtitle={intl.formatMessage({ id: isEdit ? 'staffFormEditSubtitle' : 'staffFormNewSubtitle' })}
-            titleSize={layout.titleSize}
-            subtitleSize={14}
             back={{ label: intl.formatMessage({ id: 'staffBackToList' }), onClick: data.goBack }}
             backAlign="center"
           />
-          <div style={{ marginTop: width < 700 ? 12 : 24 }}>
+          <div style={{ marginTop: width < 768 ? 12 : 24 }}>
             {data.isLoading ? (
               <div className="flex justify-center py-12">
                 <Spinner size={36} className="text-primary" />
@@ -114,7 +112,7 @@ function StaffFormContent({ user, layout, onCancel }: ContentProps) {
           type={name === 'email' ? 'email' : 'text'}
           placeholder={text(hint)}
           readOnly={locked}
-          className={cn(locked && 'bg-surface-muted')}
+          className={cn(locked && 'bg-card')}
           aria-invalid={errorKey ? true : undefined}
           aria-describedby={errorKey ? `${id}-error` : undefined}
           {...register(name)}
@@ -151,9 +149,7 @@ function StaffFormContent({ user, layout, onCancel }: ContentProps) {
       )}
       {/* Flutter leaves the locked fields unexplained under 700px (approved improvement). */}
       {locked && (
-        <p className="mt-4 text-[12px] leading-[1.4] text-content-secondary">
-          {text('staffFormProfileLockedHint')}
-        </p>
+        <p className="mt-4 text-caption text-muted-foreground">{text('staffFormProfileLockedHint')}</p>
       )}
     </InfoCard>
   );
@@ -166,7 +162,7 @@ function StaffFormContent({ user, layout, onCancel }: ContentProps) {
           name="isActive"
           render={({ field: { value, onChange } }) => (
             <MutedPanel className="flex items-center gap-3 p-3.5">
-              <label htmlFor="staff-isActive" className="flex-1 font-bold text-on-surface">
+              <label htmlFor="staff-isActive" className="flex-1 font-bold text-foreground">
                 {text('staffAccountActiveLabel')}
               </label>
               <Switch id="staff-isActive" checked={value} onCheckedChange={onChange} />

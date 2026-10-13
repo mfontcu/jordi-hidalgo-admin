@@ -33,7 +33,7 @@ export function Avatar({ src, size, viewLabel, className }: AvatarProps) {
 
   const placeholder = <Icon name="person_outline_rounded" size={size * 0.55} />;
   const box = cn(
-    'inline-flex shrink-0 items-center justify-center overflow-hidden rounded-pill bg-surface-muted text-content-secondary',
+    'inline-flex shrink-0 items-center justify-center overflow-hidden rounded-pill bg-card text-muted-foreground',
     className,
   );
   const style = { width: size, height: size };
@@ -142,7 +142,7 @@ export function EntityCard({
   actions,
 }: EntityCardProps) {
   return (
-    <article className="relative rounded-lg border border-border bg-surface p-[18px] hover:bg-[color-mix(in_srgb,var(--on-surface)_4%,var(--surface))]">
+    <article className="relative rounded-lg border border-border bg-card p-4 hover:bg-muted">
       <button
         type="button"
         aria-label={title}
@@ -153,8 +153,8 @@ export function EntityCard({
         <div className="flex items-center gap-3">
           {leading}
           <div className="min-w-0 flex-1">
-            <h2 className="truncate text-[18px] font-extrabold text-on-surface">{title}</h2>
-            {subtitle && <p className="mt-0.5 truncate text-content-secondary">{subtitle}</p>}
+            <h2 className="truncate text-heading text-foreground">{title}</h2>
+            {subtitle && <p className="mt-0.5 truncate text-muted-foreground">{subtitle}</p>}
           </div>
           {status}
         </div>
@@ -163,7 +163,7 @@ export function EntityCard({
             <div key={label} className="flex items-start">
               <dt
                 className={cn(
-                  'shrink-0 text-[13px] font-bold text-content-secondary',
+                  'shrink-0 text-label text-muted-foreground',
                   labelWidth === 96 ? 'w-24' : 'w-[72px]',
                 )}
               >
@@ -172,7 +172,7 @@ export function EntityCard({
               {/* A word longer than the row breaks anywhere, as Flutter wraps it. */}
               <dd
                 className={cn(
-                  'min-w-0 flex-1 text-[14px] leading-[1.4] [overflow-wrap:anywhere] text-on-surface',
+                  'min-w-0 flex-1 text-body [overflow-wrap:anywhere] text-foreground',
                   clampValues && 'line-clamp-2',
                 )}
               >

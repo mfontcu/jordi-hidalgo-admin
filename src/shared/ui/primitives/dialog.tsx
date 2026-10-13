@@ -9,12 +9,12 @@ export const Dialog = DialogPrimitive.Root;
 export const DialogTrigger = DialogPrimitive.Trigger;
 export const DialogClose = DialogPrimitive.Close;
 
-/** Flutter's modal barrier: black at 54%, fading in with the dialog. */
+/** Modal scrim: black at 40%. */
 export function DialogOverlay({ className, ...props }: ComponentProps<typeof DialogPrimitive.Overlay>) {
   return (
     <DialogPrimitive.Overlay
       className={cn(
-        'fixed inset-0 z-50 bg-scrim data-[state=open]:animate-fade-in data-[state=closed]:animate-fade-out',
+        'fixed inset-0 z-50 bg-black/40 data-[state=open]:animate-fade-in data-[state=closed]:animate-fade-out',
         className,
       )}
       {...props}
@@ -22,10 +22,7 @@ export function DialogOverlay({ className, ...props }: ComponentProps<typeof Dia
   );
 }
 
-/**
- * Centered dialog (AppConfirmDialog): surface color, AdminRadius.xl, 20px padding, at most 560px
- * wide and 24px away from the screen edges. Fades in like Flutter's showDialog.
- */
+/** Centered dialog: 8px radius, 20px padding, at most 480px wide. */
 export function DialogContent({
   className,
   overlayClassName,
@@ -38,8 +35,8 @@ export function DialogContent({
       <DialogOverlay className={overlayClassName} />
       <DialogPrimitive.Content
         className={cn(
-          'fixed top-1/2 left-1/2 z-50 flex max-h-[calc(100dvh-48px)] w-[calc(100vw-48px)] max-w-[560px] -translate-x-1/2 -translate-y-1/2 flex-col overflow-y-auto',
-          'rounded-xl bg-surface p-5 text-on-surface outline-none',
+          'fixed top-1/2 left-1/2 z-50 flex max-h-[calc(100dvh-48px)] w-[calc(100vw-32px)] max-w-[480px] -translate-x-1/2 -translate-y-1/2 flex-col overflow-y-auto',
+          'rounded-lg bg-card p-5 text-foreground outline-none',
           'data-[state=open]:animate-fade-in data-[state=closed]:animate-fade-out',
           className,
         )}
@@ -52,21 +49,16 @@ export function DialogContent({
 }
 
 export function DialogHeader({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cn('flex flex-col gap-3 text-center', className)} {...props} />;
+  return <div className={cn('flex flex-col gap-2', className)} {...props} />;
 }
 
-/** Two actions side by side, each taking half the width, 12px apart. */
+/** Actions sit in a row at their own width. */
 export function DialogFooter({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cn('mt-6 flex gap-3 [&>*]:flex-1', className)} {...props} />;
+  return <div className={cn('mt-5 flex flex-wrap items-center justify-end gap-3', className)} {...props} />;
 }
 
 export function DialogTitle({ className, ...props }: ComponentProps<typeof DialogPrimitive.Title>) {
-  return (
-    <DialogPrimitive.Title
-      className={cn('text-dialog-title font-extrabold text-on-surface', className)}
-      {...props}
-    />
-  );
+  return <DialogPrimitive.Title className={cn('text-heading text-foreground', className)} {...props} />;
 }
 
 export function DialogDescription({
@@ -74,9 +66,6 @@ export function DialogDescription({
   ...props
 }: ComponentProps<typeof DialogPrimitive.Description>) {
   return (
-    <DialogPrimitive.Description
-      className={cn('text-[15px] leading-[1.4] text-on-surface/87', className)}
-      {...props}
-    />
+    <DialogPrimitive.Description className={cn('text-body text-muted-foreground', className)} {...props} />
   );
 }

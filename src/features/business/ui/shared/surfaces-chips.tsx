@@ -35,13 +35,13 @@ export function SurfacesChips({ value, onChange, disabled = false }: SurfacesChi
               onChange(surface, !selected);
             }}
             className={cn(
-              'inline-flex h-[34px] cursor-pointer items-center gap-2 rounded-xs border text-label-lg disabled:cursor-not-allowed disabled:opacity-60',
+              'inline-flex h-10 cursor-pointer items-center gap-2 rounded-md border text-body disabled:cursor-not-allowed disabled:opacity-60',
               selected
-                ? 'border-transparent bg-info-bg pr-4 pl-2 text-info-fg'
-                : 'border-outline-variant bg-chip-surface px-4 text-on-surface-variant hover:bg-[color-mix(in_srgb,var(--on-surface-variant)_8%,var(--chip-surface))]',
+                ? 'border-transparent bg-selection-wash pr-4 pl-2 text-selection'
+                : 'border-border bg-card px-4 text-foreground hover:bg-[color-mix(in_srgb,var(--foreground)_8%,var(--card))]',
             )}
           >
-            {selected && <Icon name="check" size={18} />}
+            {selected && <Icon name="check" size={20} />}
             {text(label)}
           </button>
         );

@@ -53,7 +53,7 @@ test.describe('language', () => {
 });
 
 test.describe('theme', () => {
-  const SIDEBAR_BACKGROUND = 'rgb(17, 19, 24)';
+  const SIDEBAR_BACKGROUND = 'rgb(14, 14, 13)';
   const sidebar = (page: Page) => shell(page).navigation.locator('..');
 
   test.beforeEach(async ({ page, backend }) => {
@@ -64,11 +64,11 @@ test.describe('theme', () => {
     await page.emulateMedia({ colorScheme: 'dark' });
     await page.goto('/');
     await expect(page.locator('html')).toHaveClass('dark');
-    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(18, 18, 18)');
+    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(18, 18, 16)');
 
     await page.emulateMedia({ colorScheme: 'light' });
     await expect(page.locator('html')).toHaveClass('light');
-    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(243, 244, 246)');
+    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(246, 245, 242)');
     await expect(sidebar(page)).toHaveCSS('background-color', SIDEBAR_BACKGROUND);
   });
 

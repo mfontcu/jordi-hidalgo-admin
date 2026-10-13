@@ -258,7 +258,7 @@ export function AppointmentsScreen() {
             setBulkPartial(null);
           }}
         >
-          <ul className="mt-2 flex max-h-48 flex-col gap-2 overflow-y-auto text-left text-[14px] leading-[1.4] text-content-secondary">
+          <ul className="mt-2 flex max-h-48 flex-col gap-2 overflow-y-auto text-left text-body text-muted-foreground">
             {bulkPartial.failed.map(({ id, error }) => (
               <li key={id}>{[id, describeFailure(error)].join(' — ')}</li>
             ))}
@@ -425,22 +425,20 @@ function AppointmentsToolbar({
   ) : null;
 
   const selectedCount = list.selectedIds.size;
-  const bulkButtonClass = compact
-    ? 'min-h-8 whitespace-normal px-2 text-center text-[13px] leading-tight'
-    : undefined;
+  const bulkButtonClass = compact ? 'min-h-8 whitespace-normal px-2 text-center text-label' : undefined;
   const bulkBar = list.selectMode ? (
     <div
       className={
         compact
-          ? 'grid grid-cols-2 gap-1.5 rounded-md border border-outline-variant bg-surface-muted p-2'
-          : 'flex flex-wrap items-center gap-2 rounded-md border border-outline-variant bg-surface-muted p-3'
+          ? 'grid grid-cols-2 gap-1.5 rounded-md border border-border bg-card p-2'
+          : 'flex flex-wrap items-center gap-2 rounded-md border border-border bg-card p-3'
       }
     >
       <p
         className={
           compact
-            ? 'col-span-2 text-[13px] leading-tight font-bold text-on-surface'
-            : 'min-w-0 flex-1 text-[14px] font-bold text-on-surface'
+            ? 'col-span-2 text-body-strong text-foreground'
+            : 'min-w-0 flex-1 text-body-strong text-foreground'
         }
       >
         {intl.formatMessage({ id: 'appointmentBulkSelectedCount' }, { count: selectedCount })}
@@ -449,8 +447,8 @@ function AppointmentsToolbar({
         <p
           className={
             compact
-              ? 'col-span-2 text-[13px] text-content-secondary'
-              : 'w-full text-[13px] text-content-secondary'
+              ? 'col-span-2 text-label text-muted-foreground'
+              : 'w-full text-label text-muted-foreground'
           }
         >
           {text('appointmentBulkNoSelectableItems')}

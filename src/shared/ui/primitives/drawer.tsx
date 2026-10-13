@@ -12,10 +12,9 @@ export const DrawerClose = DrawerPrimitive.Close;
 export const DrawerTitle = DrawerPrimitive.Title;
 
 /**
- * Modal navigation drawer (Material Drawer as the admin shell uses it): slides in from the left
- * over the scrim, 304px wide (Material's default drawer width), square corners, full height.
- * The content draws its own background. Give it a DrawerTitle, visible or not. On open, focus
- * goes to the drawer itself, as in Flutter, rather than to its first control.
+ * Mobile navigation drawer. Slides in from the left over the scrim. A border stands in for the
+ * old elevation. The content draws its own background. Give it a DrawerTitle, visible or not.
+ * On open, focus goes to the drawer itself rather than to its first control.
  */
 export function DrawerContent({
   className,
@@ -36,7 +35,7 @@ export function DrawerContent({
           (event.currentTarget as HTMLElement).focus();
         }}
         className={cn(
-          'fixed inset-y-0 left-0 z-50 flex w-[304px] max-w-[calc(100vw-56px)] flex-col shadow-m3-3 outline-none',
+          'fixed inset-y-0 left-0 z-50 flex w-[304px] max-w-[calc(100vw-56px)] flex-col border-r border-sidebar-border outline-none',
           'data-[state=open]:animate-drawer-in data-[state=closed]:animate-drawer-out',
           className,
         )}

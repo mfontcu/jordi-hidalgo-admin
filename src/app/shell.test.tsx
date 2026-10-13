@@ -81,16 +81,56 @@ describe('signed-in shell', () => {
     expect(within(navigation()).getByRole('link', { name: 'Clientes' })).toHaveTextContent('Clientes');
   });
 
-  it('shows the compact sidebar without a collapse button between 700 and 1099px', async () => {
+  it('at 900px keeps an icon rail and opens labels in an overlay without saving the desktop preference', async () => {
     setViewport({ width: 900 });
+    const user = userEvent.setup();
     app = renderApp('/');
     await screen.findByRole('heading', { name: 'Dashboard' });
 
-    expect(within(navigation()).getByRole('link', { name: 'Clientes' })).not.toHaveTextContent('Clientes');
-    expect(screen.queryByRole('button', { name: /Contraer menú|Expandir menú/ })).not.toBeInTheDocument();
+    const railLink = within(navigation()).getByRole('link', { name: 'Clientes' });
+    expect(railLink).not.toHaveTextContent('Clientes');
+    expect(screen.queryByRole('button', { name: 'Contraer menú' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Expandir menú' })).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Abrir menú' }));
+    const overlay = await screen.findByRole('dialog', { name: 'Menú de navegación' });
+    expect(within(overlay).getByRole('link', { name: 'Clientes' })).toHaveTextContent('Clientes');
+
+    await user.click(within(overlay).getByRole('link', { name: 'Servicios' }));
+    await waitFor(() => {
+      expect(app?.router.state.location.pathname).toBe('/services');
+    });
+    await waitFor(() => {
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
+    expect(JSON.parse(localStorage.getItem('hj_admin.sidebar_collapsed') ?? '{}')).not.toMatchObject({
+      state: { collapsed: true },
+    });
   });
 
-  it('under 700px shows the mobile header and opens the sidebar in a drawer', async () => {
+  it('keeps a collapsed desktop sidebar collapsed while the tablet rail is showing', async () => {
+    const user = userEvent.setup();
+    app = renderApp('/');
+    await screen.findByRole('heading', { name: 'Dashboard' });
+    await user.click(screen.getByRole('button', { name: 'Contraer menú' }));
+
+    act(() => {
+      setViewport({ width: 900 });
+    });
+
+    expect(screen.queryByRole('button', { name: 'Contraer menú' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Expandir menú' })).not.toBeInTheDocument();
+    expect(within(navigation()).getByRole('link', { name: 'Clientes' })).not.toHaveTextContent('Clientes');
+
+    act(() => {
+      setViewport({ width: 1440 });
+    });
+
+    await user.click(screen.getByRole('button', { name: 'Expandir menú' }));
+    expect(within(navigation()).getByRole('link', { name: 'Clientes' })).toHaveTextContent('Clientes');
+  });
+
+  it('at 390px shows the mobile header and opens the sidebar in a drawer', async () => {
     setViewport({ width: 390 });
     const user = userEvent.setup();
     server.use(appointmentDetail(appointmentDto({ id: 'a-1' })), customerPushMessages());

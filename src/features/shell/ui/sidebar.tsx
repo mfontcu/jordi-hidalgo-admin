@@ -11,36 +11,45 @@ import { SidebarFooter } from './sidebar-footer';
 import { SidebarIconButton } from './sidebar-icon-button';
 
 type SidebarProps = {
-  /** The 60px icon-only sidebar. */
+  /** The 60px icon rail. Section names are exposed only as the accessible name. */
   compact: boolean;
-  /** Collapse or expand (only from 1100px; the 700–1099px compact sidebar cannot expand). */
+  /** Desktop: collapse or expand, and persist `hj_admin.sidebar_collapsed`. */
   onToggleCollapse?: () => void;
-  /** Called when a section is chosen, before the navigation (the drawer closes). */
+  /** Tablet rail: open the labeled sidebar as an overlay. Does not write the collapse preference. */
+  onOpenOverlay?: () => void;
+  /** Called when a section is chosen, before the navigation (the drawer or overlay closes). */
   onNavigate?: () => void;
   onSignOut: () => void;
   className?: string;
 };
 
-/** admin_sidebar.dart: dark in both modes, 240px wide, or 60px when compact. */
-export function Sidebar({ compact, onToggleCollapse, onNavigate, onSignOut, className }: SidebarProps) {
+/** Dark in both modes, 240px wide, or a 60px rail when compact. */
+export function Sidebar({
+  compact,
+  onToggleCollapse,
+  onOpenOverlay,
+  onNavigate,
+  onSignOut,
+  className,
+}: SidebarProps) {
   const intl = useIntl();
   const active = useActiveSection();
 
   return (
     <div
       className={cn(
-        'flex flex-col bg-sidebar-background transition-[width] duration-180 ease-out',
+        'flex flex-col bg-sidebar transition-[width] duration-150 ease-out',
         compact ? 'w-[60px]' : 'w-[240px]',
         className,
       )}
     >
       {!compact ? (
-        <div className="flex items-center p-[18px]">
+        <div className="flex items-center p-4">
           <div className="flex min-w-0 flex-1 flex-col gap-1">
-            <span className="text-[20px] font-black text-sidebar-foreground">
+            <span className="text-heading text-sidebar-foreground">
               <FormattedMessage id="adminBrandName" />
             </span>
-            <span className="text-[12px] text-sidebar-foreground-muted">
+            <span className="text-caption text-sidebar-muted">
               <FormattedMessage id="adminBrandSubtitle" />
             </span>
           </div>
@@ -51,6 +60,14 @@ export function Sidebar({ compact, onToggleCollapse, onNavigate, onSignOut, clas
               onClick={onToggleCollapse}
             />
           )}
+        </div>
+      ) : onOpenOverlay ? (
+        <div className="flex justify-center px-2 py-3.5">
+          <SidebarIconButton
+            icon="menu_rounded"
+            label={intl.formatMessage({ id: 'shellOpenMenu' })}
+            onClick={onOpenOverlay}
+          />
         </div>
       ) : (
         onToggleCollapse && (
@@ -83,33 +100,23 @@ export function Sidebar({ compact, onToggleCollapse, onNavigate, onSignOut, clas
               // The highlight comes from `selected` (?sidebar= or the path prefix), not from the URL.
               activeOptions={{ exact: true, includeSearch: false }}
               className={cn(
-                'flex shrink-0 items-center rounded-lg hover:bg-black/4 dark:hover:bg-white/4',
-                compact ? 'p-2' : 'px-3.5 py-3',
-                selected &&
-                  'border border-sidebar-accent-border bg-linear-to-r from-brand-blue/18 to-brand-blue/8',
+                'relative flex shrink-0 items-center rounded-md hover:bg-sidebar-hover',
+                compact ? 'justify-center p-2' : 'gap-3 px-3.5 py-3',
               )}
             >
-              {selected && !compact && (
-                <span className="mr-2.5 h-7 w-[3px] rounded-pill bg-sidebar-accent-fg" />
+              {selected && (
+                <span aria-hidden className="absolute inset-y-1.5 left-0 w-0.5 bg-sidebar-active" />
               )}
-              <span
-                className={cn(
-                  'flex items-center justify-center rounded-[10px]',
-                  compact ? 'size-7' : 'size-8',
-                  selected
-                    ? 'bg-sidebar-accent-bg text-sidebar-accent-fg'
-                    : 'bg-white/4 text-sidebar-foreground-muted',
-                )}
-              >
-                <Icon name={section.icon} size={compact ? 18 : 19} />
-              </span>
+              <Icon
+                name={section.icon}
+                size={20}
+                className={selected ? 'text-sidebar-foreground' : 'text-sidebar-muted'}
+              />
               {!compact && (
                 <span
                   className={cn(
-                    'ml-3 min-w-0 flex-1',
-                    selected
-                      ? 'font-extrabold text-sidebar-foreground'
-                      : 'font-semibold text-sidebar-foreground-muted',
+                    'min-w-0 flex-1',
+                    selected ? 'text-body-strong text-sidebar-foreground' : 'text-sidebar-muted',
                   )}
                 >
                   {label}

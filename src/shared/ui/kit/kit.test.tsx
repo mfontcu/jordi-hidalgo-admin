@@ -109,10 +109,11 @@ describe('Pagination', () => {
 });
 
 describe('FilterPicker', () => {
-  const renderPicker = (compact: boolean, onApply: (value: string) => void) =>
+  const renderPicker = (width: number, onApply: (value: string) => void) => {
+    setViewport({ width });
     renderWithProviders(
       <FilterPicker
-        compact={compact}
+        compact={width < 768}
         trigger={<ToolbarField icon="tune_rounded" label="All" />}
         title="Filter"
         subtitle="Choose"
@@ -127,16 +128,26 @@ describe('FilterPicker', () => {
         onApply={onApply}
       />,
     );
+  };
 
   it.each([
-    ['a sheet on compact layouts', true],
-    ['a panel on wide layouts', false],
-  ])('applies the chosen option from %s', async (_, compact) => {
+    ['a sheet under 768px', 390, true],
+    ['a sheet at 767px', 767, true],
+    ['a popover from 768px', 768, false],
+    ['a popover at 1280px', 1280, false],
+  ])('applies the chosen option from %s', async (_, width, sheet) => {
     const applied: string[] = [];
-    renderPicker(compact, (value) => applied.push(value));
+    renderPicker(width, (value) => applied.push(value));
     const user = userEvent.setup();
 
     await user.click(screen.getByRole('button', { name: 'All' }));
+    const panel = await screen.findByRole('dialog');
+    if (sheet) {
+      expect(panel).not.toHaveAttribute('data-side');
+    } else {
+      expect(panel).toHaveAttribute('data-side');
+    }
+    expect(within(panel).getByText('Choose')).toBeInTheDocument();
     await user.click(await screen.findByRole('radio', { name: 'Active' }));
     expect(screen.getByRole('radio', { name: 'Active' })).toHaveAttribute('aria-checked', 'true');
     await user.click(screen.getByRole('button', { name: 'Apply' }));
@@ -147,7 +158,7 @@ describe('FilterPicker', () => {
 
   it('clears to its clear value', async () => {
     const applied: string[] = [];
-    renderPicker(false, (value) => applied.push(value));
+    renderPicker(1280, (value) => applied.push(value));
     const user = userEvent.setup();
 
     await user.click(screen.getByRole('button', { name: 'All' }));

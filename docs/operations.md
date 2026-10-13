@@ -12,10 +12,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-13T09:35:00Z'
+  at: '2026-10-13T15:10:00Z'
 verified:
-  - by: "human:mfontcuberta"
-    at: "2026-10-13T09:41:23Z"
+  - by: 'human:mfontcuberta'
+    at: '2026-10-13T15:10:00Z'
 severity: medium
 operates:
   - /engineering/apps/hidalgo-admin
@@ -78,7 +78,7 @@ theme, and the collapsed sidebar are new keys too (`hj_admin.locale`, `hj_admin.
 ### Manual UI check
 
 Before publishing, and after a change to the theme or the shell, check in Chrome and in Safari, at
-desktop width and below 700 px, in light and dark mode:
+desktop width and below 768 px, in light and dark mode:
 
 - Sign-in, a reload on a deep link, language (`es`, `ca`, `en`) and theme (`system`, `light`,
   `dark`) with the sidebar staying dark.
@@ -113,16 +113,16 @@ the backend's logs and traces for the same requests.
 
 No alerts exist. Problems are reported by staff.
 
-| Symptom                                                                                | Likely cause                                                                |
-| -------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| The app does not render, and the console says the environment configuration is invalid | The build has no `VITE_API_BASE_URL`, or it is not an `http` or `https` URL |
-| Every screen shows a network error; sign-in fails with a network message               | Backend down or unreachable, or the build points at the wrong API origin    |
-| A browser error says the request was blocked by a content security policy              | The nginx `connect-src` does not include the API origin (`API_ORIGIN`)      |
-| Reloading a page or opening a shared link returns 404 from the host                    | The host does not fall back to `index.html`                                 |
-| Staff are sent to `/login` with "your session has expired"                             | Refresh token rejected, or the account was blocked                          |
-| Sign-in works but shows "no admin access"                                              | The account's role is not `admin` or `super_admin`                          |
-| After cutover the panel asks for sign-in even though Flutter was open                  | Expected. The storage keys changed                                          |
-| Old UI after a deploy                                                                  | The browser cached `index.html`; hard reload                                |
+| Symptom                                                                                | Likely cause                                                                                     |
+| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| The app does not render, and the console says the environment configuration is invalid | The build has no `VITE_API_BASE_URL`, or it is not an `http` or `https` URL                      |
+| Every screen shows a network error; sign-in fails with a network message               | Backend down or unreachable, or the build points at the wrong API origin                         |
+| A browser error says the request was blocked by a content security policy              | The nginx `connect-src` does not include the API origin (`API_ORIGIN`)                           |
+| Reloading a page or opening a shared link returns 404 from the host                    | The host does not fall back to `index.html`                                                      |
+| Staff are sent to `/login` with "your session has expired"                             | Refresh token rejected, or the account was blocked                                               |
+| Sign-in works but shows "no admin access"                                              | The account's role is not `admin` or `super_admin`                                               |
+| After cutover the panel asks for sign-in even though Flutter was open                  | Expected. The storage keys changed                                                               |
+| Old UI after a deploy                                                                  | The browser cached `index.html`; hard reload                                                     |
 | Free slots today stays 0                                                               | The salon has no remaining free grid starts today. The panel shows the count the backend returns |
 
 ## Step-by-Step Diagnosis

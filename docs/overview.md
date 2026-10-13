@@ -19,8 +19,8 @@ generated:
   by: 'ai-dev/okf-doc-writer'
   at: '2026-10-13T09:35:00Z'
 verified:
-  - by: "human:mfontcuberta"
-    at: "2026-10-13T09:41:23Z"
+  - by: 'human:mfontcuberta'
+    at: '2026-10-13T09:41:23Z'
 resource: /engineering/apps/hidalgo-admin
 service_status: active
 tier: 1

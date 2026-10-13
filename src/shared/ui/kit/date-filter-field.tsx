@@ -6,7 +6,7 @@ import { ActionPicker, DateRangeDialog, type ActionOption, type DateRangeLabels 
 import { ToolbarField } from './toolbar';
 
 type DateFilterFieldProps = {
-  /** A sheet from the bottom on compact layouts, a panel under the field otherwise. */
+  /** Kept so current screens still type-check. The quick-pick container follows the viewport. */
   compact: boolean;
   className?: string;
   /** The toolbar label of the current filter. */

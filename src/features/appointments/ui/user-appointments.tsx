@@ -91,8 +91,8 @@ export function UserAppointments({
   if (page.items.length === 0) {
     // `_ClientAppointmentsEmptyState`: the message on the muted surface, 18px padding.
     return (
-      <MutedPanel className="p-[18px]">
-        <p className="leading-[1.5] text-content-secondary">{emptyMessage}</p>
+      <MutedPanel className="p-4">
+        <p className="text-body text-muted-foreground">{emptyMessage}</p>
       </MutedPanel>
     );
   }
@@ -194,7 +194,7 @@ function AppointmentsTable({ label, items, customerName, actions, footer }: Tabl
         minWidth: 150,
         grow: 2,
         cell: (item) => (
-          <span className="block truncate font-extrabold text-on-surface">{timeLabel(intl, item)}</span>
+          <span className="block truncate text-body-strong text-foreground">{timeLabel(intl, item)}</span>
         ),
       },
       {
@@ -208,7 +208,7 @@ function AppointmentsTable({ label, items, customerName, actions, footer }: Tabl
             {item.userId && (
               <Avatar src={item.customerAvatarUrl} size={32} viewLabel={text('adminUserViewPhoto')} />
             )}
-            <span className="min-w-0 flex-1 truncate font-bold text-on-surface">{customerName}</span>
+            <span className="min-w-0 flex-1 truncate font-bold text-foreground">{customerName}</span>
           </span>
         ),
       },
@@ -218,7 +218,7 @@ function AppointmentsTable({ label, items, customerName, actions, footer }: Tabl
         initialWidth: 220,
         minWidth: 170,
         grow: 3,
-        cell: (item) => <span className="block truncate text-content-secondary">{item.serviceName}</span>,
+        cell: (item) => <span className="block truncate text-muted-foreground">{item.serviceName}</span>,
       },
       {
         id: 'message',
@@ -229,11 +229,11 @@ function AppointmentsTable({ label, items, customerName, actions, footer }: Tabl
         cell: (item) => {
           const message = item.customerNotes.trim();
           return message ? (
-            <span title={message} className="line-clamp-2 leading-[1.35] text-on-surface">
+            <span title={message} className="line-clamp-2 text-body text-foreground">
               {messagePreviewOf(message)}
             </span>
           ) : (
-            <span className="text-content-secondary">{messagePreviewOf(message)}</span>
+            <span className="text-muted-foreground">{messagePreviewOf(message)}</span>
           );
         },
       },

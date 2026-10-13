@@ -1,8 +1,8 @@
 import { expect, test } from '../support/backend';
 import { shell, signedIn } from '../support/shell';
 
-// admin_shell.dart: under 700px a drawer and the mobile header; 700–1099px the compact sidebar
-// without a collapse button; from 1100px the full sidebar, which can collapse.
+// Under 768px a drawer and the mobile header; 768–1023px a 60px icon rail that opens a labeled
+// overlay; from 1024px the full sidebar, which can collapse.
 
 test.beforeEach(async ({ page, backend }) => {
   await signedIn(page, backend);
@@ -29,7 +29,9 @@ test('at 1440px the full sidebar collapses, and stays collapsed after a reload',
   await expect(ui.section('Servicios')).toHaveText('Servicios');
 });
 
-test('at 900px the sidebar is compact and cannot expand', async ({ page }) => {
+test('at 900px the icon rail opens a labeled overlay without writing the desktop preference', async ({
+  page,
+}) => {
   await page.setViewportSize({ width: 900, height: 900 });
   const ui = shell(page);
   await page.goto('/services');
@@ -38,11 +40,20 @@ test('at 900px the sidebar is compact and cannot expand', async ({ page }) => {
   await expect(ui.navigation).toHaveJSProperty('offsetWidth', 60);
   await expect(ui.expand).toHaveCount(0);
   await expect(ui.collapse).toHaveCount(0);
-
-  // The compact footer keeps sign-out, language, and theme as icon buttons.
+  await expect(ui.section('Servicios')).toHaveText('');
   await expect(ui.signOut).toBeVisible();
   await expect(page.getByRole('button', { name: 'Idioma' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Apariencia' })).toBeVisible();
+
+  await ui.menuButton.click();
+  const overlay = page.getByRole('dialog', { name: 'Menú de navegación' });
+  await expect(overlay.getByRole('link', { name: 'Clientes', exact: true })).toHaveText('Clientes');
+  await overlay.getByRole('link', { name: 'Clientes', exact: true }).click();
+  await expect(overlay).toHaveCount(0);
+  await expect(page).toHaveURL('/clients');
+
+  const stored = await page.evaluate(() => localStorage.getItem('hj_admin.sidebar_collapsed'));
+  expect(stored ?? '').not.toContain('"collapsed":true');
 });
 
 test('at 390px the mobile header shows the screen and the menu opens a drawer', async ({ page }) => {

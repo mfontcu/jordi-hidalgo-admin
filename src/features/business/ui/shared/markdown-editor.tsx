@@ -136,10 +136,10 @@ export function MarkdownEditor({ value, onChange, readOnly = false, id }: Markdo
 
   const editor = (
     <div
-      className="flex min-h-0 flex-col overflow-hidden rounded-lg border border-outline-variant bg-surface"
+      className="flex min-h-0 flex-col overflow-hidden rounded-lg border border-border bg-card"
       style={{ height: EDIT_PANE_HEIGHT }}
     >
-      <div className="flex shrink-0 gap-1 border-b border-outline-variant px-2 py-1.5">
+      <div className="flex shrink-0 gap-1 border-b border-border px-2 py-1.5">
         <ToolbarButton
           label="Bold"
           icon="format_bold"
@@ -204,7 +204,7 @@ export function MarkdownEditor({ value, onChange, readOnly = false, id }: Markdo
           {text('businessMarkdownEditorPreview')}
         </Button>
       </div>
-      <p className="text-body-sm text-content-muted">{text('businessMarkdownEditorLivePreviewHint')}</p>
+      <p className="text-caption text-muted-foreground">{text('businessMarkdownEditorLivePreviewHint')}</p>
       <div className="grid grid-cols-1 gap-3 min-[640px]:grid-cols-2">
         {editor}
         <PreviewPane source={value} emptyLabel={text('businessMarkdownEditorEmptyPreview')} fill />
@@ -227,7 +227,7 @@ function ToolbarButton({
       type="button"
       aria-label={label}
       onClick={onClick}
-      className="inline-flex size-8 cursor-pointer items-center justify-center rounded-sm text-on-surface-variant hover:bg-[color-mix(in_srgb,var(--on-surface)_6%,transparent)]"
+      className="inline-flex size-8 cursor-pointer items-center justify-center rounded-sm text-foreground hover:bg-[color-mix(in_srgb,var(--foreground)_6%,transparent)]"
     >
       <Icon name={icon} size={18} />
     </button>
@@ -248,17 +248,14 @@ function PreviewPane({
   const trimmed = source.trim();
   return (
     <div
-      className={cn(
-        'overflow-auto rounded-lg border border-outline-variant bg-surface p-4',
-        fill && 'min-h-0',
-      )}
+      className={cn('overflow-auto rounded-lg border border-border bg-card p-4', fill && 'min-h-0')}
       style={{
         height: fill ? EDIT_PANE_HEIGHT : undefined,
         maxHeight: fill ? undefined : maxHeight,
       }}
     >
       {trimmed === '' ? (
-        <p className="text-body-md text-content-muted italic">{emptyLabel}</p>
+        <p className="text-body text-muted-foreground italic">{emptyLabel}</p>
       ) : (
         <Suspense
           fallback={
@@ -267,7 +264,7 @@ function PreviewPane({
             </div>
           }
         >
-          <div className="text-body-md text-on-surface [&_a]:text-primary [&_h1]:mb-3 [&_h1]:text-[22px] [&_h1]:font-extrabold [&_h2]:mb-2 [&_h2]:text-[18px] [&_h2]:font-extrabold [&_h3]:mb-2 [&_h3]:text-[16px] [&_h3]:font-bold [&_li]:my-0.5 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-2 [&_p]:leading-[1.45] [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-5">
+          <div className="text-body text-foreground [&_a]:text-primary [&_h1]:mb-3 [&_h1]:text-title [&_h2]:mb-2 [&_h2]:text-heading [&_h3]:mb-2 [&_h3]:text-body-strong [&_li]:my-0.5 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-2 [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-5">
             <MarkdownPreview source={source} />
           </div>
         </Suspense>

@@ -10,10 +10,13 @@ tags:
 owner: 'owner:self'
 domain: /projects/hidalgo-junior
 visibility: personal
-status: draft
+status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
   at: '2026-10-13T07:48:14Z'
+verified:
+  - by: 'human:mfontcuberta'
+    at: '2026-10-13T20:00:00Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -58,22 +61,22 @@ Sign-out does not call the backend. It clears the tokens and the query cache.
 
 ## Dashboard, availability, appointments, slot watches
 
-| Operation                                                        | Caller                                                                                                       |
-| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Operation                                                        | Caller                                                                                                                                                            |
+| ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `GET /admin/dashboard/summary`                                   | Dashboard. Refetched on a language change. The next appointment's service name follows the request locale. Free slots today are the remaining booking-grid starts |
-| `GET /services`                                                  | Availability overview (public catalog)                                                                       |
-| `GET /availability/dates`, `GET /availability/slots`             | Availability overview, and the appointment form and reschedule                                               |
-| `GET /admin/appointments`                                        | Appointments list, day agenda, a user's appointments, the conflicts check                                    |
-| `GET /admin/appointments/{appointmentID}`                        | Detail, reschedule                                                                                           |
-| `GET /admin/appointments/{appointmentID}/reschedule-chain`       | Detail                                                                                                       |
-| `GET /admin/appointments/{appointmentID}/customer-push-messages` | Detail and day agenda                                                                                        |
-| `POST /admin/appointments`                                       | Create                                                                                                       |
-| `PATCH /admin/appointments/{appointmentID}/reschedule`           | Reschedule                                                                                                   |
-| `PATCH /admin/appointments/{appointmentID}/status`               | Complete and no-show, including bulk                                                                         |
-| `PATCH /admin/appointments/{appointmentID}/cancel`               | Cancel, including bulk and the conflicts check                                                               |
-| `POST /admin/appointments/{appointmentID}/customer-push`         | Customer push                                                                                                |
-| `GET /admin/slot-watches`                                        | Slot-watch list. The salon day is the only server filter                                                     |
-| `POST /admin/slot-watches/{watchID}/cancel`                      | Cancel a watch                                                                                               |
+| `GET /services`                                                  | Availability overview (public catalog)                                                                                                                            |
+| `GET /availability/dates`, `GET /availability/slots`             | Availability overview, and the appointment form and reschedule                                                                                                    |
+| `GET /admin/appointments`                                        | Appointments list, day agenda, a user's appointments, the conflicts check                                                                                         |
+| `GET /admin/appointments/{appointmentID}`                        | Detail, reschedule                                                                                                                                                |
+| `GET /admin/appointments/{appointmentID}/reschedule-chain`       | Detail                                                                                                                                                            |
+| `GET /admin/appointments/{appointmentID}/customer-push-messages` | Detail and day agenda                                                                                                                                             |
+| `POST /admin/appointments`                                       | Create                                                                                                                                                            |
+| `PATCH /admin/appointments/{appointmentID}/reschedule`           | Reschedule                                                                                                                                                        |
+| `PATCH /admin/appointments/{appointmentID}/status`               | Complete and no-show, including bulk                                                                                                                              |
+| `PATCH /admin/appointments/{appointmentID}/cancel`               | Cancel, including bulk and the conflicts check                                                                                                                    |
+| `POST /admin/appointments/{appointmentID}/customer-push`         | Customer push                                                                                                                                                     |
+| `GET /admin/slot-watches`                                        | Slot-watch list. The salon day is the only server filter                                                                                                          |
+| `POST /admin/slot-watches/{watchID}/cancel`                      | Cancel a watch                                                                                                                                                    |
 
 Status and cancel bodies send the appointment's stored internal notes. The backend replaces the
 notes with what it receives.

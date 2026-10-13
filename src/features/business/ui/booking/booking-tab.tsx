@@ -60,7 +60,7 @@ export function BookingTab({ settings }: BookingTabProps) {
       />
 
       <InfoCard title={text('businessBookingSettingsTitle')} icon="event_available_outlined">
-        <p className="mb-4 text-body-md text-content-secondary">{text('businessBookingSettingsSubtitle')}</p>
+        <p className="mb-4 text-body text-muted-foreground">{text('businessBookingSettingsSubtitle')}</p>
         <div className="flex flex-col gap-4">
           <FormField
             id="booking-slot-interval"

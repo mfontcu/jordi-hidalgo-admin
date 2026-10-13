@@ -10,10 +10,7 @@ type SelectChipsProps<T extends string> = {
   onValueChange: (value: T) => void;
 };
 
-/**
- * Material 3 ChoiceChips with the panel's theme (the recurring rule's weekdays): 8px corners, the
- * selected one filled in the info colors with a check and no border, the others outlined.
- */
+/** Single-choice chips: 6px radius, the selected one in the selection colors, with a check. */
 export function SelectChips<T extends string>({ label, options, value, onValueChange }: SelectChipsProps<T>) {
   return (
     <div role="radiogroup" aria-label={label} className="flex flex-wrap gap-2">
@@ -29,13 +26,13 @@ export function SelectChips<T extends string>({ label, options, value, onValueCh
               onValueChange(option.value);
             }}
             className={cn(
-              'inline-flex h-[34px] cursor-pointer items-center gap-2 rounded-xs border text-label-lg',
+              'inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-md border px-3 text-label',
               selected
-                ? 'border-transparent bg-info-bg pr-4 pl-2 text-info-fg'
-                : 'border-outline-variant bg-chip-surface px-4 text-on-surface-variant hover:bg-[color-mix(in_srgb,var(--on-surface-variant)_8%,var(--chip-surface))]',
+                ? 'border-transparent bg-selection-wash text-selection'
+                : 'border-border bg-card text-foreground hover:bg-muted',
             )}
           >
-            {selected && <Icon name="check" size={18} />}
+            {selected && <Icon name="check" size={20} />}
             {option.label}
           </button>
         );

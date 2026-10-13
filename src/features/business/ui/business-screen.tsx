@@ -26,10 +26,10 @@ export function BusinessScreen() {
 
   return (
     <div className="flex min-w-0 flex-col gap-6 p-4 sm:p-5 lg:p-6">
-      {/* Under 700px the mobile header shows the title; desktop keeps the placeholder's h1. */}
-      <header className="max-[699px]:sr-only">
-        <h1 className="text-headline-md text-on-surface">{text('shellHeaderBusinessTitle')}</h1>
-        <p className="mt-2 text-body-lg text-content-secondary">{text('shellHeaderBusinessSubtitle')}</p>
+      {/* Under 768px the mobile header shows the title; wider widths keep this heading. */}
+      <header className="max-[767px]:sr-only">
+        <h1 className="text-title text-foreground">{text('shellHeaderBusinessTitle')}</h1>
+        <p className="mt-2 text-body text-muted-foreground">{text('shellHeaderBusinessSubtitle')}</p>
       </header>
       <SectionSwitcher value={tab} onValueChange={setTab} />
 

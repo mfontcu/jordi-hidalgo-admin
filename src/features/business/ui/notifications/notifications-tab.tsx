@@ -36,11 +36,11 @@ export function NotificationsTab({ settings }: NotificationsTabProps) {
 
   return (
     <div className="flex flex-col gap-6">
-      <p className="text-body-md text-content-secondary">{text('businessNotificationsIntro')}</p>
+      <p className="text-body text-muted-foreground">{text('businessNotificationsIntro')}</p>
       {notifications.groups.map((group) => (
         <InfoCard key={group.typeCode} title={group.typeName} icon="notifications_none_outlined">
           {group.typeDescription ? (
-            <p className="mb-4 text-body-md text-content-secondary">{group.typeDescription}</p>
+            <p className="mb-4 text-body text-muted-foreground">{group.typeDescription}</p>
           ) : null}
           <div className="flex flex-col gap-3">
             {group.channels.map((channel) => (
@@ -85,13 +85,13 @@ function NotificationChannelRow({
   );
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-outline-variant px-4 py-3">
+    <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border px-4 py-3">
       <div className="min-w-0 flex-1">
-        <p className="font-extrabold text-on-surface">{setting.notificationChannelName}</p>
-        <p className="text-body-sm text-content-muted">{setting.notificationChannelCode}</p>
+        <p className="text-body-strong text-foreground">{setting.notificationChannelName}</p>
+        <p className="text-caption text-muted-foreground">{setting.notificationChannelCode}</p>
       </div>
       {showMinutes && (
-        <label className="flex items-center gap-2 text-body-sm text-on-surface-variant">
+        <label className="flex items-center gap-2 text-caption text-foreground">
           <span>{minutesLabel}</span>
           <Input
             className="w-20"

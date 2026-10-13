@@ -29,9 +29,9 @@ import { ExceptionsList } from './exceptions-list';
 
 /** `_RecurringBlockedSlotFormLayoutSpec`, by the screen's width. */
 function formLayoutFor(width: number) {
-  if (width < 640) return { padding: 16, gap: 20, titleSize: 24, subtitleSize: 14, twoColumns: false };
-  if (width < 1040) return { padding: 20, gap: 22, titleSize: 28, subtitleSize: 14, twoColumns: false };
-  return { padding: 24, gap: 24, titleSize: 30, subtitleSize: 15, twoColumns: true };
+  if (width < 640) return { padding: 16, gap: 20, twoColumns: false };
+  if (width < 1040) return { padding: 20, gap: 22, twoColumns: false };
+  return { padding: 24, gap: 24, twoColumns: true };
 }
 
 type Data = ReturnType<typeof useRecurringRuleFormData>;
@@ -60,11 +60,9 @@ export function RecurringRuleFormScreen() {
                 ? 'scheduleRecurringBlockedSlotFormEditSubtitle'
                 : 'scheduleRecurringBlockedSlotFormNewSubtitle',
             )}
-            titleSize={layout.titleSize}
-            subtitleSize={layout.subtitleSize}
             back={{ label: text('scheduleRecurringBlockedSlotBack'), onClick: data.goBack }}
           />
-          <div style={{ marginTop: width < 700 ? 12 : layout.gap }}>
+          <div style={{ marginTop: width < 768 ? 12 : layout.gap }}>
             {data.isLoading ? (
               <div className="flex justify-center py-12">
                 <Spinner size={36} className="text-primary" />
@@ -122,7 +120,7 @@ function FormContent({ rule, data, twoColumns }: ContentProps) {
 
   const configuration = (
     <InfoCard title={text('scheduleRecurringBlockedSlotFormRuleConfiguration')} icon="repeat_rounded">
-      <p className="mb-2.5 font-extrabold text-on-surface">
+      <p className="mb-2.5 text-body-strong text-foreground">
         {text('scheduleRecurringBlockedSlotFormWeekdayLabel')}
       </p>
       <SelectChips<`${Weekday}`>
@@ -133,7 +131,7 @@ function FormContent({ rule, data, twoColumns }: ContentProps) {
           form.setWeekday(Number(value) as Weekday);
         }}
       />
-      <div className="mt-[18px] grid grid-cols-2 gap-3">
+      <div className="mt-4 grid grid-cols-2 gap-3">
         <TimePickerField
           id="rule-start"
           label={text('scheduleTimeStart')}
@@ -156,7 +154,7 @@ function FormContent({ rule, data, twoColumns }: ContentProps) {
       </div>
       <MutedPanel className="mt-3.5 rounded-lg px-4 py-3.5">
         <label className="flex cursor-pointer items-center gap-3">
-          <span className="flex-1 font-bold text-on-surface">
+          <span className="flex-1 text-body-strong text-foreground">
             {text('scheduleRecurringBlockedSlotFormRuleActiveToggle')}
           </span>
           <Switch tone="adaptive" checked={values.isActive} onCheckedChange={form.setActive} />
@@ -179,18 +177,18 @@ function FormContent({ rule, data, twoColumns }: ContentProps) {
 
   const preview = (
     <InfoCard title={text('scheduleBlockedSlotFormPreviewSection')} icon="info_outline_rounded">
-      <MutedPanel className="rounded-lg p-[18px]">
-        <p className="text-[20px] font-black text-on-surface">
+      <MutedPanel className="rounded-lg p-4">
+        <p className="text-heading text-foreground">
           {dotted(weekdayName(intl, values.weekday), ruleTimeRange(values))}
         </p>
-        <p className="mt-2 leading-[1.5] text-content-secondary">
+        <p className="mt-2 text-body text-muted-foreground">
           {values.reason.trim() || text('scheduleNoReasonDefined')}
         </p>
         <p
           className={
             values.isActive
-              ? 'mt-3 font-extrabold text-success-fg'
-              : 'mt-3 font-extrabold text-content-secondary'
+              ? 'mt-3 text-body-strong text-success'
+              : 'mt-3 text-body-strong text-muted-foreground'
           }
         >
           {text(
@@ -218,7 +216,7 @@ function FormContent({ rule, data, twoColumns }: ContentProps) {
           }}
         />
       ) : (
-        <p className="leading-[1.55] text-content-secondary">
+        <p className="text-body text-muted-foreground">
           {text('scheduleRecurringBlockedSlotFormExceptionsUnavailable')}
         </p>
       )}
@@ -301,7 +299,7 @@ function FormExceptions({ exceptions, error, onRetry, onAdd }: FormExceptionsPro
       {any || error ? (
         <ExceptionsList exceptions={exceptions} error={error} onRetry={onRetry} variant="form" />
       ) : (
-        <p className="leading-[1.55] text-content-secondary">
+        <p className="text-body text-muted-foreground">
           {text('scheduleRecurringBlockedSlotFormExceptionsHint')}
         </p>
       )}

@@ -12,10 +12,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-12T14:06:00Z'
+  at: '2026-10-13T11:48:34Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-12T14:13:05Z'
+    at: '2026-10-13T15:10:00Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -135,11 +135,11 @@ make. A 401 refreshes once; a rejected refresh or a blocked user expires the ses
 
 `shellLayoutFor` (`src/features/shell/model/layout.ts`):
 
-| Width        | Layout                                                                                                       |
-| ------------ | ------------------------------------------------------------------------------------------------------------ |
-| under 700 px | Drawer and the mobile header. The header is the only `banner`                                                |
-| 700–1099 px  | Compact sidebar. It cannot expand                                                                            |
-| from 1100 px | Full sidebar. Staff can collapse it. The choice is kept (`hj_admin.sidebar_collapsed`) and survives a reload |
+| Width        | Layout                                                                                                                                                                                  |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| under 768 px | Drawer and the mobile header. The header is the only `banner`                                                                                                                           |
+| 768–1023 px  | 60 px icon rail. A control opens the labeled sidebar as an overlay and closes it on navigation. The rail does not push the page, and the desktop collapse preference does not change it |
+| from 1024 px | 240 px sidebar. Staff can collapse it. The choice is kept (`hj_admin.sidebar_collapsed`) and survives a reload. Collapsed is the 60 px rail                                             |
 
 Lists that have a card layout use it under 900 px of content width.
 

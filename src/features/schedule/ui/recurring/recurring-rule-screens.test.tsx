@@ -149,8 +149,9 @@ describe('recurring rule form', () => {
 
     await user.click(await screen.findByRole('button', { name: 'Fin' }));
     const dialog = await screen.findByRole('dialog');
-    await user.clear(within(dialog).getByLabelText('Hora'));
-    await user.type(within(dialog).getByLabelText('Hora'), '10');
+    const input = within(dialog).getByLabelText('Hora');
+    await user.clear(input);
+    await user.type(input, '10:30');
     await user.click(within(dialog).getByRole('button', { name: 'Seleccionar' }));
     await user.click(screen.getByRole('button', { name: 'Crear bloqueo recurrente' }));
 

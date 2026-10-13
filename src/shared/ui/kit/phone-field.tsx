@@ -44,7 +44,7 @@ const MAX_LENGTH = 32;
 
 /**
  * AdminPhoneField: the national number with the country prefix in front, which opens the country
- * picker: a bottom sheet under 700px, as in Flutter, and a panel under the field on wider screens,
+ * picker: a bottom sheet under 768px, and a panel under the field on wider screens,
  * like the list filters (approved change). Read-only fields show the stored number as an ordinary
  * field, without the prefix.
  */
@@ -60,7 +60,7 @@ export function PhoneField({
   ...props
 }: PhoneFieldProps) {
   const [open, setOpen] = useState(false);
-  const narrow = useWindowNarrowerThan(700);
+  const narrow = useWindowNarrowerThan(768);
   const selected = countryOf(country, locale);
 
   if (readOnly) {
@@ -70,7 +70,7 @@ export function PhoneField({
         type="tel"
         value={value}
         readOnly
-        className={cn('bg-surface-muted', className)}
+        className={cn('bg-card', className)}
         onChange={() => undefined}
         {...props}
       />
@@ -95,17 +95,17 @@ export function PhoneField({
       }}
       // The prefix (RegisterCountryCodePicker builder): an 8px inset, the 26×18 flag with 3px
       // corners, 6px, the dial code (14/w600), and the drop-down arrow; 4px after it.
-      className="ml-[7px] flex shrink-0 cursor-pointer items-center rounded-xs pr-1 hover:bg-surface-muted"
+      className="ml-[7px] flex shrink-0 cursor-pointer items-center rounded-xs pr-1 hover:bg-card"
     >
       {selected && (
         <>
           <img src={flagUrl(selected.code)} alt="" className="h-[18px] w-[26px] rounded-[3px] object-cover" />
-          <span className="ml-1.5 text-[14px] font-semibold tracking-normal text-on-surface">
+          <span className="ml-1.5 text-[14px] font-semibold tracking-normal text-foreground">
             {selected.dial}
           </span>
         </>
       )}
-      <Icon name="arrow_drop_down_rounded" size={22} className="text-content-secondary" />
+      <Icon name="arrow_drop_down_rounded" size={22} className="text-muted-foreground" />
     </button>
   );
   const field = (
@@ -113,8 +113,8 @@ export function PhoneField({
       className={cn(
         fieldBase,
         // The field look on the wrapper; the input inside draws nothing of its own.
-        'flex items-center p-0 focus-within:border-focus focus-within:shadow-[inset_0_0_0_0.4px_var(--focus)]',
-        'has-[input[aria-invalid=true]]:border-error',
+        'flex items-center p-0 focus-within:border-foreground focus-within:shadow-[inset_0_0_0_0.4px_var(--foreground)]',
+        'has-[input[aria-invalid=true]]:border-destructive',
         className,
       )}
     >
@@ -127,7 +127,7 @@ export function PhoneField({
         onChange={(event) => {
           onValueChange(event.target.value.replace(ALLOWED, '').slice(0, MAX_LENGTH));
         }}
-        className="min-w-0 flex-1 bg-transparent py-(--input-padding-y) pr-[19px] pl-[5px] text-body-lg text-on-surface outline-none placeholder:text-on-surface-muted"
+        className="min-w-0 flex-1 bg-transparent py-(--input-padding-y) pr-[19px] pl-[5px] text-body text-foreground outline-none placeholder:text-muted-foreground"
         {...props}
       />
     </div>
@@ -154,7 +154,7 @@ export function PhoneField({
                 <Icon name="close" size={22} />
               </Button>
             </div>
-            <SheetTitle className="px-6 pb-1.5 text-title-md font-bold">{labels.pickerTitle}</SheetTitle>
+            <SheetTitle className="px-6 pb-1.5 text-body-strong font-bold">{labels.pickerTitle}</SheetTitle>
             <CountryList locale={locale} labels={labels} onPick={pick} />
           </SheetContent>
         </Sheet>
@@ -170,7 +170,7 @@ export function PhoneField({
         aria-label={labels.pickerTitle}
         className="flex h-[440px] w-[400px] flex-col overflow-hidden p-0 pt-5"
       >
-        <p className="px-6 pb-1.5 text-title-md font-bold text-on-surface">{labels.pickerTitle}</p>
+        <p className="px-6 pb-1.5 text-body-strong font-bold text-foreground">{labels.pickerTitle}</p>
         <CountryList locale={locale} labels={labels} onPick={pick} />
       </PopoverContent>
     </Popover>
@@ -197,7 +197,7 @@ function CountryList({ locale, labels, onPick }: CountryListProps) {
       <div className="relative px-6">
         <Icon
           name="search"
-          className="pointer-events-none absolute top-1/2 left-[42px] -translate-y-1/2 text-on-surface-variant"
+          className="pointer-events-none absolute top-1/2 left-[42px] -translate-y-1/2 text-foreground"
         />
         <input
           type="search"
@@ -210,15 +210,15 @@ function CountryList({ locale, labels, onPick }: CountryListProps) {
           placeholder={labels.pickerSearch}
           aria-label={labels.pickerSearch}
           className={cn(
-            'h-12 w-full rounded-[14px] border border-outline-variant bg-surface pr-4 pl-11 text-body-lg text-on-surface outline-none',
-            'placeholder:text-on-surface-muted focus-visible:border-2 focus-visible:border-focus focus-visible:pl-[43px]',
+            'h-12 w-full rounded-[14px] border border-border bg-card pr-4 pl-11 text-body text-foreground outline-none',
+            'placeholder:text-muted-foreground focus-visible:border-2 focus-visible:border-foreground focus-visible:pl-[43px]',
             '[&::-webkit-search-cancel-button]:hidden',
           )}
         />
       </div>
       <div className="mt-2 min-h-0 flex-1 overflow-y-auto">
         {rows.length === 0 ? (
-          <p className="flex h-full items-center justify-center text-body-lg text-on-surface">
+          <p className="flex h-full items-center justify-center text-body text-foreground">
             {labels.pickerEmpty}
           </p>
         ) : (
@@ -232,7 +232,7 @@ function CountryList({ locale, labels, onPick }: CountryListProps) {
                     onClick={() => {
                       onPick(country.code);
                     }}
-                    className="flex w-full cursor-pointer items-center px-5 py-2.5 text-left hover:bg-surface-muted"
+                    className="flex w-full cursor-pointer items-center px-5 py-2.5 text-left hover:bg-card"
                   >
                     <img
                       src={flagUrl(country.code)}
@@ -240,7 +240,7 @@ function CountryList({ locale, labels, onPick }: CountryListProps) {
                       loading="lazy"
                       className="mr-3 w-[22px] shrink-0"
                     />
-                    <span className="min-w-0 flex-1 truncate text-[14px] font-semibold tracking-normal text-on-surface-secondary">
+                    <span className="min-w-0 flex-1 truncate text-[14px] font-semibold tracking-normal text-muted-foreground">
                       {label}
                     </span>
                   </button>

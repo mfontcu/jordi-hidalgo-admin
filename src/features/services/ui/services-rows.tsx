@@ -90,7 +90,7 @@ function ServicesTable({ services, onOpen, onNewVersion, footer }: ServicesTable
   const columns = useMemo((): DataTableColumn<Service>[] => {
     const text = (id: MessageId) => intl.formatMessage({ id });
     const secondary = (value: string) => (
-      <span className="block truncate text-content-secondary">{value}</span>
+      <span className="block truncate text-muted-foreground">{value}</span>
     );
     const name: DataTableColumn<Service> = {
       id: 'service',
@@ -98,7 +98,7 @@ function ServicesTable({ services, onOpen, onNewVersion, footer }: ServicesTable
       initialWidth: 220,
       minWidth: 170,
       grow: 3,
-      cell: (service) => <span className="block truncate font-bold text-on-surface">{service.name}</span>,
+      cell: (service) => <span className="block truncate font-bold text-foreground">{service.name}</span>,
     };
     const category: DataTableColumn<Service> = {
       id: 'category',
@@ -114,7 +114,7 @@ function ServicesTable({ services, onOpen, onNewVersion, footer }: ServicesTable
       ...(fixed ? { fixedWidth: 80 } : { initialWidth: 90, minWidth: 70 }),
       grow: 0,
       cell: (service) => (
-        <span className="block truncate font-bold text-content-secondary">{service.displayOrder}</span>
+        <span className="block truncate font-bold text-muted-foreground">{service.displayOrder}</span>
       ),
     });
     const status: DataTableColumn<Service> = {

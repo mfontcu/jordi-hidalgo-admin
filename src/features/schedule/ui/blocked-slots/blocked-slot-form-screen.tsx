@@ -36,11 +36,9 @@ import {
 
 /** `_BlockedSlotFormLayoutSpec`, by the screen's width. */
 function formLayoutFor(width: number) {
-  if (width < 640)
-    return { padding: 16, gap: 20, gapLarge: 24, titleSize: 24, subtitleSize: 14, twoColumns: false };
-  if (width < 1040)
-    return { padding: 20, gap: 22, gapLarge: 26, titleSize: 28, subtitleSize: 14, twoColumns: false };
-  return { padding: 24, gap: 24, gapLarge: 28, titleSize: 30, subtitleSize: 15, twoColumns: true };
+  if (width < 640) return { padding: 16, gap: 20, gapLarge: 24, twoColumns: false };
+  if (width < 1040) return { padding: 20, gap: 22, gapLarge: 26, twoColumns: false };
+  return { padding: 24, gap: 24, gapLarge: 28, twoColumns: true };
 }
 
 type Layout = ReturnType<typeof formLayoutFor>;
@@ -63,11 +61,9 @@ export function BlockedSlotFormScreen() {
             subtitle={text(
               data.isEdit ? 'scheduleBlockedSlotFormEditSubtitle' : 'scheduleBlockedSlotFormNewSubtitle',
             )}
-            titleSize={layout.titleSize}
-            subtitleSize={layout.subtitleSize}
             back={{ label: text('scheduleBlockedSlotBack'), onClick: data.goBack }}
           />
-          <div style={{ marginTop: width < 700 ? 12 : layout.gap }}>
+          <div style={{ marginTop: width < 768 ? 12 : layout.gap }}>
             {data.isLoading ? (
               <div className="flex justify-center py-12">
                 <Spinner size={36} className="text-primary" />
@@ -194,13 +190,13 @@ function FormContent({ slot, layout, onCancel }: ContentProps) {
   const preview = (
     <InfoCard title={text('scheduleBlockedSlotFormPreviewSection')} icon="info_outline">
       <MutedPanel>
-        <p className="text-[18px] font-extrabold text-on-surface">
+        <p className="text-heading text-foreground">
           {previewDate(values.day, locale) ?? text('scheduleBlockedSlotFormPreviewNoDate')}
         </p>
-        <p className="mt-2 leading-[1.5] text-content-secondary">
+        <p className="mt-2 text-body text-muted-foreground">
           {previewTimeRange(values) ?? text('scheduleBlockedSlotFullDayLabel')}
         </p>
-        <p className="mt-2 leading-[1.5] text-content-secondary">
+        <p className="mt-2 text-body text-muted-foreground">
           {values.reason || text('scheduleBlockedSlotFormPreviewNoReason')}
         </p>
       </MutedPanel>
@@ -292,13 +288,11 @@ function StoredSummary({ slot, gap }: { slot: BlockedSlot; gap: number }) {
   return (
     <div style={{ marginBottom: gap }}>
       <SummaryCard className="p-5">
-        <p className="text-[14px] font-bold text-content-secondary">
-          {text('scheduleBlockedSlotSummaryTitle')}
-        </p>
-        <p className="mt-2 text-[28px] leading-[1.05] font-black text-on-surface">
+        <p className="text-label text-muted-foreground">{text('scheduleBlockedSlotSummaryTitle')}</p>
+        <p className="mt-2 text-title text-foreground">
           {dotted(blockedSlotDate(slot, localeOf(intl)), blockedSlotTimeText(intl, slot))}
         </p>
-        <p className="mt-2 text-[15px] leading-[1.5] text-content-secondary">
+        <p className="mt-2 text-body text-muted-foreground">
           {slot.reason || text('scheduleNoReasonIndicated')}
         </p>
       </SummaryCard>
@@ -328,7 +322,7 @@ function SwitchPanel({
       <label className="flex cursor-pointer items-center gap-3">
         <span
           className={
-            hint ? 'flex-1 leading-[1.5] text-content-secondary' : 'flex-1 font-bold text-on-surface'
+            hint ? 'flex-1 text-body text-muted-foreground' : 'flex-1 text-body-strong text-foreground'
           }
         >
           {label}

@@ -22,7 +22,7 @@ export function ExceptionsList({ exceptions, error, onRetry, variant }: Exceptio
   if (error) {
     return (
       <div className="flex flex-col items-start gap-2">
-        <p className="leading-[1.5] text-content-secondary">
+        <p className="text-body text-muted-foreground">
           {[text('scheduleRecurringBlockedSlotExceptionsLoadError'), describeFailure(error)].join(' ')}
         </p>
         <Button variant="text" icon="refresh" onClick={onRetry}>
@@ -40,8 +40,10 @@ export function ExceptionsList({ exceptions, error, onRetry, variant }: Exceptio
       <ul className="flex flex-col gap-3.5">
         {exceptions.map((exception) => (
           <li key={exception.id}>
-            <p className="font-black text-on-surface">{exceptionDateLabel(exception, localeOf(intl))}</p>
-            <p className="mt-1 leading-[1.45] text-content-secondary">{reasonOf(exception)}</p>
+            <p className="text-body-strong text-foreground">
+              {exceptionDateLabel(exception, localeOf(intl))}
+            </p>
+            <p className="mt-1 text-body text-muted-foreground">{reasonOf(exception)}</p>
           </li>
         ))}
       </ul>
@@ -49,7 +51,7 @@ export function ExceptionsList({ exceptions, error, onRetry, variant }: Exceptio
   }
   if (exceptions.length === 0) {
     return (
-      <p className="leading-[1.55] text-content-secondary">
+      <p className="text-body text-muted-foreground">
         {text('scheduleRecurringBlockedSlotDetailExceptionsEmpty')}
       </p>
     );
@@ -58,12 +60,14 @@ export function ExceptionsList({ exceptions, error, onRetry, variant }: Exceptio
     <ul className="divide-y divide-border">
       {exceptions.map((exception) => (
         <li key={exception.id} className="flex items-start gap-3 py-3 first:pt-0 last:pb-0">
-          <span className="flex shrink-0 rounded-[14px] bg-success-bg p-2.5 text-success-fg">
+          <span className="flex shrink-0 rounded-md bg-success-wash p-2.5 text-success">
             <Icon name="event_available_outlined" size={20} />
           </span>
           <div className="min-w-0 flex-1">
-            <p className="font-black text-on-surface">{exceptionDateLabel(exception, localeOf(intl))}</p>
-            <p className="mt-1 leading-[1.4] text-content-secondary">{reasonOf(exception)}</p>
+            <p className="text-body-strong text-foreground">
+              {exceptionDateLabel(exception, localeOf(intl))}
+            </p>
+            <p className="mt-1 text-body text-muted-foreground">{reasonOf(exception)}</p>
           </div>
         </li>
       ))}

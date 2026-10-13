@@ -71,8 +71,8 @@ export function WebTab({ pages, selectedCode, onSelectCode }: WebTabProps) {
   return (
     <div ref={ref} className="min-w-0">
       <div className="mb-4">
-        <h2 className="text-[20px] font-extrabold text-on-surface">{text('businessWebPagesHeading')}</h2>
-        <p className="text-body-md text-content-secondary">{text('businessWebPagesSubtitle')}</p>
+        <h2 className="text-heading text-foreground">{text('businessWebPagesHeading')}</h2>
+        <p className="text-body text-muted-foreground">{text('businessWebPagesSubtitle')}</p>
       </div>
 
       <UnsavedChangesGuard
@@ -109,12 +109,12 @@ export function WebTab({ pages, selectedCode, onSelectCode }: WebTabProps) {
                 className={cn(
                   'rounded-lg border px-4 py-3 text-left',
                   page.code === web.selected?.code
-                    ? 'border-selection-border bg-selection-bg'
-                    : 'border-outline-variant hover:bg-[color-mix(in_srgb,var(--on-surface)_4%,var(--surface))]',
+                    ? 'border-border bg-selection-wash'
+                    : 'border-border hover:bg-[color-mix(in_srgb,var(--foreground)_4%,var(--card))]',
                 )}
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-extrabold text-on-surface">{pageLabel(page)}</span>
+                  <span className="text-body-strong text-foreground">{pageLabel(page)}</span>
                   <StatusPill
                     tone={page.isActive ? 'success' : 'neutral'}
                     label={page.isActive ? text('legalStatusActive') : text('legalStatusInactive')}
@@ -123,7 +123,7 @@ export function WebTab({ pages, selectedCode, onSelectCode }: WebTabProps) {
               </button>
             ))}
           </div>
-          <div className="w-px shrink-0 bg-outline-variant" />
+          <div className="w-px shrink-0 bg-border" />
           <div className="min-w-0 flex-1">
             {web.selected ? <WebEditor web={web} pageLabel={pageLabel(web.selected)} /> : null}
           </div>
@@ -136,12 +136,12 @@ export function WebTab({ pages, selectedCode, onSelectCode }: WebTabProps) {
               <details
                 key={page.code}
                 open={open}
-                className="rounded-lg border border-outline-variant"
+                className="rounded-lg border border-border"
                 onToggle={(event) => {
                   if ((event.target as HTMLDetailsElement).open) web.selectPage(page.code);
                 }}
               >
-                <summary className="cursor-pointer list-none px-4 py-3 font-extrabold text-on-surface">
+                <summary className="cursor-pointer list-none px-4 py-3 text-body-strong text-foreground">
                   <div className="flex items-center justify-between gap-2">
                     <span>{pageLabel(page)}</span>
                     <StatusPill
@@ -150,7 +150,7 @@ export function WebTab({ pages, selectedCode, onSelectCode }: WebTabProps) {
                     />
                   </div>
                 </summary>
-                <div className="border-t border-outline-variant px-4 py-4">
+                <div className="border-t border-border px-4 py-4">
                   {web.selected?.code === page.code ? (
                     <WebEditor web={web} pageLabel={pageLabel(page)} />
                   ) : null}
@@ -173,9 +173,9 @@ function WebEditor({ web, pageLabel }: { web: ReturnType<typeof useWebPages>; pa
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h3 className="text-[18px] font-extrabold text-on-surface">{pageLabel}</h3>
+        <h3 className="text-heading text-foreground">{pageLabel}</h3>
         <div className="flex items-center gap-3">
-          <span className="text-body-md text-content-secondary">
+          <span className="text-body text-muted-foreground">
             {page.isActive ? text('legalStatusActive') : text('legalStatusInactive')}
           </span>
           <Switch

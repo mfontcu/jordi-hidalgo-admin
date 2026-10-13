@@ -88,9 +88,7 @@ export function AvailabilityOverviewScreen() {
                 {overview.isLoading ? text('availabilityRefreshing') : text('availabilityRefreshButton')}
               </Button>
             </div>
-            {contextSummary ? (
-              <p className="text-sm leading-[1.45] text-content-secondary">{contextSummary}</p>
-            ) : null}
+            {contextSummary ? <p className="text-body text-muted-foreground">{contextSummary}</p> : null}
             <ServiceField overview={overview} />
           </div>
         }
@@ -146,9 +144,9 @@ export function AvailabilityOverviewScreen() {
           }}
         >
           <div className="flex flex-col gap-1.5 text-left">
-            <p className="font-extrabold text-on-surface">{overview.selectedService.name}</p>
-            <p className="text-content-secondary">{overview.contextLine?.dateSummary}</p>
-            <p className="font-bold text-on-surface">
+            <p className="text-body-strong text-foreground">{overview.selectedService.name}</p>
+            <p className="text-muted-foreground">{overview.contextLine?.dateSummary}</p>
+            <p className="font-bold text-foreground">
               {text('availabilityCreateDialogTime', { time: pendingSlot.time })}
             </p>
           </div>
@@ -175,7 +173,7 @@ function ServiceField({ overview }: { overview: Overview }) {
       onClear={overview.selectedService ? overview.clearService : undefined}
       labels={{ open: text('availabilityFieldService'), clear: text('adminCommonClear') }}
     >
-      <div className="border-b border-outline-variant p-3">
+      <div className="border-b border-border p-3">
         <SearchField
           value={overview.serviceQuery}
           onValueChange={overview.setServiceQuery}
@@ -214,10 +212,10 @@ function DayAndSlots({
   const text = (id: MessageId) => intl.formatMessage({ id });
 
   const calendar = (
-    <div className="rounded-lg border border-border bg-surface p-3">
-      <p className="mb-2 text-sm font-extrabold text-on-surface">{text('availabilityFieldDay')}</p>
+    <div className="rounded-lg border border-border bg-card p-3">
+      <p className="mb-2 text-body-strong text-foreground">{text('availabilityFieldDay')}</p>
       {overview.bookableDays.length === 0 && !overview.isLoading ? (
-        <p className="py-8 text-center text-content-secondary">{text('availabilityEmptyNoBookableDays')}</p>
+        <p className="py-8 text-center text-muted-foreground">{text('availabilityEmptyNoBookableDays')}</p>
       ) : (
         <Calendar
           mode="single"
@@ -240,12 +238,12 @@ function DayAndSlots({
   );
 
   const slots = (
-    <div className="rounded-lg border border-border bg-surface p-4">
+    <div className="rounded-lg border border-border bg-card p-4">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-        <p className="text-sm font-extrabold text-on-surface">{text('availabilityDaySlotsLabel')}</p>
-        <div className="flex gap-3 text-xs font-bold">
-          <span className="text-success-fg">{text('availabilityLegendAvailable')}</span>
-          <span className="text-content-muted">{text('availabilityLegendUnavailable')}</span>
+        <p className="text-body-strong text-foreground">{text('availabilityDaySlotsLabel')}</p>
+        <div className="flex gap-3 text-caption">
+          <span className="text-success">{text('availabilityLegendAvailable')}</span>
+          <span className="text-muted-foreground">{text('availabilityLegendUnavailable')}</span>
         </div>
       </div>
       {overview.isLoading && overview.slots.length === 0 ? (
@@ -253,7 +251,7 @@ function DayAndSlots({
           <Spinner size={32} className="text-primary" />
         </div>
       ) : overview.slots.length === 0 ? (
-        <p className="py-8 text-center text-content-secondary">{text('availabilityEmptyNoSlotsForDay')}</p>
+        <p className="py-8 text-center text-muted-foreground">{text('availabilityEmptyNoSlotsForDay')}</p>
       ) : (
         <div className="flex flex-wrap gap-2">
           {overview.slots.map((slot) =>
@@ -264,7 +262,7 @@ function DayAndSlots({
                 onClick={() => {
                   onSlotTap(slot);
                 }}
-                className="rounded-md border border-success-fg/30 bg-success-bg px-3 py-2 text-sm font-bold text-success-fg hover:bg-success-bg/80"
+                className="rounded-md border border-success/30 bg-success-wash px-3 py-2 text-body-strong text-success hover:bg-success-wash/80"
               >
                 {slot.time}
               </button>
@@ -273,9 +271,9 @@ function DayAndSlots({
                 key={slot.time}
                 role="status"
                 aria-label={[slot.time, text('availabilityLegendUnavailable')].join(' · ')}
-                className="inline-flex items-center gap-1.5 rounded-md border border-outline/50 bg-surface-muted px-3 py-2 text-sm font-bold text-content-muted line-through decoration-content-muted/70"
+                className="inline-flex items-center gap-1.5 rounded-md border border-border/50 bg-card px-3 py-2 text-body-strong text-muted-foreground line-through decoration-muted-foreground/70"
               >
-                <span className="size-1.5 shrink-0 rounded-full bg-content-muted/70" aria-hidden />
+                <span className="size-1.5 shrink-0 rounded-full bg-muted-foreground/70" aria-hidden />
                 {slot.time}
               </span>
             ),

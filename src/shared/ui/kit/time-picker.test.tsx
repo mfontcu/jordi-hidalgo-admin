@@ -1,11 +1,9 @@
-import { fireEvent, screen, within } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { setViewport } from '@/test/match-media';
 import { renderWithProviders } from '@/test/render';
 
 import type { CalendarLocale } from '../primitives/calendar';
-import { TooltipProvider } from '../primitives/tooltip';
 import { TimePickerField, type TimePickerLabels } from './time-picker';
 
 const labels: TimePickerLabels = {
@@ -23,19 +21,16 @@ const labels: TimePickerLabels = {
 
 function renderField(language: CalendarLocale = 'es', value: string | null = null) {
   const onChange = vi.fn();
-  // The panel's shell provides the tooltips of the entry-mode button.
   renderWithProviders(
-    <TooltipProvider>
-      <TimePickerField
-        id="start"
-        label="Start"
-        value={value}
-        onChange={onChange}
-        initialTime="09:05"
-        language={language}
-        labels={labels}
-      />
-    </TooltipProvider>,
+    <TimePickerField
+      id="start"
+      label="Start"
+      value={value}
+      onChange={onChange}
+      initialTime="09:05"
+      language={language}
+      labels={labels}
+    />,
   );
   return onChange;
 }
@@ -61,21 +56,24 @@ describe('TimePickerField', () => {
     expect(field).toHaveAccessibleDescription('Enter the time');
   });
 
-  it('opens in input mode with a mouse, and confirms the typed time', async () => {
+  it('opens on the locale time, offers quarter hours, and confirms a typed minute', async () => {
     const onChange = renderField('es');
     const user = userEvent.setup();
 
     await user.click(screen.getByRole('button', { name: 'Start' }));
     const dialog = await screen.findByRole('dialog', { name: 'Select the start time' });
-    // Spanish hours carry no leading zero (H:mm).
-    expect(within(dialog).getByLabelText('Hour')).toHaveValue('9');
-    expect(within(dialog).getByLabelText('Minute')).toHaveValue('05');
-    await user.clear(within(dialog).getByLabelText('Hour'));
-    await user.type(within(dialog).getByLabelText('Hour'), '17');
-    await user.clear(within(dialog).getByLabelText('Minute'));
-    await user.type(within(dialog).getByLabelText('Minute'), '30{Enter}');
+    const field = within(dialog).getByLabelText('Hour');
+    // Spanish hours carry no leading zero (H:mm). The quarters are a shortcut.
+    expect(field).toHaveValue('9:05');
+    expect(within(dialog).getByRole('button', { name: '9:15' })).toBeInTheDocument();
+    expect(within(dialog).queryByRole('slider')).not.toBeInTheDocument();
 
-    expect(onChange).toHaveBeenCalledWith('17:30');
+    await user.click(within(dialog).getByRole('button', { name: '9:15' }));
+    expect(field).toHaveValue('9:15');
+    await user.clear(field);
+    await user.type(field, '17:07{Enter}');
+
+    expect(onChange).toHaveBeenCalledWith('17:07');
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
@@ -85,50 +83,29 @@ describe('TimePickerField', () => {
 
     await user.click(screen.getByRole('button', { name: 'Start' }));
     const dialog = await screen.findByRole('dialog');
+    const field = within(dialog).getByLabelText('Hour');
     // Catalan hours are two digits (HH:mm).
-    expect(within(dialog).getByLabelText('Hour')).toHaveValue('09');
-    await user.clear(within(dialog).getByLabelText('Hour'));
-    await user.type(within(dialog).getByLabelText('Hour'), '24');
+    expect(field).toHaveValue('09:05');
+    expect(within(dialog).getByRole('button', { name: '09:15' })).toBeInTheDocument();
+    await user.clear(field);
+    await user.type(field, '24:00');
     await user.click(within(dialog).getByRole('button', { name: 'OK' }));
 
     expect(within(dialog).getByText('Enter a valid time')).toBeInTheDocument();
-    expect(within(dialog).getByLabelText('Hour')).toHaveAttribute('aria-invalid', 'true');
+    expect(field).toHaveAttribute('aria-invalid', 'true');
     expect(onChange).not.toHaveBeenCalled();
   });
 
-  it('opens on the dial with touch, moves to the minutes, and steps with the keyboard', async () => {
-    setViewport({ finePointer: false, width: 390, height: 844 });
-    const onChange = renderField('es', '14:20');
-    const user = userEvent.setup();
-
-    await user.click(screen.getByRole('button', { name: 'Start' }));
-    const dialog = await screen.findByRole('dialog');
-    const dial = within(dialog).getByRole('slider', { name: 'Hour' });
-    expect(dial).toHaveAttribute('aria-valuenow', '14');
-    fireEvent.keyDown(dial, { key: 'ArrowUp' });
-    expect(within(dialog).getByRole('button', { name: 'Hour 15' })).toHaveAttribute('aria-pressed', 'true');
-
-    await user.click(within(dialog).getByRole('button', { name: 'Minute 20' }));
-    const minutes = within(dialog).getByRole('slider', { name: 'Minute' });
-    fireEvent.keyDown(minutes, { key: 'ArrowDown' });
-    await user.click(within(dialog).getByRole('button', { name: 'OK' }));
-
-    expect(onChange).toHaveBeenCalledWith('15:19');
-  });
-
-  it('keeps the typed time when switching to the dial', async () => {
+  it('does not confirm when cancelled', async () => {
     const onChange = renderField('es');
     const user = userEvent.setup();
 
     await user.click(screen.getByRole('button', { name: 'Start' }));
     const dialog = await screen.findByRole('dialog');
-    await user.clear(within(dialog).getByLabelText('Hour'));
-    await user.type(within(dialog).getByLabelText('Hour'), '8');
-    await user.click(within(dialog).getByRole('button', { name: 'Switch to dial picker mode' }));
-
-    expect(within(dialog).getByRole('slider', { name: 'Hour' })).toHaveAttribute('aria-valuenow', '8');
     await user.click(within(dialog).getByRole('button', { name: 'Cancel' }));
+
     expect(onChange).not.toHaveBeenCalled();
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
   it('uses a 12-hour clock with AM and PM in English', async () => {
@@ -137,16 +114,19 @@ describe('TimePickerField', () => {
 
     await user.click(screen.getByRole('button', { name: 'Start' }));
     const dialog = await screen.findByRole('dialog');
-    expect(within(dialog).getByRole('button', { name: 'AM' })).toHaveAttribute('aria-pressed', 'true');
-    await user.click(within(dialog).getByRole('button', { name: 'PM' }));
+    const field = within(dialog).getByLabelText('Hour');
+    expect(field).toHaveValue('9:15 AM');
+    expect(within(dialog).getByRole('button', { name: '9:00 AM' })).toBeInTheDocument();
+    await user.clear(field);
+    await user.type(field, '9:07 PM');
     await user.click(within(dialog).getByRole('button', { name: 'OK' }));
-    expect(onChange).toHaveBeenCalledWith('21:15');
+    expect(onChange).toHaveBeenCalledWith('21:07');
 
-    // An hour past twelve is refused in a 12-hour field.
     await user.click(screen.getByRole('button', { name: 'Start' }));
     const again = await screen.findByRole('dialog');
-    await user.clear(within(again).getByLabelText('Hour'));
-    await user.type(within(again).getByLabelText('Hour'), '13');
+    const hour = within(again).getByLabelText('Hour');
+    await user.clear(hour);
+    await user.type(hour, '13:15 PM');
     await user.click(within(again).getByRole('button', { name: 'OK' }));
     expect(within(again).getByText('Enter a valid time')).toBeInTheDocument();
   });

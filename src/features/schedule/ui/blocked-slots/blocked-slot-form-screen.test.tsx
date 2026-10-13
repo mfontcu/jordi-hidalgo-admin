@@ -44,7 +44,7 @@ function saveHandlers() {
   return bodies;
 }
 
-/** Opens a time field's picker, types the time in input mode (a mouse's default), and confirms. */
+/** Opens a time field's picker, types the clock time, and confirms. */
 async function pickTime(
   user: ReturnType<typeof userEvent.setup>,
   field: string,
@@ -53,10 +53,9 @@ async function pickTime(
 ) {
   await user.click(screen.getByRole('button', { name: field }));
   const dialog = await screen.findByRole('dialog');
-  await user.clear(within(dialog).getByLabelText('Hora'));
-  await user.type(within(dialog).getByLabelText('Hora'), hour);
-  await user.clear(within(dialog).getByLabelText('Minuto'));
-  await user.type(within(dialog).getByLabelText('Minuto'), minute);
+  const input = within(dialog).getByLabelText('Hora');
+  await user.clear(input);
+  await user.type(input, `${hour}:${minute}`);
   await user.click(within(dialog).getByRole('button', { name: 'Seleccionar' }));
   await waitFor(() => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();

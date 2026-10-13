@@ -98,7 +98,7 @@ function LookupButton({ icon, label, onClick }: { icon: IconName; label: string;
       aria-label={label}
       title={label}
       onClick={onClick}
-      className="absolute top-1/2 right-2 flex size-[34px] -translate-y-1/2 cursor-pointer items-center justify-center rounded-[10px] border border-outline-variant bg-surface-muted text-on-surface"
+      className="absolute top-1/2 right-2 flex size-[34px] -translate-y-1/2 cursor-pointer items-center justify-center rounded-[10px] border border-border bg-card text-foreground"
     >
       <Icon name={icon} size={18} />
     </button>
@@ -118,23 +118,23 @@ type LookupListProps = {
 /** The options of a lookup (AdminServiceCategorySelectorPanel): title and code, at most 220px high. */
 export function LookupList({ label, options, onSelect, empty }: LookupListProps) {
   if (options.length === 0) {
-    return <p className="p-3 leading-[1.5] text-content-secondary">{empty}</p>;
+    return <p className="p-3 leading-[1.5] text-muted-foreground">{empty}</p>;
   }
   return (
     <ul aria-label={label} className="max-h-[220px] overflow-y-auto py-2">
       {options.map((option, index) => (
-        <li key={option.id} className={cn(index > 0 && 'border-t border-outline-variant')}>
+        <li key={option.id} className={cn(index > 0 && 'border-t border-border')}>
           <button
             type="button"
             onClick={() => {
               onSelect(option.id);
             }}
-            className="flex w-full cursor-pointer flex-col px-4 py-2 text-left hover:bg-on-surface/4"
+            className="flex w-full cursor-pointer flex-col px-4 py-2 text-left hover:bg-foreground/4"
           >
-            <span className="font-bold text-on-surface">{option.title}</span>
+            <span className="font-bold text-foreground">{option.title}</span>
             {/* The title names the option; the subtitle (a code) would run into it unspaced. */}
             {option.subtitle && (
-              <span aria-hidden className="text-[12px] text-content-secondary">
+              <span aria-hidden className="text-[12px] text-muted-foreground">
                 {option.subtitle}
               </span>
             )}

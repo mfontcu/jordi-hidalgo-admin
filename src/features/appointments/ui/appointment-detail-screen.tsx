@@ -75,11 +75,9 @@ export function AppointmentDetailScreen() {
           <PageHeader
             title={intl.formatMessage({ id: 'appointmentDetailTitle' })}
             subtitle={intl.formatMessage({ id: 'appointmentDetailSubtitle' })}
-            titleSize={layout.titleSize}
-            subtitleSize={layout.subtitleSize}
             back={{ label: intl.formatMessage({ id: 'appointmentBackToList' }), onClick: detail.goBack }}
           />
-          <div style={{ marginTop: width < 700 ? 12 : layout.gap }}>
+          <div style={{ marginTop: width < 768 ? 12 : layout.gap }}>
             {detail.isLoading ? (
               <div className="flex justify-center py-12">
                 <Spinner size={36} className="text-primary" />
@@ -154,8 +152,8 @@ function AppointmentDetailContent({
               <Avatar src={appointment.customerAvatarUrl} size={72} viewLabel={text('adminUserViewPhoto')} />
             )}
             <div className="min-w-0 flex-1">
-              <p className="text-[28px] leading-[1.05] font-black text-on-surface">{customerName}</p>
-              <p className="mt-2 text-[15px] leading-[1.5] text-content-secondary">{serviceWhen}</p>
+              <p className="text-title text-foreground">{customerName}</p>
+              <p className="mt-2 text-body text-muted-foreground">{serviceWhen}</p>
             </div>
           </div>
         </div>
@@ -179,9 +177,7 @@ function AppointmentDetailContent({
         </Button>
       )}
       {detail.client.isPending && detail.client.isFetching && (
-        <p className="mt-3 text-[13px] text-content-secondary">
-          {text('appointmentClientOperationalLoading')}
-        </p>
+        <p className="mt-3 text-label text-muted-foreground">{text('appointmentClientOperationalLoading')}</p>
       )}
       {detail.client.data && (
         <div className="mt-3">
@@ -269,9 +265,7 @@ function AppointmentDetailContent({
 
   const notes = (
     <InfoCard title={text('appointmentSectionNotes')} icon="sticky_note_2_outlined">
-      <MutedPanel className="p-4 whitespace-pre-line leading-[1.5] text-content-secondary">
-        {notesText}
-      </MutedPanel>
+      <MutedPanel className="p-4 text-body whitespace-pre-line text-muted-foreground">{notesText}</MutedPanel>
     </InfoCard>
   );
 
@@ -333,7 +327,7 @@ function AppointmentDetailContent({
   const actions = (
     <InfoCard title={text('appointmentSectionActions')} icon="bolt_outlined">
       {detail.isFinal ? (
-        <MutedPanel className="p-4 leading-[1.5] text-content-secondary">
+        <MutedPanel className="p-4 text-body text-muted-foreground">
           {text('appointmentFinalStatusNotice')}
         </MutedPanel>
       ) : (
@@ -355,7 +349,7 @@ function AppointmentDetailContent({
               {text('appointmentRescheduleButton')}
             </Button>
           ) : (
-            <MutedPanel className="p-4 text-[13px] leading-[1.5] text-content-secondary">
+            <MutedPanel className="p-4 text-label text-muted-foreground">
               {text('appointmentCannotRescheduleWithoutClient')}
             </MutedPanel>
           )}
@@ -406,14 +400,14 @@ function AppointmentDetailContent({
     </InfoCard>
   ) : (
     <InfoCard title={text('appointmentSectionCustomerPush')} icon="notifications_active_outlined">
-      <MutedPanel className="p-4 text-content-secondary">{text('customerPushRegisteredOnly')}</MutedPanel>
+      <MutedPanel className="p-4 text-muted-foreground">{text('customerPushRegisteredOnly')}</MutedPanel>
     </InfoCard>
   );
 
   const chainSection =
     detail.showChain && detail.chain.length > 0 ? (
       <InfoCard title={text('appointmentRescheduleChainTitle')} icon="history_outlined">
-        <p className="mb-3 text-[13px] font-bold text-content-secondary">
+        <p className="mb-3 text-label text-muted-foreground">
           {intl.formatMessage(
             { id: 'appointmentRescheduleChainLength' },
             { count: appointment.rescheduleChainLength },
@@ -539,9 +533,7 @@ function PushHistory({
 
   return (
     <div className="mt-5">
-      <p className="mb-3 text-[14px] font-extrabold text-on-surface">
-        {text('appointmentSectionMessagesSent')}
-      </p>
+      <p className="mb-3 text-body-strong text-foreground">{text('appointmentSectionMessagesSent')}</p>
       {loading ? (
         <div className="flex justify-center py-4">
           <Spinner size={28} className="text-primary" />
@@ -554,22 +546,22 @@ function PushHistory({
           action={{ label: text('adminCommonRetry'), icon: 'refresh', onClick: onRetry }}
         />
       ) : messages.length === 0 ? (
-        <MutedPanel className="p-4 text-content-secondary">{text('customerPushHistoryEmpty')}</MutedPanel>
+        <MutedPanel className="p-4 text-muted-foreground">{text('customerPushHistoryEmpty')}</MutedPanel>
       ) : (
         <ul className="flex max-h-64 flex-col gap-2 overflow-y-auto">
           {messages.map((message) => {
             const deliveryId = pushDeliveryLabelOf(message.deliveryStatus);
             const deliveryLabel = deliveryId ? text(deliveryId) : message.deliveryStatus;
             return (
-              <li key={message.id} className="rounded-md border border-outline-variant bg-surface p-3">
+              <li key={message.id} className="rounded-md border border-border bg-card p-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <StatusPill label={deliveryLabel} tone="info" />
-                  <span className="text-[12px] text-content-secondary">
+                  <span className="text-caption text-muted-foreground">
                     {formatInstantDateTime(message.createdAt, locale, 'numericDate', 'HH:mm')}
                   </span>
                 </div>
-                <p className="mt-2 text-[14px] leading-[1.45] text-on-surface">{message.body}</p>
-                <p className="mt-1 text-[12px] text-content-secondary">
+                <p className="mt-2 text-body text-foreground">{message.body}</p>
+                <p className="mt-1 text-caption text-muted-foreground">
                   {intl.formatMessage(
                     { id: 'customerPushDeliveryStats' },
                     { success: message.fcmSuccessCount, failed: message.fcmFailureCount },
@@ -596,10 +588,10 @@ function ChainRow({ entry, locale }: { entry: RescheduleChainEntry; locale: Date
 
   return (
     <MutedPanel className="flex flex-col gap-1 p-3">
-      <p className="font-bold text-on-surface">
+      <p className="font-bold text-foreground">
         {formatInstantDateTime(entry.start, locale, 'longDate', 'HH:mm')}
       </p>
-      <p className="text-[13px] text-content-secondary">{label}</p>
+      <p className="text-label text-muted-foreground">{label}</p>
     </MutedPanel>
   );
 }

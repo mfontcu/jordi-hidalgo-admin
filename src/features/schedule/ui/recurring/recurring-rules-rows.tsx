@@ -80,7 +80,7 @@ function RulesTable({ rules, today, onOpen, onDelete, footer }: TableProps) {
     const secondary = (value: string, lines = 1) => (
       <span
         className={
-          lines === 1 ? 'block truncate text-content-secondary' : 'line-clamp-2 text-content-secondary'
+          lines === 1 ? 'block truncate text-muted-foreground' : 'line-clamp-2 text-muted-foreground'
         }
       >
         {value}
@@ -93,7 +93,7 @@ function RulesTable({ rules, today, onOpen, onDelete, footer }: TableProps) {
       minWidth: 120,
       grow: 2,
       cell: (rule) => (
-        <span className="block truncate font-bold text-on-surface">{weekdayName(intl, rule.weekday)}</span>
+        <span className="block truncate font-bold text-foreground">{weekdayName(intl, rule.weekday)}</span>
       ),
     };
     const status: DataTableColumn<RecurringRule> = {
@@ -210,7 +210,7 @@ function RuleCard({ rule, today, onOpen, onDelete }: CardProps) {
   const text = textOf(intl);
   const title = weekdayName(intl, rule.weekday);
   return (
-    <article className="relative rounded-xl border border-outline-variant bg-surface p-[18px] shadow-[0_6px_14px_rgb(0_0_0/0.03)] hover:bg-[color-mix(in_srgb,var(--on-surface)_4%,var(--surface))]">
+    <article className="relative rounded-xl border border-border bg-card p-4 hover:bg-muted">
       <button
         type="button"
         aria-label={title}
@@ -221,7 +221,7 @@ function RuleCard({ rule, today, onOpen, onDelete }: CardProps) {
       />
       <div className="pointer-events-none relative">
         <div className="flex items-center gap-3">
-          <h2 className="min-w-0 flex-1 text-[18px] font-extrabold text-on-surface">{title}</h2>
+          <h2 className="min-w-0 flex-1 text-heading text-foreground">{title}</h2>
           <StatusPill
             label={text(
               rule.isActive
@@ -231,9 +231,9 @@ function RuleCard({ rule, today, onOpen, onDelete }: CardProps) {
             tone={rule.isActive ? 'success' : 'neutral'}
           />
         </div>
-        <p className="mt-3 font-bold text-on-surface">{ruleTimeRange(rule)}</p>
-        <p className="mt-3 leading-[1.45] text-content-secondary">{ruleReasonText(intl, rule)}</p>
-        <p className="mt-3 font-semibold text-content-secondary">
+        <p className="mt-3 text-body-strong text-foreground">{ruleTimeRange(rule)}</p>
+        <p className="mt-3 text-body text-muted-foreground">{ruleReasonText(intl, rule)}</p>
+        <p className="mt-3 text-body text-muted-foreground">
           {[
             text('scheduleRecurringBlockedSlotNextApplicationPrefix'),
             nextOccurrenceLabel(rule, today, localeOf(intl)),

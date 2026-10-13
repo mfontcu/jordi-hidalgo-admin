@@ -1,13 +1,11 @@
 /**
- * Layout of a detail screen by its width (`_ServiceDetailLayoutSpec`, AdminUserDetailLayoutSpec:
- * the same values): padding, gaps, header sizes, two columns from 960px, and the summary padding.
+ * Layout of a detail screen by its content width: padding, gaps, two columns from 960px, and
+ * the summary padding. Headings use the title step, not a per-width size.
  */
 export type DetailLayout = {
   padding: number;
   gap: number;
   gapLarge: number;
-  titleSize: number;
-  subtitleSize: number;
   twoColumns: boolean;
   summaryPadding: number;
 };
@@ -18,8 +16,6 @@ export function detailLayoutFor(width: number): DetailLayout {
       padding: 16,
       gap: 20,
       gapLarge: 24,
-      titleSize: 24,
-      subtitleSize: 14,
       twoColumns: false,
       summaryPadding: 18,
     };
@@ -29,8 +25,6 @@ export function detailLayoutFor(width: number): DetailLayout {
       padding: 20,
       gap: 22,
       gapLarge: 26,
-      titleSize: 28,
-      subtitleSize: 14,
       twoColumns: false,
       summaryPadding: 20,
     };
@@ -39,8 +33,6 @@ export function detailLayoutFor(width: number): DetailLayout {
     padding: 24,
     gap: 24,
     gapLarge: 28,
-    titleSize: 30,
-    subtitleSize: 15,
     twoColumns: true,
     summaryPadding: 22,
   };

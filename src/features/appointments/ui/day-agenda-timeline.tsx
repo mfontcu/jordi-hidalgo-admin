@@ -39,12 +39,12 @@ import {
 } from '../model/day-agenda';
 
 const STATUS_BLOCK: Record<ReturnType<typeof statusToneOf>, string> = {
-  success: 'bg-success-bg text-success-fg border-success-fg/20',
-  danger: 'bg-danger-bg text-danger-fg border-danger-fg/20',
-  warning: 'bg-warning-bg text-warning-fg border-warning-fg/20',
-  info: 'bg-info-bg text-info-fg border-info-fg/20',
-  neutralStrong: 'bg-surface-muted text-on-surface border-outline/40',
-  muted: 'bg-surface-muted text-content-muted border-outline/30',
+  success: 'bg-success-wash text-success border-success/20',
+  danger: 'bg-destructive-wash text-destructive border-destructive/20',
+  warning: 'bg-warning-wash text-warning border-warning/20',
+  info: 'bg-selection-wash text-selection border-selection/20',
+  neutralStrong: 'bg-card text-foreground border-border/40',
+  muted: 'bg-card text-muted-foreground border-border/30',
 };
 
 type DayAgendaTimelineProps = {
@@ -83,7 +83,7 @@ export function DayAgendaTimeline({
   const nowTop = showNowIndicator ? nowIndicatorTop(range) : null;
 
   return (
-    <div className="flex min-w-0 overflow-hidden rounded-lg border border-border bg-surface">
+    <div className="flex min-w-0 overflow-hidden rounded-lg border border-border bg-card">
       <TimeGutter hours={hours} range={range} height={totalHeight} />
       <div className="relative min-w-0 flex-1" style={{ height: totalHeight }}>
         <HourLines hours={hours} range={range} />
@@ -146,14 +146,11 @@ export function WeekAgendaTimeline({
   return (
     // overflow-y: clip keeps weekday headers sticky against the window while allowing horizontal scroll.
     <div
-      className="min-w-0 rounded-lg border border-border bg-surface"
+      className="min-w-0 rounded-lg border border-border bg-card"
       style={{ overflowX: 'auto', overflowY: 'clip' }}
     >
-      <div className="sticky top-0 z-20 flex min-w-[720px] border-b border-border bg-surface shadow-[0_1px_0_0_var(--border)]">
-        <div
-          style={{ width: TIME_GUTTER_WIDTH }}
-          className="shrink-0 border-r border-border bg-surface-muted/40"
-        />
+      <div className="sticky top-0 z-20 flex min-w-[720px] border-b border-border bg-card">
+        <div style={{ width: TIME_GUTTER_WIDTH }} className="shrink-0 border-r border-border bg-card/40" />
         {weekDays.map((day) => {
           const selected = day === selectedDay;
           const isToday = day === today;
@@ -166,14 +163,15 @@ export function WeekAgendaTimeline({
               }}
               className={cn(
                 'min-w-0 flex-1 border-l border-border px-1 py-2 text-center',
-                selected && 'bg-primary/8',
-                isToday && 'font-extrabold',
+                selected && 'bg-muted',
               )}
             >
-              <div className="text-[11px] uppercase text-content-secondary">
+              <div className="text-caption uppercase text-muted-foreground">
                 {formatWeekdayShort(weekdayOf(day), locale)}
               </div>
-              <div className="text-[13px] text-on-surface">{formatDay(day, locale, 'dayMonth')}</div>
+              <div className={cn('text-label text-foreground', isToday && 'text-body-strong')}>
+                {formatDay(day, locale, 'dayMonth')}
+              </div>
             </button>
           );
         })}
@@ -214,7 +212,7 @@ export function WeekAgendaTimeline({
 function TimeGutter({ hours, range, height }: { hours: number[]; range: TimelineRange; height: number }) {
   return (
     <div
-      className="relative shrink-0 border-r border-border bg-surface-muted/40 text-[11px] text-content-secondary"
+      className="relative shrink-0 border-r border-border bg-card/40 text-caption text-muted-foreground"
       style={{ width: TIME_GUTTER_WIDTH, height }}
     >
       {hours.map((hour) => {
@@ -258,7 +256,7 @@ function ClosedHatch() {
       className="pointer-events-none absolute inset-0 opacity-40"
       style={{
         backgroundImage:
-          'repeating-linear-gradient(-45deg, transparent, transparent 6px, var(--outline-variant) 6px, var(--outline-variant) 7px)',
+          'repeating-linear-gradient(-45deg, transparent, transparent 6px, var(--border) 6px, var(--border) 7px)',
       }}
       aria-hidden
     />
@@ -283,8 +281,8 @@ function NowIndicator({ top }: { top: number }) {
 
   return (
     <div ref={ref} className="pointer-events-none absolute inset-x-0 z-10 flex items-center" style={{ top }}>
-      <span className="size-2 shrink-0 rounded-full bg-selection-fg" />
-      <span className="h-0.5 flex-1 bg-selection-fg/85" />
+      <span className="size-2 shrink-0 rounded-full bg-selection" />
+      <span className="h-0.5 flex-1 bg-selection/85" />
     </div>
   );
 }
@@ -333,31 +331,25 @@ function TimelineLane(props: LaneProps) {
       {layouts.blockedSlots.map((layout) => {
         const left = laneLeft(laneWidth, layout.column, layout.columnCount);
         const blockWidth = laneBlockWidth(laneWidth, layout.columnCount);
-        const density = densityForHeight(layout.height);
         return (
           <div
             key={layout.block.id}
-            className="absolute overflow-hidden rounded-sm border border-outline/50 bg-surface-muted/90"
+            className="absolute overflow-hidden rounded-sm border border-border/50 bg-card/90"
             style={{ top: layout.top, left, width: blockWidth, height: layout.height }}
           >
             <div
               className={cn(
                 'absolute inset-y-0 left-0 w-1',
-                layout.block.isRecurring ? 'bg-warning-fg/75' : 'bg-content-secondary/65',
+                layout.block.isRecurring ? 'bg-warning/75' : 'bg-muted-foreground/65',
               )}
             />
             <div className="flex h-full items-center gap-1.5 px-2 py-1">
               <Icon
                 name={layout.block.isRecurring ? 'repeat_rounded' : 'block_outlined'}
-                size={density === 'compact' ? 14 : 16}
-                className="shrink-0 text-content-secondary"
+                size={20}
+                className="shrink-0 text-muted-foreground"
               />
-              <span
-                className={cn(
-                  'min-w-0 truncate font-bold text-on-surface',
-                  density === 'compact' ? 'text-[11px]' : 'text-[12px]',
-                )}
-              >
+              <span className="min-w-0 truncate text-caption text-foreground">
                 {blockLabelOf(layout.block, text('dayAgendaBlockedSlotRecurring'), (timeRange) =>
                   text('dayAgendaBlockedSlotWithTime', { timeRange }),
                 )}
@@ -373,7 +365,6 @@ function TimelineLane(props: LaneProps) {
         const item = layout.appointment;
         const tone = statusToneOf(item.status);
         const labelId = statusLabelOf(item.status);
-        const background = stackPaintRank(item.status) <= 1;
         const showActions = density !== 'compact' && blockWidth > 120;
         return (
           <button
@@ -382,31 +373,22 @@ function TimelineLane(props: LaneProps) {
             onClick={() => {
               props.onAppointmentTap(item);
             }}
-            className={cn(
-              'absolute overflow-hidden rounded-sm border text-left',
-              STATUS_BLOCK[tone],
-              !background && layout.columnCount > 1 && 'shadow-sm',
-            )}
+            className={cn('absolute overflow-hidden rounded-sm border text-left', STATUS_BLOCK[tone])}
             style={{ top: layout.top, left, width: blockWidth, height: layout.height }}
           >
             <div className={cn('flex h-full gap-1', props.isCompact ? 'px-1.5 py-1' : 'px-2 py-1.5')}>
               <div className="min-w-0 flex-1">
-                <div
-                  className={cn(
-                    'truncate font-extrabold',
-                    density === 'compact' ? 'text-[11px]' : 'text-[12px]',
-                  )}
-                >
+                <div className="truncate text-body-strong">
                   {item.customerName.trim() || text('appointmentNoClient')}
                 </div>
                 {density !== 'compact' ? (
-                  <div className="truncate text-[11px] opacity-90">
+                  <div className="truncate text-caption opacity-90">
                     {appointmentTimeRange(item)}
                     {item.serviceName ? ` · ${item.serviceName}` : ''}
                   </div>
                 ) : null}
                 {density === 'full' && labelId ? (
-                  <div className="mt-0.5 text-[10px] font-bold uppercase opacity-80">{text(labelId)}</div>
+                  <div className="mt-0.5 text-caption uppercase opacity-80">{text(labelId)}</div>
                 ) : null}
               </div>
               {showActions ? (

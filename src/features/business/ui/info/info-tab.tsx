@@ -50,7 +50,7 @@ export function InfoTab({ info }: InfoTabProps) {
       />
 
       <InfoCard title={text('businessInfoGeneralDataTitle')} icon="storefront_outlined">
-        <p className="mb-4 text-body-md text-content-secondary">{text('businessInfoGeneralDataSubtitle')}</p>
+        <p className="mb-4 text-body text-muted-foreground">{text('businessInfoGeneralDataSubtitle')}</p>
         <div className="grid gap-4 sm:grid-cols-2">
           <FormField
             id="business-email"
@@ -89,7 +89,7 @@ export function InfoTab({ info }: InfoTabProps) {
 
       <InfoCard title={text('businessInfoActiveTitle')} icon="toggle_on_outlined">
         <div className="flex items-center justify-between gap-4">
-          <p className="text-body-md text-content-secondary">{text('businessInfoActiveSubtitle')}</p>
+          <p className="text-body text-muted-foreground">{text('businessInfoActiveSubtitle')}</p>
           <Controller
             control={control}
             name="isActive"
@@ -105,7 +105,7 @@ export function InfoTab({ info }: InfoTabProps) {
       </InfoCard>
 
       <InfoCard title={text('businessInfoTextsTitle')} icon="translate_outlined">
-        <p className="mb-4 text-body-md text-content-secondary">{text('businessInfoTextsSubtitle')}</p>
+        <p className="mb-4 text-body text-muted-foreground">{text('businessInfoTextsSubtitle')}</p>
         <div className="mb-4">
           <LocaleSegmented value={form.locale} onValueChange={form.setLocale} />
         </div>

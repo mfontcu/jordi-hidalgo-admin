@@ -27,7 +27,7 @@ export function ClientOperationalBanner({ user }: { user: BannerUser }) {
             { id: 'appointmentClientRiskBannerBody' },
             { count: user.noShowCountLast90Days },
           )}
-          className="border-warning-fg/18 bg-warning-bg text-warning-fg"
+          className="border-warning/18 bg-warning-wash text-warning"
         />
       )}
       {notes && (
@@ -35,7 +35,7 @@ export function ClientOperationalBanner({ user }: { user: BannerUser }) {
           icon="sticky_note_2_outlined"
           title={intl.formatMessage({ id: 'appointmentClientInternalNotesTitle' })}
           body={notes}
-          className="border-content-secondary/18 bg-surface-muted text-content-secondary"
+          className="border-muted-foreground/18 bg-card text-muted-foreground"
         />
       )}
     </div>
@@ -44,14 +44,14 @@ export function ClientOperationalBanner({ user }: { user: BannerUser }) {
 
 type SectionProps = { icon: IconName; title: string; body: string; className: string };
 
-/** `_OperationalSection`: 14px padding, 16px corners, the tone's border at 18%, icon and text. */
+/** A tonal note: icon, title, and body. */
 function Section({ icon, title, body, className }: SectionProps) {
   return (
     <div className={cn('flex items-start gap-3 rounded-md border p-3.5', className)}>
-      <Icon name={icon} size={22} className="shrink-0" />
+      <Icon name={icon} size={20} className="shrink-0" />
       <div className="min-w-0 flex-1">
-        <p className="leading-[1.3] font-extrabold">{title}</p>
-        <p className="mt-1.5 leading-[1.45] whitespace-pre-line">{body}</p>
+        <p className="text-body-strong">{title}</p>
+        <p className="mt-1.5 text-body whitespace-pre-line">{body}</p>
       </div>
     </div>
   );

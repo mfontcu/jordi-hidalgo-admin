@@ -34,22 +34,22 @@ export function AppointmentConflictsCheck({
         if (!open) check.dismiss();
       }}
     >
-      <DialogContent className="max-w-[528px] p-[22px]">
-        <DialogTitle className="text-[20px] font-extrabold">
+      <DialogContent>
+        <DialogTitle className="text-heading">
           {intl.formatMessage({ id: 'blockedSlotConflictTitle' })}
         </DialogTitle>
-        <DialogDescription className="mt-3 text-body-md leading-[1.5] text-content-secondary">
+        <DialogDescription className="mt-3 text-body text-muted-foreground">
           {intl.formatMessage({ id: 'blockedSlotConflictBody' }, { count: check.conflicts.length })}
         </DialogDescription>
-        <ul className="mt-3 max-h-[260px] divide-y divide-border overflow-y-auto">
+        <ul className="mt-3 max-h-64 divide-y divide-border overflow-y-auto">
           {check.conflicts.map((item) => (
             <li key={item.id} className="py-2">
-              <p className="text-body-md font-bold text-on-surface">{conflictTitleOf(item)}</p>
-              <p className="text-body-md text-content-secondary">{conflictDetailsOf(item)}</p>
+              <p className="text-body-strong text-foreground">{conflictTitleOf(item)}</p>
+              <p className="text-body text-muted-foreground">{conflictDetailsOf(item)}</p>
             </li>
           ))}
         </ul>
-        <p className="mt-3 text-[13px] text-content-secondary">
+        <p className="mt-3 text-label text-muted-foreground">
           {intl.formatMessage({ id: 'blockedSlotConflictKeepHint' })}
         </p>
         <div className="mt-3 flex items-center gap-4 py-2">
@@ -60,11 +60,11 @@ export function AppointmentConflictsCheck({
               check.setCancelChecked(value === true);
             }}
           />
-          <label htmlFor={checkboxId} className="cursor-pointer text-body-lg text-on-surface">
+          <label htmlFor={checkboxId} className="cursor-pointer text-body text-foreground">
             {intl.formatMessage({ id: 'blockedSlotConflictCancelLabel' })}
           </label>
         </div>
-        <div className="mt-6 flex gap-3 [&>*]:flex-1">
+        <div className="mt-6 flex justify-end gap-3">
           <Button variant="secondary" onClick={check.dismiss}>
             {intl.formatMessage({ id: 'appointmentBulkCancelAction' })}
           </Button>

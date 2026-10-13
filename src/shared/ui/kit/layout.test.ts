@@ -1,22 +1,43 @@
+import { detailLayoutFor } from './detail-layout';
 import { listLayoutFor, summaryColumnsFor } from './list-layout';
 import { paginationRange } from './pagination-range';
 import { baseColumnWidth, clampColumnWidth, resolveColumnWidths } from './table-layout';
 
 describe('listLayoutFor', () => {
   it.each([
-    [390, 16, true, 1],
-    [559, 16, true, 1],
-    [560, 20, true, 2],
-    [899, 20, true, 2],
-    [900, 24, false, 5],
-    [1440, 24, false, 5],
-  ])('at %ipx: padding %i, compact %s, %i summary columns', (width, padding, compact, columns) => {
-    expect(listLayoutFor(width)).toMatchObject({ pagePadding: padding, compact, summaryColumns: columns });
-  });
+    [390, 16, 20, 24, true, 1],
+    [559, 16, 20, 24, true, 1],
+    [560, 20, 22, 26, true, 2],
+    [899, 20, 22, 26, true, 2],
+    [900, 24, 24, 28, false, 5],
+    [1279, 24, 24, 28, false, 5],
+    [1280, 24, 24, 28, false, 5],
+    [1440, 24, 24, 28, false, 5],
+  ])(
+    'at %ipx: padding %i, gaps %i/%i, compact %s, %i summary columns',
+    (width, padding, sectionGap, sectionGapLarge, compact, columns) => {
+      expect(listLayoutFor(width)).toEqual({
+        pagePadding: padding,
+        sectionGap,
+        sectionGapLarge,
+        summaryColumns: columns,
+        compact,
+      });
+    },
+  );
+});
 
-  it('grows the summary cards from 1280px', () => {
-    expect(listLayoutFor(1279)).toMatchObject({ summaryCardHeight: 136, summaryValueSize: 34 });
-    expect(listLayoutFor(1280)).toMatchObject({ summaryCardHeight: 140, summaryValueSize: 36 });
+describe('detailLayoutFor', () => {
+  it('keeps the column cut at 960px without per-width type sizes', () => {
+    expect(detailLayoutFor(559)).toMatchObject({ padding: 16, twoColumns: false });
+    expect(detailLayoutFor(959)).toMatchObject({ padding: 20, twoColumns: false });
+    expect(detailLayoutFor(960)).toEqual({
+      padding: 24,
+      gap: 24,
+      gapLarge: 28,
+      twoColumns: true,
+      summaryPadding: 22,
+    });
   });
 });
 

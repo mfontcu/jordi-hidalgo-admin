@@ -92,12 +92,12 @@ export function GalleryTab({ slides }: GalleryTabProps) {
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h2 className="text-[20px] font-extrabold text-on-surface">{text('businessHomeGalleryHeading')}</h2>
-          <p className="text-body-md text-content-secondary">{text('businessHomeGallerySubtitle')}</p>
-          <p className="mt-1 text-body-sm text-content-muted">
+          <h2 className="text-heading text-foreground">{text('businessHomeGalleryHeading')}</h2>
+          <p className="text-body text-muted-foreground">{text('businessHomeGallerySubtitle')}</p>
+          <p className="mt-1 text-caption text-muted-foreground">
             <FormattedMessage id="businessGallerySlideCount" values={{ count: slides.length }} />
           </p>
-          <p className="mt-1 text-body-sm text-content-muted">{text('businessGalleryFormatsHint')}</p>
+          <p className="mt-1 text-caption text-muted-foreground">{text('businessGalleryFormatsHint')}</p>
         </div>
         <Button type="button" icon="add" loading={gallery.isCreating} onClick={gallery.create}>
           {text('businessGalleryNewSlide')}
@@ -193,8 +193,8 @@ function GallerySlideCard({
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- drop zone
     <article
       className={cn(
-        'rounded-lg border bg-surface p-4',
-        dropTarget ? 'border-selection-border ring-2 ring-selection-border/40' : 'border-outline-variant',
+        'rounded-lg border bg-card p-4',
+        dropTarget ? 'border-border ring-2 ring-border/40' : 'border-border',
         dragging && 'opacity-60',
       )}
       onDragOver={allowDrop}
@@ -210,7 +210,7 @@ function GallerySlideCard({
             draggable={!gallery.isReordering}
             aria-label={text('businessGalleryDragHandle')}
             title={text('businessGalleryDragHandle')}
-            className="mt-0.5 cursor-grab rounded-sm p-1 text-content-secondary hover:bg-[color-mix(in_srgb,var(--on-surface)_6%,var(--surface))] active:cursor-grabbing"
+            className="mt-0.5 cursor-grab rounded-sm p-1 text-muted-foreground hover:bg-[color-mix(in_srgb,var(--foreground)_6%,var(--card))] active:cursor-grabbing"
             onDragStart={(event) => {
               event.dataTransfer.effectAllowed = 'move';
               event.dataTransfer.setData('text/plain', slide.id);
@@ -221,7 +221,7 @@ function GallerySlideCard({
             <Icon name="drag_indicator" size={20} />
           </button>
           <div>
-            <h3 className="font-extrabold text-on-surface">
+            <h3 className="text-body-strong text-foreground">
               <FormattedMessage id="businessGallerySlideLabelOf" values={{ index: index + 1, total }} />
             </h3>
             <StatusPill
@@ -271,11 +271,11 @@ function GallerySlideCard({
 
       <div className="mt-4 grid gap-4 lg:grid-cols-[240px_1fr]">
         <div className="flex flex-col gap-3">
-          <div className="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-lg border border-outline-variant bg-surface-muted">
+          <div className="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-lg border border-border bg-card">
             {hasImage ? (
               <img src={slide.previewUrl} alt={alts.es ?? ''} className="size-full object-cover" />
             ) : (
-              <span className="text-body-md text-content-muted">{text('businessGalleryNoImage')}</span>
+              <span className="text-body text-muted-foreground">{text('businessGalleryNoImage')}</span>
             )}
           </div>
           <input
@@ -303,13 +303,13 @@ function GallerySlideCard({
                 : text('businessGalleryUploadImage')}
           </Button>
           {!hasImage && (
-            <p className="text-body-sm text-content-muted">{text('businessGalleryNoImageUploaded')}</p>
+            <p className="text-caption text-muted-foreground">{text('businessGalleryNoImageUploaded')}</p>
           )}
         </div>
 
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between gap-3">
-            <span className="text-body-md text-content-secondary">
+            <span className="text-body text-muted-foreground">
               {slide.isActive ? text('businessGalleryStatusActive') : text('businessGalleryStatusInactive')}
             </span>
             <Switch
@@ -323,7 +323,7 @@ function GallerySlideCard({
           </div>
 
           <div>
-            <p className="mb-2 text-label-lg font-bold text-on-surface">{text('legalVisibilityHeading')}</p>
+            <p className="mb-2 text-body-strong text-foreground">{text('legalVisibilityHeading')}</p>
             <SurfacesChips
               value={slide.publicSurfaces}
               disabled={gallery.isSavingSurfaces(slide.id)}

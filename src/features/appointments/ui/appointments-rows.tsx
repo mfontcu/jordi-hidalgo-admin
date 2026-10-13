@@ -134,7 +134,7 @@ function AppointmentsTable({
   const columns = useMemo((): DataTableColumn<AppointmentItem>[] => {
     const text = (id: MessageId) => intl.formatMessage({ id });
     const secondary = (value: string) => (
-      <span className="block truncate text-content-secondary">{value}</span>
+      <span className="block truncate text-muted-foreground">{value}</span>
     );
 
     const selectCol: DataTableColumn<AppointmentItem> | null = selectMode
@@ -171,7 +171,7 @@ function AppointmentsTable({
         minWidth: 150,
         grow: 2,
         cell: (item) => (
-          <span className="block truncate font-extrabold text-on-surface">{timeLabel(intl, item)}</span>
+          <span className="block truncate text-body-strong text-foreground">{timeLabel(intl, item)}</span>
         ),
       },
       {
@@ -185,7 +185,7 @@ function AppointmentsTable({
             {item.userId && (
               <Avatar src={item.customerAvatarUrl} size={32} viewLabel={text('adminUserViewPhoto')} />
             )}
-            <span className="min-w-0 flex-1 truncate font-bold text-on-surface">
+            <span className="min-w-0 flex-1 truncate font-bold text-foreground">
               {customerNameOf(intl, item)}
             </span>
           </span>
@@ -208,11 +208,11 @@ function AppointmentsTable({
         cell: (item) => {
           const message = item.customerNotes.trim();
           return message ? (
-            <span title={message} className="line-clamp-2 leading-[1.35] text-on-surface">
+            <span title={message} className="line-clamp-2 text-body text-foreground">
               {messagePreviewOf(message)}
             </span>
           ) : (
-            <span className="text-content-secondary">{messagePreviewOf(message)}</span>
+            <span className="text-muted-foreground">{messagePreviewOf(message)}</span>
           );
         },
       },

@@ -1,9 +1,10 @@
-import { useState, type ComponentProps, type ReactNode } from 'react';
+import { useState, useSyncExternalStore, type ComponentProps, type ReactNode } from 'react';
 
 import { cn } from '@/shared/lib/cn';
 
 import { Icon, type IconName } from '../icons/icon';
 import { Button } from '../primitives/button';
+import { fieldBase } from '../primitives/field-styles';
 import { Popover, PopoverContent, PopoverTrigger } from '../primitives/popover';
 import {
   Sheet,
@@ -17,17 +18,31 @@ import {
 } from '../primitives/sheet';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../primitives/tooltip';
 
+/** Whether the window is narrower than `width`. */
+export function useWindowNarrowerThan(width: number): boolean {
+  const query = `(max-width: ${width - 0.02}px)`;
+  return useSyncExternalStore(
+    (onChange) => {
+      const list = window.matchMedia(query);
+      list.addEventListener('change', onChange);
+      return () => {
+        list.removeEventListener('change', onChange);
+      };
+    },
+    () => window.matchMedia(query).matches,
+  );
+}
+
 type AccentIconProps = { name: IconName; size?: number; compact?: boolean; className?: string };
 
-/** AdminAccentIcon: an icon on a tinted tile (toolbar fields, section cards, filters). */
-export function AccentIcon({ name, size = 18, compact = false, className }: AccentIconProps) {
-  const box = compact ? size + 8 : size + 16;
+/** An icon on a selection wash, for toolbar fields and filter rows. */
+export function AccentIcon({ name, size = 20, compact = false, className }: AccentIconProps) {
+  const box = compact ? size + 8 : size + 12;
   return (
     <span
       aria-hidden
       className={cn(
-        'inline-flex shrink-0 items-center justify-center bg-icon-accent-bg text-icon-accent',
-        compact ? 'rounded-sm' : 'rounded-[10px]',
+        'inline-flex shrink-0 items-center justify-center rounded-md bg-selection-wash text-foreground',
         className,
       )}
       style={{ width: box, height: box }}
@@ -43,16 +58,14 @@ type SearchFieldProps = Omit<ComponentProps<'input'>, 'value' | 'onChange' | 'ty
   clearLabel: string;
 };
 
-/**
- * AdminSearchField: 48px high, search icon in front and a clear button once there is text. Its
- * border is the content border, and the focus border the outline color, unlike form fields.
- */
+/** Search field: icon in front, and a clear button once there is text. */
 export function SearchField({ value, onValueChange, clearLabel, className, ...props }: SearchFieldProps) {
   return (
     <div className={cn('relative', className)}>
       <Icon
         name="search"
-        className="pointer-events-none absolute top-1/2 left-2 -translate-y-1/2 text-on-surface-variant"
+        size={20}
+        className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground"
       />
       <input
         type="search"
@@ -60,12 +73,7 @@ export function SearchField({ value, onValueChange, clearLabel, className, ...pr
         onChange={(event) => {
           onValueChange(event.target.value);
         }}
-        className={cn(
-          // Icon at 11px and text at 45px from the outer edge, as measured on the Flutter field.
-          'h-12 w-full min-w-0 rounded-md border border-outline-variant bg-surface pr-12 pl-[43.5px]',
-          'text-body-lg text-on-surface outline-none placeholder:text-on-surface-muted',
-          'focus-visible:border-outline [&::-webkit-search-cancel-button]:hidden',
-        )}
+        className={cn(fieldBase, 'h-control pr-10 pl-10', '[&::-webkit-search-cancel-button]:hidden')}
         {...props}
       />
       {value.length > 0 && (
@@ -77,9 +85,9 @@ export function SearchField({ value, onValueChange, clearLabel, className, ...pr
               onClick={() => {
                 onValueChange('');
               }}
-              className="absolute top-1/2 right-1 -translate-y-1/2"
+              className="absolute top-1/2 right-0.5 size-8 -translate-y-1/2"
             >
-              <Icon name="close" />
+              <Icon name="close" size={20} />
             </Button>
           </TooltipTrigger>
           <TooltipContent>{clearLabel}</TooltipContent>
@@ -91,20 +99,20 @@ export function SearchField({ value, onValueChange, clearLabel, className, ...pr
 
 type ToolbarFieldProps = ComponentProps<'button'> & { icon: IconName; label: string };
 
-/** AdminToolbarField: a 48px field-like button with an accent icon, such as the filter. */
+/** A field-like button with an accent icon, such as the filter trigger. */
 export function ToolbarField({ icon, label, className, ...props }: ToolbarFieldProps) {
   return (
     <button
       type="button"
       className={cn(
-        'flex h-12 min-w-0 cursor-pointer items-center gap-2.5 rounded-md border border-outline-variant bg-surface px-4 text-left',
-        'hover:bg-[color-mix(in_srgb,var(--on-surface)_4%,var(--surface))]',
+        'flex h-control min-w-0 cursor-pointer items-center gap-2 rounded-md border border-border bg-card px-3 text-left',
+        'hover:bg-muted',
         className,
       )}
       {...props}
     >
-      <AccentIcon name={icon} compact />
-      <span className="min-w-0 flex-1 truncate font-bold text-on-surface">{label}</span>
+      <AccentIcon name={icon} size={20} compact />
+      <span className="min-w-0 flex-1 truncate text-body-strong text-foreground">{label}</span>
     </button>
   );
 }
@@ -118,10 +126,10 @@ type ChoiceChipsProps<T extends string> = {
   onValueChange: (value: T) => void;
 };
 
-/** ChoiceChip group of the filter sheets: pill chips, the selected one filled, no checkmark. */
+/** Options inside a filter: 6px radius, the selected one in the selection colors. */
 export function ChoiceChips<T extends string>({ label, options, value, onValueChange }: ChoiceChipsProps<T>) {
   return (
-    <div role="radiogroup" aria-label={label} className="flex flex-wrap gap-2.5">
+    <div role="radiogroup" aria-label={label} className="flex flex-wrap gap-2">
       {options.map((option) => {
         const selected = option.value === value;
         return (
@@ -134,8 +142,10 @@ export function ChoiceChips<T extends string>({ label, options, value, onValueCh
               onValueChange(option.value);
             }}
             className={cn(
-              'inline-flex h-8 cursor-pointer items-center rounded-pill border border-outline-variant px-4 text-body-md font-bold',
-              selected ? 'border-on-surface bg-on-surface text-surface' : 'bg-surface text-on-surface',
+              'inline-flex h-8 cursor-pointer items-center rounded-md border px-3 text-label',
+              selected
+                ? 'border-transparent bg-selection-wash text-selection'
+                : 'border-border bg-card text-foreground hover:bg-muted',
             )}
           >
             {option.label}
@@ -147,7 +157,10 @@ export function ChoiceChips<T extends string>({ label, options, value, onValueCh
 }
 
 type FilterPickerProps<T extends string> = {
-  /** A sheet from the bottom on compact layouts, a panel under the trigger otherwise. */
+  /**
+   * Kept so current screens still type-check. The container follows the viewport: a sheet under
+   * 768px, a popover from 768px.
+   */
   compact: boolean;
   trigger: ReactNode;
   title: string;
@@ -164,11 +177,10 @@ type FilterPickerProps<T extends string> = {
 };
 
 /**
- * The list filter (`_showServicesFilterSheet`): chips to choose from, then clear or apply. Flutter
- * opens a bottom sheet at every width; on wide layouts this opens a panel under the trigger.
+ * The list filter: chips to choose from, then clear or apply. Under 768px a sheet; from 768px a
+ * popover. Both use the same actions.
  */
 export function FilterPicker<T extends string>({
-  compact,
   trigger,
   title,
   subtitle,
@@ -180,6 +192,7 @@ export function FilterPicker<T extends string>({
   onApply,
   onOpen,
 }: FilterPickerProps<T>) {
+  const sheet = useWindowNarrowerThan(768);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(value);
 
@@ -218,7 +231,7 @@ export function FilterPicker<T extends string>({
     </>
   );
 
-  if (compact) {
+  if (sheet) {
     return (
       <Sheet open={open} onOpenChange={handleOpenChange}>
         <SheetTrigger asChild>{trigger}</SheetTrigger>
@@ -229,7 +242,7 @@ export function FilterPicker<T extends string>({
               <SheetDescription>{subtitle}</SheetDescription>
             </SheetHeader>
             {chips}
-            <SheetFooter className="mt-6">{actions}</SheetFooter>
+            <SheetFooter>{actions}</SheetFooter>
           </SheetBody>
         </SheetContent>
       </Sheet>
@@ -239,11 +252,11 @@ export function FilterPicker<T extends string>({
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
-      <PopoverContent align="end" className="flex w-[420px] flex-col p-5">
-        <p className="text-dialog-title font-black text-on-surface">{title}</p>
-        <p className="mt-2 text-body-md leading-[1.5] text-content-secondary">{subtitle}</p>
-        <div className="mt-5">{chips}</div>
-        <div className="mt-6 flex gap-3 [&>*]:flex-1">{actions}</div>
+      <PopoverContent align="end" className="flex w-80 flex-col">
+        <p className="text-heading text-foreground">{title}</p>
+        <p className="mt-1 text-body text-muted-foreground">{subtitle}</p>
+        <div className="mt-4">{chips}</div>
+        <div className="mt-4 flex justify-end gap-3">{actions}</div>
       </PopoverContent>
     </Popover>
   );
@@ -253,7 +266,7 @@ type RemovableChipProps = {
   label: string;
   removeLabel: string;
   onRemove: () => void;
-  /** Shorter chip for narrow toolbars (day agenda filters). */
+  /** Shorter chip for narrow toolbars. */
   dense?: boolean;
 };
 
@@ -263,8 +276,8 @@ export function RemovableChip({ label, removeLabel, onRemove, dense = false }: R
     <span
       className={
         dense
-          ? 'inline-flex h-7 max-w-full items-center gap-0.5 rounded-pill border border-selection-border bg-selection-bg pr-0.5 pl-2.5 text-[12px] font-bold text-selection-fg'
-          : 'inline-flex h-8 max-w-full items-center gap-1 rounded-pill border border-selection-border bg-selection-bg pr-1 pl-3 text-body-md font-bold text-selection-fg'
+          ? 'inline-flex h-7 max-w-full items-center gap-0.5 rounded-md bg-selection-wash pr-0.5 pl-2 text-caption text-selection'
+          : 'inline-flex h-8 max-w-full items-center gap-1 rounded-md bg-selection-wash pr-1 pl-2.5 text-label text-selection'
       }
     >
       <span className="truncate">{label}</span>
@@ -274,11 +287,11 @@ export function RemovableChip({ label, removeLabel, onRemove, dense = false }: R
         onClick={onRemove}
         className={
           dense
-            ? 'inline-flex size-5 shrink-0 cursor-pointer items-center justify-center rounded-pill hover:bg-selection-fg/10'
-            : 'inline-flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-pill hover:bg-selection-fg/10'
+            ? 'inline-flex size-5 shrink-0 cursor-pointer items-center justify-center rounded-md hover:bg-foreground/10'
+            : 'inline-flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-md hover:bg-foreground/10'
         }
       >
-        <Icon name="close_rounded" size={dense ? 14 : 16} />
+        <Icon name="close_rounded" size={20} />
       </button>
     </span>
   );

@@ -32,11 +32,9 @@ export function DashboardScreen() {
     <div ref={ref} className="min-w-0">
       {width !== null && (
         <div style={style} className="flex flex-col">
-          <div className="mb-(--section-gap) max-[699px]:sr-only">
-            <h1 className="text-[26px] font-black text-on-surface">{text('adminNavDashboard')}</h1>
-            <p className="mt-2 leading-[1.5] text-content-secondary">
-              {text('shellHeaderDashboardSubtitle')}
-            </p>
+          <div className="mb-(--section-gap) max-[767px]:sr-only">
+            <h1 className="text-title text-foreground">{text('adminNavDashboard')}</h1>
+            <p className="mt-2 text-body text-muted-foreground">{text('shellHeaderDashboardSubtitle')}</p>
           </div>
           {dashboard.isLoading && !dashboard.summary ? (
             <div className="flex justify-center py-8">
@@ -52,7 +50,7 @@ export function DashboardScreen() {
           ) : (
             <>
               {dashboard.error && (
-                <div className="mb-(--section-gap) flex items-center gap-3 rounded-lg bg-danger-bg p-4 text-danger-fg">
+                <div className="mb-(--section-gap) flex items-center gap-3 rounded-lg bg-destructive-wash p-4 text-destructive">
                   <Icon name="error_outline" />
                   <p className="flex-1 font-bold">{text('dashboardLoadError')}</p>
                   <Button variant="text" onClick={dashboard.retry}>
@@ -64,10 +62,7 @@ export function DashboardScreen() {
               <div className="mt-(--section-gap)">
                 <Stats layout={layout} summary={dashboard.summary} />
               </div>
-              <h2
-                className="mt-(--section-gap-lg) font-black text-on-surface"
-                style={{ fontSize: layout.sectionTitleSize }}
-              >
+              <h2 className="mt-(--section-gap-lg) text-heading text-foreground">
                 {text('dashboardSectionQuickActions')}
               </h2>
               <div className="mt-3">
@@ -91,10 +86,10 @@ function Hero({ layout, summary }: { layout: DashboardLayout; summary: Dashboard
     <span
       className={
         tone === 'info'
-          ? 'rounded-pill bg-info-bg px-3 py-2 text-[13px] font-bold text-info-fg'
+          ? 'rounded-full bg-selection-wash px-3 py-2 text-label text-selection'
           : tone === 'success'
-            ? 'rounded-pill bg-success-bg px-3 py-2 text-[13px] font-bold text-success-fg'
-            : 'rounded-pill bg-warning-bg px-3 py-2 text-[13px] font-bold text-warning-fg'
+            ? 'rounded-full bg-success-wash px-3 py-2 text-label text-success'
+            : 'rounded-full bg-warning-wash px-3 py-2 text-label text-warning'
       }
     >
       {label}
@@ -102,27 +97,17 @@ function Hero({ layout, summary }: { layout: DashboardLayout; summary: Dashboard
   );
 
   return (
-    <section
-      className="rounded-xl border border-outline-variant bg-surface shadow-[0_6px_14px_rgb(0_0_0/0.03)]"
-      style={{ padding: layout.heroPadding }}
-    >
-      <div className="h-1 w-[88px] rounded-pill bg-linear-to-r from-brand-red via-on-surface to-brand-blue" />
-      <p className="mt-4 text-[14px] font-bold text-content-secondary">
+    <section className="rounded-xl border border-border bg-card" style={{ padding: layout.heroPadding }}>
+      <p className="text-body-strong text-muted-foreground">
         {intl.formatMessage({ id: 'dashboardHeroEyebrow' })}
       </p>
-      <p
-        className="mt-2 font-black text-on-surface"
-        style={{ fontSize: layout.heroTitleSize, lineHeight: 1.1 }}
-      >
+      <p className="mt-2 text-title text-foreground">
         {intl.formatMessage(
           { id: 'dashboardHeroTitle' },
           { appointmentsToday: appointments, freeSlotsToday: free },
         )}
       </p>
-      <p
-        className="mt-2.5 leading-[1.5] text-content-secondary"
-        style={{ fontSize: layout.heroSubtitleSize }}
-      >
+      <p className="mt-2.5 text-body text-muted-foreground">
         {time
           ? intl.formatMessage({ id: 'dashboardHeroSubtitleNext' }, { nextTime: time })
           : intl.formatMessage({ id: 'dashboardHeroSubtitleEmpty' })}
@@ -193,17 +178,12 @@ function Stats({ layout, summary }: { layout: DashboardLayout; summary: Dashboar
       {cards.map((card) => (
         <div
           key={card.title}
-          className="flex flex-col justify-center rounded-lg border border-border bg-surface px-4 py-3.5 text-center"
+          className="flex flex-col justify-center rounded-lg border border-border bg-card px-4 py-3.5 text-center"
         >
-          <p className="truncate text-[14px] font-bold text-content-secondary">
+          <p className="truncate text-label text-muted-foreground">
             {intl.formatMessage({ id: card.title })}
           </p>
-          <p
-            className="mt-3.5 truncate leading-none font-black text-on-surface"
-            style={{ fontSize: layout.statValueSize }}
-          >
-            {card.value}
-          </p>
+          <p className="mt-2 truncate text-heading text-foreground">{card.value}</p>
           <div className="mt-3 flex items-center justify-center gap-2">
             {card.avatar && (
               <Avatar
@@ -212,7 +192,7 @@ function Stats({ layout, summary }: { layout: DashboardLayout; summary: Dashboar
                 viewLabel={intl.formatMessage({ id: 'adminUserViewPhoto' })}
               />
             )}
-            <p className="line-clamp-2 leading-[1.35] text-content-secondary">{card.subtitle}</p>
+            <p className="line-clamp-2 text-body text-muted-foreground">{card.subtitle}</p>
           </div>
         </div>
       ))}
@@ -264,17 +244,14 @@ function QuickActions({ layout, dashboard }: { layout: DashboardLayout; dashboar
       }}
     >
       {actions.map((action) => (
-        <div key={action.title} className="flex flex-col rounded-lg border border-border bg-surface p-5">
-          <span className="inline-flex size-[46px] items-center justify-center rounded-[14px] bg-surface-muted text-on-surface">
-            <Icon name={action.icon} size={24} />
+        <div key={action.title} className="flex flex-col rounded-lg border border-border bg-card p-5">
+          <span className="inline-flex size-10 items-center justify-center rounded-md bg-card text-foreground">
+            <Icon name={action.icon} size={20} />
           </span>
-          <p
-            className="mt-[18px] line-clamp-2 font-extrabold text-on-surface"
-            style={{ fontSize: layout.actionTitleSize, lineHeight: 1.15 }}
-          >
+          <p className="mt-4 line-clamp-2 text-heading text-foreground">
             {intl.formatMessage({ id: action.title })}
           </p>
-          <p className="mt-2.5 line-clamp-2 text-[14px] leading-[1.45] text-content-secondary">
+          <p className="mt-2.5 line-clamp-2 text-body text-muted-foreground">
             {intl.formatMessage({ id: action.subtitle })}
           </p>
           <div className="mt-auto pt-3">

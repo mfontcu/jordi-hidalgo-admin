@@ -108,7 +108,7 @@ function UsersTable({ users, nameHeader, extraColumns, status, nameOf, onOpen, f
   const columns = useMemo((): DataTableColumn<AdminUser>[] => {
     const text = (id: MessageId) => intl.formatMessage({ id });
     const secondary = (value: string) => (
-      <span className="block truncate text-content-secondary">{value}</span>
+      <span className="block truncate text-muted-foreground">{value}</span>
     );
     // The widths of the extra columns, in order (`extra_a`, `extra_b`).
     const extraWidths = [
@@ -125,7 +125,7 @@ function UsersTable({ users, nameHeader, extraColumns, status, nameOf, onOpen, f
         cell: (user) => (
           <span className="flex items-center gap-2.5">
             <Avatar src={user.avatarUrl} size={36} viewLabel={text('adminUserViewPhoto')} />
-            <span className="min-w-0 flex-1 truncate font-bold text-on-surface">
+            <span className="min-w-0 flex-1 truncate font-bold text-foreground">
               {nameOf(user) || text('adminUserUnnamed')}
             </span>
           </span>

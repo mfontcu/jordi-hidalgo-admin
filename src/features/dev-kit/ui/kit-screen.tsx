@@ -46,7 +46,7 @@ type KitScreenProps = {
   onModeChange: (mode: KitMode) => void;
 };
 
-/** Development-only page (/_kit) with every design-system component, to compare with the Flutter panel. */
+/** Development-only page (/_kit): the review board of this design system. */
 export function KitScreen({ mode, onModeChange }: KitScreenProps) {
   const intl = useIntl();
   const locale = useLocaleStore((state) => state.locale);
@@ -56,16 +56,16 @@ export function KitScreen({ mode, onModeChange }: KitScreenProps) {
   return (
     <TooltipProvider>
       <div className="flex min-h-dvh flex-col">
-        <header className="flex flex-wrap items-center gap-4 border-b border-border bg-surface px-6 py-3">
+        <header className="flex flex-wrap items-center gap-4 border-b border-border bg-card px-6 py-3">
           <div className="mr-auto flex flex-col">
-            <h1 className="text-headline-md text-on-surface">
+            <h1 className="text-title text-foreground">
               <FormattedMessage id="devKitTitle" />
             </h1>
-            <p className="text-body-md text-on-surface-secondary">
+            <p className="text-body text-muted-foreground">
               <FormattedMessage id="devKitSubtitle" />
             </p>
           </div>
-          <div role="radiogroup" className="flex rounded-pill border border-border p-1">
+          <div role="radiogroup" className="flex rounded-md border border-border p-1">
             {KIT_MODES.map((value) => (
               <button
                 key={value}
@@ -76,8 +76,8 @@ export function KitScreen({ mode, onModeChange }: KitScreenProps) {
                   onModeChange(value);
                 }}
                 className={cn(
-                  'cursor-pointer rounded-pill px-4 py-1.5 text-label-lg font-bold text-content-secondary',
-                  mode === value && 'bg-selection-bg text-selection-fg',
+                  'cursor-pointer rounded-md px-4 py-1.5 text-body text-muted-foreground',
+                  mode === value && 'bg-selection-wash text-selection',
                 )}
               >
                 <FormattedMessage id={MODE_LABEL[value]} />
@@ -118,7 +118,7 @@ function KitColumn({ scheme, locale }: { scheme: 'light' | 'dark'; locale: Local
   const toasterId = `kit-${scheme}`;
 
   return (
-    <div className={cn(scheme, 'flex flex-col gap-4 bg-background p-4 text-on-surface sm:p-6')}>
+    <div className={cn(scheme, 'flex flex-col gap-4 bg-background p-4 text-foreground sm:p-6')}>
       <PortalContainerContext value={portal}>
         <ColorsSection />
         <TypographySection />

@@ -44,12 +44,10 @@ export function BlockedSlotDetailScreen() {
           <PageHeader
             title={text('scheduleBlockedSlotDetailTitle')}
             subtitle={text('scheduleBlockedSlotDetailSubtitle')}
-            titleSize={compact ? 24 : 30}
-            subtitleSize={14}
             back={{ label: text('scheduleBlockedSlotBack'), onClick: detail.goBack }}
             backAlign="center"
           />
-          <div style={{ marginTop: width < 700 ? 12 : 24 }}>
+          <div style={{ marginTop: width < 768 ? 12 : 24 }}>
             {detail.isLoading ? (
               <div className="flex justify-center py-12">
                 <Spinner size={36} className="text-primary" />
@@ -92,30 +90,24 @@ function DetailContent({ slot, compact, detail }: ContentProps) {
 
   const summary = (
     <InfoCard title={text('scheduleBlockedSlotDetailSummarySection')} icon="block_outlined">
-      <p className="text-[28px] leading-[1.05] font-black text-on-surface">{dotted(date, time)}</p>
+      <p className="text-title text-foreground">{dotted(date, time)}</p>
       <div className="mt-3 flex flex-col items-start gap-2">
         <StatusPill label={text(type.label)} tone={type.tone} />
         <StatusPill label={text(visibility.label)} tone={visibility.tone} />
       </div>
-      <p className="mt-3 text-[16px] font-bold text-on-surface">{slot.reason}</p>
+      <p className="mt-3 text-body-strong text-foreground">{slot.reason}</p>
     </InfoCard>
   );
   const settings = (
     <InfoCard title={text('scheduleBlockedSlotDetailConfigurationSection')} icon="tune_outlined">
       <dl className="flex flex-col gap-3.5">
-        <DetailRow label={text('appointmentFieldDate')} value={date} labelWidth={110} valueSize={14} />
-        <DetailRow
-          label={text('scheduleBlockedSlotTableSchedule')}
-          value={time}
-          labelWidth={110}
-          valueSize={14}
-        />
-        <DetailRow label={text('scheduleFieldReason')} value={slot.reason} labelWidth={110} valueSize={14} />
+        <DetailRow label={text('appointmentFieldDate')} value={date} labelWidth={110} />
+        <DetailRow label={text('scheduleBlockedSlotTableSchedule')} value={time} labelWidth={110} />
+        <DetailRow label={text('scheduleFieldReason')} value={slot.reason} labelWidth={110} />
         <DetailRow
           label={text('scheduleBlockedSlotFormWebVisibilitySection')}
           value={text(visibility.label)}
           labelWidth={110}
-          valueSize={14}
         />
       </dl>
     </InfoCard>

@@ -12,7 +12,7 @@ type LoginScreenProps = {
   onSignedIn: () => void;
 };
 
-/** login_screen.dart: brand panel and form side by side on desktop, the form alone below 1100px. */
+/** Brand column and form side by side from 1024px; the form alone below that. */
 export function LoginScreen({ onSignedIn }: LoginScreenProps) {
   const intl = useIntl();
   const form = useLoginForm({ onSignedIn });

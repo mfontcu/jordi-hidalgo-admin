@@ -20,12 +20,12 @@ type EmptyStateProps = {
 /** AdminEmptyState: icon tile, title, message, and an optional action, centered on a card. */
 export function EmptyState({ icon, title, message, action }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center rounded-lg border border-border bg-surface p-7 text-center">
-      <span className="flex size-[68px] items-center justify-center rounded-lg bg-surface-muted text-content-secondary">
-        <Icon name={icon} size={30} />
+    <div className="flex flex-col items-center rounded-lg border border-border bg-card p-7 text-center">
+      <span className="flex size-10 items-center justify-center rounded-lg bg-muted text-muted-foreground">
+        <Icon name={icon} size={20} />
       </span>
-      <p className="mt-[18px] text-dialog-title font-extrabold text-on-surface">{title}</p>
-      <p className="mt-2 leading-[1.5] text-content-secondary">{message}</p>
+      <p className="mt-4 text-heading text-foreground">{title}</p>
+      <p className="mt-2 text-body text-muted-foreground">{message}</p>
       {action && (
         <Button icon={action.icon ?? 'add'} onClick={action.onClick} className="mt-5">
           {action.label}
@@ -38,23 +38,20 @@ export function EmptyState({ icon, title, message, action }: EmptyStateProps) {
 export type StatusTone = 'success' | 'danger' | 'warning' | 'neutral' | 'neutralStrong' | 'muted' | 'info';
 
 const TONES: Record<StatusTone, string> = {
-  success: 'bg-success-bg text-success-fg',
-  danger: 'bg-danger-bg text-danger-fg',
-  warning: 'bg-warning-bg text-warning-fg',
-  neutral: 'bg-surface-muted text-content-secondary',
-  neutralStrong: 'bg-surface-muted text-on-surface',
+  success: 'bg-success-wash text-success',
+  danger: 'bg-destructive-wash text-destructive',
+  warning: 'bg-warning-wash text-warning',
+  neutral: 'bg-card text-muted-foreground',
+  neutralStrong: 'bg-card text-foreground',
   /** The muted content color (contentMuted), such as a rescheduled appointment. */
-  muted: 'bg-surface-muted text-content-muted',
-  info: 'bg-info-bg text-info-fg',
+  muted: 'bg-card text-muted-foreground',
+  info: 'bg-selection-wash text-selection',
 };
 
 const PILL_SIZES = {
-  /** AdminStatusPill: 12px, 10×7 padding. */
-  default: 'px-2.5 py-[7px] text-[12px]',
-  /** The service summary pills: 13px, 12×8 padding. */
-  summary: 'px-3 py-2 text-[13px]',
-  /** AdminStatusPill with 14×10 padding (detail summaries). */
-  large: 'px-3.5 py-2.5 text-[12px]',
+  default: 'px-2 py-1 text-caption',
+  summary: 'px-2.5 py-1 text-label',
+  large: 'px-3 py-1.5 text-caption',
 };
 
 type StatusPillProps = {
@@ -69,8 +66,7 @@ export function StatusPill({ label, tone, size = 'default', className }: StatusP
   return (
     <span
       className={cn(
-        // The text keeps the inherited bodyMedium line height, as a Flutter TextStyle does.
-        'inline-block max-w-full truncate rounded-pill align-top font-bold tracking-normal',
+        'inline-block max-w-full truncate rounded-full align-top font-medium',
         TONES[tone],
         PILL_SIZES[size],
         className,
@@ -90,7 +86,7 @@ export function RefreshOverlay({ refreshing, children }: { refreshing: boolean; 
     <div className="relative" aria-busy={refreshing || undefined}>
       {children}
       {refreshing && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-surface/72">
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-card/72">
           <Spinner size={36} className="text-primary" />
         </div>
       )}
@@ -102,9 +98,9 @@ export function RefreshOverlay({ refreshing, children }: { refreshing: boolean; 
 export type ActionTone = 'neutral' | 'success' | 'danger';
 
 const ACTION_TONES: Record<ActionTone, string> = {
-  neutral: 'text-content-secondary hover:bg-surface-muted',
-  success: 'text-success-fg hover:bg-success-bg',
-  danger: 'text-danger-fg hover:bg-danger-bg',
+  neutral: 'text-muted-foreground hover:bg-card',
+  success: 'text-success hover:bg-success-wash',
+  danger: 'text-destructive hover:bg-destructive-wash',
 };
 
 type TableActionProps = Omit<ComponentProps<'button'>, 'children'> & {
@@ -128,7 +124,7 @@ export function TableAction({ icon, label, tone = 'neutral', className, ...props
           )}
           {...props}
         >
-          <Icon name={icon} size={16} />
+          <Icon name={icon} size={20} />
         </button>
       </TooltipTrigger>
       <TooltipContent>{label}</TooltipContent>
@@ -156,14 +152,14 @@ export function InlineAction({
     <button
       type="button"
       className={cn(
-        'inline-flex cursor-pointer items-center gap-1.5 rounded-sm font-bold',
+        'inline-flex cursor-pointer items-center gap-1.5 rounded-md',
+        compact ? 'px-2 py-1.5 text-label' : 'px-2.5 py-2 text-body-strong',
         ACTION_TONES[tone],
-        compact ? 'px-2 py-1.5 text-[13px]' : 'px-2.5 py-2 text-[14px]',
         className,
       )}
       {...props}
     >
-      <Icon name={icon} size={compact ? 16 : 18} />
+      <Icon name={icon} size={20} />
       {label}
     </button>
   );
@@ -208,12 +204,12 @@ export function Pagination({
   // The bar's own width less its 16px padding on each side (LayoutBuilder inside the padding).
   const compact = width !== null && width - 32 < 720;
   const info = (
-    <p className="text-center text-[13px] font-semibold text-content-secondary">
+    <p className="text-center text-label text-muted-foreground">
       {labels.range(range.start, range.end, totalItems)}
     </p>
   );
   const indicator = (
-    <span className="truncate rounded-md border border-outline-variant bg-surface-muted px-3 py-2.5 text-center text-[13px] font-bold text-on-surface">
+    <span className="truncate rounded-md border border-border bg-muted px-3 py-2 text-center text-label text-foreground">
       {labels.page(page, range.totalPages)}
     </span>
   );
@@ -223,8 +219,8 @@ export function Pagination({
       ref={ref}
       aria-label={labels.page(page, range.totalPages)}
       className={cn(
-        'bg-surface px-4 py-3.5',
-        embedded ? 'border-t border-outline-variant' : 'rounded-lg border border-outline-variant',
+        'bg-card px-4 py-3',
+        embedded ? 'border-t border-border' : 'rounded-lg border border-border',
       )}
     >
       {compact ? (

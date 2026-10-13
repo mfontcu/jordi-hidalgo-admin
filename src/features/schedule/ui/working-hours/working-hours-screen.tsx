@@ -20,17 +20,15 @@ import { shiftRange, type ShiftSlot, type WorkingDay, type WorkingHours } from '
 import { textOf } from '../shared/labels';
 import { ShiftEditor } from './shift-editor';
 
-/** `_WorkingHoursLayoutSpec`, by the screen's width. */
+/** Working-hours density by the screen's content width. */
 function layoutFor(width: number) {
   if (width < 640) {
     return {
       padding: 16,
       gap: 20,
       gapLarge: 24,
-      titleSize: 26,
       summaryColumns: 1,
       cardHeight: 132,
-      valueSize: 30,
       compact: true,
       columns: 1,
     };
@@ -40,10 +38,8 @@ function layoutFor(width: number) {
       padding: 20,
       gap: 22,
       gapLarge: 26,
-      titleSize: 28,
       summaryColumns: 2,
       cardHeight: 136,
-      valueSize: 32,
       compact: true,
       columns: 2,
     };
@@ -53,10 +49,8 @@ function layoutFor(width: number) {
       padding: 24,
       gap: 24,
       gapLarge: 28,
-      titleSize: 30,
       summaryColumns: 4,
       cardHeight: 136,
-      valueSize: 34,
       compact: false,
       columns: 2,
     };
@@ -65,10 +59,8 @@ function layoutFor(width: number) {
     padding: 24,
     gap: 24,
     gapLarge: 28,
-    titleSize: 30,
     summaryColumns: 4,
     cardHeight: 140,
-    valueSize: 36,
     compact: false,
     columns: 3,
   };
@@ -94,14 +86,10 @@ export function WorkingHoursScreen() {
     <div ref={ref} className="min-w-0">
       {width !== null && (
         <div style={{ padding: layout.padding }}>
-          {/* Under 700px the mobile header shows the title. */}
-          <header className="max-[699px]:sr-only" style={{ marginBottom: layout.gap }}>
-            <h1 className="font-black text-on-surface" style={{ fontSize: layout.titleSize }}>
-              {text('scheduleWorkingHoursTitle')}
-            </h1>
-            <p className="mt-2 leading-[1.5] text-content-secondary">
-              {text('scheduleWorkingHoursSubtitle')}
-            </p>
+          {/* Under 768px the mobile header shows the title. */}
+          <header className="max-[767px]:sr-only" style={{ marginBottom: layout.gap }}>
+            <h1 className="text-title text-foreground">{text('scheduleWorkingHoursTitle')}</h1>
+            <p className="mt-2 text-body text-muted-foreground">{text('scheduleWorkingHoursSubtitle')}</p>
           </header>
           {hours.isLoading ? (
             <div className="flex justify-center py-12">
@@ -152,7 +140,6 @@ function Summary({ hours, layout }: { hours: WorkingHours; layout: Layout }) {
       title={text(`scheduleSummary${key}Title`)}
       value={value}
       subtitle={text(`scheduleSummary${key}Subtitle`)}
-      valueSize={layout.valueSize}
     />
   );
   return (
@@ -179,9 +166,9 @@ function DayCard({ day, hours, compact }: DayCardProps) {
   const text = textOf(intl);
   const active = hours.isDayActive(day);
   return (
-    <Card className="p-[18px]">
+    <Card className="p-4">
       <div className="flex items-start">
-        <h2 className="min-w-0 flex-1 text-[20px] font-extrabold text-on-surface">{day.label}</h2>
+        <h2 className="min-w-0 flex-1 text-heading text-foreground">{day.label}</h2>
         <Switch
           checked={active}
           aria-label={day.label}
@@ -201,7 +188,7 @@ function DayCard({ day, hours, compact }: DayCardProps) {
             <ShiftBlock key={slot} day={day} slot={slot} hours={hours} compact={compact} />
           ))
         ) : (
-          <p className="rounded-md bg-surface-muted p-3.5 leading-[1.45] text-content-secondary">
+          <p className="rounded-md bg-card p-3.5 text-body text-muted-foreground">
             {text('scheduleDayDisabledHint')}
           </p>
         )}
@@ -226,20 +213,20 @@ function ShiftBlock({ day, slot, hours, compact }: ShiftBlockProps) {
       onClick={() => {
         hours.edit(target);
       }}
-      className="inline-flex cursor-pointer items-center gap-2 rounded-pill px-2.5 py-2 text-button font-bold text-text-action hover:bg-text-action/8"
+      className="inline-flex cursor-pointer items-center gap-2 rounded-md px-2.5 py-2 text-body-strong text-foreground hover:bg-muted"
     >
-      <Icon name="edit_outlined" size={16} />
+      <Icon name="edit_outlined" size={20} />
       {text('scheduleActionEdit')}
     </button>
   );
 
   return (
-    <div className="flex items-center gap-3 rounded-md bg-surface-muted p-3.5">
+    <div className="flex items-center gap-3 rounded-md bg-card p-3.5">
       <div className="min-w-0 flex-1">
-        <p className="text-[13px] font-bold text-content-secondary">
+        <p className="text-label text-muted-foreground">
           {text(slot === 'morning' ? 'scheduleShiftMorning' : 'scheduleShiftAfternoon')}
         </p>
-        <p className="mt-1 text-[15px] font-bold text-on-surface">
+        <p className="mt-1 text-body-strong text-foreground">
           {shift ? shiftRange(shift) : text('scheduleNotDefined')}
         </p>
       </div>
@@ -267,9 +254,9 @@ function ShiftBlock({ day, slot, hours, compact }: ShiftBlockProps) {
             onClick={() => {
               hours.askDelete(target);
             }}
-            className="inline-flex cursor-pointer items-center gap-2 rounded-pill px-2.5 py-2 text-button font-bold text-danger-fg hover:bg-danger-fg/8"
+            className="inline-flex cursor-pointer items-center gap-2 rounded-md px-2.5 py-2 text-body-strong text-destructive hover:bg-muted"
           >
-            <Icon name="delete_outline" size={16} />
+            <Icon name="delete_outline" size={20} />
             {text('adminCommonDelete')}
           </button>
         )}

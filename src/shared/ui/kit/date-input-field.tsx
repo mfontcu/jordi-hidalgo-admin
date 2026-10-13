@@ -6,9 +6,8 @@ import { cn } from '@/shared/lib/cn';
 import { Icon } from '../icons/icon';
 import { Button } from '../primitives/button';
 import { Calendar, type CalendarLocale } from '../primitives/calendar';
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from '../primitives/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } from '../primitives/dialog';
 import { fieldBase } from '../primitives/field-styles';
-import { useWindowNarrowerThan } from './date-pickers';
 
 export type DateInputLabels = { title: string; subtitle: string; apply: string; cancel: string };
 
@@ -61,13 +60,13 @@ export function DateInputField({
         className={cn(
           fieldBase,
           'flex cursor-pointer items-center pr-4 text-left',
-          invalid && 'border-error',
+          invalid && 'border-destructive',
         )}
       >
-        <span className={cn('min-w-0 flex-1 truncate', !value && 'text-on-surface-muted')}>
+        <span className={cn('min-w-0 flex-1 truncate', !value && 'text-muted-foreground')}>
           {value ? formatDay(value, language, 'numericDate') : placeholder}
         </span>
-        <Icon name="calendar_today_outlined" size={20} className="ml-2 text-on-surface-variant" />
+        <Icon name="calendar_today_outlined" size={20} className="ml-2 text-muted-foreground" />
       </button>
       <Dialog open={open} onOpenChange={setOpen}>
         {open && (
@@ -102,33 +101,14 @@ type ContentProps = {
 };
 
 function DateInputContent({ day, first, last, language, labels, onCancel, onApply }: ContentProps) {
-  const compact = useWindowNarrowerThan(620);
   const [selected, setSelected] = useState(day);
   const [month, setMonth] = useState(() => dayToDate(day));
 
-  const apply = (
-    <Button
-      icon="check_rounded"
-      onClick={() => {
-        onApply(selected);
-      }}
-    >
-      {labels.apply}
-    </Button>
-  );
-  const cancel = (
-    <Button variant="secondary" icon="close" onClick={onCancel}>
-      {labels.cancel}
-    </Button>
-  );
-
   return (
-    <DialogContent className={cn('max-w-[520px] rounded-xl p-[22px]', compact && 'w-[calc(100vw-32px)]')}>
-      <DialogTitle className="text-[24px] font-black">{labels.title}</DialogTitle>
-      <DialogDescription className="mt-2 text-body-md leading-[1.5] text-on-surface-secondary">
-        {labels.subtitle}
-      </DialogDescription>
-      <div className="mt-5 rounded-[18px] border border-outline-variant bg-surface p-3">
+    <DialogContent>
+      <DialogTitle>{labels.title}</DialogTitle>
+      <DialogDescription className="mt-2">{labels.subtitle}</DialogDescription>
+      <div className="mt-5 rounded-lg border border-border bg-card p-3">
         <Calendar
           mode="single"
           language={language}
@@ -144,17 +124,19 @@ function DateInputContent({ day, first, last, language, labels, onCancel, onAppl
           disabled={[{ before: dayToDate(first) }, { after: dayToDate(last) }]}
         />
       </div>
-      {compact ? (
-        <div className="mt-6 flex flex-col gap-3">
-          {apply}
-          {cancel}
-        </div>
-      ) : (
-        <div className="mt-6 flex gap-3 [&>*]:flex-1">
-          {cancel}
-          {apply}
-        </div>
-      )}
+      <DialogFooter>
+        <Button variant="secondary" icon="close" onClick={onCancel}>
+          {labels.cancel}
+        </Button>
+        <Button
+          icon="check_rounded"
+          onClick={() => {
+            onApply(selected);
+          }}
+        >
+          {labels.apply}
+        </Button>
+      </DialogFooter>
     </DialogContent>
   );
 }

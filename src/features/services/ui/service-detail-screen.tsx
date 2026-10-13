@@ -57,11 +57,9 @@ export function ServiceDetailScreen() {
           <PageHeader
             title={intl.formatMessage({ id: 'serviceDetailTitle' })}
             subtitle={intl.formatMessage({ id: 'serviceDetailSubtitle' })}
-            titleSize={layout.titleSize}
-            subtitleSize={layout.subtitleSize}
             back={{ label: intl.formatMessage({ id: 'serviceBackToList' }), onClick: detail.goBack }}
           />
-          <div style={{ marginTop: width < 700 ? 12 : layout.gap }}>
+          <div style={{ marginTop: width < 768 ? 12 : layout.gap }}>
             {detail.isLoading ? (
               <div className="flex justify-center py-12">
                 <Spinner size={36} className="text-primary" />
@@ -143,9 +141,9 @@ function ServiceDetailContent({
           const translation = translationFor(service, locale);
           return (
             <MutedPanel key={locale}>
-              <p className="text-[13px] font-bold text-content-secondary">{localeTitles[locale]}</p>
-              <p className="mt-2 text-[16px] font-extrabold text-on-surface">{translation.name}</p>
-              <p className="mt-2 leading-[1.5] text-content-secondary">
+              <p className="text-label text-muted-foreground">{localeTitles[locale]}</p>
+              <p className="mt-2 text-body-strong text-foreground">{translation.name}</p>
+              <p className="mt-2 text-body text-muted-foreground">
                 {translation.description || text('serviceNoDescription')}
               </p>
             </MutedPanel>
@@ -168,7 +166,7 @@ function ServiceDetailContent({
       <DisplayOrderEditor editor={detail.displayOrder} />
       <SubTitle>{text('serviceWebPricingPageTitle')}</SubTitle>
       <MutedPanel className="flex items-center gap-3">
-        <p className="flex-1 leading-[1.5] text-content-secondary">
+        <p className="flex-1 text-body text-muted-foreground">
           {text(
             detail.showOnPublicSite ? 'serviceWebVisibilityEnabledHint' : 'serviceWebVisibilityDisabledHint',
           )}
@@ -248,8 +246,8 @@ function ServiceDetailContent({
           className={layout.twoColumns ? 'flex items-start gap-5' : 'flex flex-col gap-4'}
         >
           <div className="min-w-0 flex-1">
-            <p className="text-[28px] leading-[1.05] font-black text-on-surface">{service.name}</p>
-            <p className="mt-2 text-[15px] leading-[1.5] text-content-secondary">{serviceLine(service)}</p>
+            <p className="text-title text-foreground">{service.name}</p>
+            <p className="mt-2 text-body text-muted-foreground">{serviceLine(service)}</p>
             <div className="mt-4 flex flex-wrap gap-2.5">
               <StatusPill
                 size="summary"
@@ -312,7 +310,7 @@ function ServiceDetailContent({
 }
 
 function SubTitle({ children }: { children: ReactNode }) {
-  return <p className="mt-4 mb-2 text-[13px] font-bold text-content-secondary">{children}</p>;
+  return <p className="mt-4 mb-2 text-label text-muted-foreground">{children}</p>;
 }
 
 /** `_DisplayOrderEditor`: hint, the number, and save. */
@@ -320,9 +318,7 @@ function DisplayOrderEditor({ editor }: { editor: Detail['displayOrder'] }) {
   const intl = useIntl();
   return (
     <MutedPanel>
-      <p className="leading-[1.5] text-content-secondary">
-        {intl.formatMessage({ id: 'servicePriorityHint' })}
-      </p>
+      <p className="text-body text-muted-foreground">{intl.formatMessage({ id: 'servicePriorityHint' })}</p>
       <form
         className="mt-3 flex items-start gap-3"
         onSubmit={(event) => {
@@ -334,7 +330,7 @@ function DisplayOrderEditor({ editor }: { editor: Detail['displayOrder'] }) {
         <div className="relative w-[120px]">
           <label
             htmlFor="display-order"
-            className="pointer-events-none absolute top-1.5 left-4 text-[12px] leading-none text-content-secondary"
+            className="pointer-events-none absolute top-1.5 left-4 text-caption text-muted-foreground"
           >
             {intl.formatMessage({ id: 'serviceFieldPriority' })}
           </label>
