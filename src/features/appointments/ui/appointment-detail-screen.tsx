@@ -341,7 +341,7 @@ function AppointmentDetailContent({
           <ActionPicker
             compact={compactPicker}
             trigger={
-              <Button variant="secondary" icon="task_alt_outlined" className="w-full justify-start">
+              <Button variant="secondary" icon="task_alt_outlined" className="w-full">
                 {text('appointmentChangeStatusButton')}
               </Button>
             }
