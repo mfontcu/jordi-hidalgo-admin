@@ -9,13 +9,10 @@ tags:
 owner: 'owner:self'
 domain: /projects/hidalgo-junior
 visibility: personal
-status: stable
+status: draft
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-12T14:06:00Z'
-verified:
-  - by: 'human:mfontcuberta'
-    at: '2026-10-12T14:13:05Z'
+  at: '2026-10-13T07:48:14Z'
 severity: medium
 operates:
   - /engineering/apps/hidalgo-admin
@@ -27,10 +24,9 @@ The panel is a static build. It has no server process of its own, so operating i
 with the right API origin, publishing the files, and telling panel problems apart from backend
 problems. Local commands are in `AGENTS.md`.
 
-On 2026-10-12 the host `https://admin.hidalgojunior.com` still serves the Flutter panel. This
-runbook is how the React build takes that host and how it is operated afterwards. The previous
-Flutter deployment stays available for rollback. Staff sign in once, because the storage keys
-change.
+Since 2026-10-13 the host `https://admin.hidalgojunior.com` serves this React panel. The previous
+Flutter deployment stays available for rollback. Staff signed in once at cutover, because the
+storage keys changed.
 
 ## Environments and configuration
 
@@ -122,7 +118,7 @@ No alerts exist. Problems are reported by staff.
 | Sign-in works but shows "no admin access"                                              | The account's role is not `admin` or `super_admin`                          |
 | After cutover the panel asks for sign-in even though Flutter was open                  | Expected. The storage keys changed                                          |
 | Old UI after a deploy                                                                  | The browser cached `index.html`; hard reload                                |
-| Free slots today stays 0                                                               | The backend summary returns that literal. The panel shows it                |
+| Free slots today stays 0                                                               | The salon has no remaining free grid starts today. The panel shows the count the backend returns |
 
 ## Step-by-Step Diagnosis
 

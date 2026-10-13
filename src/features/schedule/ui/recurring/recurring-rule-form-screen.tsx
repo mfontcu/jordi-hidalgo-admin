@@ -159,7 +159,7 @@ function FormContent({ rule, data, twoColumns }: ContentProps) {
           <span className="flex-1 font-bold text-on-surface">
             {text('scheduleRecurringBlockedSlotFormRuleActiveToggle')}
           </span>
-          <Switch checked={values.isActive} onCheckedChange={form.setActive} />
+          <Switch tone="adaptive" checked={values.isActive} onCheckedChange={form.setActive} />
         </label>
       </MutedPanel>
     </InfoCard>

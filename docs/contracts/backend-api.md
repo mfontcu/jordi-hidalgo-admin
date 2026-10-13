@@ -10,13 +10,10 @@ tags:
 owner: 'owner:self'
 domain: /projects/hidalgo-junior
 visibility: personal
-status: stable
+status: draft
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-12T14:06:00Z'
-verified:
-  - by: 'human:mfontcuberta'
-    at: '2026-10-12T14:13:05Z'
+  at: '2026-10-13T07:48:14Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -63,7 +60,7 @@ Sign-out does not call the backend. It clears the tokens and the query cache.
 
 | Operation                                                        | Caller                                                                                                       |
 | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `GET /admin/dashboard/summary`                                   | Dashboard. Not refetched on a language change. Service names in the summary stay as the backend returns them |
+| `GET /admin/dashboard/summary`                                   | Dashboard. Refetched on a language change. The next appointment's service name follows the request locale. Free slots today are the remaining booking-grid starts |
 | `GET /services`                                                  | Availability overview (public catalog)                                                                       |
 | `GET /availability/dates`, `GET /availability/slots`             | Availability overview, and the appointment form and reschedule                                               |
 | `GET /admin/appointments`                                        | Appointments list, day agenda, a user's appointments, the conflicts check                                    |
@@ -132,6 +129,5 @@ notes with what it receives.
 The image bytes go with `PUT` to the presigned URL. That request is not an API call and does not
 send the panel JWT (`src/features/business/api/gallery-upload.ts`).
 
-Queries whose content the backend localizes (service names and categories, and the business CMS
-texts) are marked `meta.localized` and run again when the language changes. The dashboard summary
-is not one of them.
+Queries whose content the backend localizes (service names and categories, the business CMS
+texts, and the dashboard summary) are marked `meta.localized` and run again when the language changes.

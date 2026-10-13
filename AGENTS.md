@@ -1,18 +1,18 @@
 # Guía para agentes de IA
 
-Panel de administración de **Hidalgo Junior** en React + TypeScript. Sustituirá al panel Flutter (`jordi_hidalgo_app/apps/admin_app`) en un único cutover cuando la checklist de paridad esté completa.
+Panel de administración de **Hidalgo Junior** en React + TypeScript. Sustituye al panel Flutter (`jordi_hidalgo_app/apps/admin_app`), que queda obsoleto. Está en producción en `https://admin.hidalgojunior.com`.
 
 - **Decisión de arquitectura:** ADR-003 en el hub (`../knowledge-base-hub`, `/engineering/adrs/admin-panel-react-spa`). Manda sobre este archivo en stack, capas, reglas de dependencia, flujo de datos y quality gates.
 - **Plan y estado:** iniciativa `/initiatives/admin-panel-react-migration` del hub (fases, criterios de hecho, checklist de paridad).
 - **Contrato del backend:** `/engineering/apis/hidalgo-backend-rest` (`jordi_hidalgo_backend/docs/contracts/apis/backend-rest-api.md`).
-- **No hay staging:** se desarrolla y se compara con el panel Flutter en localhost contra el backend local; el cutover despliega directamente en producción.
+- **No hay staging:** el cutover ya publicó este panel en producción. El despliegue Flutter anterior queda para volver atrás.
 - **No hagas commit ni push** salvo petición explícita.
 
 ## Repos del ecosistema
 
 - `jordi_hidalgo_backend` — API REST; publica el contrato OpenAPI 3 (`docs/openapi.json`)
 - **Este repo** — Panel admin React
-- `jordi_hidalgo_app` — Flutter (`customer_app`, `admin_app` hasta el cutover)
+- `jordi_hidalgo_app` — Flutter (`customer_app`; `admin_app` obsoleto)
 - `jordi_hidalgo_web` — Web pública
 
 ## Capas (ADR-003 §2 y §4)

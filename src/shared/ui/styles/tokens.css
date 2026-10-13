@@ -59,6 +59,9 @@
   --field-grey: #9e9e9e; /* Colors.grey: AdminDateInputField's border, in both modes */
   --info-bg: #eaf1ff;
   --info-fg: #2f5fbf;
+  /* CupertinoColors.activeGreen: Flutter Switch.adaptive on the recurring-rule form. */
+  --switch-adaptive: #34c759;
+  --switch-adaptive-thumb: #ffffff;
 
   /* AdminThemeContext getters */
   --accent-fg: var(--brand-blue); /* barberBlue in light, infoFg in dark */
@@ -112,6 +115,9 @@
   --field-grey: #9e9e9e;
   --info-bg: #1a2740;
   --info-fg: #90caf9;
+  /* CupertinoColors.activeGreen, dark brightness. */
+  --switch-adaptive: #30d158;
+  --switch-adaptive-thumb: #ffffff;
 
   --accent-fg: var(--info-fg);
   --selection-strong-alpha: 22%;

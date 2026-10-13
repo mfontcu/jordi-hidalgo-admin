@@ -112,6 +112,31 @@ describe('appointments list', () => {
     });
   });
 
+  it('explains that today hides other days, and opens this week', async () => {
+    withList([]);
+    app = renderApp('/appointments');
+    const user = userEvent.setup();
+
+    expect(await screen.findByText('No hay citas para hoy')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'El listado abre en el día de hoy, así que las citas de otros días no aparecen. Cambia la fecha para verlas.',
+      ),
+    ).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Ver esta semana' }));
+    await waitFor(() => {
+      expect(search()).toEqual({ date: 'thisWeek' });
+    });
+  });
+
+  it('keeps the generic empty state when a filter other than today hides the rows', async () => {
+    withList([]);
+    app = renderApp('/appointments?status=pending');
+
+    expect(await screen.findByText('No hay citas para este día')).toBeInTheDocument();
+    expect(screen.queryByText('No hay citas para hoy')).not.toBeInTheDocument();
+  });
+
   it('completes from the list keeping internal notes', async () => {
     const bodies: unknown[] = [];
     withList();

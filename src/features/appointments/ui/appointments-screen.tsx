@@ -132,15 +132,30 @@ export function AppointmentsScreen() {
             }}
           />
         ) : !list.page || list.page.items.length === 0 ? (
-          <EmptyState
-            icon="event_busy_outlined"
-            title={intl.formatMessage({ id: 'appointmentEmptyTitle' })}
-            message={intl.formatMessage({ id: 'appointmentEmptyMessage' })}
-            action={{
-              label: intl.formatMessage({ id: 'appointmentNewButton' }),
-              onClick: list.newAppointment,
-            }}
-          />
+          list.dateFilter.kind === 'today' && !list.filtersActive ? (
+            <EmptyState
+              icon="event_busy_outlined"
+              title={intl.formatMessage({ id: 'appointmentEmptyTodayTitle' })}
+              message={intl.formatMessage({ id: 'appointmentEmptyTodayMessage' })}
+              action={{
+                label: intl.formatMessage({ id: 'appointmentEmptyTodayAction' }),
+                icon: 'calendar_today_outlined',
+                onClick: () => {
+                  list.pickDate('thisWeek');
+                },
+              }}
+            />
+          ) : (
+            <EmptyState
+              icon="event_busy_outlined"
+              title={intl.formatMessage({ id: 'appointmentEmptyTitle' })}
+              message={intl.formatMessage({ id: 'appointmentEmptyMessage' })}
+              action={{
+                label: intl.formatMessage({ id: 'appointmentNewButton' }),
+                onClick: list.newAppointment,
+              }}
+            />
+          )
         ) : (
           <AppointmentsRows
             page={list.page}
@@ -410,24 +425,40 @@ function AppointmentsToolbar({
   ) : null;
 
   const selectedCount = list.selectedIds.size;
+  const bulkButtonClass = compact
+    ? 'min-h-8 whitespace-normal px-2 text-center text-[13px] leading-tight'
+    : undefined;
   const bulkBar = list.selectMode ? (
     <div
       className={
         compact
-          ? 'flex flex-col gap-2 rounded-md border border-outline-variant bg-surface-muted p-3'
+          ? 'grid grid-cols-2 gap-1.5 rounded-md border border-outline-variant bg-surface-muted p-2'
           : 'flex flex-wrap items-center gap-2 rounded-md border border-outline-variant bg-surface-muted p-3'
       }
     >
-      <p className="min-w-0 flex-1 text-[14px] font-bold text-on-surface">
+      <p
+        className={
+          compact
+            ? 'col-span-2 text-[13px] leading-tight font-bold text-on-surface'
+            : 'min-w-0 flex-1 text-[14px] font-bold text-on-surface'
+        }
+      >
         {intl.formatMessage({ id: 'appointmentBulkSelectedCount' }, { count: selectedCount })}
       </p>
       {selectedCount === 0 && list.selectableOnPage.length === 0 && (
-        <p className="w-full text-[13px] text-content-secondary">
+        <p
+          className={
+            compact
+              ? 'col-span-2 text-[13px] text-content-secondary'
+              : 'w-full text-[13px] text-content-secondary'
+          }
+        >
           {text('appointmentBulkNoSelectableItems')}
         </p>
       )}
       <Button
         variant="secondary"
+        className={bulkButtonClass}
         disabled={list.selectableOnPage.length === 0}
         onClick={() => {
           if (allPageSelected) list.clearSelection();
@@ -436,13 +467,28 @@ function AppointmentsToolbar({
       >
         {text(allPageSelected ? 'appointmentBulkClearSelection' : 'appointmentBulkSelectAllPage')}
       </Button>
-      <Button variant="secondary" disabled={selectedCount === 0 || list.isBusy} onClick={onBulkComplete}>
+      <Button
+        variant="secondary"
+        className={bulkButtonClass}
+        disabled={selectedCount === 0 || list.isBusy}
+        onClick={onBulkComplete}
+      >
         {text('appointmentBulkCompleteAction')}
       </Button>
-      <Button variant="secondary" disabled={selectedCount === 0 || list.isBusy} onClick={onBulkNoShow}>
+      <Button
+        variant="secondary"
+        className={bulkButtonClass}
+        disabled={selectedCount === 0 || list.isBusy}
+        onClick={onBulkNoShow}
+      >
         {text('appointmentBulkNoShowAction')}
       </Button>
-      <Button variant="dangerTonal" disabled={selectedCount === 0 || list.isBusy} onClick={onBulkCancel}>
+      <Button
+        variant="dangerTonal"
+        className={bulkButtonClass}
+        disabled={selectedCount === 0 || list.isBusy}
+        onClick={onBulkCancel}
+      >
         {text('appointmentBulkCancelSelectedAction')}
       </Button>
     </div>

@@ -5,8 +5,7 @@ import { apiClient, unwrap } from '@/shared/api';
 import { dashboardKeys } from './dashboard.keys';
 import { toDashboardSummary } from './dashboard.mappers';
 
-// The summary's service name is stored in Spanish by the backend, so a language change does not
-// refetch it.
+// The next appointment's service name follows `Accept-Language`, so a language change refetches it.
 
 const STALE_TIME = 10_000;
 
@@ -16,6 +15,7 @@ export function dashboardSummaryQueryOptions() {
     queryKey: dashboardKeys.summary(),
     queryFn: async ({ signal }) =>
       toDashboardSummary(unwrap(await apiClient.GET('/admin/dashboard/summary', { signal }))),
+    meta: { localized: true },
     staleTime: STALE_TIME,
   });
 }

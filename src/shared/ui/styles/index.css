@@ -206,6 +206,8 @@
   --color-field-grey: var(--field-grey);
   --color-info-bg: var(--info-bg);
   --color-info-fg: var(--info-fg);
+  --color-switch-adaptive: var(--switch-adaptive);
+  --color-switch-adaptive-thumb: var(--switch-adaptive-thumb);
 
   --color-content-secondary: var(--content-secondary);
   --color-content-muted: var(--content-muted);

@@ -14,15 +14,12 @@ tags:
 owner: 'owner:self'
 domain: /projects/hidalgo-junior
 visibility: personal
-status: stable
+status: draft
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-12T14:06:00Z'
-verified:
-  - by: 'human:mfontcuberta'
-    at: '2026-10-12T14:13:05Z'
+  at: '2026-10-13T07:48:14Z'
 resource: /engineering/apps/hidalgo-admin
-service_status: planned
+service_status: active
 tier: 1
 consumes:
   - /engineering/apis/hidalgo-backend-rest
@@ -68,9 +65,10 @@ content shown in the customer app and on the public website. It is a React singl
 holds no domain data of its own: every read and write goes to the `jordi_hidalgo_backend` REST API
 through a client generated from that API's OpenAPI contract.
 
-It replaces the [Flutter panel](/engineering/apps/hidalgo-admin-app) in one cutover. Until that
-publish, the Flutter panel is what `https://admin.hidalgojunior.com` serves. Paths stay the same, so
-bookmarks keep working. Storage keys change, so staff sign in once at cutover.
+It replaced the [Flutter panel](/engineering/apps/hidalgo-admin-app) on 2026-10-13.
+`https://admin.hidalgojunior.com` serves this panel. Paths stay the same, so bookmarks keep working.
+Storage keys changed, so staff signed in once at cutover. The Flutter component is deprecated; its
+previous deployment stays available for rollback.
 
 The backend owns the domain. Appointment, customer, service, schedule, slot-watch, and content
 entities, their statuses and transitions, and their business rules are documented on the

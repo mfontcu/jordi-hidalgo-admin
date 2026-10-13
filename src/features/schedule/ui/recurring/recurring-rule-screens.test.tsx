@@ -123,7 +123,9 @@ describe('recurring rule form', () => {
     const user = userEvent.setup();
 
     await user.click(await screen.findByRole('radio', { name: 'mié' }));
-    await user.click(screen.getByRole('switch', { name: 'Regla activa' }));
+    const ruleSwitch = screen.getByRole('switch', { name: 'Regla activa' });
+    expect(ruleSwitch).toHaveAttribute('data-tone', 'adaptive');
+    await user.click(ruleSwitch);
     await user.click(screen.getByRole('button', { name: 'Crear bloqueo recurrente' }));
 
     await waitFor(() => {
