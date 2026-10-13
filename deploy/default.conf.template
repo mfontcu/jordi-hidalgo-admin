@@ -1,4 +1,4 @@
-# Same SPA and asset caching as the Flutter panel (apps/admin_app/deploy/nginx.conf), plus security
+# Same SPA and asset caching as the former Flutter panel, plus security
 # headers and no caching of index.html. ${API_ORIGIN} comes from the image's build arg.
 server {
     listen 80;

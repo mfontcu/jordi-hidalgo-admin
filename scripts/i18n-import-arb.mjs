@@ -2,15 +2,20 @@
 // "Localization"). Keys and ICU text are kept; the Flutter-only `@key` metadata is dropped, and
 // every locale follows the key order of the Spanish template.
 //
-//   npm run i18n:import-arb -- [arb-dir]
+//   npm run i18n:import-arb -- <arb-dir>
 //
-// arb-dir defaults to ../jordi_hidalgo_app/apps/admin_app/lib/l10n.
+// The Flutter ARB source was removed with apps/admin_app. Pass the directory that holds
+// app_es.arb, app_ca.arb, and app_en.arb.
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 import { LOCALES, messagesPath, SOURCE_LOCALE } from './i18n-shared.mjs';
 
-const arbDir = resolve(process.argv[2] ?? '../jordi_hidalgo_app/apps/admin_app/lib/l10n');
+const arbArg = process.argv[2];
+if (!arbArg) {
+  throw new Error('Pass the ARB directory: npm run i18n:import-arb -- <arb-dir>');
+}
+const arbDir = resolve(arbArg);
 
 function readArb(locale) {
   const arb = JSON.parse(readFileSync(`${arbDir}/app_${locale}.arb`, 'utf8'));

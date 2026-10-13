@@ -9,10 +9,13 @@ tags:
 owner: 'owner:self'
 domain: /projects/hidalgo-junior
 visibility: personal
-status: draft
+status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-13T07:48:14Z'
+  at: '2026-10-13T09:35:00Z'
+verified:
+  - by: "human:mfontcuberta"
+    at: "2026-10-13T09:41:23Z"
 severity: medium
 operates:
   - /engineering/apps/hidalgo-admin
@@ -24,9 +27,10 @@ The panel is a static build. It has no server process of its own, so operating i
 with the right API origin, publishing the files, and telling panel problems apart from backend
 problems. Local commands are in `AGENTS.md`.
 
-Since 2026-10-13 the host `https://admin.hidalgojunior.com` serves this React panel. The previous
-Flutter deployment stays available for rollback. Staff signed in once at cutover, because the
-storage keys changed.
+Since 2026-10-13 the host `https://admin.hidalgojunior.com` serves this React panel. Staff signed in
+once at cutover, because the storage keys changed. The Flutter source was removed from the app
+repository. Rollback is redeploying the previous Cloudflare Pages deployment, if it was kept; that
+deployment cannot be rebuilt from git.
 
 ## Environments and configuration
 
@@ -84,10 +88,11 @@ desktop width and below 700 px, in light and dark mode:
 
 ## Rollback
 
-There is no server state to roll back. In Cloudflare Pages, redeploy the previous deployment (the
-Flutter build). On the nginx host, run the previous image. Browsers keep the new JavaScript until
-they reload; staff may need a hard reload. After a rollback they sign in again on the Flutter
-panel, because that panel reads its own storage keys.
+There is no server state to roll back. In Cloudflare Pages, redeploy the previous deployment if it
+was kept. That deployment is the Flutter build, and the Flutter source is no longer in the app
+repository, so it cannot be rebuilt from git. On the nginx host, run the previous image if it was
+kept. Browsers keep the new JavaScript until they reload; staff may need a hard reload. After a
+rollback they sign in again, because the Flutter panel reads its own storage keys.
 
 ## Observability
 

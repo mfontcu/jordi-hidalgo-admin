@@ -12,16 +12,16 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-12T14:06:00Z'
+  at: '2026-10-13T09:35:00Z'
 verified:
-  - by: 'human:mfontcuberta'
-    at: '2026-10-12T14:13:05Z'
+  - by: "human:mfontcuberta"
+    at: "2026-10-13T09:41:23Z"
 ---
 
 # Hidalgo Junior admin panel
 
-Documentation of the staff web panel in `jordi_hidalgo_admin`, component `hidalgo-admin`. It replaces
-the Flutter panel ([hidalgo-admin-app](/engineering/apps/hidalgo-admin-app)) at cutover. For the
+Documentation of the staff web panel in `jordi_hidalgo_admin`, component `hidalgo-admin`. It replaced
+the Flutter panel on 2026-10-13; that Flutter source was later removed from the app repository. For the
 project and the decision, start at the knowledge hub (`/projects/hidalgo-junior`,
 [ADR-003](/engineering/adrs/admin-panel-react-spa)).
 

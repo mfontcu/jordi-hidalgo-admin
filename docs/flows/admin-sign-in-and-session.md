@@ -13,10 +13,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-12T14:06:00Z'
+  at: '2026-10-13T09:35:00Z'
 verified:
-  - by: 'human:mfontcuberta'
-    at: '2026-10-12T14:13:05Z'
+  - by: "human:mfontcuberta"
+    at: "2026-10-13T09:41:23Z"
 part_of: /engineering/apps/hidalgo-admin
 realizes:
   - /business/processes/hidalgo-junior/staff-sign-in
@@ -57,5 +57,5 @@ panel path. Sign-out clears the tokens and the query cache and replaces the loca
 | Refresh answered 401 or 403, or the user is blocked | Tokens cleared, in-memory expiry flag set, `/login` shows the expiry notice once    |
 | Refresh fails for network or server reasons         | Tokens kept. The call fails as a network or server error                            |
 
-There is no server-side sign-out call. A rollback to the Flutter panel does not read these keys, so
-staff sign in there again as well.
+There is no server-side sign-out call. A rollback to a kept Flutter deployment does not read these
+keys, so staff sign in there again as well. The Flutter source is no longer in the app repository.

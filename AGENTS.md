@@ -1,6 +1,6 @@
 # Guía para agentes de IA
 
-Panel de administración de **Hidalgo Junior** en React + TypeScript. Sustituye al panel Flutter (`jordi_hidalgo_app/apps/admin_app`), que queda obsoleto. Está en producción en `https://admin.hidalgojunior.com`.
+Panel de administración de **Hidalgo Junior** en React + TypeScript. Sustituye al panel Flutter, eliminado de `jordi_hidalgo_app`. Está en producción en `https://admin.hidalgojunior.com`.
 
 - **Decisión de arquitectura:** ADR-003 en el hub (`../knowledge-base-hub`, `/engineering/adrs/admin-panel-react-spa`). Manda sobre este archivo en stack, capas, reglas de dependencia, flujo de datos y quality gates.
 - **Plan y estado:** iniciativa `/initiatives/admin-panel-react-migration` del hub (fases, criterios de hecho, checklist de paridad).
@@ -12,7 +12,7 @@ Panel de administración de **Hidalgo Junior** en React + TypeScript. Sustituye 
 
 - `jordi_hidalgo_backend` — API REST; publica el contrato OpenAPI 3 (`docs/openapi.json`)
 - **Este repo** — Panel admin React
-- `jordi_hidalgo_app` — Flutter (`customer_app`; `admin_app` obsoleto)
+- `jordi_hidalgo_app` — Flutter (`customer_app`)
 - `jordi_hidalgo_web` — Web pública
 
 ## Capas (ADR-003 §2 y §4)

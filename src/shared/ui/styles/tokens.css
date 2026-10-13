@@ -1,5 +1,5 @@
 /*
- * Design tokens of the admin panel, taken from the Flutter panel (jordi_hidalgo_app/apps/admin_app):
+ * Design tokens of the admin panel, taken from the former Flutter panel:
  * app/theme.dart, design_system/admin_theme_extension.dart, and spacing.dart. AdminRadius and the type
  * scale live in index.css (@theme), where Tailwind turns them into utilities.
  * Colors that Flutter derives (ColorScheme.fromSeed(barberBlue) with the theme's overrides) were
