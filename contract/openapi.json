@@ -270,6 +270,10 @@
             },
             "dto.AdminBookingSettingsResponse": {
                 "properties": {
+                    "appointmentChangeLimit": {
+                        "example": 3,
+                        "type": "integer"
+                    },
                     "bookingFirstDate": {
                         "type": "string"
                     },
@@ -1116,6 +1120,10 @@
             },
             "dto.AdminUpdateBookingSettingsRequest": {
                 "properties": {
+                    "appointmentChangeLimit": {
+                        "example": 3,
+                        "type": "integer"
+                    },
                     "bookingFirstDate": {
                         "type": "string"
                     },
@@ -4414,7 +4422,7 @@
                                 }
                             }
                         },
-                        "description": "invalid body / invalid future appointment limit / invalid booking dates"
+                        "description": "invalid body / invalid future appointment limit / invalid appointment change limit / invalid booking dates"
                     },
                     "403": {
                         "content": {
@@ -9916,6 +9924,16 @@
                         },
                         "description": "appointment not found"
                     },
+                    "429": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "appointment change limit reached"
+                    },
                     "500": {
                         "content": {
                             "text/plain": {
@@ -10123,6 +10141,16 @@
                             }
                         },
                         "description": "appointment slot unavailable"
+                    },
+                    "429": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "appointment change limit reached"
                     },
                     "500": {
                         "content": {

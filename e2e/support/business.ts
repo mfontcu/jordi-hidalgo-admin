@@ -51,6 +51,7 @@ const BOOKING: Body = {
   minCancellationNoticeMinutes: 120,
   bookingMaxAdvanceDays: 60,
   futureAppointmentLimit: 3,
+  appointmentChangeLimit: 3,
   bookingFirstDate: null,
   bookingLastDate: null,
 };

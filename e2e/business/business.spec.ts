@@ -25,7 +25,11 @@ test('main journey: tabs in the URL, save info and booking, edit legal, create a
   await page.getByRole('button', { name: 'Guardar configuración' }).click();
   await expect(page.getByText('Configuración de reservas actualizada.')).toBeVisible();
   expect(backend.callsTo('PUT', '/admin/business/booking-settings').at(-1)?.body).toEqual(
-    expect.objectContaining({ slotIntervalMinutes: 15, futureAppointmentLimit: 3 }),
+    expect.objectContaining({
+      slotIntervalMinutes: 15,
+      futureAppointmentLimit: 3,
+      appointmentChangeLimit: 3,
+    }),
   );
 
   await page.getByRole('tab', { name: /Notificaciones/ }).click();

@@ -2080,6 +2080,8 @@ export interface components {
             partial_blocked_ranges?: number;
         };
         "dto.AdminBookingSettingsResponse": {
+            /** @example 3 */
+            appointmentChangeLimit?: number;
             bookingFirstDate?: string;
             bookingLastDate?: string;
             bookingMaxAdvanceDays?: number;
@@ -2373,6 +2375,8 @@ export interface components {
             start_at?: string;
         };
         "dto.AdminUpdateBookingSettingsRequest": {
+            /** @example 3 */
+            appointmentChangeLimit?: number;
             bookingFirstDate?: string;
             bookingLastDate?: string;
             bookingMaxAdvanceDays?: number;
@@ -4260,7 +4264,7 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description invalid body / invalid future appointment limit / invalid booking dates */
+            /** @description invalid body / invalid future appointment limit / invalid appointment change limit / invalid booking dates */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -8439,6 +8443,15 @@ export interface operations {
                     "text/plain": string;
                 };
             };
+            /** @description appointment change limit reached */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
             /** @description internal error */
             500: {
                 headers: {
@@ -8503,6 +8516,15 @@ export interface operations {
             };
             /** @description appointment not found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description appointment change limit reached */
+            429: {
                 headers: {
                     [name: string]: unknown;
                 };
