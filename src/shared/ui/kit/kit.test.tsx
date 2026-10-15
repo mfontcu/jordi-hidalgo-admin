@@ -66,10 +66,15 @@ describe('DataTable', () => {
         .getAllByRole('columnheader')
         .map((cell) => cell.textContent),
     ).toEqual(['Name', 'Actions']);
-    await user.click(within(table).getByRole('button', { name: 'Bea' }));
-    await user.click(nth(within(table).getAllByRole('button', { name: 'Act' }), 0));
+    for (const row of within(table).getAllByRole('row').slice(1)) {
+      expect(row).not.toHaveClass('relative');
+    }
 
-    expect(opened).toEqual(['b']);
+    await user.click(within(table).getByText('Bea'));
+    await user.click(nth(within(table).getAllByRole('button', { name: 'Act' }), 0));
+    await user.click(within(table).getByRole('button', { name: 'Ana' }));
+
+    expect(opened).toEqual(['b', 'a']);
     expect(acted).toEqual(['a']);
   });
 });

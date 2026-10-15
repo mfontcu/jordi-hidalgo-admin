@@ -169,9 +169,23 @@ export function DataTable<T extends RowData>({
                   const data = row.original;
                   const last = rowIndex === rows.length - 1 && !footer;
                   return (
+                    // The row stays in normal flow. `position: relative` on a `<tr>` makes Chrome
+                    // keep a painted copy of the first row each time the page changes.
                     <tr
                       key={row.id}
-                      className={cn('relative bg-card hover:bg-muted', !last && 'border-b border-border')}
+                      className={cn(
+                        'bg-card hover:bg-muted',
+                        onRowClick &&
+                          'cursor-pointer has-[[data-row-open]:focus-visible]:-outline-offset-2 has-[[data-row-open]:focus-visible]:[outline:2px_solid_var(--ring)]',
+                        !last && 'border-b border-border',
+                      )}
+                      onClick={
+                        onRowClick
+                          ? () => {
+                              onRowClick(data);
+                            }
+                          : undefined
+                      }
                     >
                       {columns.map((column, index) => (
                         <td
@@ -181,25 +195,29 @@ export function DataTable<T extends RowData>({
                             column.align === 'center' ? 'text-center' : 'text-left',
                             edge(index),
                           )}
+                          onClick={
+                            column.interactive
+                              ? (event) => {
+                                  event.stopPropagation();
+                                }
+                              : undefined
+                          }
                         >
                           {index === 0 && onRowClick && (
-                            <button
-                              type="button"
-                              aria-label={rowLabel?.(data)}
-                              onClick={() => {
-                                onRowClick(data);
-                              }}
-                              className="absolute inset-0 cursor-pointer focus-visible:-outline-offset-2"
-                            />
+                            <div className="relative">
+                              <button
+                                type="button"
+                                data-row-open=""
+                                aria-label={rowLabel?.(data)}
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  onRowClick(data);
+                                }}
+                                className="sr-only focus-visible:outline-none"
+                              />
+                            </div>
                           )}
-                          <div
-                            className={cn(
-                              'min-w-0',
-                              column.interactive ? 'relative z-10' : 'pointer-events-none relative',
-                            )}
-                          >
-                            {column.cell(data)}
-                          </div>
+                          <div className="min-w-0">{column.cell(data)}</div>
                         </td>
                       ))}
                     </tr>
