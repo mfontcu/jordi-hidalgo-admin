@@ -1030,6 +1030,8 @@
   "businessBookingSlotIntervalMinutes": "Slot interval (minutes)",
   "businessBookingMinCancellationNoticeMinutes": "Minimum cancellation notice (minutes)",
   "businessBookingMaxAdvanceDays": "Maximum advance days",
+  "businessBookingFutureAppointmentLimit": "Maximum future appointments",
+  "businessBookingFutureAppointmentLimitHint": "0 means no limit",
   "businessBookingFirstDateLabel": "First date bookings are allowed",
   "businessBookingFirstDateHint": "From today (no extra restriction)",
   "businessBookingNoRestriction": "No restriction",

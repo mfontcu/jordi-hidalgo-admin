@@ -36,6 +36,7 @@ describe('business screen', () => {
       expect(search()).toEqual({ tab: 'booking' });
     });
     expect(await screen.findByText('Configuración de reservas')).toBeInTheDocument();
+    expect(screen.getByLabelText('Máximo de citas futuras')).toHaveValue('3');
 
     await user.click(screen.getByRole('tab', { name: /Información/ }));
     await waitFor(() => {

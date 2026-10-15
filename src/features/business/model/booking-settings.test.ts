@@ -11,6 +11,7 @@ const settings = (): BookingSettings => ({
   slotIntervalMinutes: 15,
   minCancellationNoticeMinutes: 60,
   bookingMaxAdvanceDays: 30,
+  futureAppointmentLimit: 3,
   bookingFirstDate: '2026-05-01',
   bookingLastDate: '2026-12-31',
 });
@@ -34,6 +35,7 @@ describe('booking settings', () => {
       slotIntervalMinutes: 15,
       minCancellationNoticeMinutes: 60,
       bookingMaxAdvanceDays: 30,
+      futureAppointmentLimit: 3,
     });
     expect(toBookingSettingsUpdate(values)).toMatchObject({
       bookingFirstDate: '2026-05-01',
@@ -55,6 +57,21 @@ describe('booking settings', () => {
     expect(errors({ ...base, slotIntervalMinutes: 'x' }).slotIntervalMinutes).toBe(
       'businessValidationValidNumber',
     );
+    expect(errors({ ...base, futureAppointmentLimit: '0' }).futureAppointmentLimit).toBeUndefined();
+    expect(errors({ ...base, futureAppointmentLimit: '-1' }).futureAppointmentLimit).toBe(
+      'businessValidationNonNegativeNumber',
+    );
+    expect(errors({ ...base, futureAppointmentLimit: 'x' }).futureAppointmentLimit).toBe(
+      'businessValidationValidNumber',
+    );
+    expect(
+      toBookingSettingsUpdate({
+        ...base,
+        futureAppointmentLimit: '0',
+        bookingFirstDate: null,
+        bookingLastDate: null,
+      }),
+    ).toMatchObject({ futureAppointmentLimit: 0 });
   });
 
   it('rejects a first date after the last date', () => {

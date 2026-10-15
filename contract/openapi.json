@@ -279,6 +279,10 @@
                     "bookingMaxAdvanceDays": {
                         "type": "integer"
                     },
+                    "futureAppointmentLimit": {
+                        "example": 3,
+                        "type": "integer"
+                    },
                     "id": {
                         "type": "string"
                     },
@@ -1121,6 +1125,10 @@
                     "bookingMaxAdvanceDays": {
                         "type": "integer"
                     },
+                    "futureAppointmentLimit": {
+                        "example": 3,
+                        "type": "integer"
+                    },
                     "id": {
                         "type": "string"
                     },
@@ -1771,6 +1779,10 @@
                         "example": 30,
                         "type": "integer"
                     },
+                    "futureAppointmentLimit": {
+                        "example": 3,
+                        "type": "integer"
+                    },
                     "minCancellationNoticeMinutes": {
                         "example": 1440,
                         "type": "integer"
@@ -1850,6 +1862,10 @@
                     "customerNotes": {
                         "example": "Si puede ser con Jordi",
                         "type": "string"
+                    },
+                    "futureAppointmentLimit": {
+                        "example": false,
+                        "type": "boolean"
                     },
                     "serviceId": {
                         "example": "s1b2c3d4-5e6f-7890-ab12-cd34567890ef",
@@ -4398,7 +4414,7 @@
                                 }
                             }
                         },
-                        "description": "invalid body"
+                        "description": "invalid body / invalid future appointment limit / invalid booking dates"
                     },
                     "403": {
                         "content": {
@@ -9745,7 +9761,7 @@
                                 }
                             }
                         },
-                        "description": "appointment slot unavailable"
+                        "description": "appointment slot unavailable / future appointment limit reached: N"
                     },
                     "500": {
                         "content": {

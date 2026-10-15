@@ -1030,6 +1030,8 @@
   "businessBookingSlotIntervalMinutes": "Interval de slots (minuts)",
   "businessBookingMinCancellationNoticeMinutes": "Antelació mínima cancel·lació (minuts)",
   "businessBookingMaxAdvanceDays": "Màxim dies d'antelació",
+  "businessBookingFutureAppointmentLimit": "Màxim de cites futures",
+  "businessBookingFutureAppointmentLimitHint": "0 és sense límit",
   "businessBookingFirstDateLabel": "Primera data en què es permeten reserves",
   "businessBookingFirstDateHint": "Des d'avui (sense restricció extra)",
   "businessBookingNoRestriction": "Sense restricció",

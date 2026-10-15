@@ -7,6 +7,7 @@ export type BookingSettings = {
   slotIntervalMinutes: number;
   minCancellationNoticeMinutes: number;
   bookingMaxAdvanceDays: number;
+  futureAppointmentLimit: number;
   bookingFirstDate: BusinessDay | null;
   bookingLastDate: BusinessDay | null;
 };
@@ -15,6 +16,7 @@ export type BookingSettingsFormInput = {
   slotIntervalMinutes: string;
   minCancellationNoticeMinutes: string;
   bookingMaxAdvanceDays: string;
+  futureAppointmentLimit: string;
   bookingFirstDate: BusinessDay | null;
   bookingLastDate: BusinessDay | null;
 };
@@ -23,6 +25,7 @@ export type BookingSettingsUpdate = {
   slotIntervalMinutes: number;
   minCancellationNoticeMinutes: number;
   bookingMaxAdvanceDays: number;
+  futureAppointmentLimit: number;
   bookingFirstDate?: string;
   bookingLastDate?: string;
 };
@@ -45,6 +48,7 @@ export const bookingSettingsFormSchema = z
     slotIntervalMinutes: z.string(),
     minCancellationNoticeMinutes: z.string(),
     bookingMaxAdvanceDays: z.string(),
+    futureAppointmentLimit: z.string(),
     bookingFirstDate: z.string().nullable(),
     bookingLastDate: z.string().nullable(),
   })
@@ -94,6 +98,21 @@ export const bookingSettingsFormSchema = z
       });
     }
 
+    const futureLimit = parseInteger(value.futureAppointmentLimit);
+    if (futureLimit === null) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['futureAppointmentLimit'],
+        message: 'businessValidationValidNumber',
+      });
+    } else if (futureLimit < 0) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['futureAppointmentLimit'],
+        message: 'businessValidationNonNegativeNumber',
+      });
+    }
+
     const first = value.bookingFirstDate;
     const last = value.bookingLastDate;
     if (first && !isBusinessDay(first)) {
@@ -124,6 +143,7 @@ export function bookingSettingsFormValues(settings: BookingSettings): BookingSet
     slotIntervalMinutes: String(settings.slotIntervalMinutes),
     minCancellationNoticeMinutes: String(settings.minCancellationNoticeMinutes),
     bookingMaxAdvanceDays: String(settings.bookingMaxAdvanceDays),
+    futureAppointmentLimit: String(settings.futureAppointmentLimit),
     bookingFirstDate: settings.bookingFirstDate,
     bookingLastDate: settings.bookingLastDate,
   };
@@ -133,13 +153,15 @@ export function toBookingSettingsUpdate(input: BookingSettingsFormInput): Bookin
   const slot = parseInteger(input.slotIntervalMinutes);
   const notice = parseInteger(input.minCancellationNoticeMinutes);
   const advance = parseInteger(input.bookingMaxAdvanceDays);
-  if (slot === null || notice === null || advance === null) {
+  const futureLimit = parseInteger(input.futureAppointmentLimit);
+  if (slot === null || notice === null || advance === null || futureLimit === null) {
     throw new Error('Booking settings form must be validated before update');
   }
   return {
     slotIntervalMinutes: slot,
     minCancellationNoticeMinutes: notice,
     bookingMaxAdvanceDays: advance,
+    futureAppointmentLimit: futureLimit,
     ...(input.bookingFirstDate ? { bookingFirstDate: input.bookingFirstDate } : {}),
     ...(input.bookingLastDate ? { bookingLastDate: input.bookingLastDate } : {}),
   };

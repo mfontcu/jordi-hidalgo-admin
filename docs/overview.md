@@ -17,10 +17,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-13T09:35:00Z'
+  at: '2026-10-15T11:20:00Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-13T09:41:23Z'
+    at: '2026-10-15T13:28:16Z'
 resource: /engineering/apps/hidalgo-admin
 service_status: active
 tier: 1
@@ -244,6 +244,8 @@ These rules are enforced by the panel. The authoritative domain rules live in th
    cancel them; the block's reason becomes the cancellation reason, and each appointment's stored
    internal notes are sent back.
 8. **Booking window.** The booking-settings form rejects a first bookable day later than the last.
+   The future-appointment limit accepts 0 (no cap) and rejects a negative value. Saving always
+   sends that number, including 0.
 9. **Duplicate phone.** Before saving a customer whose phone can be edited, the panel counts other
    customers with that phone, warns, and lets staff save anyway.
 10. **Editing a service creates a new version** (`POST /admin/services`). There is no in-place update.

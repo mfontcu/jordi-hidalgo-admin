@@ -91,6 +91,7 @@ export async function updateBookingSettings(
         slotIntervalMinutes: update.slotIntervalMinutes,
         minCancellationNoticeMinutes: update.minCancellationNoticeMinutes,
         bookingMaxAdvanceDays: update.bookingMaxAdvanceDays,
+        futureAppointmentLimit: update.futureAppointmentLimit,
         bookingFirstDate: dates.bookingFirstDate,
         bookingLastDate: dates.bookingLastDate,
       } as never,

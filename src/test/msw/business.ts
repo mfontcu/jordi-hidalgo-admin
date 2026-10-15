@@ -45,6 +45,7 @@ export const bookingSettingsDto = () => ({
   slotIntervalMinutes: 15,
   minCancellationNoticeMinutes: 60,
   bookingMaxAdvanceDays: 30,
+  futureAppointmentLimit: 3,
   bookingFirstDate: null,
   bookingLastDate: null,
 });

@@ -2083,6 +2083,8 @@ export interface components {
             bookingFirstDate?: string;
             bookingLastDate?: string;
             bookingMaxAdvanceDays?: number;
+            /** @example 3 */
+            futureAppointmentLimit?: number;
             id?: string;
             minCancellationNoticeMinutes?: number;
             slotIntervalMinutes?: number;
@@ -2374,6 +2376,8 @@ export interface components {
             bookingFirstDate?: string;
             bookingLastDate?: string;
             bookingMaxAdvanceDays?: number;
+            /** @example 3 */
+            futureAppointmentLimit?: number;
             id?: string;
             minCancellationNoticeMinutes?: number;
             slotIntervalMinutes?: number;
@@ -2638,6 +2642,8 @@ export interface components {
             bookingLastDate?: string;
             /** @example 30 */
             bookingMaxAdvanceDays?: number;
+            /** @example 3 */
+            futureAppointmentLimit?: number;
             /** @example 1440 */
             minCancellationNoticeMinutes?: number;
             /** @example 30 */
@@ -2679,6 +2685,8 @@ export interface components {
             appointmentStart?: string;
             /** @example Si puede ser con Jordi */
             customerNotes?: string;
+            /** @example false */
+            futureAppointmentLimit?: boolean;
             /** @example s1b2c3d4-5e6f-7890-ab12-cd34567890ef */
             serviceId?: string;
         };
@@ -4252,7 +4260,7 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description invalid body */
+            /** @description invalid body / invalid future appointment limit / invalid booking dates */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -8234,7 +8242,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description appointment slot unavailable */
+            /** @description appointment slot unavailable / future appointment limit reached: N */
             409: {
                 headers: {
                     [name: string]: unknown;
