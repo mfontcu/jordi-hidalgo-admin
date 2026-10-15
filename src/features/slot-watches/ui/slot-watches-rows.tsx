@@ -4,6 +4,8 @@ import { useIntl } from 'react-intl';
 import { paginationLabels, useLocaleStore, type MessageId } from '@/shared/i18n';
 import { formatClockTime, type DateLocale } from '@/shared/lib/business-time';
 import {
+  CardList,
+  CardListItem,
   DataTable,
   EntityCard,
   Icon,
@@ -62,13 +64,13 @@ export function SlotWatchRows(props: RowsProps) {
     <RefreshOverlay refreshing={props.refreshing}>
       {compact ? (
         <div className="flex flex-col">
-          <ul className="flex flex-col gap-3">
+          <CardList ids={props.rows.map((watch) => watch.id)}>
             {props.rows.map((watch) => (
-              <li key={watch.id}>
+              <CardListItem key={watch.id}>
                 <SlotWatchCard {...props} watch={watch} />
-              </li>
+              </CardListItem>
             ))}
-          </ul>
+          </CardList>
           <div className="mt-7">{pagination}</div>
         </div>
       ) : (

@@ -4,6 +4,8 @@ import { useIntl } from 'react-intl';
 import { paginationLabels } from '@/shared/i18n';
 import type { BusinessDay } from '@/shared/lib/business-time';
 import {
+  CardList,
+  CardListItem,
   DataTable,
   InlineAction,
   Pagination,
@@ -52,13 +54,13 @@ export function RecurringRulesRows({
     <RefreshOverlay refreshing={refreshing}>
       {compact ? (
         <div className="flex flex-col">
-          <ul className="flex flex-col gap-3">
+          <CardList ids={rules.map((rule) => rule.id)}>
             {rules.map((rule) => (
-              <li key={rule.id}>
+              <CardListItem key={rule.id}>
                 <RuleCard rule={rule} today={today} onOpen={onOpen} onDelete={onDelete} />
-              </li>
+              </CardListItem>
             ))}
-          </ul>
+          </CardList>
           <div className="mt-4">{pagination}</div>
         </div>
       ) : (
@@ -210,16 +212,26 @@ function RuleCard({ rule, today, onOpen, onDelete }: CardProps) {
   const text = textOf(intl);
   const title = weekdayName(intl, rule.weekday);
   return (
-    <article className="relative rounded-xl border border-border bg-card p-4 hover:bg-muted">
-      <button
-        type="button"
-        aria-label={title}
+    <article className="rounded-xl border border-border bg-card [overflow-anchor:none] hover:bg-muted has-[[data-card-open]:focus-visible]:-outline-offset-2 has-[[data-card-open]:focus-visible]:[outline:2px_solid_var(--ring)]">
+      <div className="relative">
+        <button
+          type="button"
+          data-card-open=""
+          aria-label={title}
+          onClick={(event) => {
+            event.stopPropagation();
+            onOpen(rule);
+          }}
+          className="sr-only focus-visible:outline-none"
+        />
+      </div>
+      <div
+        role="presentation"
         onClick={() => {
           onOpen(rule);
         }}
-        className="absolute inset-0 cursor-pointer rounded-xl"
-      />
-      <div className="pointer-events-none relative">
+        className="cursor-pointer p-4"
+      >
         <div className="flex items-center gap-3">
           <h2 className="min-w-0 flex-1 text-heading text-foreground">{title}</h2>
           <StatusPill
@@ -239,25 +251,31 @@ function RuleCard({ rule, today, onOpen, onDelete }: CardProps) {
             nextOccurrenceLabel(rule, today, localeOf(intl)),
           ].join(' ')}
         </p>
-      </div>
-      <div className="relative z-10 mt-4 flex flex-wrap gap-1">
-        <InlineAction
-          compact
-          icon="visibility_outlined"
-          label={text('scheduleActionView')}
-          onClick={() => {
-            onOpen(rule);
+        <div
+          role="presentation"
+          onClick={(event) => {
+            event.stopPropagation();
           }}
-        />
-        <InlineAction
-          compact
-          icon="delete_outline"
-          tone="danger"
-          label={text('adminCommonDelete')}
-          onClick={() => {
-            onDelete(rule);
-          }}
-        />
+          className="mt-4 flex flex-wrap gap-1"
+        >
+          <InlineAction
+            compact
+            icon="visibility_outlined"
+            label={text('scheduleActionView')}
+            onClick={() => {
+              onOpen(rule);
+            }}
+          />
+          <InlineAction
+            compact
+            icon="delete_outline"
+            tone="danger"
+            label={text('adminCommonDelete')}
+            onClick={() => {
+              onDelete(rule);
+            }}
+          />
+        </div>
       </div>
     </article>
   );

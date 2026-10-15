@@ -4,6 +4,8 @@ import { useIntl } from 'react-intl';
 import { paginationLabels, type MessageId } from '@/shared/i18n';
 import {
   Avatar,
+  CardList,
+  CardListItem,
   DataTable,
   EntityCard,
   Pagination,
@@ -65,9 +67,9 @@ export function UsersRows({
     <RefreshOverlay refreshing={refreshing}>
       {compact ? (
         <div className="flex flex-col">
-          <ul className="flex flex-col gap-3">
+          <CardList ids={page.items.map((user) => user.id)}>
             {page.items.map((user) => (
-              <li key={user.id}>
+              <CardListItem key={user.id}>
                 <UserCard
                   user={user}
                   extraColumns={extraColumns}
@@ -75,9 +77,9 @@ export function UsersRows({
                   nameOf={nameOf}
                   onOpen={onOpen}
                 />
-              </li>
+              </CardListItem>
             ))}
-          </ul>
+          </CardList>
           <div className="mt-7">{pagination}</div>
         </div>
       ) : (

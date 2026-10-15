@@ -72,7 +72,8 @@ export function AppShell({ children }: { children: ReactNode }) {
               }}
             />
           )}
-          <main className="flex min-w-0 flex-1 flex-col">{children}</main>
+          {/* Page layers (photos, icons, z-10 controls) stay inside this context, under the header. */}
+          <main className="isolate flex min-w-0 flex-1 flex-col">{children}</main>
         </div>
       </div>
       <Toaster />

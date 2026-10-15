@@ -5,6 +5,8 @@ import { paginationLabels, useDescribeFailure, type MessageId } from '@/shared/i
 import { formatInstantDateTime, type DateLocale } from '@/shared/lib/business-time';
 import {
   Avatar,
+  CardList,
+  CardListItem,
   ConfirmDialog,
   DataTable,
   EmptyState,
@@ -127,13 +129,13 @@ export function UserAppointments({
           />
         ) : (
           <div className="flex flex-col">
-            <ul className="flex flex-col gap-3">
+            <CardList ids={page.items.map((item) => item.id)}>
               {page.items.map((item) => (
-                <li key={item.id}>
+                <CardListItem key={item.id}>
                   <AppointmentCard item={item} customerName={customerName} actions={actions} />
-                </li>
+                </CardListItem>
               ))}
-            </ul>
+            </CardList>
             <div className="mt-4">{pagination}</div>
           </div>
         )}

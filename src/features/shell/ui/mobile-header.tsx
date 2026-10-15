@@ -15,7 +15,12 @@ export function MobileHeader({ onOpenMenu }: { onOpenMenu: () => void }) {
   const breadcrumbs = header?.breadcrumbs ?? [];
 
   return (
-    <header role="banner" className="sticky top-0 z-10 border-b border-border bg-background px-3 pt-3 pb-3.5">
+    // Above in-page layers (avatars and the now-line at z-10, refresh veil and agenda headers at
+    // z-20) and below portaled overlays at z-50.
+    <header
+      role="banner"
+      className="sticky top-0 z-30 isolate border-b border-border bg-background px-3 pt-3 pb-3.5"
+    >
       <div className="flex items-center gap-3">
         <Button
           variant="icon"

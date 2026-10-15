@@ -25,7 +25,7 @@ export { DateFilterField } from './date-filter-field';
 export { DateInputField, type DateInputLabels } from './date-input-field';
 export { detailLayoutFor, type DetailLayout } from './detail-layout';
 export { ConfirmDialog, LoadingBarrier, PromptDialog, UnsavedChangesGuard } from './dialogs';
-export { Avatar, EntityCard } from './entity';
+export { Avatar, CardList, CardListItem, EntityCard } from './entity';
 export { CollapsibleSummary, ListPage, StatCard, SummaryGrid, useListLayout } from './list-page';
 export { listLayoutFor, type ListLayout } from './list-layout';
 export { LookupField, LookupList, type LookupOption } from './lookup-field';

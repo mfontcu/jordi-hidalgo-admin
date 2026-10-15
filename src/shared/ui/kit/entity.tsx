@@ -55,8 +55,8 @@ export function Avatar({ src, size, viewLabel, className }: AvatarProps) {
           event.stopPropagation();
           setViewing(true);
         }}
-        // Clickable inside a row or card that opens on click.
-        className={cn(box, 'pointer-events-auto relative z-10 cursor-pointer')}
+        // Above the card's click target: the photo opens, and the click does not open the card.
+        className={cn(box, 'pointer-events-auto relative cursor-pointer')}
         style={style}
       >
         {status === 'failed' ? (
@@ -126,6 +126,23 @@ type EntityCardProps = {
 };
 
 /**
+ * Compact list of cards. The element remounts when the ids change, and neither it nor its items
+ * are scroll anchors: otherwise Chrome keeps a painted copy of the first card each time that card
+ * leaves and returns.
+ */
+export function CardList({ ids, children }: { ids: readonly string[]; children: ReactNode }) {
+  return (
+    <ul key={ids.join('\u0000')} className="flex flex-col gap-3 [overflow-anchor:none]">
+      {children}
+    </ul>
+  );
+}
+
+export function CardListItem({ children }: { children: ReactNode }) {
+  return <li className="[overflow-anchor:none]">{children}</li>;
+}
+
+/**
  * The card of a list row on compact layouts (AdminServiceCard, AdminUserEntityCard): title and
  * status, then the label rows, then the inline actions. The whole card opens the entity.
  */
@@ -142,14 +159,21 @@ export function EntityCard({
   actions,
 }: EntityCardProps) {
   return (
-    <article className="relative rounded-lg border border-border bg-card p-4 hover:bg-muted">
-      <button
-        type="button"
-        aria-label={title}
-        onClick={onOpen}
-        className="absolute inset-0 cursor-pointer rounded-lg"
-      />
-      <div className="pointer-events-none relative">
+    <article className="rounded-lg border border-border bg-card [overflow-anchor:none] hover:bg-muted has-[[data-card-open]:focus-visible]:-outline-offset-2 has-[[data-card-open]:focus-visible]:[outline:2px_solid_var(--ring)]">
+      <div className="relative">
+        <button
+          type="button"
+          data-card-open=""
+          aria-label={title}
+          onClick={(event) => {
+            event.stopPropagation();
+            onOpen();
+          }}
+          className="sr-only focus-visible:outline-none"
+        />
+      </div>
+      {/* The named button stays a single pixel. A second full-size layer is what Chrome kept painting. */}
+      <div role="presentation" onClick={onOpen} className="cursor-pointer p-4">
         <div className="flex items-center gap-3">
           {leading}
           <div className="min-w-0 flex-1">
@@ -182,18 +206,24 @@ export function EntityCard({
           ))}
         </dl>
         {note}
-      </div>
-      <div className="relative z-10 mt-3.5 flex flex-wrap gap-1">
-        {actions.map((action) => (
-          <InlineAction
-            key={action.label}
-            compact
-            icon={action.icon}
-            label={action.label}
-            tone={action.tone}
-            onClick={action.onClick}
-          />
-        ))}
+        <div
+          role="presentation"
+          onClick={(event) => {
+            event.stopPropagation();
+          }}
+          className="mt-3.5 flex flex-wrap gap-1"
+        >
+          {actions.map((action) => (
+            <InlineAction
+              key={action.label}
+              compact
+              icon={action.icon}
+              label={action.label}
+              tone={action.tone}
+              onClick={action.onClick}
+            />
+          ))}
+        </div>
       </div>
     </article>
   );

@@ -77,6 +77,70 @@ describe('DataTable', () => {
     expect(opened).toEqual(['b', 'a']);
     expect(acted).toEqual(['a']);
   });
+
+  it('replaces the page instead of keeping the first row of page 1', () => {
+    const pages = [0, 1, 2].map((page) =>
+      Array.from({ length: 10 }, (_, index) => ({
+        id: `p${page}-${index}`,
+        name: page === 0 && index === 0 ? 'First of page 1' : `P${page + 1} row ${index + 1}`,
+      })),
+    );
+    const columnsFor = (stamp: number): DataTableColumn<Row>[] => [
+      { id: 'name', header: `Name ${stamp}`, cell: (row) => row.name },
+      {
+        id: 'actions',
+        header: 'Actions',
+        fixedWidth: 100,
+        interactive: true,
+        cell: () => <button type="button">Act</button>,
+      },
+    ];
+
+    const pageAt = (page: number) => {
+      const rows = pages[page];
+      if (!rows) throw new Error(`missing page ${page}`);
+      return rows;
+    };
+
+    const { rerender } = renderWithProviders(
+      <DataTable
+        label="People"
+        columns={columnsFor(0)}
+        rows={pageAt(0)}
+        getRowId={(row) => row.id}
+        onRowClick={() => undefined}
+        rowLabel={(row) => row.name}
+      />,
+    );
+
+    const bodyRows = () =>
+      within(screen.getByRole('table', { name: 'People' }))
+        .getAllByRole('row')
+        .slice(1);
+
+    const show = (page: number, stamp: number) => {
+      rerender(
+        <DataTable
+          label="People"
+          columns={columnsFor(stamp)}
+          rows={pageAt(page)}
+          getRowId={(row) => row.id}
+          onRowClick={() => undefined}
+          rowLabel={(row) => row.name}
+        />,
+      );
+    };
+
+    let stamp = 1;
+    for (const page of [1, 0, 1, 0, 1, 2, 1, 2]) {
+      show(page, stamp);
+      stamp += 1;
+      const rows = bodyRows();
+      expect(rows).toHaveLength(10);
+      const firstOfPage1 = rows.filter((row) => within(row).queryByText('First of page 1'));
+      expect(firstOfPage1).toHaveLength(page === 0 ? 1 : 0);
+    }
+  });
 });
 
 describe('Pagination', () => {

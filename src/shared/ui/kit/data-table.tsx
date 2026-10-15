@@ -110,18 +110,20 @@ export function DataTable<T extends RowData>({
     // Flutter wraps the table in a Card and a bordered container; the Card's border is the
     // one that shows.
     <div className="rounded-lg border border-border bg-card">
-      <div ref={ref} className="overflow-hidden rounded-lg">
-        <div className="relative">
+      <div ref={ref} className="overflow-hidden rounded-lg [overflow-anchor:none]">
+        <div className="relative [overflow-anchor:none]">
           <div
             ref={scrollRef}
-            className={cn(overflows ? 'overflow-x-auto' : 'overflow-x-hidden')}
+            className={cn(overflows ? 'overflow-x-auto' : 'overflow-x-hidden', '[overflow-anchor:none]')}
             onScroll={(event: UIEvent<HTMLDivElement>) => {
               updateFades(event.currentTarget);
             }}
           >
             <table
               aria-label={label}
-              className="table-fixed border-collapse"
+              // Separate borders and no scroll anchor: with collapsed borders, Chrome keeps a
+              // painted copy of the first row and adds another each time that row leaves and returns.
+              className="table-fixed border-separate border-spacing-0 [overflow-anchor:none]"
               style={{ width: overflows ? columnsWidth + SIDE_PADDING * 2 : '100%' }}
             >
               <colgroup>
@@ -129,8 +131,8 @@ export function DataTable<T extends RowData>({
                   <col key={column.id} style={{ width: cellWidth(column.id, index) }} />
                 ))}
               </colgroup>
-              <thead className="bg-muted">
-                <tr>
+              <thead className="bg-muted [overflow-anchor:none]">
+                <tr className="[overflow-anchor:none]">
                   {headers.map((header, index) => {
                     const column = columns[index];
                     const canResize = header.column.getCanResize();
@@ -141,57 +143,57 @@ export function DataTable<T extends RowData>({
                         // Headers stay on the left whatever the column's alignment: Flutter lays the
                         // label out in a Stack, where its textAlign has no room to apply.
                         className={cn(
-                          'group/header relative py-3 text-left text-label text-muted-foreground',
+                          'group/header bg-muted py-3 text-left text-label text-muted-foreground',
                           edge(index),
                         )}
                       >
-                        <span className={cn('block truncate', canResize && 'pr-3')}>{column?.header}</span>
-                        {canResize && (
-                          <span
-                            aria-hidden
-                            onMouseDown={header.getResizeHandler()}
-                            onTouchStart={header.getResizeHandler()}
-                            className={cn(
-                              'absolute top-0.5 bottom-0.5 z-10 hidden w-2 cursor-col-resize items-center justify-center group-hover/header:flex',
-                              index === lastIndex ? 'right-3.5' : '-right-0.5',
-                            )}
-                          >
-                            <span className="h-4 w-px bg-border" />
-                          </span>
-                        )}
+                        <div className="relative">
+                          <span className={cn('block truncate', canResize && 'pr-3')}>{column?.header}</span>
+                          {canResize && (
+                            <span
+                              aria-hidden
+                              onMouseDown={header.getResizeHandler()}
+                              onTouchStart={header.getResizeHandler()}
+                              className={cn(
+                                'absolute top-0.5 bottom-0.5 z-10 hidden w-2 cursor-col-resize items-center justify-center group-hover/header:flex',
+                                index === lastIndex ? 'right-3.5' : '-right-0.5',
+                              )}
+                            >
+                              <span className="h-4 w-px bg-border" />
+                            </span>
+                          )}
+                        </div>
                       </th>
                     );
                   })}
                 </tr>
               </thead>
-              <tbody>
+              <tbody key={rows.map((row) => getRowId(row)).join('\u0000')} className="[overflow-anchor:none]">
                 {table.getRowModel().rows.map((row, rowIndex) => {
                   const data = row.original;
                   const last = rowIndex === rows.length - 1 && !footer;
+                  const open = onRowClick
+                    ? () => {
+                        onRowClick(data);
+                      }
+                    : undefined;
+                  const openColumn = open ? columns.findIndex((column) => !column.interactive) : -1;
                   return (
-                    // The row stays in normal flow. `position: relative` on a `<tr>` makes Chrome
-                    // keep a painted copy of the first row each time the page changes.
                     <tr
                       key={row.id}
                       className={cn(
-                        'bg-card hover:bg-muted',
-                        onRowClick &&
+                        'bg-card [overflow-anchor:none] hover:bg-muted',
+                        open &&
                           'cursor-pointer has-[[data-row-open]:focus-visible]:-outline-offset-2 has-[[data-row-open]:focus-visible]:[outline:2px_solid_var(--ring)]',
-                        !last && 'border-b border-border',
                       )}
-                      onClick={
-                        onRowClick
-                          ? () => {
-                              onRowClick(data);
-                            }
-                          : undefined
-                      }
+                      onClick={open}
                     >
                       {columns.map((column, index) => (
                         <td
                           key={column.id}
                           className={cn(
-                            'overflow-hidden py-4 align-middle',
+                            'py-4 align-middle [overflow-anchor:none]',
+                            !last && 'border-b border-border',
                             column.align === 'center' ? 'text-center' : 'text-left',
                             edge(index),
                           )}
@@ -203,21 +205,23 @@ export function DataTable<T extends RowData>({
                               : undefined
                           }
                         >
-                          {index === 0 && onRowClick && (
-                            <div className="relative">
-                              <button
-                                type="button"
-                                data-row-open=""
-                                aria-label={rowLabel?.(data)}
-                                onClick={(event) => {
-                                  event.stopPropagation();
-                                  onRowClick(data);
-                                }}
-                                className="sr-only focus-visible:outline-none"
-                              />
-                            </div>
-                          )}
-                          <div className="min-w-0">{column.cell(data)}</div>
+                          <div className="min-w-0 overflow-hidden [overflow-anchor:none]">
+                            {index === openColumn && (
+                              <div className="relative">
+                                <button
+                                  type="button"
+                                  data-row-open=""
+                                  aria-label={rowLabel?.(data)}
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    open?.();
+                                  }}
+                                  className="sr-only focus-visible:outline-none"
+                                />
+                              </div>
+                            )}
+                            {column.cell(data)}
+                          </div>
                         </td>
                       ))}
                     </tr>

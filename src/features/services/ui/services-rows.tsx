@@ -3,6 +3,8 @@ import { useIntl } from 'react-intl';
 
 import { paginationLabels, type MessageId } from '@/shared/i18n';
 import {
+  CardList,
+  CardListItem,
   DataTable,
   EntityCard,
   Pagination,
@@ -50,13 +52,13 @@ export function ServicesRows({ page, refreshing, onOpen, onNewVersion, onPageCha
     <RefreshOverlay refreshing={refreshing}>
       {compact ? (
         <div className="flex flex-col">
-          <ul className="flex flex-col gap-3">
+          <CardList ids={page.items.map((service) => service.id)}>
             {page.items.map((service) => (
-              <li key={service.id}>
+              <CardListItem key={service.id}>
                 <ServiceCard service={service} onOpen={onOpen} onNewVersion={onNewVersion} />
-              </li>
+              </CardListItem>
             ))}
-          </ul>
+          </CardList>
           <div className="mt-7">{pagination}</div>
         </div>
       ) : (

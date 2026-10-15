@@ -3,6 +3,8 @@ import { useIntl } from 'react-intl';
 
 import { paginationLabels } from '@/shared/i18n';
 import {
+  CardList,
+  CardListItem,
   DataTable,
   EntityCard,
   Pagination,
@@ -49,13 +51,13 @@ export function BlockedSlotsRows({ page, refreshing, onOpen, onDelete, onPageCha
     <RefreshOverlay refreshing={refreshing}>
       {compact ? (
         <div className="flex flex-col">
-          <ul className="flex flex-col gap-3">
+          <CardList ids={page.items.map((slot) => slot.id)}>
             {page.items.map((slot) => (
-              <li key={slot.id}>
+              <CardListItem key={slot.id}>
                 <BlockedSlotCard slot={slot} onOpen={onOpen} onDelete={onDelete} />
-              </li>
+              </CardListItem>
             ))}
-          </ul>
+          </CardList>
           <div className="mt-7">{pagination}</div>
         </div>
       ) : (

@@ -5,6 +5,8 @@ import { paginationLabels, type MessageId } from '@/shared/i18n';
 import { formatInstantDateTime, type DateLocale } from '@/shared/lib/business-time';
 import {
   Avatar,
+  CardList,
+  CardListItem,
   Checkbox,
   DataTable,
   EntityCard,
@@ -70,9 +72,9 @@ export function AppointmentsRows({
     <RefreshOverlay refreshing={refreshing}>
       {compact ? (
         <div className="flex flex-col">
-          <ul className="flex flex-col gap-3">
+          <CardList ids={page.items.map((item) => item.id)}>
             {page.items.map((item) => (
-              <li key={item.id}>
+              <CardListItem key={item.id}>
                 <AppointmentCard
                   item={item}
                   selectMode={selectMode}
@@ -80,9 +82,9 @@ export function AppointmentsRows({
                   onToggleSelected={onToggleSelected}
                   actions={actions}
                 />
-              </li>
+              </CardListItem>
             ))}
-          </ul>
+          </CardList>
           <div className="mt-7">{pagination}</div>
         </div>
       ) : (
