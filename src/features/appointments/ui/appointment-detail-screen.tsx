@@ -234,6 +234,10 @@ function AppointmentDetailContent({
       <dl className="flex flex-col gap-3">
         <DetailRow label={text('appointmentFieldCurrentStatus')} value={statusLabel} />
         <DetailRow
+          label={text('appointmentFieldChannel')}
+          value={appointment.channel.trim() || text('appointmentChannelNone')}
+        />
+        <DetailRow
           label={text('appointmentFieldCancelledBy')}
           value={appointment.cancelledBy.trim() || text('appointmentNotApplicable')}
         />

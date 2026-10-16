@@ -206,6 +206,8 @@
   "appointmentFieldPrice": "Price",
   "appointmentFieldDescription": "Description",
   "appointmentFieldCurrentStatus": "Current status",
+  "appointmentFieldChannel": "Channel",
+  "appointmentChannelNone": "No channel",
   "appointmentFieldCancelledBy": "Cancelled by",
   "appointmentFieldEndTime": "Appointment end",
   "appointmentFilterAll": "All appointments",

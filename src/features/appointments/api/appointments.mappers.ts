@@ -70,6 +70,7 @@ export function toAppointmentDetail(dto: AppointmentDto): AppointmentDetail {
     ...item,
     cancellationReason: dto.cancellationReason ?? '',
     cancelledBy: dto.cancelledBy ?? '',
+    channel: dto.channel ?? '',
     replacesAppointmentId: dto.replacesAppointmentId ?? '',
     rootAppointmentId: dto.rootAppointmentId ?? '',
     rescheduleChainLength: dto.rescheduleChainLength ?? 0,

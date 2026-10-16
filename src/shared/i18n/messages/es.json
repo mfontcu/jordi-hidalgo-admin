@@ -206,6 +206,8 @@
   "appointmentFieldPrice": "Precio",
   "appointmentFieldDescription": "Descripción",
   "appointmentFieldCurrentStatus": "Estado actual",
+  "appointmentFieldChannel": "Canal",
+  "appointmentChannelNone": "Sin canal",
   "appointmentFieldCancelledBy": "Cancelada por",
   "appointmentFieldEndTime": "Fin de la cita",
   "appointmentFilterAll": "Todas las citas",

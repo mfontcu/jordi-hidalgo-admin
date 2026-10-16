@@ -68,6 +68,8 @@ export type AppointmentUser = {
 export type AppointmentDetail = AppointmentItem & {
   cancellationReason: string;
   cancelledBy: string;
+  /** `app`, `mcp`, `admin`, or empty when the appointment has no channel. */
+  channel: string;
   replacesAppointmentId: string;
   rootAppointmentId: string;
   rescheduleChainLength: number;

@@ -10,13 +10,10 @@ tags:
 owner: 'owner:self'
 domain: /projects/hidalgo-junior
 visibility: personal
-status: stable
+status: draft
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-13T07:48:14Z'
-verified:
-  - by: 'human:mfontcuberta'
-    at: '2026-10-13T20:00:00Z'
+  at: '2026-10-16T12:26:00Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -79,7 +76,9 @@ Sign-out does not call the backend. It clears the tokens and the query cache.
 | `POST /admin/slot-watches/{watchID}/cancel`                      | Cancel a watch                                                                                                                                                    |
 
 Status and cancel bodies send the appointment's stored internal notes. The backend replaces the
-notes with what it receives.
+notes with what it receives. Admin appointment payloads include `channel`. The detail status card
+shows `app`, `mcp`, or `admin`, and "No channel" when it is empty. Staff create does not send
+`channel`; the backend stores `admin`. A reschedule copies the stored channel.
 
 ## Schedule and services
 

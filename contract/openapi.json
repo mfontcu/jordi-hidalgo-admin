@@ -97,6 +97,10 @@
                     "cancelledBy": {
                         "type": "string"
                     },
+                    "channel": {
+                        "example": "app",
+                        "type": "string"
+                    },
                     "customerLocale": {
                         "type": "string"
                     },
@@ -1873,6 +1877,10 @@
                     "appointmentStart": {
                         "example": "2026-04-20T10:00:00Z",
                         "format": "date-time",
+                        "type": "string"
+                    },
+                    "channel": {
+                        "example": "app",
                         "type": "string"
                     },
                     "customerNotes": {

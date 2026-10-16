@@ -10,13 +10,10 @@ tags:
 owner: 'owner:self'
 domain: /projects/hidalgo-junior
 visibility: personal
-status: stable
+status: draft
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-12T14:06:00Z'
-verified:
-  - by: 'human:mfontcuberta'
-    at: '2026-10-12T14:13:05Z'
+  at: '2026-10-16T12:26:00Z'
 part_of: /engineering/apps/hidalgo-admin
 realizes:
   - /business/processes/hidalgo-junior/book-appointment
@@ -30,6 +27,8 @@ Staff open `/appointments/form` from the appointments list, from a free slot on
 `/schedule/availability`, or from a client. The form reads its prefill from the URL
 (`appointmentFormSearchSchema`). Saving calls `POST /admin/appointments` and replaces the form with
 the new detail. The screen is `src/features/appointments/ui/appointment-form-screen.tsx`.
+The backend stores channel `admin` on that create; the form does not send it. The detail status
+card shows `admin`.
 
 ## Trigger and Input
 

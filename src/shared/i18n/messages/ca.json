@@ -206,6 +206,8 @@
   "appointmentFieldPrice": "Preu",
   "appointmentFieldDescription": "Descripció",
   "appointmentFieldCurrentStatus": "Estat actual",
+  "appointmentFieldChannel": "Canal",
+  "appointmentChannelNone": "Sense canal",
   "appointmentFieldCancelledBy": "Cancel·lada per",
   "appointmentFieldEndTime": "Fi de la cita",
   "appointmentFilterAll": "Totes les cites",

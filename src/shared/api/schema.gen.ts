@@ -2021,6 +2021,8 @@ export interface components {
             appointmentStart?: string;
             cancellationReason?: string;
             cancelledBy?: string;
+            /** @example app */
+            channel?: string;
             customerLocale?: string;
             customerNotes?: string;
             id?: string;
@@ -2691,6 +2693,8 @@ export interface components {
              * @example 2026-04-20T10:00:00Z
              */
             appointmentStart?: string;
+            /** @example app */
+            channel?: string;
             /** @example Si puede ser con Jordi */
             customerNotes?: string;
             /** @example false */

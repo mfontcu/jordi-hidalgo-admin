@@ -10,13 +10,10 @@ tags:
 owner: 'owner:self'
 domain: /projects/hidalgo-junior
 visibility: personal
-status: stable
+status: draft
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-12T14:06:00Z'
-verified:
-  - by: 'human:mfontcuberta'
-    at: '2026-10-12T14:13:05Z'
+  at: '2026-10-16T12:26:00Z'
 part_of: /engineering/apps/hidalgo-admin
 realizes:
   - /business/processes/hidalgo-junior/change-appointment
@@ -30,7 +27,9 @@ realizes:
 Staff change an appointment from its detail (`/appointments/{id}`), from the appointments list,
 from a client's or a staff member's appointments, or from the day agenda. Reschedule is
 `/appointments/{id}/reschedule`. Status rules are on the [card](../overview.md#status-presentation).
-Mutations live in `src/features/appointments/api/appointments.mutations.ts`.
+Mutations live in `src/features/appointments/api/appointments.mutations.ts`. The status card shows
+the channel (`app`, `mcp`, or `admin`), or "No channel" when it is empty. A reschedule keeps that
+channel on the new revision. The list, the day agenda, and a user's appointments do not show it.
 
 ## Trigger and Input
 

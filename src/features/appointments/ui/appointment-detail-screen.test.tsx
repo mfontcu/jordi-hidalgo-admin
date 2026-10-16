@@ -37,6 +37,19 @@ describe('appointment detail', () => {
     expect(screen.getAllByText('María Pérez').length).toBeGreaterThan(0);
     const serviceHeading = screen.getByRole('heading', { name: 'Servicio' });
     expect(within(serviceHeading.parentElement ?? serviceHeading).getByText('Corte')).toBeInTheDocument();
+    expect(screen.getByText('Sin canal')).toBeInTheDocument();
+  });
+
+  it('shows the channel the appointment was booked on', async () => {
+    server.use(
+      appointmentDetail(appointmentDto({ channel: 'mcp' })),
+      userDetail(clientDto()),
+      customerPushMessages(),
+    );
+    app = renderApp('/appointments/apt-1');
+
+    expect(await screen.findByText('mcp')).toBeInTheDocument();
+    expect(screen.queryByText('Sin canal')).not.toBeInTheDocument();
   });
 
   it('sends a push after confirming', async () => {
