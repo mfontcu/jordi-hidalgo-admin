@@ -17,10 +17,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-15T11:20:00Z'
+  at: '2026-10-16T07:35:00Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-15T13:28:16Z'
+    at: '2026-10-16T07:40:36Z'
 resource: /engineering/apps/hidalgo-admin
 service_status: active
 tier: 1
@@ -67,6 +67,7 @@ holds no domain data of its own: every read and write goes to the `jordi_hidalgo
 through a client generated from that API's OpenAPI contract.
 
 It replaced the Flutter panel on 2026-10-13. `https://admin.hidalgojunior.com` serves this panel.
+Staging is `https://shy-rain-a1f2.jhidalgojunior.workers.dev`, built against the staging API.
 Paths stay the same, so bookmarks keep working. Storage keys changed, so staff signed in once at
 cutover. The Flutter source was removed from the app repository. Rollback is the previous Cloudflare
 Pages deployment, if it was kept; that deployment cannot be rebuilt from git.

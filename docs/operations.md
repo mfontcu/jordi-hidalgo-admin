@@ -12,10 +12,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-13T15:10:00Z'
+  at: '2026-10-16T07:35:00Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-13T15:10:00Z'
+    at: '2026-10-16T07:40:36Z'
 severity: medium
 operates:
   - /engineering/apps/hidalgo-admin
@@ -43,6 +43,7 @@ There is no runtime config file and no skip-login flag.
 | `http://localhost:8080`         | `.env.development` (`npm run dev`, port 5173) | local API           |
 | `http://localhost:8080`         | `.env.e2e` (`npm run build:e2e`, Playwright)  | mocked by the tests |
 | `https://api.hidalgojunior.com` | production image and the Pages publish        | production API      |
+| `https://hidalgo-junior-backend-staging.up.railway.app` | staging Workers publish | staging API |
 
 The Docker build takes `VITE_API_BASE_URL` as a build argument and refuses to build when it is
 empty. The same value is the nginx `API_ORIGIN` used in the Content-Security-Policy `connect-src`.
@@ -66,7 +67,11 @@ must-revalidate`). Upload `dist/` from a production build with the production AP
    to `index.html`, does not cache `index.html`, and caches `/assets/` for a year.
 
 The backend allows any origin (CORS `*`), so the panel origin does not need a backend change.
-There is no staging environment.
+
+Staging is a separate build, published at `https://shy-rain-a1f2.jhidalgojunior.workers.dev`, with
+`VITE_API_BASE_URL` set to `https://hidalgo-junior-backend-staging.up.railway.app`. The same routes
+apply, including `/appointments`. That build is not promoted onto `admin.hidalgojunior.com`.
+Production keeps the production API origin.
 
 ### What staff notice at cutover
 

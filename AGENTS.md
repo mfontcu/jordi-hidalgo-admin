@@ -4,7 +4,7 @@ Panel de administración de **Hidalgo Junior** en React + TypeScript. Sustituye 
 
 - **Decisión de arquitectura:** ADR-003 en el hub (`../knowledge-base-hub`, `/engineering/adrs/admin-panel-react-spa`). Manda sobre este archivo en stack, capas, reglas de dependencia, flujo de datos y quality gates.
 - **Contrato del backend:** `/engineering/apis/hidalgo-backend-rest` (`jordi_hidalgo_backend/docs/contracts/apis/backend-rest-api.md`).
-- **No hay staging:** el cutover ya publicó este panel en producción. El despliegue Flutter anterior queda para volver atrás.
+- **Staging:** `https://shy-rain-a1f2.jhidalgojunior.workers.dev`, compilado con `VITE_API_BASE_URL` del API de staging (`https://hidalgo-junior-backend-staging.up.railway.app`). Producción sigue en `https://admin.hidalgojunior.com` contra `https://api.hidalgojunior.com`. El despliegue Flutter anterior, si se conservó, sigue siendo la vuelta atrás de producción.
 - **No hagas commit ni push** salvo petición explícita.
 
 ## Repos del ecosistema
