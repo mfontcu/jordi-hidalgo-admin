@@ -5,7 +5,7 @@ type RouteInfo = { id: string; fullPath: string; options: AnyRoute['options'] };
 import { queryClient } from './query-client';
 import { routeTree } from './routeTree.gen';
 
-// The parity checklist of the migration initiative: every final path of the Flutter panel.
+// Every final path of the former Flutter panel.
 const CHECKLIST_PATHS = [
   '/',
   '/services',
