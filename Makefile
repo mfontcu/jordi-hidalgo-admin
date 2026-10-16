@@ -9,13 +9,14 @@
 .DEFAULT_GOAL := help
 
 API_URL ?= https://api.hidalgojunior.com
+STAGING_API_URL := https://hidalgo-junior-backend-staging.up.railway.app
 IMAGE ?= jordi-hidalgo-admin:local
 PORT ?= 8089
 
 .PHONY: help \
 	install dev preview \
 	check typecheck lint format format-check test test-watch e2e playwright-install \
-	build build-e2e budget pages \
+	build build-staging build-e2e budget pages \
 	docker-build docker-run docker-e2e \
 	api-sync api-check api-generate i18n-check i18n-import icons icons-check docs-lint \
 	clean
@@ -69,6 +70,10 @@ playwright-install: ## Instala el Chromium que usan los e2e
 
 build: ## Genera dist/. La API queda grabada (API_URL, producción por defecto)
 	VITE_API_BASE_URL="$(API_URL)" npm run build
+
+build-staging: ## Genera dist/ con la API de staging en Railway
+	VITE_API_BASE_URL="$(STAGING_API_URL)" npm run build
+	@echo "dist/ listo (API: $(STAGING_API_URL))."
 
 build-e2e: ## Build que usan Playwright y el presupuesto del bundle (.env.e2e)
 	npm run build:e2e
