@@ -47,6 +47,7 @@ export const bookingSettingsDto = () => ({
   bookingMaxAdvanceDays: 30,
   futureAppointmentLimit: 3,
   appointmentChangeLimit: 3,
+  availabilityReadLimit: 12,
   bookingFirstDate: null,
   bookingLastDate: null,
 });

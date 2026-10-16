@@ -274,6 +274,10 @@
                         "example": 3,
                         "type": "integer"
                     },
+                    "availabilityReadLimit": {
+                        "example": 12,
+                        "type": "integer"
+                    },
                     "bookingFirstDate": {
                         "type": "string"
                     },
@@ -1122,6 +1126,10 @@
                 "properties": {
                     "appointmentChangeLimit": {
                         "example": 3,
+                        "type": "integer"
+                    },
+                    "availabilityReadLimit": {
+                        "example": 12,
                         "type": "integer"
                     },
                     "bookingFirstDate": {
@@ -4422,7 +4430,7 @@
                                 }
                             }
                         },
-                        "description": "invalid body / invalid future appointment limit / invalid appointment change limit / invalid booking dates"
+                        "description": "invalid body / invalid future appointment limit / invalid appointment change limit / invalid availability read limit / invalid booking dates"
                     },
                     "403": {
                         "content": {
@@ -8979,6 +8987,16 @@
                         },
                         "description": "serviceId is required"
                     },
+                    "429": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "availability read limit reached"
+                    },
                     "500": {
                         "content": {
                             "text/plain": {
@@ -9051,6 +9069,16 @@
                             }
                         },
                         "description": "serviceId is required / date is required / invalid date format"
+                    },
+                    "429": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "availability read limit reached"
                     },
                     "500": {
                         "content": {

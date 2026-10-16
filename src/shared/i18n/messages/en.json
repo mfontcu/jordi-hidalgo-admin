@@ -1034,6 +1034,8 @@
   "businessBookingFutureAppointmentLimitHint": "0 means no limit",
   "businessBookingAppointmentChangeLimit": "Maximum changes per day",
   "businessBookingAppointmentChangeLimitHint": "0 means no limit",
+  "businessBookingAvailabilityReadLimit": "Maximum availability checks",
+  "businessBookingAvailabilityReadLimitHint": "Per minute and account. 0 means no limit",
   "businessBookingFirstDateLabel": "First date bookings are allowed",
   "businessBookingFirstDateHint": "From today (no extra restriction)",
   "businessBookingNoRestriction": "No restriction",

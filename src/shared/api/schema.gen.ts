@@ -2082,6 +2082,8 @@ export interface components {
         "dto.AdminBookingSettingsResponse": {
             /** @example 3 */
             appointmentChangeLimit?: number;
+            /** @example 12 */
+            availabilityReadLimit?: number;
             bookingFirstDate?: string;
             bookingLastDate?: string;
             bookingMaxAdvanceDays?: number;
@@ -2377,6 +2379,8 @@ export interface components {
         "dto.AdminUpdateBookingSettingsRequest": {
             /** @example 3 */
             appointmentChangeLimit?: number;
+            /** @example 12 */
+            availabilityReadLimit?: number;
             bookingFirstDate?: string;
             bookingLastDate?: string;
             bookingMaxAdvanceDays?: number;
@@ -4264,7 +4268,7 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description invalid body / invalid future appointment limit / invalid appointment change limit / invalid booking dates */
+            /** @description invalid body / invalid future appointment limit / invalid appointment change limit / invalid availability read limit / invalid booking dates */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -7677,6 +7681,15 @@ export interface operations {
                     "text/plain": string;
                 };
             };
+            /** @description availability read limit reached */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
             /** @description internal error */
             500: {
                 headers: {
@@ -7715,6 +7728,15 @@ export interface operations {
             };
             /** @description serviceId is required / date is required / invalid date format */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description availability read limit reached */
+            429: {
                 headers: {
                     [name: string]: unknown;
                 };

@@ -20,7 +20,7 @@ import { dateInputLabels, localeOf, textOf } from '../shared/labels';
 
 type BookingTabProps = { settings: BookingSettings };
 
-/** Slot interval, cancellation notice, advance days, future-appointment and daily-change limits, and optional dates. */
+/** Slot interval, cancellation notice, advance days, future-appointment, daily-change and availability-read limits, and optional dates. */
 export function BookingTab({ settings }: BookingTabProps) {
   const intl = useIntl();
   const text = textOf(intl);
@@ -46,7 +46,8 @@ export function BookingTab({ settings }: BookingTabProps) {
       | 'minCancellationNoticeMinutes'
       | 'bookingMaxAdvanceDays'
       | 'futureAppointmentLimit'
-      | 'appointmentChangeLimit',
+      | 'appointmentChangeLimit'
+      | 'availabilityReadLimit',
   ) => {
     const key = form.errorKey(field);
     return key ? text(key) : undefined;
@@ -114,6 +115,18 @@ export function BookingTab({ settings }: BookingTabProps) {
               id="booking-appointment-change-limit"
               inputMode="numeric"
               {...register('appointmentChangeLimit')}
+            />
+          </FormField>
+          <FormField
+            id="booking-availability-read-limit"
+            label={text('businessBookingAvailabilityReadLimit')}
+            hint={text('businessBookingAvailabilityReadLimitHint')}
+            error={numberError('availabilityReadLimit')}
+          >
+            <Input
+              id="booking-availability-read-limit"
+              inputMode="numeric"
+              {...register('availabilityReadLimit')}
             />
           </FormField>
 

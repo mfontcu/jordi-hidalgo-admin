@@ -93,6 +93,7 @@ export async function updateBookingSettings(
         bookingMaxAdvanceDays: update.bookingMaxAdvanceDays,
         futureAppointmentLimit: update.futureAppointmentLimit,
         appointmentChangeLimit: update.appointmentChangeLimit,
+        availabilityReadLimit: update.availabilityReadLimit,
         bookingFirstDate: dates.bookingFirstDate,
         bookingLastDate: dates.bookingLastDate,
       } as never,

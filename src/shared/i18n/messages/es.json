@@ -1034,6 +1034,8 @@
   "businessBookingFutureAppointmentLimitHint": "0 es sin tope",
   "businessBookingAppointmentChangeLimit": "Máximo de cambios al día",
   "businessBookingAppointmentChangeLimitHint": "0 es sin cupo",
+  "businessBookingAvailabilityReadLimit": "Máximo de consultas de disponibilidad",
+  "businessBookingAvailabilityReadLimitHint": "Por minuto y cuenta. 0 es sin cupo",
   "businessBookingFirstDateLabel": "Primera fecha en que se permiten reservas",
   "businessBookingFirstDateHint": "Desde hoy (sin restricción extra)",
   "businessBookingNoRestriction": "Sin restricción",

@@ -52,6 +52,7 @@ const BOOKING: Body = {
   bookingMaxAdvanceDays: 60,
   futureAppointmentLimit: 3,
   appointmentChangeLimit: 3,
+  availabilityReadLimit: 12,
   bookingFirstDate: null,
   bookingLastDate: null,
 };

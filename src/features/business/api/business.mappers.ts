@@ -57,6 +57,7 @@ export function toBookingSettings(dto: BookingSettingsDto): BookingSettings {
     bookingMaxAdvanceDays: dto.bookingMaxAdvanceDays ?? 0,
     futureAppointmentLimit: dto.futureAppointmentLimit ?? 0,
     appointmentChangeLimit: dto.appointmentChangeLimit ?? 0,
+    availabilityReadLimit: dto.availabilityReadLimit ?? 0,
     bookingFirstDate: first && isBusinessDay(first) ? first : null,
     bookingLastDate: last && isBusinessDay(last) ? last : null,
   };

@@ -29,6 +29,7 @@ test('main journey: tabs in the URL, save info and booking, edit legal, create a
       slotIntervalMinutes: 15,
       futureAppointmentLimit: 3,
       appointmentChangeLimit: 3,
+      availabilityReadLimit: 12,
     }),
   );
 

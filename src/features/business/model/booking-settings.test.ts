@@ -13,6 +13,7 @@ const settings = (): BookingSettings => ({
   bookingMaxAdvanceDays: 30,
   futureAppointmentLimit: 3,
   appointmentChangeLimit: 3,
+  availabilityReadLimit: 12,
   bookingFirstDate: '2026-05-01',
   bookingLastDate: '2026-12-31',
 });
@@ -38,6 +39,7 @@ describe('booking settings', () => {
       bookingMaxAdvanceDays: 30,
       futureAppointmentLimit: 3,
       appointmentChangeLimit: 3,
+      availabilityReadLimit: 12,
     });
     expect(toBookingSettingsUpdate(values)).toMatchObject({
       bookingFirstDate: '2026-05-01',
@@ -89,6 +91,21 @@ describe('booking settings', () => {
         bookingLastDate: null,
       }),
     ).toMatchObject({ appointmentChangeLimit: 0 });
+    expect(errors({ ...base, availabilityReadLimit: '0' }).availabilityReadLimit).toBeUndefined();
+    expect(errors({ ...base, availabilityReadLimit: '-1' }).availabilityReadLimit).toBe(
+      'businessValidationNonNegativeNumber',
+    );
+    expect(errors({ ...base, availabilityReadLimit: 'x' }).availabilityReadLimit).toBe(
+      'businessValidationValidNumber',
+    );
+    expect(
+      toBookingSettingsUpdate({
+        ...base,
+        availabilityReadLimit: '0',
+        bookingFirstDate: null,
+        bookingLastDate: null,
+      }),
+    ).toMatchObject({ availabilityReadLimit: 0 });
   });
 
   it('rejects a first date after the last date', () => {
