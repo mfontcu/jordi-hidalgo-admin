@@ -17,10 +17,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-16T14:20:00Z'
+  at: '2026-10-17T09:20:52Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-17T09:05:00Z'
+    at: '2026-10-17T09:28:59Z'
 resource: /engineering/apps/hidalgo-admin
 service_status: active
 tier: 1
@@ -203,6 +203,10 @@ appointment is an upgrade and shows that note.
 **Customer list filters** (`src/features/users/model/clients-search.ts`): `all`, `active`,
 `inactive`, `blocked`, `with_upcoming_appointment`, `without_upcoming_appointment`,
 `new_this_month`. Staff can block (reason required), unblock, verify, and delete a customer.
+The block dialog says the client cannot sign in, book, or use the connector, and cannot unblock
+themselves. The unblock dialog says those three return. New appointment on a blocked client stays
+disabled. The block is the account flag the API already enforces. The panel does not add a
+connector-only switch.
 
 **Staff account** (`staffStatus` in `src/features/users/model/admin-user.ts`): active is success,
 inactive is neutral on the list and danger on the detail, and a blocked account is danger on the
