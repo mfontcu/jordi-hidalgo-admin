@@ -62,6 +62,12 @@ describe('blocked slot form', () => {
       end: 'scheduleValidationEndAfterStart',
     });
     expect(errors(input({ fullDay: true, start: null, end: null }))).toEqual({});
+    expect(errors(input({ reason: 'a'.repeat(501) }))).toEqual({
+      reason: 'scheduleBlockedSlotFormValidationReasonLength',
+    });
+    expect(blockedSlotFormSchema.parse(input({ reason: ` ${'a'.repeat(500)} ` })).reason).toBe(
+      'a'.repeat(500),
+    );
   });
 
   it('starts an edit from the stored block in salon time', () => {

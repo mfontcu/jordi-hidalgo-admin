@@ -10,10 +10,13 @@ tags:
 owner: 'owner:self'
 domain: /projects/hidalgo-junior
 visibility: personal
-status: draft
+status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-16T12:26:00Z'
+  at: '2026-10-16T14:20:00Z'
+verified:
+  - by: 'human:mfontcuberta'
+    at: '2026-10-17T09:05:00Z'
 part_of: /engineering/apps/hidalgo-admin
 realizes:
   - /business/processes/hidalgo-junior/change-appointment
@@ -35,10 +38,11 @@ channel on the new revision. The list, the day agenda, and a user's appointments
 
 - **Complete or no-show.** The appointment is not final and its start has passed. The body is the
   new status plus the stored internal notes.
-- **Cancel from the detail.** A reason is required. The stored internal notes are sent as well.
+- **Cancel from the detail.** Confirmation only. The stored internal notes are sent and the reason is empty.
 - **Cancel from a list.** No reason field. The stored notes are sent and the reason is empty.
 - **Bulk complete, no-show, or cancel.** Only `pending` and `confirmed` rows. Bulk cancel asks for
-  one reason and applies it to each selected appointment, still sending that appointment's notes.
+  one reason of at most 500 characters and applies it to each selected appointment, still sending
+  that appointment's notes.
   One request per appointment.
 - **Reschedule.** A new slot from the availability calls. `PATCH …/reschedule`.
 

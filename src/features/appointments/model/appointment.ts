@@ -241,6 +241,9 @@ export function canReschedule(userId: string): boolean {
 /** customerPushMaxBodyLength. */
 export const CUSTOMER_PUSH_MAX_LENGTH = 280;
 
+/** Shared cancellation reason on a bulk cancel. The backend rejects a longer one. */
+export const CANCELLATION_REASON_MAX_LENGTH = 500;
+
 /** Trims and caps the push body; empty when there is nothing to send. */
 export function pushBodyOf(text: string): string {
   return text.trim().slice(0, CUSTOMER_PUSH_MAX_LENGTH);

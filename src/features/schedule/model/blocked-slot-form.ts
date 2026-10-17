@@ -37,11 +37,14 @@ export type BlockedSlotInput = {
   showOnPublicSite: boolean;
 };
 
+export const BLOCKED_SLOT_REASON_MAX_LENGTH = 500;
+
 export type BlockedSlotFormErrorKey =
   | 'scheduleBlockedSlotFormValidationDate'
   | 'scheduleBlockedSlotFormValidationTime'
   | 'scheduleValidationEndAfterStart'
-  | 'scheduleBlockedSlotFormValidationReason';
+  | 'scheduleBlockedSlotFormValidationReason'
+  | 'scheduleBlockedSlotFormValidationReasonLength';
 
 /** A full day runs from 00:00 to 23:59 in salon time, as Flutter saves it. */
 const FULL_DAY = { start: '00:00', end: '23:59' } as const;
@@ -56,7 +59,11 @@ export const blockedSlotFormSchema = z
     fullDay: z.boolean(),
     start: z.string().nullable(),
     end: z.string().nullable(),
-    reason: z.string().trim().min(1, 'scheduleBlockedSlotFormValidationReason'),
+    reason: z
+      .string()
+      .trim()
+      .min(1, 'scheduleBlockedSlotFormValidationReason')
+      .max(BLOCKED_SLOT_REASON_MAX_LENGTH, 'scheduleBlockedSlotFormValidationReasonLength'),
     showOnPublicSite: z.boolean(),
   })
   .superRefine((values, context) => {

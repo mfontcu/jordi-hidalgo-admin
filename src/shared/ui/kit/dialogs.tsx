@@ -80,6 +80,7 @@ export function ConfirmDialog({
 type PromptDialogProps = Omit<ConfirmDialogProps, 'onConfirm' | 'children' | 'confirmDisabled'> & {
   fieldLabel: string;
   fieldHint?: string;
+  maxLength?: number;
   /** Receives the trimmed text, which is never empty. */
   onConfirm: (text: string) => void;
 };
@@ -93,6 +94,7 @@ export function PromptDialog({
   onOpenChange,
   fieldLabel,
   fieldHint,
+  maxLength,
   onConfirm,
   ...props
 }: PromptDialogProps) {
@@ -120,6 +122,7 @@ export function PromptDialog({
           rows={3}
           className="resize-none"
           placeholder={fieldHint}
+          maxLength={maxLength}
           value={text}
           onChange={(event) => {
             setText(event.target.value);

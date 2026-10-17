@@ -24,7 +24,7 @@ import {
 
 import { useBlockedSlotForm, useBlockedSlotFormData } from '../../hooks/use-blocked-slot-form';
 import { blockedSlotDate, type BlockedSlot } from '../../model/blocked-slot';
-import { previewDate, previewTimeRange } from '../../model/blocked-slot-form';
+import { BLOCKED_SLOT_REASON_MAX_LENGTH, previewDate, previewTimeRange } from '../../model/blocked-slot-form';
 import {
   dotted,
   blockedSlotTimeText,
@@ -179,6 +179,7 @@ function FormContent({ slot, layout, onCancel }: ContentProps) {
           rows={4}
           className="resize-none"
           placeholder={text('scheduleBlockedSlotFormReasonHint')}
+          maxLength={BLOCKED_SLOT_REASON_MAX_LENGTH}
           aria-invalid={errorText('reason') ? true : undefined}
           aria-describedby={errorText('reason') ? 'blocked-slot-reason-error' : undefined}
           {...form.form.register('reason')}

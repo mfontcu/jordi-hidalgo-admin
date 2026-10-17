@@ -187,6 +187,7 @@ describe('blocked slot form', () => {
     const user = userEvent.setup();
 
     const reason = await screen.findByLabelText('Motivo');
+    expect(reason).toHaveAttribute('maxlength', '500');
     expect(screen.getByRole('button', { name: 'Inicio' })).toHaveTextContent('12:14');
     await user.clear(reason);
     await user.type(reason, 'Formación interna');

@@ -23,7 +23,7 @@ import {
 
 import { useAppointmentsList } from '../hooks/use-appointments-list';
 import { APPOINTMENT_STATUSES, type AppointmentStatusFilter } from '../model/appointments-search';
-import type { AppointmentItem } from '../model/appointment';
+import { CANCELLATION_REASON_MAX_LENGTH, type AppointmentItem } from '../model/appointment';
 import { AppointmentsDateFilterField } from './appointments-date-filter-field';
 import { AppointmentsRows } from './appointments-rows';
 
@@ -232,6 +232,7 @@ export function AppointmentsScreen() {
         title={intl.formatMessage({ id: 'appointmentBulkCancelTitle' })}
         message={intl.formatMessage({ id: 'appointmentBulkCancelBody' }, { count: list.selectedIds.size })}
         fieldLabel={intl.formatMessage({ id: 'appointmentBulkCancelReasonLabel' })}
+        maxLength={CANCELLATION_REASON_MAX_LENGTH}
         confirmLabel={intl.formatMessage({ id: 'appointmentBulkCancelConfirm' })}
         cancelLabel={intl.formatMessage({ id: 'appointmentBulkCancelAction' })}
         onConfirm={runBulkCancel}

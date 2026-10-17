@@ -17,10 +17,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-16T07:35:00Z'
+  at: '2026-10-16T14:20:00Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-16T07:40:36Z'
+    at: '2026-10-17T09:05:00Z'
 resource: /engineering/apps/hidalgo-admin
 service_status: active
 tier: 1
@@ -235,15 +235,15 @@ These rules are enforced by the panel. The authoritative domain rules live in th
    has passed in business time, individually and in bulk.
 4. **Bulk actions** apply only to `pending` and `confirmed`. They are one request per appointment.
    A partial failure names the appointments that failed.
-5. **Cancellation from the detail needs a reason.** Blocking a customer needs a reason. A
-   cancellation from a list keeps the stored internal notes and sends an empty reason. A bulk
-   cancel asks for a reason and sends it as the cancellation reason, still keeping the notes.
+5. **Cancellation.** Blocking a customer needs a reason. A cancellation from the detail or from a
+   list keeps the stored internal notes and sends an empty reason. A bulk cancel asks for a reason
+   of at most 500 characters and sends it as the cancellation reason, still keeping the notes.
 6. **Customer push** is offered for an appointment linked to a customer account. The body is limited
    to 280 characters (`CUSTOMER_PUSH_MAX_LENGTH`).
 7. **Blocked time vs. appointments.** Saving a one-off block lists the `pending` and `confirmed`
    appointments the range covers when the range is new or has changed. Staff can keep them or
-   cancel them; the block's reason becomes the cancellation reason, and each appointment's stored
-   internal notes are sent back.
+   cancel them; the block's reason, at most 500 characters, becomes the cancellation reason, and
+   each appointment's stored internal notes are sent back.
 8. **Booking window.** The booking-settings form rejects a first bookable day later than the last.
    The future-appointment limit accepts 0 (no cap) and rejects a negative value. Saving always
    sends that number, including 0.

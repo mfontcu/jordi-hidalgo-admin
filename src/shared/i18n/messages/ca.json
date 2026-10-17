@@ -807,6 +807,7 @@
   "scheduleBlockedSlotFormValidationDate": "Introdueix una data",
   "scheduleBlockedSlotFormValidationTime": "Introdueix l'hora",
   "scheduleBlockedSlotFormValidationReason": "Introdueix un motiu",
+  "scheduleBlockedSlotFormValidationReasonLength": "El motiu no pot passar de 500 caràcters.",
   "scheduleBlockedSlotFormReasonHint": "Ex. festiu local, formació, gestió interna...",
   "scheduleBlockedSlotFormWebVisibilitySection": "Visibilitat web",
   "scheduleBlockedSlotFormWebVisibleHint": "Es mostrarà a la pàgina d'ubicació del lloc web públic.",

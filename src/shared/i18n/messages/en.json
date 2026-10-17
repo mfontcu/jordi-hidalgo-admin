@@ -807,6 +807,7 @@
   "scheduleBlockedSlotFormValidationDate": "Enter a date",
   "scheduleBlockedSlotFormValidationTime": "Enter a time",
   "scheduleBlockedSlotFormValidationReason": "Enter a reason",
+  "scheduleBlockedSlotFormValidationReasonLength": "The reason cannot be longer than 500 characters.",
   "scheduleBlockedSlotFormReasonHint": "E.g. local holiday, training, internal management...",
   "scheduleBlockedSlotFormWebVisibilitySection": "Website visibility",
   "scheduleBlockedSlotFormWebVisibleHint": "Shown on the public website location page.",
