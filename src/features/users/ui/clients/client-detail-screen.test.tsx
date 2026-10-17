@@ -128,6 +128,11 @@ describe('client detail', () => {
 
     await user.click(await screen.findByRole('button', { name: 'Bloquear cliente' }));
     const dialog = await screen.findByRole('dialog', { name: 'Bloquear cliente' });
+    expect(
+      within(dialog).getByText(
+        'El cliente no podrá iniciar sesión, reservar ni usar el conector. No podrá desbloquearse por sí mismo.',
+      ),
+    ).toBeInTheDocument();
     const confirm = within(dialog).getByRole('button', { name: 'Bloquear' });
     // The reason is required.
     expect(confirm).toBeDisabled();
@@ -164,6 +169,11 @@ describe('client detail', () => {
 
     await user.click(await screen.findByRole('button', { name: 'Desbloquear cliente' }));
     const dialog = await screen.findByRole('dialog', { name: 'Desbloquear cliente' });
+    expect(
+      within(dialog).getByText(
+        'El cliente volverá a poder iniciar sesión, reservar y usar el conector. ¿Quieres continuar?',
+      ),
+    ).toBeInTheDocument();
     await user.click(within(dialog).getByRole('button', { name: 'Desbloquear' }));
 
     expect(await screen.findByText(/^No se pudo desbloquear el cliente\./)).toBeInTheDocument();
