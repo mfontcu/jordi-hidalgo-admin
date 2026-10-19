@@ -10,10 +10,13 @@ tags:
 owner: 'owner:self'
 domain: /projects/hidalgo-junior
 visibility: personal
-status: draft
+status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
   at: '2026-10-16T12:26:00Z'
+verified:
+  - by: 'human:mfontcuberta'
+    at: '2026-10-19T10:58:00Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
