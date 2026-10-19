@@ -1260,7 +1260,7 @@ export interface paths {
         put?: never;
         /**
          * Login con proveedor OIDC
-         * @description Autentica o registra un usuario mediante un ID token de Google o Apple y devuelve tokens JWT.
+         * @description Autentica o registra un usuario mediante un ID token de Google o Apple y devuelve tokens JWT. createAccount false no registra: solo entra una cuenta que ya existe.
          */
         post: operations["loginWithOidc"];
         delete?: never;
@@ -2746,6 +2746,11 @@ export interface components {
             typeCode?: string;
         };
         "dto.OAuthLoginRequest": {
+            /**
+             * @description CreateAccount, when false, signs in an existing customer and does not register a new one.
+             *     Omitted or true keeps the previous behavior: a new Google or Apple identity creates the account.
+             */
+            createAccount?: boolean;
             familyName?: string;
             /** @description GivenName / FamilyName are optional hints from the client (Sign in with Apple only sends these on first authorization; they are not in the ID token JWT). */
             givenName?: string;
@@ -3107,7 +3112,7 @@ export interface operations {
                     "application/json": components["schemas"]["dto.AdminAppointmentResponse"];
                 };
             };
-            /** @description invalid body */
+            /** @description invalid body / customer notes too long: 500 */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -3269,7 +3274,7 @@ export interface operations {
                     "application/json": components["schemas"]["dto.AdminAppointmentResponse"];
                 };
             };
-            /** @description invalid body */
+            /** @description invalid body / cancellation reason too long: 500 */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -3579,7 +3584,7 @@ export interface operations {
                     "application/json": components["schemas"]["dto.AdminAppointmentResponse"];
                 };
             };
-            /** @description invalid body */
+            /** @description invalid body / cancellation reason too long: 500 */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -7418,7 +7423,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description user blocked */
+            /** @description user blocked or oauth account does not exist */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -8245,7 +8250,7 @@ export interface operations {
                     "application/json": components["schemas"]["dto.AppointmentResponse"];
                 };
             };
-            /** @description invalid request / invalid appointmentStart / appointment validation error */
+            /** @description invalid request / invalid appointmentStart / appointment validation error / customer notes too long: 500 */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -8424,7 +8429,7 @@ export interface operations {
                     "application/json": components["schemas"]["dto.AppointmentResponse"];
                 };
             };
-            /** @description invalid request / invalid appointmentStart / appointment validation error */
+            /** @description invalid request / invalid appointmentStart / appointment validation error / customer notes too long: 500 */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -8513,7 +8518,7 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description invalid request / appointment cancellation too late / appointment invalid status */
+            /** @description invalid request / appointment cancellation too late / appointment invalid status / cancellation reason too long: 500 */
             400: {
                 headers: {
                     [name: string]: unknown;
