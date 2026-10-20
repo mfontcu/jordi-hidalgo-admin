@@ -3,6 +3,7 @@ import {
   createInputOf,
   pickAvailableDay,
   pickAvailableTime,
+  userLookupOption,
 } from './appointment-form';
 
 describe('appointment form', () => {
@@ -87,5 +88,36 @@ describe('appointment form', () => {
     expect(pickAvailableDay([], '2026-10-12')).toBe('');
     expect(pickAvailableTime([{ time: '10:00', isAvailable: true }], '10:00')).toBe('10:00');
     expect(pickAvailableTime([{ time: '10:00', isAvailable: false }], '10:00')).toBe('');
+  });
+
+  it('shows phone and email under the client name so shared names or phones stay distinct', () => {
+    expect(
+      userLookupOption({
+        id: 'cli-1',
+        firstName: 'Ana',
+        lastName: 'García',
+        phone: '+34600111222',
+        email: 'ana.one@example.com',
+      }),
+    ).toEqual({
+      id: 'cli-1',
+      title: 'Ana García',
+      subtitle: '+34600111222 · ana.one@example.com',
+    });
+    expect(
+      userLookupOption({
+        id: 'cli-2',
+        adminAlias: 'Mari',
+        firstName: 'María',
+        lastName: 'Pérez',
+        phone: ' +34600333444 ',
+        email: '',
+      }).subtitle,
+    ).toBe('+34600333444');
+    expect(
+      userLookupOption({ id: 'cli-3', firstName: 'Luis', phone: '  ', email: 'luis@example.com' })
+        .subtitle,
+    ).toBe('luis@example.com');
+    expect(userLookupOption({ id: 'cli-4' })).toEqual({ id: 'cli-4', title: 'cli-4' });
   });
 });

@@ -60,7 +60,11 @@ describe('client form: new client', () => {
     app = renderApp('/clients/form');
     const user = userEvent.setup();
 
-    await user.click(await screen.findByRole('button', { name: 'Guardar cambios' }));
+    expect(await screen.findByLabelText('Nombre')).toHaveAttribute('placeholder', 'María');
+    expect(screen.getByLabelText('Apellidos')).toHaveAttribute('placeholder', 'García');
+    expect(screen.getByLabelText('Email (opcional)')).toHaveAttribute('placeholder', 'maria@email.com');
+
+    await user.click(screen.getByRole('button', { name: 'Guardar cambios' }));
 
     expect(await screen.findByText('Introduce un nombre')).toBeInTheDocument();
     expect(screen.getByText('Introduce los apellidos')).toBeInTheDocument();

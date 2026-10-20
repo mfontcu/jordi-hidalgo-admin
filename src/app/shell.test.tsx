@@ -170,6 +170,10 @@ describe('signed-in shell', () => {
     const user = userEvent.setup();
     app = renderApp('/');
     await screen.findByRole('heading', { name: 'Dashboard' });
+    expect(screen.getByRole('link', { name: 'Mario Fontcuberta' })).toHaveAttribute(
+      'href',
+      'https://mfontcuberta.com',
+    );
 
     await user.click(screen.getByRole('button', { name: 'Español' }));
     const languages = await screen.findByRole('dialog', { name: 'Idioma' });
