@@ -14,6 +14,7 @@ import {
 } from '@/test/msw/appointments';
 import { server } from '@/test/msw/server';
 import { listResponse, serviceDto, servicesList } from '@/test/msw/services';
+import { clientDto, usersList, usersListResponse } from '@/test/msw/users';
 import { renderApp } from '@/test/render-app';
 
 let app: ReturnType<typeof renderApp> | undefined;
@@ -65,5 +66,38 @@ describe('appointment form', () => {
         internalNotes: '',
       },
     ]);
+  });
+
+  it('lists each client with phone and email so matching names stay distinct', async () => {
+    const users = usersList((query) => {
+      if (query.get('role') !== 'customer') return usersListResponse([]);
+      return usersListResponse([
+        clientDto({
+          id: 'cli-1',
+          adminAlias: '',
+          firstName: 'Ana',
+          lastName: 'García',
+          phone: '+34600111222',
+          email: 'ana.one@example.com',
+        }),
+        clientDto({
+          id: 'cli-2',
+          adminAlias: '',
+          firstName: 'Ana',
+          lastName: 'García',
+          phone: '+34600111222',
+          email: 'ana.two@example.com',
+        }),
+      ]);
+    });
+    server.use(users.handler);
+    app = renderApp('/appointments/form');
+    const user = userEvent.setup();
+
+    await user.click(await screen.findByLabelText('Cliente o administrador (opcional)'));
+
+    expect(await screen.findByText('+34600111222 · ana.one@example.com')).toBeInTheDocument();
+    expect(screen.getByText('+34600111222 · ana.two@example.com')).toBeInTheDocument();
+    expect(screen.getAllByText('Ana García')).toHaveLength(2);
   });
 });

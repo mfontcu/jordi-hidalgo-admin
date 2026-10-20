@@ -5,6 +5,7 @@ import { apiClient, unwrap } from '@/shared/api';
 import { parseClockTime, type Weekday } from '@/shared/lib/business-time';
 
 import type { AppointmentItem, UserAppointmentsParams } from '../model/appointment';
+import { userLookupOption } from '../model/appointment-form';
 import type { AppointmentListParams } from '../model/appointments-search';
 import type { AgendaBlock, AgendaRecurringRule, AgendaWorkingDay } from '../model/day-agenda';
 import { appointmentsKeys } from './appointments.keys';
@@ -223,17 +224,7 @@ export function formUsersQueryOptions(role: 'customer' | 'admin', search: string
           signal,
         }),
       );
-      return (result.items ?? []).map((item) => {
-        const alias = item.adminAlias?.trim() ?? '';
-        const name = `${item.firstName ?? ''} ${item.lastName ?? ''}`.trim();
-        const phone = item.phone?.trim() ?? '';
-        const email = item.email?.trim() ?? '';
-        return {
-          id: item.id ?? '',
-          title: alias !== '' ? alias : name !== '' ? name : (item.id ?? ''),
-          subtitle: phone !== '' ? phone : email !== '' ? email : undefined,
-        };
-      });
+      return (result.items ?? []).map((item) => userLookupOption(item));
     },
     staleTime: STALE_TIME,
   });
