@@ -31,6 +31,35 @@ export type AppointmentFormPrefill = {
   prefillTime?: string;
 };
 
+/** One row of the client lookup: the name, and phone and email when the account has them. */
+export type UserLookupOption = { id: string; title: string; subtitle?: string };
+
+/**
+ * Label of a client or staff account in the appointment form lookup. Accounts can share a name
+ * or a phone, so the line under the name keeps both the phone and the email.
+ */
+export function userLookupOption(user: {
+  id?: string;
+  adminAlias?: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  email?: string;
+}): UserLookupOption {
+  const alias = user.adminAlias?.trim() ?? '';
+  const name = `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim();
+  const id = user.id ?? '';
+  const contact = [user.phone, user.email]
+    .map((part) => part?.trim() ?? '')
+    .filter((part) => part !== '')
+    .join(' · ');
+  return {
+    id,
+    title: alias !== '' ? alias : name !== '' ? name : id,
+    ...(contact !== '' ? { subtitle: contact } : {}),
+  };
+}
+
 /** Defaults from the form's URL prefill. */
 export function appointmentFormDefaults(search: AppointmentFormPrefill): AppointmentFormValues {
   return {
