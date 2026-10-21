@@ -115,8 +115,7 @@ describe('appointment form', () => {
       }).subtitle,
     ).toBe('+34600333444');
     expect(
-      userLookupOption({ id: 'cli-3', firstName: 'Luis', phone: '  ', email: 'luis@example.com' })
-        .subtitle,
+      userLookupOption({ id: 'cli-3', firstName: 'Luis', phone: '  ', email: 'luis@example.com' }).subtitle,
     ).toBe('luis@example.com');
     expect(userLookupOption({ id: 'cli-4' })).toEqual({ id: 'cli-4', title: 'cli-4' });
   });

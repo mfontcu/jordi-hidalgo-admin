@@ -164,3 +164,16 @@
     outline-offset: 2px;
   }
 }
+
+/* The toast sits at the bottom right, but it enters and leaves from the right. */
+[data-sonner-toaster][data-x-position='right'] [data-sonner-toast][data-y-position='bottom'] {
+  --y: translateX(110%);
+}
+
+[data-sonner-toaster][data-x-position='right'] [data-sonner-toast][data-y-position='bottom'][data-mounted='true'] {
+  --y: translateX(0);
+}
+
+[data-sonner-toaster][data-x-position='right'] [data-sonner-toast][data-removed='true']:not([data-swipe-out='true']) {
+  --y: translateX(110%);
+}

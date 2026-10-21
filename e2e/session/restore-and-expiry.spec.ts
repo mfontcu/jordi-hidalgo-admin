@@ -9,6 +9,7 @@ import {
   storedTokens,
   test,
 } from '../support/backend';
+import { mockHome } from '../support/home';
 import { loginPage, signedInShell } from '../support/login-page';
 import { mockSchedule } from '../support/schedule';
 import { mockUsers } from '../support/users';
@@ -27,8 +28,9 @@ test('restores the session on load and on reload, staying on the requested page'
   page,
   backend,
 }) => {
-  // The clients list asks for its rows.
+  // The clients list asks for its rows. The shell opens the activity stream.
   mockUsers(backend);
+  mockHome(backend);
   backend.on('GET', '/auth/me', { json: STAFF_USER });
   await seedSession(page, OLD_TOKENS);
 
@@ -46,8 +48,9 @@ test('restores the session on load and on reload, staying on the requested page'
 });
 
 test('refreshes an expired access token once on load and keeps the session', async ({ page, backend }) => {
-  // The clients list asks for its rows.
+  // The clients list asks for its rows. The shell opens the activity stream.
   mockUsers(backend);
+  mockHome(backend);
   backend.on('GET', '/auth/me', (request) =>
     bearerOf(request) === NEW_TOKENS.accessToken
       ? { json: STAFF_USER }
@@ -140,6 +143,7 @@ test('signs in again after an expiry and returns to the page that was open', asy
   backend.on('POST', '/auth/refresh', { status: 401, text: 'unauthorized' });
   backend.on('POST', '/auth/login', { json: { ...NEW_TOKENS, user: STAFF_USER } });
   mockSchedule(backend);
+  mockHome(backend);
   await seedSession(page, OLD_TOKENS);
 
   await page.goto('/schedule/working-hours');

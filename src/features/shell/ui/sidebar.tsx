@@ -44,7 +44,7 @@ export function Sidebar({
       )}
     >
       {!compact ? (
-        <div className="flex items-center p-4">
+        <div className="flex items-center gap-1 p-4">
           <div className="flex min-w-0 flex-1 flex-col gap-1">
             <span className="text-heading text-sidebar-foreground">
               <FormattedMessage id="adminBrandName" />

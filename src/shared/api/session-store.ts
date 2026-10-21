@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 
+import { clearActivityCursor } from './activity-cursor';
+
 // ADR-003, "Session storage": raw tokens under these keys, as the Flutter panel kept them.
 export const ACCESS_TOKEN_KEY = 'hj_admin.access_token';
 export const REFRESH_TOKEN_KEY = 'hj_admin.refresh_token';
@@ -67,8 +69,9 @@ export const session = {
     useSessionStore.setState({ accessToken, refreshToken, expired: false });
   },
 
-  /** Signs out: clears the tokens, with no expiry notice. */
+  /** Signs out: clears the tokens and the activity stream cursor, with no expiry notice. */
   clear() {
+    clearActivityCursor();
     useSessionStore.setState({ accessToken: null, refreshToken: null, expired: false });
   },
 
@@ -77,6 +80,7 @@ export const session = {
    * blocked): clears the tokens, flags the notice, and tells the listeners (the app goes to /login).
    */
   expire() {
+    clearActivityCursor();
     useSessionStore.setState({ accessToken: null, refreshToken: null, expired: true });
     for (const listener of expiredListeners) listener();
   },
