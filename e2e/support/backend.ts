@@ -33,7 +33,7 @@ export type Call = {
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
-  'Access-Control-Allow-Headers': 'Authorization, Content-Type, Accept-Language',
+  'Access-Control-Allow-Headers': 'Authorization, Content-Type, Accept, Accept-Language, Last-Event-ID',
 };
 
 /** The backend, mocked per test. Unmocked requests answer 599 and are listed in `unhandled`. */

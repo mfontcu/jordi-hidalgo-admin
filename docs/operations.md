@@ -12,10 +12,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-16T07:35:00Z'
+  at: '2026-10-20T19:55:00Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-16T07:40:36Z'
+    at: '2026-10-21T05:56:00Z'
 severity: medium
 operates:
   - /engineering/apps/hidalgo-admin
@@ -38,12 +38,12 @@ deployment cannot be rebuilt from git.
 An invalid value (missing, or not an `http` or `https` URL) throws and the app does not render.
 There is no runtime config file and no skip-login flag.
 
-| Value                           | Where                                         | Backend             |
-| ------------------------------- | --------------------------------------------- | ------------------- |
-| `http://localhost:8080`         | `.env.development` (`npm run dev`, port 5173) | local API           |
-| `http://localhost:8080`         | `.env.e2e` (`npm run build:e2e`, Playwright)  | mocked by the tests |
-| `https://api.hidalgojunior.com` | production image and the Pages publish        | production API      |
-| `https://hidalgo-junior-backend-staging.up.railway.app` | staging Workers publish | staging API |
+| Value                                                   | Where                                         | Backend             |
+| ------------------------------------------------------- | --------------------------------------------- | ------------------- |
+| `http://localhost:8080`                                 | `.env.development` (`npm run dev`, port 5173) | local API           |
+| `http://localhost:8080`                                 | `.env.e2e` (`npm run build:e2e`, Playwright)  | mocked by the tests |
+| `https://api.hidalgojunior.com`                         | production image and the Pages publish        | production API      |
+| `https://hidalgo-junior-backend-staging.up.railway.app` | staging Workers publish                       | staging API         |
 
 The Docker build takes `VITE_API_BASE_URL` as a build argument and refuses to build when it is
 empty. The same value is the nginx `API_ORIGIN` used in the Content-Security-Policy `connect-src`.
@@ -67,6 +67,9 @@ must-revalidate`). Upload `dist/` from a production build with the production AP
    to `index.html`, does not cache `index.html`, and caches `/assets/` for a year.
 
 The backend allows any origin (CORS `*`), so the panel origin does not need a backend change.
+Cloudflare Pages sends no `Content-Security-Policy`. `fetch` to the API origin, including the live
+activity stream, is not blocked there. The nginx image is the host that sets `connect-src`, and it
+already allows the API origin.
 
 Staging is a separate build, published at `https://shy-rain-a1f2.jhidalgojunior.workers.dev`, with
 `VITE_API_BASE_URL` set to `https://hidalgo-junior-backend-staging.up.railway.app`. The same routes
@@ -78,7 +81,8 @@ Production keeps the production API origin.
 Tokens live under `hj_admin.access_token` and `hj_admin.refresh_token`. The Flutter panel used
 different keys, so an existing browser session does not carry over. Staff sign in once. Language,
 theme, and the collapsed sidebar are new keys too (`hj_admin.locale`, `hj_admin.theme`,
-`hj_admin.sidebar_collapsed`) and start from the browser language and the system theme.
+`hj_admin.sidebar_collapsed`) and start from the browser language and the system theme. The live
+stream resumes from `hj_admin.activity_cursor`. Sign-out and expiry clear that key with the tokens.
 
 ### Manual UI check
 

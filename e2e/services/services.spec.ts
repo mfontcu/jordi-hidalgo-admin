@@ -40,7 +40,7 @@ test('main journey: filter and search in the URL, edit a service, create a new v
   await expect(table.getByRole('row')).toHaveCount(3);
 
   // Detail: catalog order, web visibility, deactivation.
-  await table.getByRole('button', { name: 'Corte de Pelo' }).click();
+  await table.getByRole('row', { name: /Corte de Pelo/ }).click();
   await expect(page).toHaveURL('/services/svc-1');
   const order = page.getByLabel('Prioridad');
   await order.fill('5');

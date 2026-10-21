@@ -3,6 +3,7 @@ import { useNavigate } from '@tanstack/react-router';
 import { useState, type ReactNode } from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import { ActivityBell, ActivityLive } from '@/features/activity';
 import { signOut } from '@/features/auth';
 import { Drawer, DrawerContent, DrawerTitle, Toaster, TooltipProvider } from '@/shared/ui';
 
@@ -64,7 +65,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             className="sticky top-0 h-dvh shrink-0"
           />
         )}
-        <div className="flex min-w-0 flex-1 flex-col">
+        <div className="relative flex min-w-0 flex-1 flex-col">
           {mobile && (
             <MobileHeader
               onOpenMenu={() => {
@@ -72,11 +73,17 @@ export function AppShell({ children }: { children: ReactNode }) {
               }}
             />
           )}
+          {!mobile && (
+            <div className="fixed top-3 right-4 z-40 rounded-lg border border-border bg-background">
+              <ActivityBell placement="header" compact />
+            </div>
+          )}
           {/* Page layers (photos, icons, z-10 controls) stay inside this context, under the header. */}
           <main className="isolate flex min-w-0 flex-1 flex-col">{children}</main>
         </div>
       </div>
       <Toaster />
+      <ActivityLive />
       {mobile && (
         <Drawer open={menuOpen} onOpenChange={setMenuOpen}>
           <DrawerContent>

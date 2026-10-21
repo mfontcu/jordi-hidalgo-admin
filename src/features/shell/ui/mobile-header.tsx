@@ -1,5 +1,6 @@
 import { FormattedMessage, useIntl } from 'react-intl';
 
+import { ActivityBell } from '@/features/activity';
 import { cn } from '@/shared/lib/cn';
 import { Button, Icon } from '@/shared/ui';
 
@@ -33,6 +34,7 @@ export function MobileHeader({ onOpenMenu }: { onOpenMenu: () => void }) {
         <span className="min-w-0 flex-1 truncate text-heading text-muted-foreground">
           <FormattedMessage id="shellMobileBrand" />
         </span>
+        <ActivityBell placement="header" compact />
       </div>
       {header && (
         <div className="mt-3.5">

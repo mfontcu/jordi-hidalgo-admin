@@ -96,7 +96,10 @@ test('a client created from the appointment form goes back to it, chosen', async
 test('deleting a client goes back to the list', async ({ page, backend }) => {
   await signedIn(page, backend);
   await page.goto('/clients');
-  await page.getByRole('table', { name: 'Cliente' }).getByRole('button', { name: 'Luis Gómez' }).click();
+  await page
+    .getByRole('table', { name: 'Cliente' })
+    .getByRole('row', { name: /Luis Gómez/ })
+    .click();
   await expect(page).toHaveURL('/clients/c-2');
 
   await page.getByRole('button', { name: 'Eliminar cliente' }).click();

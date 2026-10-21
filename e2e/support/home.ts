@@ -8,8 +8,11 @@ const EMPTY_SUMMARY = {
   next_appointment: null,
 };
 
-/** Dashboard and slot-watch demand. Every signed-in shell can open either route. */
+/** Dashboard, slot-watch demand, and the live-notices stream. Every signed-in shell opens them. */
 export function mockHome(backend: MockBackend) {
   backend.on('GET', '/admin/dashboard/summary', { json: EMPTY_SUMMARY });
   backend.on('GET', '/admin/slot-watches', { json: { items: [] } });
+  backend.on('GET', '/admin/activity', { json: { items: [] } });
+  backend.on('GET', '/admin/activity/stream', { status: 200, text: '' });
+  backend.on('POST', '/admin/activity/read', { status: 204, text: '' });
 }

@@ -98,6 +98,7 @@ test('sends a deep link without a session to the login screen, and opens it afte
 }) => {
   backend.on('POST', '/auth/login', { json: { ...OLD_TOKENS, user: STAFF_USER } });
   mockServices(backend);
+  mockHome(backend);
   const login = loginPage(page);
 
   await page.goto('/services?status=active&page=2');

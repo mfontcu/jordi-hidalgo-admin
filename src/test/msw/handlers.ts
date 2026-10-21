@@ -9,6 +9,16 @@ import { API } from './auth';
  * `server.use(...)`.
  */
 export const handlers: RequestHandler[] = [
+  http.get(`${API}/admin/activity`, () => HttpResponse.json({ items: [] })),
+  http.post(`${API}/admin/activity/read`, () => new HttpResponse(null, { status: 204 })),
+  http.get(`${API}/admin/activity/stream`, () => {
+    const stream = new ReadableStream({
+      start() {
+        // Stays open until the test aborts the request, so the shell does not reconnect in a loop.
+      },
+    });
+    return new HttpResponse(stream, { headers: { 'Content-Type': 'text/event-stream' } });
+  }),
   http.get(`${API}/admin/dashboard/summary`, () =>
     HttpResponse.json({
       appointments_today: 0,

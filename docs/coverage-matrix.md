@@ -12,10 +12,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-16T07:35:00Z'
+  at: '2026-10-20T19:55:00Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-16T07:40:36Z'
+    at: '2026-10-21T05:56:00Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -38,6 +38,7 @@ files. ✅ = documented. — = the surface does not exist (stated in the linked 
 | Route | Navigation operations                                                                    | navigation.md#navigation-model           | ✅     |
 | Route | Screen graph                                                                             | navigation.md#screen-graph               | ✅     |
 | Route | Layouts under 768 px, 768–1023 px, and from 1024 px                                      | navigation.md#responsive-layout          | ✅     |
+| Route | Live-notices bell in the sidebar and the mobile header                                   | navigation.md#live-notices               | ✅     |
 
 ## Guards and client state
 
@@ -62,24 +63,25 @@ files. ✅ = documented. — = the surface does not exist (stated in the linked 
 
 ## Use cases
 
-| Kind               | Item                                                                                                                      | Documented in                                   | Status |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- | ------ |
-| Feature module     | `auth`, `shell`, `dashboard`, `availability`, `appointments`, `slot-watches`, `schedule`, `services`, `users`, `business` | overview.md#feature-modules                     | ✅     |
-| Use case           | Session, dashboard, availability, appointments, slot watches, schedule, services, accounts, business content, gallery     | overview.md#use-cases, contracts/backend-api.md | ✅     |
-| Use case (dormant) | None in `src/features/*/api`                                                                                              | overview.md#use-cases                           | ✅     |
-| Flow               | Sign-in and session                                                                                                       | flows/admin-sign-in-and-session.md              | ✅     |
-| Flow               | Create an appointment                                                                                                     | flows/create-appointment.md                     | ✅     |
-| Flow               | Status change, reschedule, cancel, bulk                                                                                   | flows/change-appointment-status.md              | ✅     |
-| Flow               | Customer push                                                                                                             | flows/send-customer-push.md                     | ✅     |
-| Flow               | One-off block with overlap resolution                                                                                     | flows/create-blocked-slot.md                    | ✅     |
-| Flow               | Gallery image upload                                                                                                      | flows/upload-gallery-image.md                   | ✅     |
-| Client invariant   | The rules the panel enforces                                                                                              | overview.md#business-invariants                 | ✅     |
+| Kind               | Item                                                                                                                                  | Documented in                                   | Status |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- | ------ |
+| Feature module     | `auth`, `shell`, `dashboard`, `availability`, `appointments`, `slot-watches`, `schedule`, `services`, `users`, `business`, `activity` | overview.md#feature-modules                     | ✅     |
+| Use case           | Session, dashboard, availability, appointments, slot watches, schedule, services, accounts, business content, gallery, live activity  | overview.md#use-cases, contracts/backend-api.md | ✅     |
+| Use case (dormant) | None in `src/features/*/api`                                                                                                          | overview.md#use-cases                           | ✅     |
+| Flow               | Sign-in and session                                                                                                                   | flows/admin-sign-in-and-session.md              | ✅     |
+| Flow               | Create an appointment                                                                                                                 | flows/create-appointment.md                     | ✅     |
+| Flow               | Status change, reschedule, cancel, bulk                                                                                               | flows/change-appointment-status.md              | ✅     |
+| Flow               | Customer push                                                                                                                         | flows/send-customer-push.md                     | ✅     |
+| Flow               | One-off block with overlap resolution                                                                                                 | flows/create-blocked-slot.md                    | ✅     |
+| Flow               | Gallery image upload                                                                                                                  | flows/upload-gallery-image.md                   | ✅     |
+| Client invariant   | The rules the panel enforces                                                                                                          | overview.md#business-invariants                 | ✅     |
 
 ## Consumed API
 
 | Kind         | Item                                                             | Documented in                                                             | Status |
 | ------------ | ---------------------------------------------------------------- | ------------------------------------------------------------------------- | ------ |
 | Consumed API | Session: login, me, refresh                                      | contracts/backend-api.md#session                                          | ✅     |
+| Consumed API | Live activity: stream, unread list, mark read                    | contracts/backend-api.md#live-activity                                    | ✅     |
 | Consumed API | Dashboard, public availability, appointments, slot watches       | contracts/backend-api.md#dashboard-availability-appointments-slot-watches | ✅     |
 | Consumed API | Business hours, blocks, recurring rules, services                | contracts/backend-api.md#schedule-and-services                            | ✅     |
 | Consumed API | Users, business content, gallery, including the presigned upload | contracts/backend-api.md#accounts-and-business-content                    | ✅     |
@@ -90,6 +92,7 @@ files. ✅ = documented. — = the surface does not exist (stated in the linked 
 | Kind        | Item                                                                                  | Documented in                                                                  | Status |
 | ----------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ------ |
 | Local store | `hj_admin.access_token`, `hj_admin.refresh_token` (cleared on sign-out and on expiry) | flows/admin-sign-in-and-session.md, operations.md#what-staff-notice-at-cutover | ✅     |
+| Local store | `hj_admin.activity_cursor` (stream resume id; cleared on sign-out and on expiry)      | overview.md#client-side-state, flows/admin-sign-in-and-session.md              | ✅     |
 | Local store | `hj_admin.theme`, `hj_admin.locale`, `hj_admin.sidebar_collapsed` (survive sign-out)  | operations.md#what-staff-notice-at-cutover, navigation.md#responsive-layout    | ✅     |
 | Local store | Expiry notice, memory only                                                            | overview.md#client-side-state                                                  | ✅     |
 | Push        | The panel does not register for push. It asks the backend to send                     | overview.md#surfaces, overview.md#out-of-scope                                 | —      |

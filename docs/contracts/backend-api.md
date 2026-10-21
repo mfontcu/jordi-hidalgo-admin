@@ -13,10 +13,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-16T12:26:00Z'
+  at: '2026-10-20T19:55:00Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-19T10:58:00Z'
+    at: '2026-10-21T05:56:00Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -57,7 +57,37 @@ validation or conflict toast includes the backend's text when the body has one.
 | `GET /auth/me`       | Restore and the signed-in staff member                        |
 | `POST /auth/refresh` | The HTTP middleware, once per 401, shared by concurrent calls |
 
-Sign-out does not call the backend. It clears the tokens and the query cache.
+Sign-out does not call the backend. It clears the tokens, the activity cursor, and the query cache.
+
+## Live activity
+
+The stream is `fetch`, not `EventSource`. `EventSource` cannot send `Authorization`.
+`openActivityStream` (`src/shared/api/activity-stream.ts`) sends the session bearer and reads the
+body as a stream. The shell opens one connection per tab after the session is restored.
+
+| Operation                           | Caller                                                                                |
+| ----------------------------------- | ------------------------------------------------------------------------------------- |
+| `GET /admin/activity/stream`        | The shell. `Last-Event-ID` and `after` carry the last id (`hj_admin.activity_cursor`) |
+| `GET /admin/activity?announce=true` | The bell, when the shell mounts. Only unread announced events for this administrator  |
+| `POST /admin/activity/read`         | Mark one id, the selected ids, or every unread announced event (`all: true`)          |
+
+A 401 uses the same shared refresh as the HTTP middleware and opens the stream again. A rejected
+refresh or a blocked user closes the stream and expires the session. A 400 for an invalid cursor
+drops the stored id and opens once without `after`. Comment lines (`: ping`) are ignored.
+
+Each event, announced or not, invalidates the active queries for that kind: appointment lists,
+the appointment detail, the dashboard summary, and availability; slot-watch lists; punctual
+blocks and the day agenda; recurring rules and the day agenda; working hours and the agenda
+hours; client lists and the client detail. A `reset` invalidates those families together and
+stores the id it carries.
+
+Events that arrive before a short quiet gap are the reconnect batch. They refresh screens and do
+not toast. A later event toasts only while the tab is visible. Returning to the foreground
+reopens the stream when it has dropped, using the stored id, and does not stack toasts.
+
+Production (`https://admin.hidalgojunior.com`) is Cloudflare Pages and sends no
+`Content-Security-Policy`, so `fetch` to the API origin is not blocked by `connect-src`. The
+nginx image allows that origin in `connect-src` (`deploy/security-headers.conf.template`).
 
 ## Dashboard, availability, appointments, slot watches
 
