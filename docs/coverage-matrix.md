@@ -9,13 +9,10 @@ tags:
 owner: 'owner:self'
 domain: /projects/hidalgo-junior
 visibility: personal
-status: stable
+status: draft
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-20T19:55:00Z'
-verified:
-  - by: 'human:mfontcuberta'
-    at: '2026-10-21T05:56:00Z'
+  at: '2026-10-21T06:44:15Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -81,7 +78,7 @@ files. ✅ = documented. — = the surface does not exist (stated in the linked 
 | Kind         | Item                                                             | Documented in                                                             | Status |
 | ------------ | ---------------------------------------------------------------- | ------------------------------------------------------------------------- | ------ |
 | Consumed API | Session: login, me, refresh                                      | contracts/backend-api.md#session                                          | ✅     |
-| Consumed API | Live activity: stream, unread list, mark read                    | contracts/backend-api.md#live-activity                                    | ✅     |
+| Consumed API | Live activity: stream, recent list, mark read                    | contracts/backend-api.md#live-activity                                    | ✅     |
 | Consumed API | Dashboard, public availability, appointments, slot watches       | contracts/backend-api.md#dashboard-availability-appointments-slot-watches | ✅     |
 | Consumed API | Business hours, blocks, recurring rules, services                | contracts/backend-api.md#schedule-and-services                            | ✅     |
 | Consumed API | Users, business content, gallery, including the presigned upload | contracts/backend-api.md#accounts-and-business-content                    | ✅     |

@@ -10,13 +10,10 @@ tags:
 owner: 'owner:self'
 domain: /projects/hidalgo-junior
 visibility: personal
-status: stable
+status: draft
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-20T19:55:00Z'
-verified:
-  - by: 'human:mfontcuberta'
-    at: '2026-10-21T05:56:00Z'
+  at: '2026-10-21T06:44:15Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -68,8 +65,8 @@ body as a stream. The shell opens one connection per tab after the session is re
 | Operation                           | Caller                                                                                |
 | ----------------------------------- | ------------------------------------------------------------------------------------- |
 | `GET /admin/activity/stream`        | The shell. `Last-Event-ID` and `after` carry the last id (`hj_admin.activity_cursor`) |
-| `GET /admin/activity?announce=true` | The bell, when the shell mounts. Only unread announced events for this administrator  |
-| `POST /admin/activity/read`         | Mark one id, the selected ids, or every unread announced event (`all: true`)          |
+| `GET /admin/activity?announce=true` | The bell, when the shell mounts. The 100 newest announced events, newest first, each with this administrator's read |
+| `POST /admin/activity/read`         | Mark one id, the selected ids, or every unread announced event (`all: true`). The row stays in the list |
 
 A 401 uses the same shared refresh as the HTTP middleware and opens the stream again. A rejected
 refresh or a blocked user closes the stream and expires the session. A 400 for an invalid cursor
