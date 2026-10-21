@@ -9,7 +9,7 @@ import {
   rememberActivityCursor,
   type ActivityStreamEvent,
 } from '../api/activity-connection';
-import { appendUnreadActivity } from '../api/activity.queries';
+import { appendRecentActivity } from '../api/activity.queries';
 import { queryKeysForKind, queryKeysForReset, type ActivityItem } from '../model/refresh';
 
 const RETRY_MAX_MS = 15_000;
@@ -35,7 +35,7 @@ export function useActivityStream(onToast: (item: ActivityItem) => void) {
 
     const onEvent = (event: ActivityStreamEvent) => {
       if (event.type === 'live') {
-        void queryClient.invalidateQueries({ queryKey: activityKeys.unread() });
+        void queryClient.invalidateQueries({ queryKey: activityKeys.recent() });
         return;
       }
       if (event.type === 'reset') {
@@ -43,11 +43,11 @@ export function useActivityStream(onToast: (item: ActivityItem) => void) {
         invalidate(queryClient, queryKeysForReset());
         return;
       }
-      const item: ActivityItem = event.row;
+      const item: ActivityItem = { ...event.row, read: false };
       rememberActivityCursor(item.id);
       invalidate(queryClient, queryKeysForKind(item.kind, item.payload));
       if (!item.announce || event.replay) return;
-      appendUnreadActivity(queryClient, item);
+      appendRecentActivity(queryClient, item);
       if (document.visibilityState === 'visible') onToastRef.current(item);
     };
 

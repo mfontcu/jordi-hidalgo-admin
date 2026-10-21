@@ -12,10 +12,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-21T05:50:00Z'
+  at: '2026-10-21T06:44:15Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-21T05:56:00Z'
+    at: '2026-10-21T07:01:37Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -136,11 +136,13 @@ make. A 401 refreshes once; a rejected refresh or a blocked user expires the ses
 The signed-in shell shows a bell (`ActivityBell` in `src/features/activity`). From 768px it
 floats at the top right of the page content, outside the sidebar. The mobile header keeps it on
 the right. It is not a
-route and it does not change the highlighted section. The count is the unread announced events for
-this administrator. Above 9 the badge reads 9+. Opening the list marks nothing. The newest row is first. A timed notice says whether that time is
+route and it does not change the highlighted section. The list is the 100 newest announced
+notices, newest first. The count is how many of them this administrator has not read. Above 9 the
+badge reads 9+. Opening the list marks nothing. A timed notice says whether that time is
 today, tomorrow, or another day. Each row shows the
-kind's icon and puts that kind's word in bold, in the success, warning, or danger color. Marking
-one row, the selection, or every row writes that choice. A row that has a place marks that event
+kind's icon and puts that kind's word in bold, in the success, warning, or danger color. A read
+notice stays in place and is shown in muted text. Marking
+one row, the selection, or every row writes that choice and leaves the row in the list. A row that has a place marks that event
 and navigates with the router, so a form with unsaved changes asks before leaving. A toast uses
 the same navigation and does not mark the event. On a wide window it sits at the bottom right of
 the content, about 360px wide. Events from a reconnect do not toast. The stream and the read

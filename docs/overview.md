@@ -17,10 +17,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-20T19:55:00Z'
+  at: '2026-10-21T06:44:15Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-21T05:56:00Z'
+    at: '2026-10-21T07:01:37Z'
 resource: /engineering/apps/hidalgo-admin
 service_status: active
 tier: 1
@@ -104,7 +104,7 @@ Each module lives in `src/features/<module>/`. A feature imports another feature
 | -------------- | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `auth`         | `LoginScreen`, `SessionRestoringScreen`                                                 | Sign in; wait while a stored session is restored.                                                                                                        |
 | `shell`        | `AppShell`, not-found screen                                                            | Sidebar, drawer, language, theme, sign-out, and the live-notices bell.                                                                                   |
-| `activity`     | bell in the shell, no route                                                             | Unread announced changes: count, list, mark read, and open the related screen. One stream refreshes the open screens.                                    |
+| `activity`     | bell in the shell, no route                                                             | The 100 newest announced changes, newest first. The count is the unread ones. A read notice stays in the list. Mark read, and open the related screen. One stream refreshes the open screens. |
 | `dashboard`    | `DashboardScreen`                                                                       | Today's appointments, pending appointments, free slots today, customers this week, and the next appointment; jump to common sections.                    |
 | `availability` | `AvailabilityOverviewScreen`                                                            | Pick a public service and a date, see free and taken slots, start a new appointment from a free slot.                                                    |
 | `appointments` | list, detail, form, reschedule, day agenda, and the appointments block on a user detail | List and filter appointments; work the day or week agenda; create, reschedule, change status, cancel; bulk actions; send a push message to the customer. |
@@ -131,7 +131,7 @@ A use case is a call the panel makes. The HTTP operation behind each one is list
 | services            | List, get, categories, create (also a new version), order, public site, activate, deactivate, delete          | —                                                                                                                              |
 | customers and staff | List, get, create, update, delete, verify, activation email, password-setup email, phone matches              | —                                                                                                                              |
 | business            | Info, booking settings, notification settings, legal documents, web pages, gallery slides                     | [Upload a gallery image](./flows/upload-gallery-image.md)                                                                      |
-| activity            | Unread announced events, mark them read, and the live stream that refreshes open screens                      | —                                                                                                                              |
+| activity            | The 100 newest announced events with this administrator's read mark, mark them read, and the live stream that refreshes open screens | —                                                                                                                              |
 
 No call site in `src/features/*/api` is unused. The panel does not call `GET /app/version`; the
 footer version is the package version.
@@ -265,7 +265,8 @@ These rules are enforced by the panel. The authoritative domain rules live in th
     not use the backend's `full_day` filter to decide what it shows.
 12. **Leaving a form with changes** asks first, through the router and when the tab closes.
 13. **An invalid environment refuses to start.** `VITE_API_BASE_URL` must be an `http` or `https` URL.
-14. **Live notices.** The bell lists only unread announced events for this administrator. Opening
+14. **Live notices.** The bell lists the 100 newest announced events for this administrator, newest
+    first. The count is the unread ones. Marking one leaves it in place, shown as read. Opening
     the list does not mark them. A toast does not mark them. Marking one, the selection, or all of
     them is a write. The cursor in local storage is only where the stream resumes.
 
