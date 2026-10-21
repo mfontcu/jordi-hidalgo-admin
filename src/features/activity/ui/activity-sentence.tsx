@@ -23,17 +23,20 @@ const PRESENTATION: Record<ActivityNotice['template'], { icon: IconName; tone: s
 type ActivitySentenceProps = {
   item: ActivityItem;
   serviceName: string | null;
+  /** A read notice keeps the sentence and drops the kind color. */
+  read?: boolean;
 };
 
 /** Icon plus the sentence, with the kind's word in bold and in its color. */
-export function ActivitySentence({ item, serviceName }: ActivitySentenceProps) {
+export function ActivitySentence({ item, serviceName, read = false }: ActivitySentenceProps) {
   const intl = useIntl();
   const locale = useLocaleStore((state) => state.locale);
   const moment = activityMoment(item.payload, dateLocale(locale));
   const notice = activityNotice(item.kind, item.payload, serviceName, moment);
   if (!notice) return null;
 
-  const { icon, tone } = PRESENTATION[notice.template];
+  const { icon, tone: kindTone } = PRESENTATION[notice.template];
+  const tone = read ? 'text-muted-foreground' : kindTone;
   const name = notice.name || intl.formatMessage({ id: 'activityUnknownName' });
   const message = messageOf(notice, name, whenOf(intl, moment));
 

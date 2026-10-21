@@ -2,7 +2,7 @@ import type { components } from '@/shared/api';
 
 import type { ActivityItem } from './activity.keys';
 
-type ActivityDto = components['schemas']['dto.AdminActivityResponse'];
+type ActivityDto = components['schemas']['dto.AdminActivityListItem'];
 
 export function toActivityItem(dto: ActivityDto): ActivityItem | null {
   if (dto.id === undefined || !dto.kind) return null;
@@ -10,6 +10,7 @@ export function toActivityItem(dto: ActivityDto): ActivityItem | null {
     id: dto.id,
     kind: dto.kind,
     announce: dto.announce === true,
+    read: dto.read === true,
     payload: {
       appointmentPublicId: dto.payload?.appointmentPublicId,
       serviceId: dto.payload?.serviceId,

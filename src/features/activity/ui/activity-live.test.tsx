@@ -92,7 +92,7 @@ describe('activity stream in the shell', () => {
     app.queryClient.setQueryData(['services', 'detail', 'svc-1'], { id: 'svc-1', name: 'Corte' });
     await screen.findByRole('heading', { name: 'Dashboard' });
     await waitFor(() => {
-      expect(app?.queryClient.getQueryData(['activity', 'unread'])).toEqual([]);
+      expect(app?.queryClient.getQueryData(['activity', 'recent'])).toEqual([]);
     });
     const loaded = summaries;
 
@@ -140,7 +140,7 @@ describe('activity stream in the shell', () => {
     app = renderApp('/');
     await screen.findByRole('heading', { name: 'Dashboard' });
     await waitFor(() => {
-      expect(app?.queryClient.getQueryData(['activity', 'unread'])).toEqual([]);
+      expect(app?.queryClient.getQueryData(['activity', 'recent'])).toEqual([]);
     });
 
     stream.emit(activity(3, 'appointment.booked', true, true));
@@ -190,7 +190,7 @@ describe('activity stream in the shell', () => {
     app = renderApp('/');
     await screen.findByRole('heading', { name: 'Dashboard' });
     await waitFor(() => {
-      expect(app?.queryClient.getQueryData(['activity', 'unread'])).toEqual([]);
+      expect(app?.queryClient.getQueryData(['activity', 'recent'])).toEqual([]);
     });
 
     stream.emit(activity(8, 'appointment.booked', true, false));
@@ -213,6 +213,11 @@ describe('activity stream in the shell', () => {
     await waitFor(() => {
       expect(reads).toContainEqual({ ids: [11] });
     });
+    expect(within(list).getByRole('button', { name: /Luis Costa ha creado una cuenta/ })).toBeInTheDocument();
+    expect(
+      within(list).queryByRole('button', { name: 'Marcar como leído el aviso de Luis Costa' }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Avisos, 1 sin leer' })).toBeInTheDocument();
 
     await user.click(within(list).getByRole('button', { name: /Ana Ruiz ha reservado .+10:30/ }));
     await waitFor(() => {
@@ -227,6 +232,8 @@ describe('activity stream in the shell', () => {
     await waitFor(() => {
       expect(reads).toContainEqual({ all: true });
     });
-    expect(screen.getByText('No hay avisos sin leer')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /^Avisos$/ })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Ana Ruiz ha cancelado .+10:30/ })).toBeInTheDocument();
+    expect(screen.queryByText('No hay avisos')).not.toBeInTheDocument();
   });
 });

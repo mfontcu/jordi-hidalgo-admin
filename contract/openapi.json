@@ -70,18 +70,7 @@
                 },
                 "type": "object"
             },
-            "dto.AdminActivityListResponse": {
-                "properties": {
-                    "items": {
-                        "items": {
-                            "$ref": "#/components/schemas/dto.AdminActivityResponse"
-                        },
-                        "type": "array"
-                    }
-                },
-                "type": "object"
-            },
-            "dto.AdminActivityResponse": {
+            "dto.AdminActivityListItem": {
                 "properties": {
                     "announce": {
                         "type": "boolean"
@@ -94,6 +83,20 @@
                     },
                     "payload": {
                         "$ref": "#/components/schemas/domain.AdminActivityPayload"
+                    },
+                    "read": {
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "dto.AdminActivityListResponse": {
+                "properties": {
+                    "items": {
+                        "items": {
+                            "$ref": "#/components/schemas/dto.AdminActivityListItem"
+                        },
+                        "type": "array"
                     }
                 },
                 "type": "object"
@@ -2834,7 +2837,7 @@
     "paths": {
         "/admin/activity": {
             "get": {
-                "description": "Devuelve las filas anunciadas que este administrador no ha leído, las más antiguas primero, hasta 100. Otro administrador tiene las suyas.",
+                "description": "Devuelve las 100 filas anunciadas más nuevas, de más nueva a más antigua. Cada fila dice si este administrador ya la ha leído. Otro administrador tiene las suyas.",
                 "operationId": "adminListActivity",
                 "parameters": [
                     {
@@ -2904,7 +2907,7 @@
                         "BearerAuth": []
                     }
                 ],
-                "summary": "Avisos no leídos",
+                "summary": "Avisos recientes",
                 "tags": [
                     "admin-activity"
                 ]

@@ -28,7 +28,7 @@ type ActivityBellProps = {
   compact?: boolean;
 };
 
-/** Unread customer notices. Opening the list does not mark them. */
+/** Recent customer notices, newest first. Opening the list does not mark them. A read notice stays in place. */
 export function ActivityBell({ placement, compact = false }: ActivityBellProps) {
   const intl = useIntl();
   const describe = useDescribeFailure();
@@ -38,10 +38,11 @@ export function ActivityBell({ placement, compact = false }: ActivityBellProps) 
     showErrorToast(describe(error, 'activityMarkFailed'));
   });
 
-  const countLabel = intl.formatMessage({ id: 'activityBellCount' }, { count: bell.items.length });
+  const unreadCount = bell.items.filter((item) => !item.read).length;
+  const countLabel = intl.formatMessage({ id: 'activityBellCount' }, { count: unreadCount });
   const overflow = intl.formatMessage({ id: 'activityBellOverflow' });
-  const badge = activityBadge(bell.items.length, overflow);
-  const chosen = selected.filter((id) => bell.items.some((item) => item.id === id));
+  const badge = activityBadge(unreadCount, overflow);
+  const chosen = selected.filter((id) => bell.items.some((item) => item.id === id && !item.read));
 
   const trigger = (
     <Button
@@ -91,7 +92,7 @@ export function ActivityBell({ placement, compact = false }: ActivityBellProps) 
           <Button
             variant="text"
             className="min-h-0 flex-1 px-2 py-2 text-label"
-            disabled={bell.items.length === 0}
+            disabled={unreadCount === 0}
             onClick={() => {
               bell.markAll();
               setSelected([]);
@@ -119,6 +120,7 @@ export function ActivityBell({ placement, compact = false }: ActivityBellProps) 
                 key={item.id}
                 item={item}
                 serviceName={bell.serviceName(item.payload.serviceId)}
+                read={item.read}
                 selected={chosen.includes(item.id)}
                 onSelect={(checked) => {
                   setSelected((current) =>
@@ -144,6 +146,7 @@ export function ActivityBell({ placement, compact = false }: ActivityBellProps) 
 function ActivityRow({
   item,
   serviceName,
+  read,
   selected,
   onSelect,
   onOpen,
@@ -151,6 +154,7 @@ function ActivityRow({
 }: {
   item: ActivityItem;
   serviceName: string | null;
+  read: boolean;
   selected: boolean;
   onSelect: (checked: boolean) => void;
   onOpen: () => void;
@@ -160,30 +164,34 @@ function ActivityRow({
   const trimmed = item.payload.customerName?.trim() ?? '';
   const name = trimmed.length > 0 ? trimmed : intl.formatMessage({ id: 'activityUnknownName' });
   return (
-    <li className="flex items-start gap-1">
+    <li className="flex items-center gap-1">
       <Checkbox
         checked={selected}
+        disabled={read}
         aria-label={intl.formatMessage({ id: 'activitySelect' }, { name })}
         onCheckedChange={(checked) => {
           onSelect(checked === true);
         }}
-        className="mt-2"
       />
       <Button
         variant="text"
-        className="h-auto min-h-0 flex-1 whitespace-normal px-2 py-2 text-left text-body font-normal"
+        className={cn(
+          'h-auto min-h-0 flex-1 whitespace-normal px-2 py-2 text-left text-body font-normal',
+          read && 'text-muted-foreground',
+        )}
         onClick={onOpen}
       >
-        <ActivitySentence item={item} serviceName={serviceName} />
+        <ActivitySentence item={item} serviceName={serviceName} read={read} />
       </Button>
-      <Button
-        variant="icon"
-        aria-label={intl.formatMessage({ id: 'activityMarkOne' }, { name })}
-        onClick={onMark}
-        className="mt-1"
-      >
-        <Icon name="check_rounded" size={18} />
-      </Button>
+      {read ? null : (
+        <Button
+          variant="icon"
+          aria-label={intl.formatMessage({ id: 'activityMarkOne' }, { name })}
+          onClick={onMark}
+        >
+          <Icon name="check_rounded" size={18} />
+        </Button>
+      )}
     </li>
   );
 }

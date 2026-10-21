@@ -1185,7 +1185,7 @@
   "activityBellLabel": "Avisos",
   "activityBellCount": "{count, plural, =0 {Avisos} one {Avisos, # sin leer} other {Avisos, # sin leer}}",
   "activityBellOverflow": "9+",
-  "activityBellEmpty": "No hay avisos sin leer",
+  "activityBellEmpty": "No hay avisos",
   "activityMarkSelected": "Marcar seleccionados",
   "activityMarkAll": "Marcar todos",
   "activityMarkOne": "Marcar como leído el aviso de {name}",

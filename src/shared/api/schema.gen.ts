@@ -12,8 +12,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Avisos no leídos
-         * @description Devuelve las filas anunciadas que este administrador no ha leído, las más antiguas primero, hasta 100. Otro administrador tiene las suyas.
+         * Avisos recientes
+         * @description Devuelve las 100 filas anunciadas más nuevas, de más nueva a más antigua. Cada fila dice si este administrador ya la ha leído. Otro administrador tiene las suyas.
          */
         get: operations["adminListActivity"];
         put?: never;
@@ -2073,14 +2073,15 @@ export interface components {
              */
             locale?: "es" | "ca" | "en";
         };
-        "dto.AdminActivityListResponse": {
-            items?: components["schemas"]["dto.AdminActivityResponse"][];
-        };
-        "dto.AdminActivityResponse": {
+        "dto.AdminActivityListItem": {
             announce?: boolean;
             id?: number;
             kind?: string;
             payload?: components["schemas"]["domain.AdminActivityPayload"];
+            read?: boolean;
+        };
+        "dto.AdminActivityListResponse": {
+            items?: components["schemas"]["dto.AdminActivityListItem"][];
         };
         "dto.AdminAppointmentListResponse": {
             items?: components["schemas"]["dto.AdminAppointmentResponse"][];

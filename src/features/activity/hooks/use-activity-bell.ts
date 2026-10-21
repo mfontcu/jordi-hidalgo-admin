@@ -3,15 +3,16 @@ import { useNavigate } from '@tanstack/react-router';
 import { useEffect, useRef } from 'react';
 
 import { type MarkActivityReadBody, markActivityRead } from '../api/activity.mutations';
-import { unreadActivityQueryOptions } from '../api/activity.queries';
+import { recentActivityQueryOptions } from '../api/activity.queries';
 import { serviceNameFromCache } from '../api/service-catalog';
 import { destination } from '../model/destination';
 import type { ActivityItem } from '../model/refresh';
 import { openActivityDestination } from './open-activity';
 
 /**
- * The unread list for the bell. Marking one, the selection, or all of them calls
- * `POST /admin/activity/read`. Opening a row marks that id and navigates. The toast does not.
+ * The recent list for the bell. Marking one, the selection, or all of them calls
+ * `POST /admin/activity/read` and leaves the row in place. Opening a row marks that id and navigates.
+ * The toast does not.
  */
 export function useActivityBell(onMarkError: (error: unknown) => void) {
   const queryClient = useQueryClient();
@@ -20,7 +21,7 @@ export function useActivityBell(onMarkError: (error: unknown) => void) {
   useEffect(() => {
     onError.current = onMarkError;
   });
-  const list = useQuery(unreadActivityQueryOptions());
+  const list = useQuery(recentActivityQueryOptions());
   const mark = useMutation({
     mutationFn: (body: MarkActivityReadBody) => markActivityRead(queryClient, body),
     onError: (error) => {

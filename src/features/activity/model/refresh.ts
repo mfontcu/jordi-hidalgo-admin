@@ -108,10 +108,11 @@ function text(value: string | undefined): string | undefined {
   return trimmed.length > 0 ? trimmed : undefined;
 }
 
-/** One notice the bell and the toast share. The payload stays untranslated. */
+/** One notice the bell and the toast share. The payload stays untranslated. `read` is this administrator's mark. */
 export type ActivityItem = {
   id: number;
   kind: string;
   announce: boolean;
+  read: boolean;
   payload: ActivityPayload;
 };

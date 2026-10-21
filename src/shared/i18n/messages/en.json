@@ -1185,7 +1185,7 @@
   "activityBellLabel": "Notices",
   "activityBellCount": "{count, plural, =0 {Notices} one {Notices, # unread} other {Notices, # unread}}",
   "activityBellOverflow": "9+",
-  "activityBellEmpty": "No unread notices",
+  "activityBellEmpty": "No notices",
   "activityMarkSelected": "Mark selected",
   "activityMarkAll": "Mark all",
   "activityMarkOne": "Mark {name}'s notice as read",
