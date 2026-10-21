@@ -12,10 +12,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-13T11:48:34Z'
+  at: '2026-10-21T05:50:00Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-13T15:10:00Z'
+    at: '2026-10-21T05:56:00Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -130,6 +130,22 @@ The signed-in layout is `src/routes/_authed.tsx`.
 
 There is no second session check on each navigation. The backend rejects a call the role cannot
 make. A 401 refreshes once; a rejected refresh or a blocked user expires the session.
+
+## Live notices
+
+The signed-in shell shows a bell (`ActivityBell` in `src/features/activity`). From 768px it
+floats at the top right of the page content, outside the sidebar. The mobile header keeps it on
+the right. It is not a
+route and it does not change the highlighted section. The count is the unread announced events for
+this administrator. Above 9 the badge reads 9+. Opening the list marks nothing. The newest row is first. A timed notice says whether that time is
+today, tomorrow, or another day. Each row shows the
+kind's icon and puts that kind's word in bold, in the success, warning, or danger color. Marking
+one row, the selection, or every row writes that choice. A row that has a place marks that event
+and navigates with the router, so a form with unsaved changes asks before leaving. A toast uses
+the same navigation and does not mark the event. On a wide window it sits at the bottom right of
+the content, about 360px wide. Events from a reconnect do not toast. The stream and the read
+calls are in the
+[backend API consumption reference](./contracts/backend-api.md#live-activity).
 
 ## Responsive layout
 

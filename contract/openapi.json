@@ -1,6 +1,44 @@
 {
     "components": {
         "schemas": {
+            "domain.AdminActivityPayload": {
+                "properties": {
+                    "appointmentPublicId": {
+                        "type": "string"
+                    },
+                    "blockedSlotId": {
+                        "type": "string"
+                    },
+                    "businessDay": {
+                        "type": "string"
+                    },
+                    "channel": {
+                        "type": "string"
+                    },
+                    "customerName": {
+                        "type": "string"
+                    },
+                    "nextStart": {
+                        "type": "string"
+                    },
+                    "previousStart": {
+                        "type": "string"
+                    },
+                    "recurringRuleId": {
+                        "type": "string"
+                    },
+                    "serviceId": {
+                        "type": "string"
+                    },
+                    "slotWatchId": {
+                        "type": "string"
+                    },
+                    "userId": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "dto.AccountActivationConfirmRequest": {
                 "properties": {
                     "code": {
@@ -28,6 +66,34 @@
                         ],
                         "example": "es",
                         "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "dto.AdminActivityListResponse": {
+                "properties": {
+                    "items": {
+                        "items": {
+                            "$ref": "#/components/schemas/dto.AdminActivityResponse"
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            },
+            "dto.AdminActivityResponse": {
+                "properties": {
+                    "announce": {
+                        "type": "boolean"
+                    },
+                    "id": {
+                        "type": "integer"
+                    },
+                    "kind": {
+                        "type": "string"
+                    },
+                    "payload": {
+                        "$ref": "#/components/schemas/domain.AdminActivityPayload"
                     }
                 },
                 "type": "object"
@@ -1985,6 +2051,20 @@
                 },
                 "type": "object"
             },
+            "dto.MarkAdminActivityReadRequest": {
+                "properties": {
+                    "all": {
+                        "type": "boolean"
+                    },
+                    "ids": {
+                        "items": {
+                            "type": "integer"
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            },
             "dto.NextAppointmentResponse": {
                 "properties": {
                     "appointment": {
@@ -2752,6 +2832,251 @@
     },
     "openapi": "3.0.3",
     "paths": {
+        "/admin/activity": {
+            "get": {
+                "description": "Devuelve las filas anunciadas que este administrador no ha leído, las más antiguas primero, hasta 100. Otro administrador tiene las suyas.",
+                "operationId": "adminListActivity",
+                "parameters": [
+                    {
+                        "description": "Debe ser true",
+                        "in": "query",
+                        "name": "announce",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/dto.AdminActivityListResponse"
+                                }
+                            }
+                        },
+                        "description": "OK"
+                    },
+                    "400": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "announce=true is required"
+                    },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
+                    "403": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "forbidden"
+                    },
+                    "500": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "internal error"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "summary": "Avisos no leídos",
+                "tags": [
+                    "admin-activity"
+                ]
+            }
+        },
+        "/admin/activity/read": {
+            "post": {
+                "description": "Con ids marca esos. Con un solo id, marca uno. Con all true marca todas las anunciadas no leídas de este administrador. Un id ya leído, uno que no existe o uno con announce falso no cambia el resultado y no devuelve error. La lectura de otro administrador no se toca. Si all es true, ignora ids.",
+                "operationId": "adminMarkActivityRead",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/dto.MarkAdminActivityReadRequest"
+                            }
+                        }
+                    },
+                    "description": "ids o all",
+                    "required": true,
+                    "x-originalParamName": "body"
+                },
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "invalid body"
+                    },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
+                    "403": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "forbidden"
+                    },
+                    "500": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "internal error"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "summary": "Marcar avisos como leídos",
+                "tags": [
+                    "admin-activity"
+                ]
+            }
+        },
+        "/admin/activity/stream": {
+            "get": {
+                "description": "Server-Sent Events. Al conectar lee Last-Event-ID o, si no viene, el query after, y escribe cada fila que falta como evento activity (id, kind, announce, payload). Si hay más de 100 filas entre el cursor y el presente, escribe un evento reset con el id más alto y no retransmite el hueco. Después se queda enganchado al hub del proceso. Cada 15 segundos escribe un comentario `: ping`.",
+                "operationId": "adminStreamActivity",
+                "parameters": [
+                    {
+                        "description": "Cursor. Si viene, gana sobre after",
+                        "in": "header",
+                        "name": "Last-Event-ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Cursor cuando no hay Last-Event-ID",
+                        "in": "query",
+                        "name": "after",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/event-stream": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "Flujo SSE"
+                    },
+                    "400": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "invalid activity cursor"
+                    },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
+                    "403": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "forbidden"
+                    },
+                    "500": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "internal error"
+                    },
+                    "503": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "admin activity hub is closed"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "summary": "Canal de avisos en vivo",
+                "tags": [
+                    "admin-activity"
+                ]
+            }
+        },
         "/admin/appointments": {
             "get": {
                 "description": "Devuelve el listado paginado de citas con filtros por estado, texto y rango de fechas.",
@@ -11656,6 +11981,10 @@
         {
             "description": "Administración: demanda de avisos de hueco.",
             "name": "admin-slot-watches"
+        },
+        {
+            "description": "Administración: avisos en vivo del panel y su marca de leído.",
+            "name": "admin-activity"
         },
         {
             "description": "Administración: información del negocio.",

@@ -15,6 +15,55 @@ const refreshResponseSchema = z.object({
 
 type RefreshResult = 'success' | 'rejected' | 'transient';
 
+let refreshing: Promise<RefreshResult> | null = null;
+
+async function performRefresh(baseUrl: string, fetchImpl: typeof fetch): Promise<RefreshResult> {
+  const { refreshToken } = useSessionStore.getState();
+  if (!refreshToken) {
+    expireSession();
+    return 'rejected';
+  }
+  try {
+    const response = await fetchImpl(
+      new Request(`${baseUrl}/auth/refresh`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ refreshToken }),
+        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+      }),
+    );
+    if (response.status === 401 || response.status === 403) {
+      expireSession();
+      return 'rejected';
+    }
+    if (!response.ok) return 'transient';
+
+    const tokens = refreshResponseSchema.safeParse(await response.json().catch(() => null));
+    if (!tokens.success) {
+      expireSession();
+      return 'rejected';
+    }
+    session.setTokens(tokens.data);
+    return 'success';
+  } catch {
+    return 'transient';
+  }
+}
+
+/**
+ * One shared `POST /auth/refresh`. The HTTP middleware and the activity stream both call it, so a
+ * 401 on either side refreshes once and the other side reuses the new token.
+ */
+export function refreshAccessToken(
+  baseUrl: string,
+  fetchImpl: typeof fetch = globalThis.fetch,
+): Promise<RefreshResult> {
+  refreshing ??= performRefresh(baseUrl, fetchImpl).finally(() => {
+    refreshing = null;
+  });
+  return refreshing;
+}
+
 function bearer(token: string) {
   return `Bearer ${token}`;
 }
@@ -46,47 +95,6 @@ async function isBlockedUserResponse(response: Response): Promise<boolean> {
 export function sessionMiddleware(baseUrl: string): Middleware {
   // Copies of the outgoing requests, to retry them: the originals' bodies are consumed by then.
   const pending = new Map<string, Request>();
-  let refreshing: Promise<RefreshResult> | null = null;
-
-  async function performRefresh(fetchImpl: typeof fetch): Promise<RefreshResult> {
-    const { refreshToken } = useSessionStore.getState();
-    if (!refreshToken) {
-      expireSession();
-      return 'rejected';
-    }
-    try {
-      const response = await fetchImpl(
-        new Request(`${baseUrl}/auth/refresh`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({ refreshToken }),
-          signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-        }),
-      );
-      if (response.status === 401 || response.status === 403) {
-        expireSession();
-        return 'rejected';
-      }
-      if (!response.ok) return 'transient';
-
-      const tokens = refreshResponseSchema.safeParse(await response.json().catch(() => null));
-      if (!tokens.success) {
-        expireSession();
-        return 'rejected';
-      }
-      session.setTokens(tokens.data);
-      return 'success';
-    } catch {
-      return 'transient';
-    }
-  }
-
-  function refreshOnce(fetchImpl: typeof fetch): Promise<RefreshResult> {
-    refreshing ??= performRefresh(fetchImpl).finally(() => {
-      refreshing = null;
-    });
-    return refreshing;
-  }
 
   async function retry(original: Request, fetchImpl: typeof fetch): Promise<Response> {
     const accessToken = useSessionStore.getState().accessToken ?? '';
@@ -124,7 +132,7 @@ export function sessionMiddleware(baseUrl: string): Middleware {
         const result =
           current !== null && sent !== null && current !== sent
             ? 'success'
-            : await refreshOnce(options.fetch);
+            : await refreshAccessToken(baseUrl, options.fetch);
 
         if (result === 'rejected') return undefined;
         if (result === 'transient') throw new ApiException({ kind: 'network' });
