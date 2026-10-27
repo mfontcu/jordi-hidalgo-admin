@@ -13,10 +13,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-21T06:44:15Z'
+  at: '2026-10-27T07:02:08Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-21T07:01:37Z'
+    at: '2026-10-27T07:15:24Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -48,6 +48,11 @@ validation or conflict toast includes the backend's text when the body has one.
 | `conflict`     | 409                                                          |
 | `rateLimited`  | 429                                                          |
 | `server`       | 5xx, or any other status                                     |
+
+One 409 is read as JSON instead: a status change that would set a cancelled appointment back to
+pending or confirmed when its slot is taken (`dto.AdminSlotConflictResponse`). The status mutation
+turns its `conflict` into a `SlotTakenError`, and the detail shows which appointment, customer, and
+service take the time, or until when a waiting customer holds it.
 
 ## Session
 
@@ -102,7 +107,7 @@ nginx image allows that origin in `connect-src` (`deploy/security-headers.conf.t
 | `GET /admin/appointments/{appointmentID}/customer-push-messages` | Detail and day agenda                                                                                                                                             |
 | `POST /admin/appointments`                                       | Create                                                                                                                                                            |
 | `PATCH /admin/appointments/{appointmentID}/reschedule`           | Reschedule                                                                                                                                                        |
-| `PATCH /admin/appointments/{appointmentID}/status`               | Complete and no-show, including bulk                                                                                                                              |
+| `PATCH /admin/appointments/{appointmentID}/status`               | Complete and no-show, including bulk; the detail's status change, also on a closed appointment (a slot conflict is a JSON 409)                                     |
 | `PATCH /admin/appointments/{appointmentID}/cancel`               | Cancel, including bulk and the conflicts check                                                                                                                    |
 | `POST /admin/appointments/{appointmentID}/customer-push`         | Customer push                                                                                                                                                     |
 | `GET /admin/slot-watches`                                        | Slot-watch list. The salon day is the only server filter                                                                                                          |

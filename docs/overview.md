@@ -17,10 +17,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-21T06:44:15Z'
+  at: '2026-10-27T07:02:08Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-21T07:01:37Z'
+    at: '2026-10-27T07:15:24Z'
 resource: /engineering/apps/hidalgo-admin
 service_status: active
 tier: 1
@@ -195,13 +195,21 @@ a label and a tone, and decides which actions it offers.
 | --------------- | ------------------------------------------- | --------------------------------------------------------------------------------------------------- |
 | `pending`       | warning                                     | change status, cancel, reschedule, bulk select; complete and no-show once the start time has passed |
 | `confirmed`     | info                                        | same as `pending`                                                                                   |
-| `completed`     | success                                     | none                                                                                                |
-| `cancelled`     | danger                                      | none                                                                                                |
-| `no_show`       | neutral, strong                             | none                                                                                                |
+| `completed`     | success                                     | correct the status from the detail (see below)                                                      |
+| `cancelled`     | danger                                      | correct the status from the detail (see below)                                                      |
+| `no_show`       | neutral, strong                             | correct the status from the detail (see below)                                                      |
 | `rescheduled`   | muted                                       | none                                                                                                |
 | any other value | neutral, strong; the raw value as the label | none of the status actions                                                                          |
 
 `booked` is not folded into `confirmed`. It is shown as an unknown value.
+
+A closed appointment (`completed`, `cancelled`, `no_show`) has no reschedule or cancel button, but its
+detail still offers the status change, so staff can correct a mistake: every other status staff can
+set, with completed and no-show only once the start has passed (`statusTargetsOf`,
+`isCorrectableStatus`). A `rescheduled` revision belongs to a chain and offers none. Setting a
+cancelled future appointment back to pending or confirmed can be refused when its slot is taken; the
+toast then names the appointment in the way (customer, service, time) or says until when a
+waiting customer holds the slot.
 
 **Slot-watch status** (`src/features/slot-watches/model/slot-watch.ts`): `active` and `held` are
 open and listed. Staff can filter by either and cancel any open watch. A watch with a linked

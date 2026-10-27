@@ -14,11 +14,14 @@ import {
 import {
   canReschedule,
   canSendCustomerPush,
+  isCorrectableStatus,
   isFinalStatus,
   pushBodyOf,
-  rowActionsOf,
   showsRescheduleChain,
+  statusTargetsOf,
+  SlotTakenError,
   type AppointmentDetail,
+  type SlotConflict,
 } from '../model/appointment';
 
 type SuccessMessage =
@@ -40,6 +43,12 @@ type Options = {
   onError: (error: unknown, context: FailureContext) => void;
   onTooEarly: (message: TooEarlyMessage) => void;
   onPushSpecial: (message: PushSpecial, phone: string) => void;
+  /** A cancelled appointment could not go back to `target`: `conflict` takes its slot. */
+  onSlotTaken: (
+    appointment: AppointmentDetail,
+    conflict: SlotConflict,
+    target: 'pending' | 'confirmed',
+  ) => void;
 };
 
 type StatusTarget = 'completed' | 'no_show' | 'pending' | 'confirmed';
@@ -48,7 +57,13 @@ type StatusTarget = 'completed' | 'no_show' | 'pending' | 'confirmed';
  * Appointment detail: status actions, cancel, reschedule entry, push composer and history, and the
  * reschedule chain when the appointment was moved before.
  */
-export function useAppointmentDetail({ onSuccess, onError, onTooEarly, onPushSpecial }: Options) {
+export function useAppointmentDetail({
+  onSuccess,
+  onError,
+  onTooEarly,
+  onPushSpecial,
+  onSlotTaken,
+}: Options) {
   const { appointmentId } = useParams({ from: '/_authed/appointments/$appointmentId/' });
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -76,7 +91,11 @@ export function useAppointmentDetail({ onSuccess, onError, onTooEarly, onPushSpe
       else if (status === 'no_show') onSuccess('appointmentNoShowSnackbar');
       else onSuccess('appointmentStatusUpdatedSnackbar');
     },
-    onError: (error, { status }) => {
+    onError: (error, { item, status }) => {
+      if (error instanceof SlotTakenError && (status === 'pending' || status === 'confirmed')) {
+        onSlotTaken(item, error.conflict, status);
+        return;
+      }
       onError(error, status === 'completed' ? 'appointmentCompleteFailed' : 'appointmentStatusUpdateFailed');
     },
   });
@@ -116,7 +135,7 @@ export function useAppointmentDetail({ onSuccess, onError, onTooEarly, onPushSpe
 
   const applyStatus = (status: StatusTarget) => {
     if (!appointment) return;
-    if ((status === 'completed' || status === 'no_show') && !rowActionsOf(appointment).completeOrNoShow) {
+    if ((status === 'completed' || status === 'no_show') && !statusTargetsOf(appointment).includes(status)) {
       onTooEarly('appointmentStatusChangeBeforeStartError');
       return;
     }
@@ -133,6 +152,8 @@ export function useAppointmentDetail({ onSuccess, onError, onTooEarly, onPushSpe
     },
     goBack,
     isFinal: appointment ? isFinalStatus(appointment.status) : true,
+    canCorrectStatus: appointment ? isCorrectableStatus(appointment.status) : false,
+    statusTargets: appointment ? statusTargetsOf(appointment) : [],
     canReschedule: canReschedule(userId),
     canPush: canSendCustomerPush(userId),
     client,

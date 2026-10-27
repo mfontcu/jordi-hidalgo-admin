@@ -1164,6 +1164,48 @@
                 },
                 "type": "object"
             },
+            "dto.AdminSlotConflictDetail": {
+                "properties": {
+                    "appointmentId": {
+                        "type": "string"
+                    },
+                    "customerName": {
+                        "type": "string"
+                    },
+                    "end": {
+                        "type": "string"
+                    },
+                    "holdExpiresAt": {
+                        "type": "string"
+                    },
+                    "kind": {
+                        "enum": [
+                            "appointment",
+                            "hold"
+                        ],
+                        "type": "string"
+                    },
+                    "serviceName": {
+                        "type": "string"
+                    },
+                    "start": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "dto.AdminSlotConflictResponse": {
+                "properties": {
+                    "conflict": {
+                        "$ref": "#/components/schemas/dto.AdminSlotConflictDetail"
+                    },
+                    "error": {
+                        "example": "appointment slot unavailable",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "dto.AdminUpdateAppointmentStatusRequest": {
                 "properties": {
                     "cancellationReason": {
@@ -3863,7 +3905,7 @@
                                 }
                             }
                         },
-                        "description": "invalid body / cancellation reason too long: 500"
+                        "description": "invalid body / appointment invalid status / appointment cannot be marked completed or no-show before its start time / cancellation reason too long: 500"
                     },
                     "403": {
                         "content": {
@@ -3884,6 +3926,16 @@
                             }
                         },
                         "description": "appointment not found"
+                    },
+                    "409": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/dto.AdminSlotConflictResponse"
+                                }
+                            }
+                        },
+                        "description": "reactivating a cancelled appointment whose slot is taken"
                     },
                     "500": {
                         "content": {
@@ -9960,7 +10012,7 @@
         },
         "/users/me/appointments": {
             "get": {
-                "description": "Devuelve el listado paginado de citas del usuario autenticado. El idioma de los textos puede resolverse mediante el query param `locale` o la cabecera `Accept-Language`. Use `status` para filtrar (pending|confirmed|cancelled|completed|no_show), `limit` (1-100, default 20) y `cursor` devuelto en la respuesta anterior.",
+                "description": "Devuelve el listado paginado de citas del usuario autenticado. El orden es por estado (pending, confirmed, completed, no_show, cancelled). Las pendientes y las confirmadas van de la cita más próxima a la más lejana; completadas, no presentadas y canceladas, de la cita más reciente a la más antigua. El idioma de los textos puede resolverse mediante el query param `locale` o la cabecera `Accept-Language`. Use `status` para filtrar (pending|confirmed|cancelled|completed|no_show), `limit` (1-100, default 20) y `cursor` devuelto en la respuesta anterior.",
                 "operationId": "listMyAppointments",
                 "parameters": [
                     {
