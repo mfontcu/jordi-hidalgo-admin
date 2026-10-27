@@ -1,0 +1,17 @@
+# Hidalgo Junior admin panel
+
+> Reading order of the Hidalgo Junior React admin panel documentation.
+
+## Documentation
+
+- [Card](./docs/overview.md): Staff web panel for the Hidalgo Junior salon, rebuilt as a React single-page app: appointments, schedule, customers, staff accounts, services, slot watches, and business content.
+- [Navigation map](./docs/navigation.md): Every route, screen, guard, search parameter, and screen transition of the Hidalgo Junior React staff panel.
+- [Flows](./docs/flows/index.md): Index of the component-internal flows of the Hidalgo Junior React admin panel.
+- [Backend API consumption](./docs/contracts/backend-api.md): Every backend REST operation the Hidalgo Junior React admin panel calls, which screen calls it, and how the panel reacts when it fails.
+- [Operations](./docs/operations.md): Build configuration, deployment, rollback, observability, and the common failures of the Hidalgo Junior React staff panel, with how to diagnose and fix them.
+- [Coverage matrix](./docs/coverage-matrix.md): Maps every enumerated item of the Hidalgo Junior React admin panel to the section that documents it.
+- [Design system](./docs/design-system.md): Visual system of the Hidalgo Junior React admin panel: tokens, type, layout, and component anatomy.
+
+## Optional
+
+- [knowledge-base-hub](https://github.com/mfontcucom/knowledge-base-hub): Knowledge base for these projects

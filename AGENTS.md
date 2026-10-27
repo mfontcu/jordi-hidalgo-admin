@@ -14,6 +14,17 @@ Panel de administración de **Hidalgo Junior** en React + TypeScript. Sustituye 
 - `jordi_hidalgo_app` — Flutter (`customer_app`)
 - `jordi_hidalgo_web` — Web pública
 
+## Issues
+
+Los defectos conocidos de todo el proyecto viven en un único backlog del hub: `/engineering/known-issues/hidalgo-junior` (`../knowledge-base-hub/docs/hidalgo-junior/known-issues.md`). Una issue nueva se añade allí, nunca en `docs/` de este repo. Para abordar una, sigue la sección «Workflow» de ese documento, sin saltarte ningún paso:
+
+1. Explicación funcional, para alguien no técnico; el dueño acepta o declina.
+2. Análisis técnico; el dueño lo aprueba o lo rechaza.
+3. Implementación en `issue/<id>-<slug>`, creada desde `main` (el mismo nombre en cada repo que toque, hub incluido).
+4. Opcional: varias issues juntas en la rama intermedia `release/issues`, que va a `staging` y luego a `main`. Al llegar a `main` se borra, y se ofrece crear otra.
+5. Nada se mergea a `staging` ni a `main` con documentos en `draft`: el dueño los pasa antes a `stable`.
+6. Al llegar a `main`, la issue queda cerrada (✅ en el backlog) sin más confirmación. Luego se proponen varias issues pendientes y, elegida una, se da el prompt para empezarla en una sesión nueva.
+
 ## Capas (ADR-003 §2 y §4)
 
 ```
