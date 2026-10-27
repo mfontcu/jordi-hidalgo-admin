@@ -8,6 +8,7 @@ import type {
   AppointmentSummary,
   CustomerPushMessage,
   RescheduleChainEntry,
+  SlotConflict,
   TimeSlot,
 } from '../model/appointment';
 
@@ -18,6 +19,7 @@ type PushDto = components['schemas']['dto.AdminCustomerPushResponse'];
 type ChainEntryDto = components['schemas']['dto.AdminAppointmentRescheduleChainEntryResponse'];
 type SlotDto = components['schemas']['dto.TimeSlotResponse'];
 type DateDto = components['schemas']['dto.AvailableDateResponse'];
+type SlotConflictDto = components['schemas']['dto.AdminSlotConflictResponse'];
 
 export function toAppointmentItem(dto: AppointmentDto): AppointmentItem {
   const userId = dto.userId?.trim() ?? '';
@@ -127,4 +129,26 @@ export function toTimeSlot(dto: SlotDto): TimeSlot {
 
 export function toAvailableDate(dto: DateDto): string {
   return dto.date ?? '';
+}
+
+/** The `conflict` of a 409 status change; null when the body does not carry one. */
+export function toSlotConflict(body: unknown): SlotConflict | null {
+  if (!body || typeof body !== 'object') return null;
+  const conflict = (body as SlotConflictDto).conflict;
+  const start = conflict?.start ?? '';
+  const end = conflict?.end ?? '';
+  if (!conflict || start === '' || end === '') return null;
+  if (conflict.kind === 'hold') {
+    return { kind: 'hold', start, end, holdExpiresAt: conflict.holdExpiresAt ?? '' };
+  }
+  if (conflict.kind === 'appointment') {
+    return {
+      kind: 'appointment',
+      start,
+      end,
+      customerName: conflict.customerName?.trim() ?? '',
+      serviceName: conflict.serviceName?.trim() ?? '',
+    };
+  }
+  return null;
 }

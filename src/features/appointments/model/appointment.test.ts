@@ -7,10 +7,13 @@ import {
   conflictsOf,
   conflictTitleOf,
   isActiveChainEntry,
+  isCorrectableStatus,
   pushBodyOf,
   pushDeliveryLabelOf,
   rangeCancellationOf,
   showsRescheduleChain,
+  slotTakenMessageOf,
+  statusTargetsOf,
   type AppointmentItem,
   isFinalStatus,
   messagePreviewOf,
@@ -137,5 +140,112 @@ describe('appointments in a blocked range', () => {
       internalNotes: 'nota',
       cancellationReason: 'Festivo',
     });
+  });
+});
+
+describe('status correction', () => {
+  const future = '2026-10-12T10:00:00Z';
+  const past = '2026-10-12T08:00:00Z';
+
+  it('lets staff correct completed, cancelled, and no-show, not a rescheduled revision', () => {
+    for (const status of ['completed', 'Cancelled', 'no_show'])
+      expect(isCorrectableStatus(status)).toBe(true);
+    for (const status of ['pending', 'confirmed', 'rescheduled', 'booked'])
+      expect(isCorrectableStatus(status)).toBe(false);
+  });
+
+  it('offers every other settable status once the appointment has started', () => {
+    expect(statusTargetsOf({ status: 'cancelled', start: past }, now)).toEqual([
+      'pending',
+      'confirmed',
+      'completed',
+      'no_show',
+    ]);
+    expect(statusTargetsOf({ status: 'no_show', start: past }, now)).toEqual([
+      'pending',
+      'confirmed',
+      'completed',
+      'cancelled',
+    ]);
+  });
+
+  it('offers neither completed nor no-show before the start', () => {
+    expect(statusTargetsOf({ status: 'cancelled', start: future }, now)).toEqual(['pending', 'confirmed']);
+    expect(statusTargetsOf({ status: 'pending', start: future }, now)).toEqual(['confirmed', 'cancelled']);
+  });
+
+  it('offers nothing for a rescheduled revision', () => {
+    expect(statusTargetsOf({ status: 'rescheduled', start: past }, now)).toEqual([]);
+  });
+});
+
+describe('a reactivation refused because the slot is taken', () => {
+  const appointment = {
+    customerName: ' Ana García ',
+    start: '2026-10-30T09:00:00Z',
+    end: '2026-10-30T09:45:00Z',
+  };
+
+  it('names the appointment in the way', () => {
+    expect(
+      slotTakenMessageOf(
+        appointment,
+        {
+          kind: 'appointment',
+          start: '2026-10-30T09:15:00Z',
+          end: '2026-10-30T09:45:00Z',
+          customerName: 'Luis Pérez',
+          serviceName: 'Corte',
+        },
+        'confirmed',
+        'es',
+      ),
+    ).toEqual({
+      id: 'appointmentReactivateSlotTakenByAppointment',
+      values: {
+        target: 'confirmed',
+        hasCustomer: 'yes',
+        customer: 'Ana García',
+        when: '30 de octubre de 2026 · 10:00–10:45',
+        hasOtherCustomer: 'yes',
+        otherCustomer: 'Luis Pérez',
+        hasOtherService: 'yes',
+        otherService: 'Corte',
+        otherFrom: '10:15',
+        otherTo: '10:45',
+      },
+    });
+  });
+
+  it('drops the names the backend could not read', () => {
+    const { values } = slotTakenMessageOf(
+      { ...appointment, customerName: '' },
+      {
+        kind: 'appointment',
+        start: '2026-10-30T09:15:00Z',
+        end: '2026-10-30T09:45:00Z',
+        customerName: '',
+        serviceName: '',
+      },
+      'pending',
+      'es',
+    );
+    expect(values).toMatchObject({ hasCustomer: 'no', hasOtherCustomer: 'no', hasOtherService: 'no' });
+  });
+
+  it('says until when a waiting customer holds the slot', () => {
+    expect(
+      slotTakenMessageOf(
+        appointment,
+        {
+          kind: 'hold',
+          start: '2026-10-30T09:00:00Z',
+          end: '2026-10-30T09:30:00Z',
+          holdExpiresAt: '2026-10-29T08:12:00Z',
+        },
+        'confirmed',
+        'es',
+      ),
+    ).toMatchObject({ id: 'appointmentReactivateSlotTakenByHold', values: { holdUntil: '09:12' } });
   });
 });

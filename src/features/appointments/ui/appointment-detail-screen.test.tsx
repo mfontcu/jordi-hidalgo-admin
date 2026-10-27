@@ -7,6 +7,7 @@ import { meAs, STAFF_USER, TOKENS } from '@/test/msw/auth';
 import {
   appointmentDetail,
   appointmentDto,
+  appointmentStatusChange,
   customerPushMessages,
   customerPushSend,
 } from '@/test/msw/appointments';
@@ -71,5 +72,66 @@ describe('appointment detail', () => {
 
     expect(await screen.findByText('Push enviado al cliente.')).toBeInTheDocument();
     expect(push.bodies).toEqual([{ body: 'Te esperamos' }]);
+  });
+
+  it('lets staff correct the status of a closed appointment', async () => {
+    server.use(
+      appointmentDetail(appointmentDto({ status: 'cancelled' })),
+      userDetail(clientDto()),
+      customerPushMessages(),
+    );
+    app = renderApp('/appointments/apt-1');
+    const user = userEvent.setup();
+
+    expect(
+      await screen.findByText('Esta cita está cerrada. Si te equivocaste, puedes corregir su estado.'),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Reprogramar cita' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Cancelar cita' })).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Cambiar estado' }));
+    const options = ['Pendiente', 'Confirmada', 'Completada', 'No presentado'];
+    for (const name of options) expect(await screen.findByRole('button', { name })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Cancelada' })).not.toBeInTheDocument();
+  });
+
+  it('says what takes the slot when a reactivation is refused', async () => {
+    const change = appointmentStatusChange('apt-1', 409, {
+      error: 'appointment slot unavailable',
+      conflict: {
+        kind: 'appointment',
+        start: '2027-03-10T09:15:00Z',
+        end: '2027-03-10T09:45:00Z',
+        appointmentId: 'apt-2',
+        customerName: 'Luis Pérez',
+        serviceName: 'Corte',
+      },
+    });
+    server.use(
+      appointmentDetail(
+        appointmentDto({
+          status: 'cancelled',
+          appointmentStart: '2027-03-10T09:00:00Z',
+          appointmentEnd: '2027-03-10T09:30:00Z',
+        }),
+      ),
+      userDetail(clientDto()),
+      customerPushMessages(),
+      change.handler,
+    );
+    app = renderApp('/appointments/apt-1');
+    const user = userEvent.setup();
+
+    await user.click(await screen.findByRole('button', { name: 'Cambiar estado' }));
+    await user.click(await screen.findByRole('button', { name: 'Confirmada' }));
+
+    expect(
+      await screen.findByText(
+        'No se pudo confirmar la cita de María Pérez (10 de marzo de 2027 · 10:00–10:30). Ese horario ya lo ocupa la cita de Luis Pérez (Corte, 10:15–10:45). Mueve una de las dos a otra hora.',
+      ),
+    ).toBeInTheDocument();
+    expect(change.bodies).toEqual([
+      { status: 'confirmed', internalNotes: 'Pagó por Bizum', cancellationReason: '' },
+    ]);
   });
 });
