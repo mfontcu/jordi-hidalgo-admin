@@ -6,12 +6,13 @@ import {
   bulkCancellationOf,
   cancellationOf,
   rangeCancellationOf,
+  SlotTakenError,
   statusChangeOf,
   type AppointmentItem,
 } from '../model/appointment';
 import type { CreateAppointmentInput } from '../model/appointment-form';
 import { appointmentsKeys } from './appointments.keys';
-import { toAppointmentDetail, toCustomerPushMessage } from './appointments.mappers';
+import { toAppointmentDetail, toCustomerPushMessage, toSlotConflict } from './appointments.mappers';
 
 // Writes of the appointments feature. Each one refreshes the lists, where the row changes.
 
@@ -26,21 +27,27 @@ async function invalidateDetail(queryClient: QueryClient, appointmentId: string)
   await invalidateLists(queryClient);
 }
 
-/** `PATCH /admin/appointments/{id}/status`: the internal notes kept. */
+/**
+ * `PATCH /admin/appointments/{id}/status`: the internal notes kept. Reactivating a cancelled
+ * appointment into a taken slot throws a `SlotTakenError` with what takes it.
+ */
 export async function changeAppointmentStatus(
   queryClient: QueryClient,
   item: AppointmentItem,
   status: 'completed' | 'no_show' | 'pending' | 'confirmed',
 ) {
-  unwrap(
-    await apiClient.PATCH('/admin/appointments/{appointmentID}/status', {
-      ...path(item.id),
-      body:
-        status === 'completed' || status === 'no_show'
-          ? statusChangeOf(item, status)
-          : { status, internalNotes: item.internalNotes, cancellationReason: '' },
-    }),
-  );
+  const result = await apiClient.PATCH('/admin/appointments/{appointmentID}/status', {
+    ...path(item.id),
+    body:
+      status === 'completed' || status === 'no_show'
+        ? statusChangeOf(item, status)
+        : { status, internalNotes: item.internalNotes, cancellationReason: '' },
+  });
+  if (result.response.status === 409) {
+    const conflict = toSlotConflict(result.error);
+    if (conflict) throw new SlotTakenError(conflict);
+  }
+  unwrap(result);
   await invalidateDetail(queryClient, item.id);
 }
 

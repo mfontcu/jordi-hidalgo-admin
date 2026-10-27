@@ -97,6 +97,16 @@ export function appointmentReschedule(id = 'apt-1') {
   return { handler, bodies };
 }
 
+/** `PATCH /admin/appointments/{id}/status`, answering `status` with `body`; records the bodies sent. */
+export function appointmentStatusChange(id = 'apt-1', status = 200, body: unknown = appointmentDto()) {
+  const bodies: unknown[] = [];
+  const handler = http.patch(`${API}/admin/appointments/${id}/status`, async ({ request }) => {
+    bodies.push(await request.json());
+    return HttpResponse.json(body as Record<string, unknown>, { status });
+  });
+  return { handler, bodies };
+}
+
 export function customerPushMessages(items: unknown[] = []) {
   return http.get(`${API}/admin/appointments/:id/customer-push-messages`, () => HttpResponse.json({ items }));
 }

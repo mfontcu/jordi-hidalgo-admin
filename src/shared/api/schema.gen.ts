@@ -1642,7 +1642,7 @@ export interface paths {
         };
         /**
          * Obtener mis citas
-         * @description Devuelve el listado paginado de citas del usuario autenticado. El idioma de los textos puede resolverse mediante el query param `locale` o la cabecera `Accept-Language`. Use `status` para filtrar (pending|confirmed|cancelled|completed|no_show), `limit` (1-100, default 20) y `cursor` devuelto en la respuesta anterior.
+         * @description Devuelve el listado paginado de citas del usuario autenticado. El orden es por estado (pending, confirmed, completed, no_show, cancelled). Las pendientes y las confirmadas van de la cita más próxima a la más lejana; completadas, no presentadas y canceladas, de la cita más reciente a la más antigua. El idioma de los textos puede resolverse mediante el query param `locale` o la cabecera `Accept-Language`. Use `status` para filtrar (pending|confirmed|cancelled|completed|no_show), `limit` (1-100, default 20) y `cursor` devuelto en la respuesta anterior.
          */
         get: operations["listMyAppointments"];
         put?: never;
@@ -2449,6 +2449,21 @@ export interface components {
             inactiveServices?: number;
             totalCategories?: number;
             totalServices?: number;
+        };
+        "dto.AdminSlotConflictDetail": {
+            appointmentId?: string;
+            customerName?: string;
+            end?: string;
+            holdExpiresAt?: string;
+            /** @enum {string} */
+            kind?: "appointment" | "hold";
+            serviceName?: string;
+            start?: string;
+        };
+        "dto.AdminSlotConflictResponse": {
+            conflict?: components["schemas"]["dto.AdminSlotConflictDetail"];
+            /** @example appointment slot unavailable */
+            error?: string;
         };
         "dto.AdminUpdateAppointmentStatusRequest": {
             cancellationReason?: string;
@@ -3860,7 +3875,7 @@ export interface operations {
                     "application/json": components["schemas"]["dto.AdminAppointmentResponse"];
                 };
             };
-            /** @description invalid body / cancellation reason too long: 500 */
+            /** @description invalid body / appointment invalid status / appointment cannot be marked completed or no-show before its start time / cancellation reason too long: 500 */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -3885,6 +3900,15 @@ export interface operations {
                 };
                 content: {
                     "text/plain": string;
+                };
+            };
+            /** @description reactivating a cancelled appointment whose slot is taken */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["dto.AdminSlotConflictResponse"];
                 };
             };
             /** @description internal error */

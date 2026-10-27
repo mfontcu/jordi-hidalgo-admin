@@ -34,15 +34,24 @@ import {
   isActiveChainEntry,
   pushBodyOf,
   pushDeliveryLabelOf,
-  rowActionsOf,
+  slotTakenMessageOf,
   statusLabelOf,
   statusToneOf,
   type AppointmentDetail,
   type CustomerPushMessage,
   type RescheduleChainEntry,
+  type StatusTarget,
 } from '../model/appointment';
 
-type StatusPick = 'pending' | 'confirmed' | 'completed' | 'no_show' | 'cancelled';
+type StatusPick = StatusTarget;
+
+const STATUS_OPTIONS = {
+  pending: { icon: 'schedule_outlined', label: 'appointmentStatusPending' },
+  confirmed: { icon: 'check_circle_outline', label: 'appointmentStatusConfirmed' },
+  completed: { icon: 'task_alt_outlined', label: 'appointmentStatusCompleted' },
+  cancelled: { icon: 'cancel_outlined', label: 'appointmentStatusCancelled' },
+  no_show: { icon: 'person_off_outlined', label: 'appointmentStatusNoShow' },
+} as const satisfies Record<StatusTarget, { icon: string; label: MessageId }>;
 type RowDialog = 'complete' | 'noShow' | 'cancel' | 'push';
 
 /** `/appointments/{id}` (AppointmentDetailScreen). */
@@ -62,6 +71,10 @@ export function AppointmentDetailScreen() {
         return;
       }
       showErrorToast(intl.formatMessage({ id: message }));
+    },
+    onSlotTaken: (item, conflict, target) => {
+      const { id, values } = slotTakenMessageOf(item, conflict, target, intl.locale as DateLocale);
+      showErrorToast(intl.formatMessage({ id }, values));
     },
   });
   const [ref, width] = useElementWidth();
@@ -273,43 +286,7 @@ function AppointmentDetailContent({
     </InfoCard>
   );
 
-  const allowComplete = rowActionsOf(appointment).completeOrNoShow;
-  const statusOptions = [
-    {
-      value: 'pending' as const,
-      icon: 'schedule_outlined' as const,
-      label: text('appointmentStatusPending'),
-    },
-    {
-      value: 'confirmed' as const,
-      icon: 'check_circle_outline' as const,
-      label: text('appointmentStatusConfirmed'),
-    },
-    ...(allowComplete
-      ? [
-          {
-            value: 'completed' as const,
-            icon: 'task_alt_outlined' as const,
-            label: text('appointmentStatusCompleted'),
-          },
-        ]
-      : []),
-    {
-      value: 'cancelled' as const,
-      icon: 'cancel_outlined' as const,
-      label: text('appointmentStatusCancelled'),
-    },
-    ...(allowComplete
-      ? [
-          {
-            value: 'no_show' as const,
-            icon: 'person_off_outlined' as const,
-            label: text('appointmentStatusNoShow'),
-          },
-        ]
-      : []),
-  ];
-
+  const statusOptions = detail.statusTargets.map((target) => ({ value: target, ...STATUS_OPTIONS[target] }));
   const applyStatusPick = (pick: StatusPick) => {
     if (pick === appointment.status.trim().toLowerCase()) return;
     if (pick === 'cancelled') {
@@ -328,26 +305,37 @@ function AppointmentDetailContent({
     if (pick === 'confirmed') detail.setConfirmed();
   };
 
+  const statusPicker = (
+    <ActionPicker
+      compact={compactPicker}
+      trigger={
+        <Button variant="secondary" icon="task_alt_outlined" className="w-full">
+          {text('appointmentChangeStatusButton')}
+        </Button>
+      }
+      title={text('appointmentChangeStatusTitle')}
+      subtitle={text('appointmentFilterSubtitle')}
+      options={statusOptions.map(({ value, icon, label }) => ({ value, icon, label: text(label) }))}
+      onPick={applyStatusPick}
+    />
+  );
+
   const actions = (
     <InfoCard title={text('appointmentSectionActions')} icon="bolt_outlined">
-      {detail.isFinal ? (
+      {detail.canCorrectStatus ? (
+        <div className="flex flex-col gap-3">
+          <MutedPanel className="p-4 text-body text-muted-foreground">
+            {text('appointmentClosedStatusCorrectionNotice')}
+          </MutedPanel>
+          {statusPicker}
+        </div>
+      ) : detail.isFinal ? (
         <MutedPanel className="p-4 text-body text-muted-foreground">
           {text('appointmentFinalStatusNotice')}
         </MutedPanel>
       ) : (
         <div className="flex flex-col gap-3">
-          <ActionPicker
-            compact={compactPicker}
-            trigger={
-              <Button variant="secondary" icon="task_alt_outlined" className="w-full">
-                {text('appointmentChangeStatusButton')}
-              </Button>
-            }
-            title={text('appointmentChangeStatusTitle')}
-            subtitle={text('appointmentFilterSubtitle')}
-            options={statusOptions}
-            onPick={applyStatusPick}
-          />
+          {statusPicker}
           {detail.canReschedule ? (
             <Button variant="secondary" icon="edit_calendar_outlined" onClick={detail.openReschedule}>
               {text('appointmentRescheduleButton')}

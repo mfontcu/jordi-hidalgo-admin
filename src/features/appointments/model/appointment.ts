@@ -1,4 +1,11 @@
-import { clockTimeOfInstant, compareInstants, isPastOrNow } from '@/shared/lib/business-time';
+import {
+  clockTimeOfInstant,
+  compareInstants,
+  formatClockTime,
+  formatInstantDateTime,
+  isPastOrNow,
+  type DateLocale,
+} from '@/shared/lib/business-time';
 
 // Appointments as the lists show them (AppointmentItemData) and the rules of their row actions
 // (appointment_status_labels.dart, appointments_table.dart), plus the detail and summary of phase 8.
@@ -118,6 +125,35 @@ const FINAL_STATUSES = new Set(['completed', 'cancelled', 'no_show', 'reschedule
 /** isAppointmentFinalStatus: nothing more can happen to the appointment. */
 export function isFinalStatus(status: string): boolean {
   return FINAL_STATUSES.has(status.trim().toLowerCase());
+}
+
+/**
+ * A closed appointment (completed, cancelled, no-show) has no reschedule or cancel button, but staff
+ * can still correct its status when it was set by mistake. A rescheduled revision belongs to a chain
+ * and is not corrected by hand.
+ */
+export function isCorrectableStatus(status: string): boolean {
+  const value = status.trim().toLowerCase();
+  return value === 'completed' || value === 'cancelled' || value === 'no_show';
+}
+
+export type StatusTarget = 'pending' | 'confirmed' | 'completed' | 'cancelled' | 'no_show';
+
+const STATUS_TARGETS: readonly StatusTarget[] = ['pending', 'confirmed', 'completed', 'cancelled', 'no_show'];
+
+/**
+ * The statuses the detail offers (Appointment.StaffStatusChange in the backend domain): the five staff can set except the
+ * current one, completed and no-show only once the appointment has started. None for a rescheduled
+ * revision. Going back to pending or confirmed from cancelled can still be refused when the slot is
+ * taken.
+ */
+export function statusTargetsOf(item: Pick<AppointmentItem, 'status' | 'start'>, now: number = Date.now()) {
+  const current = item.status.trim().toLowerCase();
+  if (current === 'rescheduled') return [];
+  const started = isPastOrNow(item.start, now);
+  return STATUS_TARGETS.filter(
+    (target) => target !== current && (started || (target !== 'completed' && target !== 'no_show')),
+  );
 }
 
 /** The actions of a row: cancel while it is open, complete or no-show once it has started too. */
@@ -286,4 +322,64 @@ export function isActiveChainEntry(status: string): boolean {
 /** formatPrice for an appointment's service. */
 export function formatPrice(priceCents: number): string {
   return `${(priceCents / 100).toFixed(2)} €`;
+}
+
+/**
+ * What takes the slot of a cancelled appointment that staff try to set back to pending or confirmed
+ * (the 409 of the status change). The names are empty when the backend could not read them.
+ */
+export type SlotConflict =
+  | { kind: 'appointment'; start: string; end: string; customerName: string; serviceName: string }
+  | { kind: 'hold'; start: string; end: string; holdExpiresAt: string };
+
+/** Thrown by the status change when the backend refuses a reactivation into a taken slot. */
+export class SlotTakenError extends Error {
+  readonly conflict: SlotConflict;
+
+  constructor(conflict: SlotConflict) {
+    super('appointment slot unavailable');
+    this.name = 'SlotTakenError';
+    this.conflict = conflict;
+  }
+}
+
+/**
+ * The toast of a reactivation refused because the slot is taken: which appointment could not be
+ * set to `target`, and what takes its time. A missing name drops its part of the sentence.
+ */
+export function slotTakenMessageOf(
+  appointment: Pick<AppointmentItem, 'customerName' | 'start' | 'end'>,
+  conflict: SlotConflict,
+  target: 'pending' | 'confirmed',
+  locale: DateLocale,
+) {
+  const clock = (instant: string) => {
+    const time = clockTimeOfInstant(instant);
+    return time ? formatClockTime(time, locale, 'HH:mm') : '—';
+  };
+  const customer = appointment.customerName.trim();
+  const values = {
+    target,
+    hasCustomer: customer ? 'yes' : 'no',
+    customer,
+    when: `${formatInstantDateTime(appointment.start, locale, 'longDate', 'HH:mm')}–${clock(appointment.end)}`,
+  };
+  if (conflict.kind === 'hold') {
+    return {
+      id: 'appointmentReactivateSlotTakenByHold' as const,
+      values: { ...values, holdUntil: clock(conflict.holdExpiresAt) },
+    };
+  }
+  return {
+    id: 'appointmentReactivateSlotTakenByAppointment' as const,
+    values: {
+      ...values,
+      hasOtherCustomer: conflict.customerName ? 'yes' : 'no',
+      otherCustomer: conflict.customerName,
+      hasOtherService: conflict.serviceName ? 'yes' : 'no',
+      otherService: conflict.serviceName,
+      otherFrom: clock(conflict.start),
+      otherTo: clock(conflict.end),
+    },
+  };
 }
