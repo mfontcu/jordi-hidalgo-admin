@@ -6,3 +6,4 @@ test-results
 *.tsbuildinfo
 .env*.local
 .DS_Store
+.wrangler

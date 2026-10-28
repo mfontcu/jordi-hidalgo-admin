@@ -12,10 +12,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-21T06:44:15Z'
+  at: '2026-10-28T17:30:35Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-21T07:01:37Z'
+    at: '2026-10-28T17:42:40Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -107,6 +107,7 @@ files. ✅ = documented. — = the surface does not exist (stated in the linked 
 | Analytics event | None                                                                         | operations.md#observability                                                   | —      |
 | Release target  | Web, `https://admin.hidalgojunior.com`, Docker image as the alternative host | operations.md#release, operations.md#rollback                                 | ✅     |
 | Release target  | Staging, `https://shy-rain-a1f2.jhidalgojunior.workers.dev`                  | operations.md#release                                                         | ✅     |
+| Release command | `make deploy-staging` (Worker), `make deploy-prod` (Pages), Wrangler CLI     | operations.md#release                                                         | ✅     |
 
 ## Design
 

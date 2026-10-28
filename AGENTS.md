@@ -103,6 +103,15 @@ npm run budget         # Presupuesto del bundle (tras build)
 npm run docs:lint      # Valida docs/ con el motor OKF del hub
 ```
 
+Despliegue en Cloudflare (Wrangler instalado a nivel de sistema y sesión iniciada):
+
+```bash
+make install-wrangler  # npm install -g wrangler con la versión fijada en el Makefile
+wrangler login         # una vez, OAuth en el navegador
+make deploy-staging    # build de staging + wrangler deploy (Worker shy-rain-a1f2, wrangler.json)
+make deploy-prod       # build de producción + wrangler pages deploy (Pages hidalgo-junior-admin)
+```
+
 Imagen de producción (nginx, CSP incluida):
 
 ```bash
