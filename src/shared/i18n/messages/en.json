@@ -365,6 +365,7 @@
   "appointmentRescheduleSave": "Save new date",
   "appointmentRescheduleSavingBarrier": "Saving new date…",
   "appointmentRescheduleFailed": "Could not reschedule the appointment.",
+  "appointmentSlotTakenMeanwhile": "That time was just taken. Choose another one.",
   "customerPushSendTitle": "Send push to client",
   "customerPushSendBody": "The client will receive a notification on their phone with this message. Send it?",
   "customerPushSendConfirm": "Send push",

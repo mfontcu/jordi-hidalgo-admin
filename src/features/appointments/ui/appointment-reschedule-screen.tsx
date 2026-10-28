@@ -16,7 +16,7 @@ import {
 } from '@/shared/ui';
 
 import { useAppointmentReschedule } from '../hooks/use-appointment-reschedule';
-import { formatPrice, statusLabelOf } from '../model/appointment';
+import { formatPrice, SlotTakenMeanwhileError, statusLabelOf } from '../model/appointment';
 import { TimeSlotPicker } from './time-slot-picker';
 
 function formLayoutFor(width: number) {
@@ -36,7 +36,12 @@ export function AppointmentRescheduleScreen() {
 
   const reschedule = useAppointmentReschedule({
     onSuccess: () => showToast(text('appointmentStatusUpdatedSnackbar')),
-    onError: (error) => showErrorToast(describeFailure(error, 'appointmentRescheduleFailed')),
+    onError: (error) =>
+      showErrorToast(
+        error instanceof SlotTakenMeanwhileError
+          ? `${text('appointmentRescheduleFailed')} ${text('appointmentSlotTakenMeanwhile')}`
+          : describeFailure(error, 'appointmentRescheduleFailed'),
+      ),
     onCannotReschedule: () => showErrorToast(text('appointmentCannotRescheduleWithoutClient')),
   });
 

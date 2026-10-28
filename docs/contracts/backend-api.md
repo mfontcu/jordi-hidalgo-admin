@@ -13,10 +13,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-27T07:02:08Z'
+  at: '2026-10-28T13:18:54Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-27T07:15:24Z'
+    at: '2026-10-28T13:18:54Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -36,7 +36,7 @@ The client is `openapi-fetch` in `src/shared/api/client.ts`. Middleware sends th
 
 `src/shared/api/errors.ts` maps the HTTP status to a class. A failed query shows that class in the
 screen, with retry. A failed mutation shows a toast that names the action and the class. A
-validation or conflict toast includes the backend's text when the body has one.
+validation toast includes the backend's text when the body has one; a conflict toast does not.
 
 | Class          | When                                                         |
 | -------------- | ------------------------------------------------------------ |
@@ -53,6 +53,11 @@ One 409 is read as JSON instead: a status change that would set a cancelled appo
 pending or confirmed when its slot is taken (`dto.AdminSlotConflictResponse`). The status mutation
 turns its `conflict` into a `SlotTakenError`, and the detail shows which appointment, customer, and
 service take the time, or until when a waiting customer holds it.
+
+A create or a reschedule into a slot taken meanwhile answers 409 with plain text
+(`appointment slot unavailable`). The mutation invalidates the availability queries, so the form
+or the reschedule screen shows that time as taken, and throws a `SlotTakenMeanwhileError`: its toast
+says that the time was just taken and asks for another one, instead of the conflict toast.
 
 ## Session
 
