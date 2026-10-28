@@ -365,6 +365,7 @@
   "appointmentRescheduleSave": "Desar nova data",
   "appointmentRescheduleSavingBarrier": "Desant nova data…",
   "appointmentRescheduleFailed": "No s'ha pogut reprogramar la cita.",
+  "appointmentSlotTakenMeanwhile": "Aquesta hora s'acaba d'ocupar. Tria'n una altra.",
   "customerPushSendTitle": "Enviar push al client",
   "customerPushSendBody": "El client rebrà una notificació al mòbil amb aquest missatge. Vols enviar-lo?",
   "customerPushSendConfirm": "Enviar push",

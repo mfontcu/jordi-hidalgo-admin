@@ -3421,6 +3421,15 @@ export interface operations {
                     "text/plain": string;
                 };
             };
+            /** @description appointment slot unavailable */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
             /** @description internal error */
             500: {
                 headers: {
@@ -3781,6 +3790,15 @@ export interface operations {
             };
             /** @description appointment not found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description appointment slot unavailable */
+            409: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -7990,6 +8008,15 @@ export interface operations {
                     "text/plain": string;
                 };
             };
+            /** @description service not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
             /** @description availability read limit reached */
             429: {
                 headers: {
@@ -8037,6 +8064,15 @@ export interface operations {
             };
             /** @description serviceId is required / date is required / invalid date format */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description service not found */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };

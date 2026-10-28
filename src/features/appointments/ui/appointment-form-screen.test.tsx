@@ -1,10 +1,11 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { http, HttpResponse } from 'msw';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import { instantAt } from '@/shared/lib/business-time';
 import { testSession as session } from '@/test/session';
-import { meAs, STAFF_USER, TOKENS } from '@/test/msw/auth';
+import { API, meAs, STAFF_USER, TOKENS } from '@/test/msw/auth';
 import {
   appointmentCreate,
   appointmentDetail,
@@ -14,7 +15,7 @@ import {
 } from '@/test/msw/appointments';
 import { server } from '@/test/msw/server';
 import { listResponse, serviceDto, servicesList } from '@/test/msw/services';
-import { clientDto, usersList, usersListResponse } from '@/test/msw/users';
+import { clientDto, userDetail, usersList, usersListResponse } from '@/test/msw/users';
 import { renderApp } from '@/test/render-app';
 
 let app: ReturnType<typeof renderApp> | undefined;
@@ -66,6 +67,38 @@ describe('appointment form', () => {
         internalNotes: '',
       },
     ]);
+  });
+
+  it('reloads the slots when the chosen one was taken meanwhile', async () => {
+    let taken = false;
+    server.use(
+      http.get(`${API}/availability/slots`, () =>
+        HttpResponse.json([
+          { time: '10:00', isAvailable: true },
+          { time: '10:30', isAvailable: !taken },
+        ]),
+      ),
+      http.post(`${API}/admin/appointments`, () => {
+        taken = true;
+        return HttpResponse.text('appointment slot unavailable', { status: 409 });
+      }),
+      userDetail(clientDto()),
+    );
+    app = renderApp('/appointments/form?clientId=cli-1&clientLabel=Mari');
+    const user = userEvent.setup();
+
+    await user.click(await screen.findByLabelText('Servicio'));
+    await user.click(await screen.findByRole('button', { name: 'Corte de Pelo' }));
+    await user.click(await screen.findByRole('button', { name: '10:30' }));
+    await user.click(screen.getByRole('button', { name: 'Guardar cita' }));
+
+    expect(
+      await screen.findByText('No se pudo guardar la cita. Esa hora se acaba de ocupar. Elige otra.'),
+    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: '10:30' })).toBeDisabled();
+    });
+    expect(app.router.state.location.pathname).toBe('/appointments/form');
   });
 
   it('lists each client with phone and email so matching names stay distinct', async () => {

@@ -365,6 +365,7 @@
   "appointmentRescheduleSave": "Guardar nueva fecha",
   "appointmentRescheduleSavingBarrier": "Guardando nueva fecha…",
   "appointmentRescheduleFailed": "No se pudo reprogramar la cita.",
+  "appointmentSlotTakenMeanwhile": "Esa hora se acaba de ocupar. Elige otra.",
   "customerPushSendTitle": "Enviar push al cliente",
   "customerPushSendBody": "El cliente recibirá una notificación en su móvil con este mensaje. ¿Quieres enviarlo?",
   "customerPushSendConfirm": "Enviar push",

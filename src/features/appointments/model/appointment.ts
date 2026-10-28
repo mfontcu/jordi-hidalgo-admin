@@ -344,6 +344,17 @@ export class SlotTakenError extends Error {
 }
 
 /**
+ * Thrown by the create and the reschedule when the backend answers 409: the chosen time was taken
+ * meanwhile. The free slots are already invalidated.
+ */
+export class SlotTakenMeanwhileError extends Error {
+  constructor() {
+    super('appointment slot unavailable');
+    this.name = 'SlotTakenMeanwhileError';
+  }
+}
+
+/**
  * The toast of a reactivation refused because the slot is taken: which appointment could not be
  * set to `target`, and what takes its time. A missing name drops its part of the sentence.
  */
