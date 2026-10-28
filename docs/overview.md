@@ -17,10 +17,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-28T16:50:00Z'
+  at: '2026-10-28T17:30:35Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-28T16:57:23Z'
+    at: '2026-10-28T17:42:40Z'
 resource: /engineering/apps/hidalgo-admin
 service_status: active
 tier: 1
@@ -68,6 +68,7 @@ through a client generated from that API's OpenAPI contract.
 
 It replaced the Flutter panel on 2026-10-13. `https://admin.hidalgojunior.com` serves this panel.
 Staging is `https://shy-rain-a1f2.jhidalgojunior.workers.dev`, built against the staging API.
+Both are published with `make deploy-staging` and `make deploy-prod` (Wrangler CLI).
 Paths stay the same, so bookmarks keep working. Storage keys changed, so staff signed in once at
 cutover. The Flutter source was removed from the app repository. Rollback is the previous Cloudflare
 Pages deployment, if it was kept; that deployment cannot be rebuilt from git.
@@ -100,19 +101,19 @@ here and still fails those calls. There is no skip-login flag.
 Each module lives in `src/features/<module>/`. A feature imports another feature only through its
 `index.ts`. `users` serves both staff and clients because both are `/admin/users`.
 
-| Module         | Screens                                                                                 | What staff do there                                                                                                                                      |
-| -------------- | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `auth`         | `LoginScreen`, `SessionRestoringScreen`                                                 | Sign in; wait while a stored session is restored.                                                                                                        |
-| `shell`        | `AppShell`, not-found screen                                                            | Sidebar, drawer, language, theme, sign-out, and the live-notices bell.                                                                                   |
+| Module         | Screens                                                                                 | What staff do there                                                                                                                                                                           |
+| -------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `auth`         | `LoginScreen`, `SessionRestoringScreen`                                                 | Sign in; wait while a stored session is restored.                                                                                                                                             |
+| `shell`        | `AppShell`, not-found screen                                                            | Sidebar, drawer, language, theme, sign-out, and the live-notices bell.                                                                                                                        |
 | `activity`     | bell in the shell, no route                                                             | The 100 newest announced changes, newest first. The count is the unread ones. A read notice stays in the list. Mark read, and open the related screen. One stream refreshes the open screens. |
-| `dashboard`    | `DashboardScreen`                                                                       | Today's appointments, pending appointments, free slots today, customers this week, and the next appointment; jump to common sections.                    |
-| `availability` | `AvailabilityOverviewScreen`                                                            | Pick a public service and a date, see free and taken slots, start a new appointment from a free slot.                                                    |
-| `appointments` | list, detail, form, reschedule, day agenda, and the appointments block on a user detail | List and filter appointments; work the day or week agenda; create, reschedule, change status, cancel; bulk actions; send a push message to the customer. |
-| `slot-watches` | `SlotWatchesScreen`                                                                     | List open slot watches, filter them, cancel one.                                                                                                         |
-| `schedule`     | working hours, punctual blocks, recurring rules                                         | Weekly opening hours, one-off blocks, and recurring blocks with per-date exceptions.                                                                     |
-| `services`     | list, detail, create, new version                                                       | Catalog, order, public-site visibility, activate, deactivate, delete.                                                                                    |
-| `users`        | staff and client lists, details, and forms                                              | Customer and staff accounts.                                                                                                                             |
-| `business`     | one screen, six tabs                                                                    | Business info, booking settings, reminder notifications, legal documents, web pages, and the home gallery.                                               |
+| `dashboard`    | `DashboardScreen`                                                                       | Today's appointments, pending appointments, free slots today, customers this week, and the next appointment; jump to common sections.                                                         |
+| `availability` | `AvailabilityOverviewScreen`                                                            | Pick a public service and a date, see free and taken slots, start a new appointment from a free slot.                                                                                         |
+| `appointments` | list, detail, form, reschedule, day agenda, and the appointments block on a user detail | List and filter appointments; work the day or week agenda; create, reschedule, change status, cancel; bulk actions; send a push message to the customer.                                      |
+| `slot-watches` | `SlotWatchesScreen`                                                                     | List open slot watches, filter them, cancel one.                                                                                                                                              |
+| `schedule`     | working hours, punctual blocks, recurring rules                                         | Weekly opening hours, one-off blocks, and recurring blocks with per-date exceptions.                                                                                                          |
+| `services`     | list, detail, create, new version                                                       | Catalog, order, public-site visibility, activate, deactivate, delete.                                                                                                                         |
+| `users`        | staff and client lists, details, and forms                                              | Customer and staff accounts.                                                                                                                                                                  |
+| `business`     | one screen, six tabs                                                                    | Business info, booking settings, reminder notifications, legal documents, web pages, and the home gallery.                                                                                    |
 
 ### Use cases
 
@@ -120,17 +121,17 @@ A use case is a call the panel makes. The HTTP operation behind each one is list
 [backend API consumption reference](./contracts/backend-api.md). Call sites live in
 `src/features/*/api` and in `src/shared/api/middleware/session.ts` (refresh).
 
-| Module              | Use case                                                                                                      | Flow                                                                                                                           |
-| ------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| auth                | Sign in (`POST /auth/login`), restore (`GET /auth/me`), refresh (`POST /auth/refresh`), sign out (local only) | [Sign-in and session](./flows/admin-sign-in-and-session.md)                                                                    |
-| dashboard           | Load the admin summary                                                                                        | —                                                                                                                              |
-| availability        | Public services, bookable dates, slots for a date                                                             | —                                                                                                                              |
-| appointments        | List, get, create, reschedule, status, cancel, bulk, customer push and its history, reschedule chain          | [Create](./flows/create-appointment.md), [change](./flows/change-appointment-status.md), [push](./flows/send-customer-push.md) |
-| slot watches        | List, cancel                                                                                                  | —                                                                                                                              |
-| schedule            | Opening hours and shifts; one-off blocks; recurring rules and exceptions                                      | [Create a blocked slot](./flows/create-blocked-slot.md)                                                                        |
-| services            | List, get, categories, create (also a new version), order, public site, activate, deactivate, delete          | —                                                                                                                              |
-| customers and staff | List, get, create, update, delete, verify, activation email, password-setup email, phone matches              | —                                                                                                                              |
-| business            | Info, booking settings, notification settings, legal documents, web pages, gallery slides                     | [Upload a gallery image](./flows/upload-gallery-image.md)                                                                      |
+| Module              | Use case                                                                                                                             | Flow                                                                                                                           |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| auth                | Sign in (`POST /auth/login`), restore (`GET /auth/me`), refresh (`POST /auth/refresh`), sign out (local only)                        | [Sign-in and session](./flows/admin-sign-in-and-session.md)                                                                    |
+| dashboard           | Load the admin summary                                                                                                               | —                                                                                                                              |
+| availability        | Public services, bookable dates, slots for a date                                                                                    | —                                                                                                                              |
+| appointments        | List, get, create, reschedule, status, cancel, bulk, customer push and its history, reschedule chain                                 | [Create](./flows/create-appointment.md), [change](./flows/change-appointment-status.md), [push](./flows/send-customer-push.md) |
+| slot watches        | List, cancel                                                                                                                         | —                                                                                                                              |
+| schedule            | Opening hours and shifts; one-off blocks; recurring rules and exceptions                                                             | [Create a blocked slot](./flows/create-blocked-slot.md)                                                                        |
+| services            | List, get, categories, create (also a new version), order, public site, activate, deactivate, delete                                 | —                                                                                                                              |
+| customers and staff | List, get, create, update, delete, verify, activation email, password-setup email, phone matches                                     | —                                                                                                                              |
+| business            | Info, booking settings, notification settings, legal documents, web pages, gallery slides                                            | [Upload a gallery image](./flows/upload-gallery-image.md)                                                                      |
 | activity            | The 100 newest announced events with this administrator's read mark, mark them read, and the live stream that refreshes open screens | —                                                                                                                              |
 
 No call site in `src/features/*/api` is unused. The panel does not call `GET /app/version`; the
@@ -159,7 +160,7 @@ preferences. The session is the only client-owned state machine. Restore runs in
 | unauthenticated | authenticated   | Sign-in succeeds and the role can access the panel                                                    |
 | unauthenticated | unauthenticated | Sign-in fails, or the account is not staff (signed out at once, with a message)                       |
 | authenticated   | authenticated   | A 401 triggers one shared refresh; the request is retried once                                        |
-| authenticated   | expired         | Refresh is rejected (401/403), or a 403 says the user is blocked or `forbidden` (no longer an admin) |
+| authenticated   | expired         | Refresh is rejected (401/403), or a 403 says the user is blocked or `forbidden` (no longer an admin)  |
 | authenticated   | unauthenticated | Staff signs out from the sidebar or the drawer                                                        |
 | expired         | unauthenticated | The router goes to `/login` and the login screen shows "your session has expired" once                |
 

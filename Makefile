@@ -1,6 +1,6 @@
 # Panel admin (Vite). `make` o `make help` lista los comandos.
 #
-# Variables (se pueden pasar en la misma línea, p. ej. `make pages API_URL=http://localhost:8080`):
+# Variables (se pueden pasar en la misma línea, p. ej. `make build API_URL=http://localhost:8080`):
 #   API_URL  Origen de la API que queda grabado en el build. Por defecto, producción.
 #   IMAGE    Etiqueta de la imagen nginx.
 #   PORT     Puerto local al servir esa imagen.
@@ -10,13 +10,16 @@
 
 API_URL ?= https://api.hidalgojunior.com
 STAGING_API_URL := https://hidalgo-junior-backend-staging.up.railway.app
+PAGES_PROJECT := hidalgo-junior-admin
+WRANGLER_VERSION := 4.154.0
 IMAGE ?= jordi-hidalgo-admin:local
 PORT ?= 8089
 
 .PHONY: help \
-	install dev preview \
+	install install-wrangler dev preview \
 	check typecheck lint format format-check test test-watch e2e playwright-install \
-	build build-staging build-e2e budget pages \
+	build build-staging build-e2e budget \
+	deploy-staging deploy-prod wrangler-check \
 	docker-build docker-run docker-e2e \
 	api-sync api-check api-generate i18n-check i18n-import icons icons-check docs-lint \
 	clean
@@ -30,6 +33,9 @@ help: ## Lista los comandos
 
 install: ## Instala dependencias con el lockfile (Node de .nvmrc)
 	npm ci
+
+install-wrangler: ## Instala la CLI de Cloudflare a nivel de sistema (requiere Node de .nvmrc)
+	npm install -g wrangler@$(WRANGLER_VERSION)
 
 dev: ## Arranca el panel en http://localhost:5173 (.env.development)
 	npm run dev
@@ -81,8 +87,16 @@ build-e2e: ## Build que usan Playwright y el presupuesto del bundle (.env.e2e)
 budget: ## Comprueba el tamaño de dist/ (después de build o build-e2e)
 	npm run budget
 
-pages: build ## dist/ para subir a Cloudflare Pages
-	@echo "Sube el contenido de dist/ (API: $(API_URL))."
+##@ Despliegue (Cloudflare; requiere `make install-wrangler` y `wrangler login`)
+
+deploy-staging: wrangler-check build-staging ## Build de staging y publica en el Worker de wrangler.json
+	wrangler deploy
+
+deploy-prod: wrangler-check build ## Build de producción y publica en Cloudflare Pages
+	wrangler pages deploy dist --project-name=$(PAGES_PROJECT) --branch=main
+
+wrangler-check:
+	@command -v wrangler >/dev/null || { echo "Falta wrangler. Instálalo con: make install-wrangler" >&2; exit 1; }
 
 ##@ Imagen nginx
 

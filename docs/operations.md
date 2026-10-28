@@ -12,10 +12,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-28T16:50:00Z'
+  at: '2026-10-28T17:30:35Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-28T16:57:23Z'
+    at: '2026-10-28T17:42:40Z'
 severity: medium
 operates:
   - /engineering/apps/hidalgo-admin
@@ -60,11 +60,17 @@ docker build --build-arg VITE_API_BASE_URL=https://api.hidalgojunior.com -t jord
 ```
 
 3. Publish to the same host as the Flutter panel, `https://admin.hidalgojunior.com`. That host is
-   Cloudflare (the live response is Cloudflare Pages: `cache-control: public, max-age=0,
-must-revalidate`). Upload `dist/` from a production build with the production API origin. Do not
-   delete the previous Pages deployment: that deployment is the Flutter rollback.
+   the Cloudflare Pages project `hidalgo-junior-admin`. Run `make deploy-prod`: it builds `dist/`
+   with the production API origin and runs `wrangler pages deploy` on the branch `main`. That
+   branch must be the project's production branch; any other branch publishes a preview. A new
+   deployment does not delete the earlier ones, so the Flutter rollback is kept.
 4. Alternative host: the nginx image (`Dockerfile`, `deploy/default.conf.template`). It falls back
    to `index.html`, does not cache `index.html`, and caches `/assets/` for a year.
+
+Both deploy targets need the Wrangler CLI installed system-wide (`make install-wrangler`, pinned in
+the `Makefile`) and a Cloudflare session (`wrangler login`, or `CLOUDFLARE_API_TOKEN` and
+`CLOUDFLARE_ACCOUNT_ID`). Each target depends on its own build, so a staging build cannot be
+published to production, nor the reverse.
 
 The backend allows any origin (CORS `*`), so the panel origin does not need a backend change.
 Cloudflare Pages sends no `Content-Security-Policy`. `fetch` to the API origin, including the live
@@ -72,8 +78,14 @@ activity stream, is not blocked there. The nginx image is the host that sets `co
 already allows the API origin.
 
 Staging is a separate build, published at `https://shy-rain-a1f2.jhidalgojunior.workers.dev`, with
-`VITE_API_BASE_URL` set to `https://hidalgo-junior-backend-staging.up.railway.app`. The same routes
-apply, including `/appointments`. That build is not promoted onto `admin.hidalgojunior.com`.
+`VITE_API_BASE_URL` set to `https://hidalgo-junior-backend-staging.up.railway.app`. It is a Worker
+with static assets, configured in `wrangler.json`. Run `make deploy-staging` to build it and run
+`wrangler deploy`. Unlike Pages, a Worker does not fall back to `index.html` by default; the
+config sets `assets.not_found_handling` to `single-page-application`, and
+`scripts/wrangler-config.test.mjs` fails if that setting is removed. The config keeps the
+`workers.dev` URL (`workers_dev: true`) and turns off per-version preview URLs
+(`preview_urls: false`), so earlier staging versions are not left reachable at their own URL. The same routes apply,
+including `/appointments`. That build is not promoted onto `admin.hidalgojunior.com`.
 Production keeps the production API origin.
 
 ### What staff notice at cutover
@@ -158,7 +170,7 @@ No alerts exist. Problems are reported by staff.
 | Cause                             | Action                                                                                                                              |
 | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | Wrong `VITE_API_BASE_URL`         | Rebuild with the production origin and republish                                                                                    |
-| Missing SPA fallback              | Fix the host (`try_files` in the nginx template, or the Pages fallback)                                                             |
+| Missing SPA fallback              | Fix the host (`try_files` in the nginx template, `assets.not_found_handling` in `wrangler.json`, or the Pages fallback)             |
 | Bad release                       | [Roll back](#rollback) to the previous deployment, which is the Flutter build until that deployment is removed                      |
 | Backend down or a blocked account | Fix in the backend; the panel needs no change                                                                                       |
 | Session keeps expiring            | Sign out, delete the site's local storage for the panel origin, sign in again; if it persists, check token lifetimes in the backend |
