@@ -13,10 +13,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-16T12:26:00Z'
+  at: '2026-10-28T13:18:54Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-19T10:58:00Z'
+    at: '2026-10-28T13:18:54Z'
 part_of: /engineering/apps/hidalgo-admin
 realizes:
   - /business/processes/hidalgo-junior/book-appointment
@@ -49,6 +49,7 @@ field. Leaving with unsaved changes asks first.
 ## Error Handling and Compensation
 
 A failed lookup shows the error in the form with retry. A failed create shows a toast and stays on
-the form; nothing is stored. Validation (a missing client, service, or slot) shows under the field
+the form; nothing is stored. A slot taken meanwhile (409 `appointment slot unavailable`) shows a toast
+saying that the time was just taken, and reloads the free slots, so that time shows as taken. Validation (a missing client, service, or slot) shows under the field
 and does not call the backend. If the client create fails, the appointment form is unchanged and
 the client form stays put.

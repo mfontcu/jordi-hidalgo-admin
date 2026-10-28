@@ -22,6 +22,7 @@ import {
 } from '@/shared/ui';
 
 import { useAppointmentForm } from '../hooks/use-appointment-form';
+import { SlotTakenMeanwhileError } from '../model/appointment';
 import { TimeSlotPicker } from './time-slot-picker';
 
 function formLayoutFor(width: number) {
@@ -38,7 +39,12 @@ export function AppointmentFormScreen() {
   const layout = formLayoutFor(width ?? 1440);
   const form = useAppointmentForm({
     onSuccess: () => undefined,
-    onError: (error) => showErrorToast(describeFailure(error, 'appointmentFormSaveFailed')),
+    onError: (error) =>
+      showErrorToast(
+        error instanceof SlotTakenMeanwhileError
+          ? `${intl.formatMessage({ id: 'appointmentFormSaveFailed' })} ${intl.formatMessage({ id: 'appointmentSlotTakenMeanwhile' })}`
+          : describeFailure(error, 'appointmentFormSaveFailed'),
+      ),
     onValidation: (message) => showErrorToast(intl.formatMessage({ id: message })),
   });
   const text = (id: MessageId) => intl.formatMessage({ id });

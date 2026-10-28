@@ -7,6 +7,7 @@ import {
   cancellationOf,
   rangeCancellationOf,
   SlotTakenError,
+  SlotTakenMeanwhileError,
   statusChangeOf,
   type AppointmentItem,
 } from '../model/appointment';
@@ -20,6 +21,16 @@ const path = (appointmentId: string) => ({ params: { path: { appointmentID: appo
 
 async function invalidateLists(queryClient: QueryClient) {
   await queryClient.invalidateQueries({ queryKey: appointmentsKeys.lists() });
+}
+
+/**
+ * A 409 on a create or move means the slot was taken meanwhile: the free slots are read again and a
+ * `SlotTakenMeanwhileError` is thrown.
+ */
+async function failIfSlotTaken(queryClient: QueryClient, response: Response) {
+  if (response.status !== 409) return;
+  await queryClient.invalidateQueries({ queryKey: appointmentsKeys.availability() });
+  throw new SlotTakenMeanwhileError();
 }
 
 async function invalidateDetail(queryClient: QueryClient, appointmentId: string) {
@@ -139,40 +150,39 @@ export async function bulkCancelAppointments(
   return { ok, failed };
 }
 
-/** `POST /admin/appointments`: creates one appointment and returns its detail. */
+/**
+ * `POST /admin/appointments`: creates one appointment and returns its detail. A taken slot (409)
+ * refreshes the free slots and throws a `SlotTakenMeanwhileError`.
+ */
 export async function createAppointment(queryClient: QueryClient, input: CreateAppointmentInput) {
-  const created = toAppointmentDetail(
-    unwrap(
-      await apiClient.POST('/admin/appointments', {
-        body: {
-          userId: input.userId,
-          serviceId: input.serviceId,
-          appointmentStart: input.appointmentStart,
-          status: input.status,
-          customerNotes: input.customerNotes,
-          internalNotes: input.internalNotes,
-        },
-      }),
-    ),
-  );
+  const result = await apiClient.POST('/admin/appointments', {
+    body: {
+      userId: input.userId,
+      serviceId: input.serviceId,
+      appointmentStart: input.appointmentStart,
+      status: input.status,
+      customerNotes: input.customerNotes,
+      internalNotes: input.internalNotes,
+    },
+  });
+  await failIfSlotTaken(queryClient, result.response);
+  const created = toAppointmentDetail(unwrap(result));
   await invalidateLists(queryClient);
   return created;
 }
 
-/** `PATCH /admin/appointments/{id}/reschedule`. */
+/** `PATCH /admin/appointments/{id}/reschedule`. A taken slot (409) refreshes the free slots and throws a `SlotTakenMeanwhileError`. */
 export async function rescheduleAppointment(
   queryClient: QueryClient,
   appointmentId: string,
   appointmentStart: string,
 ) {
-  const updated = toAppointmentDetail(
-    unwrap(
-      await apiClient.PATCH('/admin/appointments/{appointmentID}/reschedule', {
-        ...path(appointmentId),
-        body: { appointmentStart },
-      }),
-    ),
-  );
+  const result = await apiClient.PATCH('/admin/appointments/{appointmentID}/reschedule', {
+    ...path(appointmentId),
+    body: { appointmentStart },
+  });
+  await failIfSlotTaken(queryClient, result.response);
+  const updated = toAppointmentDetail(unwrap(result));
   await invalidateDetail(queryClient, appointmentId);
   await queryClient.invalidateQueries({ queryKey: appointmentsKeys.rescheduleChain(appointmentId) });
   return updated;

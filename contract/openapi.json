@@ -3274,6 +3274,16 @@
                         },
                         "description": "forbidden"
                     },
+                    "409": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "appointment slot unavailable"
+                    },
                     "500": {
                         "content": {
                             "text/plain": {
@@ -3768,6 +3778,16 @@
                             }
                         },
                         "description": "appointment not found"
+                    },
+                    "409": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "appointment slot unavailable"
                     },
                     "500": {
                         "content": {
@@ -9379,6 +9399,16 @@
                         },
                         "description": "serviceId is required"
                     },
+                    "404": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "service not found"
+                    },
                     "429": {
                         "content": {
                             "text/plain": {
@@ -9461,6 +9491,16 @@
                             }
                         },
                         "description": "serviceId is required / date is required / invalid date format"
+                    },
+                    "404": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "service not found"
                     },
                     "429": {
                         "content": {
