@@ -13,10 +13,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-28T13:18:54Z'
+  at: '2026-10-28T16:50:00Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-28T13:18:54Z'
+    at: '2026-10-28T16:57:23Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -42,7 +42,7 @@ validation toast includes the backend's text when the body has one; a conflict t
 | -------------- | ------------------------------------------------------------ |
 | `network`      | No response                                                  |
 | `unauthorized` | 401. The middleware refreshes once before the screen sees it |
-| `forbidden`    | 403. A blocked user expires the session                      |
+| `forbidden`    | 403. `user is blocked` or `forbidden` (the caller is no longer an admin) expires the session |
 | `notFound`     | 404                                                          |
 | `validation`   | 400 or 422                                                   |
 | `conflict`     | 409                                                          |

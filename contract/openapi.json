@@ -2931,7 +2931,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -3003,7 +3003,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -3029,7 +3029,7 @@
         },
         "/admin/activity/stream": {
             "get": {
-                "description": "Server-Sent Events. Al conectar lee Last-Event-ID o, si no viene, el query after, y escribe cada fila que falta como evento activity (id, kind, announce, payload). Si hay más de 100 filas entre el cursor y el presente, escribe un evento reset con el id más alto y no retransmite el hueco. Después se queda enganchado al hub del proceso. Cada 15 segundos escribe un comentario `: ping`.",
+                "description": "Server-Sent Events. Al conectar lee Last-Event-ID o, si no viene, el query after, y escribe cada fila que falta como evento activity (id, kind, announce, payload). Si hay más de 100 filas entre el cursor y el presente, escribe un evento reset con el id más alto y no retransmite el hueco. Después se queda enganchado al hub del proceso. Cada 15 segundos vuelve a comprobar que el usuario sigue siendo un administrador activo y no bloqueado (si no, cierra el flujo) y escribe un comentario `: ping`.",
                 "operationId": "adminStreamActivity",
                 "parameters": [
                     {
@@ -3088,7 +3088,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -3197,6 +3197,16 @@
                         },
                         "description": "OK"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -3205,7 +3215,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -3264,6 +3274,16 @@
                         },
                         "description": "invalid body / customer notes too long: 500"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -3272,7 +3292,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "409": {
                         "content": {
@@ -3325,6 +3345,16 @@
                     "204": {
                         "description": "No Content"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -3333,7 +3363,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -3401,6 +3431,16 @@
                         },
                         "description": "appointmentID is required"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -3409,7 +3449,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -3491,6 +3531,16 @@
                         },
                         "description": "invalid body / cancellation reason too long: 500"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -3499,7 +3549,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -3581,6 +3631,16 @@
                         },
                         "description": "invalid body"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -3589,7 +3649,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -3669,6 +3729,16 @@
                         },
                         "description": "OK"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -3677,7 +3747,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -3759,6 +3829,16 @@
                         },
                         "description": "invalid body"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -3767,7 +3847,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -3837,6 +3917,16 @@
                         },
                         "description": "OK"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -3845,7 +3935,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -3927,6 +4017,16 @@
                         },
                         "description": "invalid body / appointment invalid status / appointment cannot be marked completed or no-show before its start time / cancellation reason too long: 500"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -3935,7 +4035,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -4064,7 +4164,7 @@
                                 }
                             }
                         },
-                        "description": "Unauthorized"
+                        "description": "unauthorized"
                     },
                     "403": {
                         "content": {
@@ -4074,7 +4174,7 @@
                                 }
                             }
                         },
-                        "description": "Forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -4136,7 +4236,7 @@
                                 }
                             }
                         },
-                        "description": "Unauthorized"
+                        "description": "unauthorized"
                     },
                     "403": {
                         "content": {
@@ -4146,7 +4246,7 @@
                                 }
                             }
                         },
-                        "description": "Forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -4202,7 +4302,7 @@
                                 }
                             }
                         },
-                        "description": "Unauthorized"
+                        "description": "unauthorized"
                     },
                     "403": {
                         "content": {
@@ -4212,7 +4312,7 @@
                                 }
                             }
                         },
-                        "description": "Forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -4283,7 +4383,7 @@
                                 }
                             }
                         },
-                        "description": "Unauthorized"
+                        "description": "unauthorized"
                     },
                     "403": {
                         "content": {
@@ -4293,7 +4393,7 @@
                                 }
                             }
                         },
-                        "description": "Forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -4376,7 +4476,7 @@
                                 }
                             }
                         },
-                        "description": "Unauthorized"
+                        "description": "unauthorized"
                     },
                     "403": {
                         "content": {
@@ -4386,7 +4486,7 @@
                                 }
                             }
                         },
-                        "description": "Forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -4430,6 +4530,16 @@
                         },
                         "description": "OK"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -4438,7 +4548,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -4499,6 +4609,16 @@
                         },
                         "description": "invalid body"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -4507,7 +4627,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -4567,6 +4687,16 @@
                         },
                         "description": "slotID is required"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -4575,7 +4705,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -4645,6 +4775,16 @@
                         },
                         "description": "invalid body"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -4653,7 +4793,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -4727,6 +4867,16 @@
                         },
                         "description": "invalid weekday"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -4735,7 +4885,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -4774,6 +4924,16 @@
                         },
                         "description": "OK"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -4782,7 +4942,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -4844,6 +5004,16 @@
                         },
                         "description": "invalid body / invalid future appointment limit / invalid appointment change limit / invalid availability read limit / invalid booking dates"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -4852,7 +5022,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -4891,6 +5061,16 @@
                         },
                         "description": "OK"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -4899,7 +5079,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -4961,6 +5141,16 @@
                         },
                         "description": "invalid body"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -4969,7 +5159,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -5021,6 +5211,16 @@
                         },
                         "description": "OK"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -5029,7 +5229,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -5089,6 +5289,16 @@
                         },
                         "description": "code is required"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -5097,7 +5307,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -5172,6 +5382,16 @@
                         },
                         "description": "invalid body"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -5180,7 +5400,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -5245,6 +5465,16 @@
                         },
                         "description": "invalid body"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -5253,7 +5483,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -5318,6 +5548,16 @@
                         },
                         "description": "invalid body"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -5326,7 +5566,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -5368,6 +5608,16 @@
                         },
                         "description": "OK"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -5376,7 +5626,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -5441,6 +5691,16 @@
                         },
                         "description": "invalid body"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -5449,7 +5709,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -5491,6 +5751,16 @@
                         },
                         "description": "OK"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -5499,7 +5769,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -5559,6 +5829,16 @@
                         },
                         "description": "code is required"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -5567,7 +5847,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -5642,6 +5922,16 @@
                         },
                         "description": "invalid body"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -5650,7 +5940,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -5715,6 +6005,16 @@
                         },
                         "description": "invalid body"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -5723,7 +6023,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -5770,7 +6070,7 @@
                                 }
                             }
                         },
-                        "description": "Unauthorized"
+                        "description": "unauthorized"
                     },
                     "403": {
                         "content": {
@@ -5780,7 +6080,7 @@
                                 }
                             }
                         },
-                        "description": "Forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -5813,6 +6113,16 @@
                         },
                         "description": "OK"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -5821,7 +6131,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -5857,6 +6167,16 @@
                         },
                         "description": "Created"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -5865,7 +6185,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -5918,6 +6238,16 @@
                         },
                         "description": "bad request"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -5926,7 +6256,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -5978,6 +6308,16 @@
                     "204": {
                         "description": "No Content"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -5986,7 +6326,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -6067,6 +6407,16 @@
                         },
                         "description": "bad request"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -6075,7 +6425,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -6149,6 +6499,16 @@
                         },
                         "description": "bad request"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -6157,7 +6517,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -6231,6 +6591,16 @@
                         },
                         "description": "bad request"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -6239,7 +6609,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -6313,6 +6683,16 @@
                         },
                         "description": "bad request"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -6321,7 +6701,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -6402,6 +6782,16 @@
                         },
                         "description": "bad request"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -6410,7 +6800,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -6496,7 +6886,7 @@
                                 }
                             }
                         },
-                        "description": "Unauthorized"
+                        "description": "unauthorized"
                     },
                     "403": {
                         "content": {
@@ -6506,7 +6896,7 @@
                                 }
                             }
                         },
-                        "description": "Forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -6568,7 +6958,7 @@
                                 }
                             }
                         },
-                        "description": "Unauthorized"
+                        "description": "unauthorized"
                     },
                     "403": {
                         "content": {
@@ -6578,7 +6968,7 @@
                                 }
                             }
                         },
-                        "description": "Forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -6634,7 +7024,7 @@
                                 }
                             }
                         },
-                        "description": "Unauthorized"
+                        "description": "unauthorized"
                     },
                     "403": {
                         "content": {
@@ -6644,7 +7034,7 @@
                                 }
                             }
                         },
-                        "description": "Forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -6715,7 +7105,7 @@
                                 }
                             }
                         },
-                        "description": "Unauthorized"
+                        "description": "unauthorized"
                     },
                     "403": {
                         "content": {
@@ -6725,7 +7115,7 @@
                                 }
                             }
                         },
-                        "description": "Forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -6808,7 +7198,7 @@
                                 }
                             }
                         },
-                        "description": "Unauthorized"
+                        "description": "unauthorized"
                     },
                     "403": {
                         "content": {
@@ -6818,7 +7208,7 @@
                                 }
                             }
                         },
-                        "description": "Forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -6894,7 +7284,7 @@
                                 }
                             }
                         },
-                        "description": "Unauthorized"
+                        "description": "unauthorized"
                     },
                     "403": {
                         "content": {
@@ -6904,7 +7294,7 @@
                                 }
                             }
                         },
-                        "description": "Forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -6977,7 +7367,7 @@
                                 }
                             }
                         },
-                        "description": "Unauthorized"
+                        "description": "unauthorized"
                     },
                     "403": {
                         "content": {
@@ -6987,7 +7377,7 @@
                                 }
                             }
                         },
-                        "description": "Forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -7098,6 +7488,16 @@
                         },
                         "description": "invalid service"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -7106,7 +7506,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -7179,6 +7579,16 @@
                         },
                         "description": "invalid request"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -7187,7 +7597,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -7241,6 +7651,16 @@
                         },
                         "description": "OK"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -7249,7 +7669,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -7302,6 +7722,16 @@
                         },
                         "description": "serviceID is required"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -7310,7 +7740,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -7390,6 +7820,16 @@
                         },
                         "description": "serviceID is required"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -7398,7 +7838,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -7461,6 +7901,16 @@
                         },
                         "description": "serviceID is required"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -7469,7 +7919,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -7532,6 +7982,16 @@
                         },
                         "description": "serviceID is required"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -7540,7 +8000,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -7634,6 +8094,16 @@
                         },
                         "description": "invalid request"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -7642,7 +8112,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -7736,6 +8206,16 @@
                         },
                         "description": "invalid request"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -7744,7 +8224,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -7834,7 +8314,7 @@
                                 }
                             }
                         },
-                        "description": "Unauthorized"
+                        "description": "unauthorized"
                     },
                     "403": {
                         "content": {
@@ -7844,7 +8324,7 @@
                                 }
                             }
                         },
-                        "description": "Forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -7902,7 +8382,7 @@
                                 }
                             }
                         },
-                        "description": "Unauthorized"
+                        "description": "unauthorized"
                     },
                     "403": {
                         "content": {
@@ -7912,7 +8392,7 @@
                                 }
                             }
                         },
-                        "description": "Forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -8034,6 +8514,16 @@
                         },
                         "description": "OK"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -8042,7 +8532,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -8101,6 +8591,16 @@
                         },
                         "description": "invalid body"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -8109,7 +8609,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -8166,6 +8666,16 @@
                         },
                         "description": "OK"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -8174,7 +8684,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "500": {
                         "content": {
@@ -8227,6 +8737,16 @@
                         },
                         "description": "userID is required / invalid user role"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -8235,7 +8755,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -8303,6 +8823,16 @@
                         },
                         "description": "userID is required"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -8311,7 +8841,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -8391,6 +8921,16 @@
                         },
                         "description": "invalid body"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -8399,7 +8939,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -8462,6 +9002,16 @@
                         },
                         "description": "userID is required / user is already active"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -8481,6 +9031,16 @@
                             }
                         },
                         "description": "user not found"
+                    },
+                    "409": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "customer is blocked"
                     },
                     "500": {
                         "content": {
@@ -8531,6 +9091,16 @@
                         },
                         "description": "Imagen"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -8539,7 +9109,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -8602,6 +9172,16 @@
                         },
                         "description": "userID is required"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -8610,7 +9190,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
+                        "description": "forbidden / user is blocked"
                     },
                     "404": {
                         "content": {
@@ -8680,6 +9260,16 @@
                         },
                         "description": "userID is required"
                     },
+                    "401": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "unauthorized"
+                    },
                     "403": {
                         "content": {
                             "text/plain": {
@@ -8699,6 +9289,16 @@
                             }
                         },
                         "description": "user not found"
+                    },
+                    "409": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "customer is blocked"
                     },
                     "500": {
                         "content": {

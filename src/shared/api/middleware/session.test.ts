@@ -191,13 +191,9 @@ describe('sessionMiddleware', () => {
     expect(useSessionStore.getState()).toMatchObject(OLD);
   });
 
-  it('expires the session on a 403 "user is blocked"', async () => {
-    server.use(
-      http.get(
-        `${baseUrl}/admin/business-hours`,
-        () => new HttpResponse('user is blocked\n', { status: 403 }),
-      ),
-    );
+  // "forbidden" is the backend's answer when the user is no longer an admin (BE-04).
+  it.each(['user is blocked\n', 'forbidden'])('expires the session on a 403 %j', async (body) => {
+    server.use(http.get(`${baseUrl}/admin/business-hours`, () => new HttpResponse(body, { status: 403 })));
 
     const result = await client().GET('/admin/business-hours');
 
@@ -209,10 +205,13 @@ describe('sessionMiddleware', () => {
 
   it('keeps the session on any other 403', async () => {
     server.use(
-      http.get(`${baseUrl}/admin/business-hours`, () => new HttpResponse('forbidden', { status: 403 })),
+      http.delete(
+        `${baseUrl}/admin/users/:userID`,
+        () => new HttpResponse('admin users cannot delete their account from this app', { status: 403 }),
+      ),
     );
 
-    await client().GET('/admin/business-hours');
+    await client().DELETE('/admin/users/{userID}', { params: { path: { userID: 'u1' } } });
 
     expect(expiredCount).toBe(0);
     expect(useSessionStore.getState()).toMatchObject(OLD);

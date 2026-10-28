@@ -4,6 +4,7 @@ import {
   apiErrorFromResponse,
   ApiException,
   errorMessageFromBody,
+  isAdminAccessLostMessage,
   isBlockedUserMessage,
   unwrap,
 } from './errors';
@@ -43,6 +44,20 @@ describe('isBlockedUserMessage', () => {
   it('matches the backend message in any case', () => {
     expect(isBlockedUserMessage('User is blocked')).toBe(true);
     expect(isBlockedUserMessage('forbidden')).toBe(false);
+  });
+});
+
+describe('isAdminAccessLostMessage', () => {
+  it.each([
+    ['user is blocked', true],
+    ['User is blocked\n', true],
+    ['forbidden', true],
+    ['Forbidden\n', true],
+    ['admin users cannot delete their account from this app', false],
+    ['customer is blocked', false],
+    ['appointment forbidden', false],
+  ])('%j → %s', (message, expected) => {
+    expect(isAdminAccessLostMessage(message)).toBe(expected);
   });
 });
 
