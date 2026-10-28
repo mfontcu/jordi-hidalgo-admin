@@ -128,4 +128,17 @@ describe('openActivityStream', () => {
 
     expect(session.hasAccessToken()).toBe(false);
   });
+
+  it.each(['user is blocked\n', 'forbidden'])('expires the session on a 403 %j', async (body) => {
+    session.setTokens({ accessToken: 'access-old', refreshToken: 'refresh-old' });
+    const fetchImpl: typeof fetch = () => Promise.resolve(new Response(body, { status: 403 }));
+
+    await openActivityStream({ baseUrl, fetchImpl }).open({
+      after: null,
+      signal: new AbortController().signal,
+      onEvent: () => undefined,
+    });
+
+    expect(session.hasAccessToken()).toBe(false);
+  });
 });
