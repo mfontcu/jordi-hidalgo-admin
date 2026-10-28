@@ -12,10 +12,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-20T19:55:00Z'
+  at: '2026-10-28T16:50:00Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-21T05:56:00Z'
+    at: '2026-10-28T16:57:23Z'
 severity: medium
 operates:
   - /engineering/apps/hidalgo-admin
@@ -145,7 +145,9 @@ No alerts exist. Problems are reported by staff.
    snippet, not at CORS. The backend allows any origin.
 4. **Session.** A 401 followed by `POST /auth/refresh` answered 401 or 403 means the refresh token
    is no longer valid; staff must sign in again. A 403 that says the user is blocked means the
-   account is blocked in the backend.
+   account is blocked in the backend, and a 403 `forbidden` means the user is no longer an admin.
+   The backend reads the user on every admin request, so a block, a demotion, or a deactivation
+   (401, then a rejected refresh) ends the session at the next call.
 5. **Routing.** A 404 from the host (not from the API) on a panel path means the `index.html`
    fallback is missing.
 6. **Stale build.** Compare the loaded `assets/index-*.js` with the deployed one. A hard reload

@@ -1,7 +1,7 @@
 import { env } from '@/shared/config/env';
 
 import { clearActivityCursor, readActivityCursor, writeActivityCursor } from './activity-cursor';
-import { isBlockedUserMessage } from './errors';
+import { isAdminAccessLostMessage } from './errors';
 import { refreshAccessToken } from './middleware/session';
 import { session, useSessionStore } from './session-store';
 import { consumeSse, type SseMessage } from './sse';
@@ -54,7 +54,8 @@ type OpenOptions = {
 /**
  * `GET /admin/activity/stream` with `fetch`, because `EventSource` cannot send `Authorization`.
  * A 401 refreshes the access token once, through the same refresh the HTTP middleware uses, and
- * opens again. A rejected refresh or a blocked account expires the session and resolves.
+ * opens again. A rejected refresh, a blocked account, or a user who is no longer an admin expires
+ * the session and resolves.
  */
 export function openActivityStream(
   options: OpenOptions = { baseUrl: env.VITE_API_BASE_URL },
@@ -131,7 +132,7 @@ async function connect(options: {
 
   if (response.status === 403) {
     const text = await response.text();
-    if (isBlockedUserMessage(text)) session.expire();
+    if (isAdminAccessLostMessage(text)) session.expire();
     return;
   }
 

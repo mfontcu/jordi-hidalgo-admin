@@ -53,7 +53,7 @@ export interface paths {
         };
         /**
          * Canal de avisos en vivo
-         * @description Server-Sent Events. Al conectar lee Last-Event-ID o, si no viene, el query after, y escribe cada fila que falta como evento activity (id, kind, announce, payload). Si hay más de 100 filas entre el cursor y el presente, escribe un evento reset con el id más alto y no retransmite el hueco. Después se queda enganchado al hub del proceso. Cada 15 segundos escribe un comentario `: ping`.
+         * @description Server-Sent Events. Al conectar lee Last-Event-ID o, si no viene, el query after, y escribe cada fila que falta como evento activity (id, kind, announce, payload). Si hay más de 100 filas entre el cursor y el presente, escribe un evento reset con el id más alto y no retransmite el hueco. Después se queda enganchado al hub del proceso. Cada 15 segundos vuelve a comprobar que el usuario sigue siendo un administrador activo y no bloqueado (si no, cierra el flujo) y escribe un comentario `: ping`.
          */
         get: operations["adminStreamActivity"];
         put?: never;
@@ -3177,7 +3177,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -3236,7 +3236,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -3298,7 +3298,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -3360,7 +3360,16 @@ export interface operations {
                     "application/json": components["schemas"]["dto.AdminAppointmentListResponse"];
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -3412,7 +3421,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -3471,7 +3489,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -3519,7 +3546,16 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -3583,7 +3619,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -3647,7 +3692,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -3715,7 +3769,16 @@ export interface operations {
                     "application/json": components["schemas"]["dto.AdminCustomerPushListResponse"];
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -3779,7 +3842,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -3838,7 +3910,16 @@ export interface operations {
                     "application/json": components["schemas"]["dto.AdminAppointmentRescheduleChainResponse"];
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -3902,7 +3983,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -3980,7 +4070,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Unauthorized */
+            /** @description unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -3989,7 +4079,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Forbidden */
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -4041,7 +4131,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Unauthorized */
+            /** @description unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -4050,7 +4140,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Forbidden */
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -4100,7 +4190,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Unauthorized */
+            /** @description unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -4109,7 +4199,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Forbidden */
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -4173,7 +4263,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Unauthorized */
+            /** @description unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -4182,7 +4272,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Forbidden */
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -4239,7 +4329,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Unauthorized */
+            /** @description unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -4248,7 +4338,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Forbidden */
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -4295,7 +4385,16 @@ export interface operations {
                     "application/json": components["schemas"]["dto.AdminBusinessHoursResponse"];
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -4347,7 +4446,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -4397,7 +4505,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -4452,7 +4569,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -4507,7 +4633,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -4545,7 +4680,16 @@ export interface operations {
                     "application/json": components["schemas"]["dto.AdminBookingSettingsResponse"];
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -4604,7 +4748,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -4642,7 +4795,16 @@ export interface operations {
                     "application/json": components["schemas"]["dto.AdminBusinessInfoResponse"];
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -4701,7 +4863,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -4748,7 +4919,16 @@ export interface operations {
                     "application/json": components["schemas"]["dto.AdminLegalDocumentResponse"][];
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -4798,7 +4978,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -4860,7 +5049,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -4913,7 +5111,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -4966,7 +5173,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -5004,7 +5220,16 @@ export interface operations {
                     "application/json": components["schemas"]["dto.AdminNotificationSettingResponse"][];
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -5057,7 +5282,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -5095,7 +5329,16 @@ export interface operations {
                     "application/json": components["schemas"]["dto.AdminWebPageResponse"][];
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -5145,7 +5388,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -5207,7 +5459,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -5260,7 +5521,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -5298,7 +5568,7 @@ export interface operations {
                     "application/json": components["schemas"]["dto.AdminDashboardSummaryResponse"];
                 };
             };
-            /** @description Unauthorized */
+            /** @description unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -5307,7 +5577,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Forbidden */
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -5345,7 +5615,16 @@ export interface operations {
                     "application/json": components["schemas"]["dto.AdminHomeGallerySlidesResponse"];
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -5383,7 +5662,16 @@ export interface operations {
                     "application/json": components["schemas"]["dto.AdminHomeGallerySlideResponse"];
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -5433,7 +5721,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -5481,7 +5778,16 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -5545,7 +5851,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -5607,7 +5922,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -5669,7 +5993,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -5731,7 +6064,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -5795,7 +6137,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -5856,7 +6207,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Unauthorized */
+            /** @description unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -5865,7 +6216,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Forbidden */
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -5917,7 +6268,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Unauthorized */
+            /** @description unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -5926,7 +6277,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Forbidden */
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -5976,7 +6327,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Unauthorized */
+            /** @description unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -5985,7 +6336,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Forbidden */
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -6049,7 +6400,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Unauthorized */
+            /** @description unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -6058,7 +6409,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Forbidden */
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -6115,7 +6466,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Unauthorized */
+            /** @description unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -6124,7 +6475,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Forbidden */
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -6183,7 +6534,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Unauthorized */
+            /** @description unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -6192,7 +6543,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Forbidden */
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -6247,7 +6598,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Unauthorized */
+            /** @description unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -6256,7 +6607,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Forbidden */
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -6318,7 +6669,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -6373,7 +6733,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -6414,7 +6783,16 @@ export interface operations {
                     "application/json": components["schemas"]["dto.AdminServiceCategoryListResponse"];
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -6467,7 +6845,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -6524,7 +6911,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -6581,7 +6977,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -6638,7 +7043,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -6705,7 +7119,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -6772,7 +7195,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -6833,7 +7265,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Unauthorized */
+            /** @description unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -6842,7 +7274,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Forbidden */
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -6883,7 +7315,7 @@ export interface operations {
                     "application/json": components["schemas"]["dto.SlotWatchResponse"];
                 };
             };
-            /** @description Unauthorized */
+            /** @description unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -6892,7 +7324,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description Forbidden */
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -6954,7 +7386,16 @@ export interface operations {
                     "application/json": components["schemas"]["dto.AdminUserListResponse"];
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -7006,7 +7447,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -7049,7 +7499,16 @@ export interface operations {
                     "application/json": components["schemas"]["dto.AdminPhoneMatchCountResponse"];
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -7099,7 +7558,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -7156,7 +7624,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -7220,7 +7697,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -7277,6 +7763,15 @@ export interface operations {
                     "text/plain": string;
                 };
             };
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
@@ -7288,6 +7783,15 @@ export interface operations {
             };
             /** @description user not found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description customer is blocked */
+            409: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -7327,7 +7831,16 @@ export interface operations {
                     "application/octet-stream": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -7384,7 +7897,16 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description forbidden / user is blocked */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -7443,6 +7965,15 @@ export interface operations {
                     "text/plain": string;
                 };
             };
+            /** @description unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
@@ -7454,6 +7985,15 @@ export interface operations {
             };
             /** @description user not found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description customer is blocked */
+            409: {
                 headers: {
                     [name: string]: unknown;
                 };

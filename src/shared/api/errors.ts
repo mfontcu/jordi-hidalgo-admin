@@ -56,6 +56,14 @@ export function isBlockedUserMessage(message: string): boolean {
   return message.toLowerCase().includes('user is blocked');
 }
 
+/**
+ * Backend message of a 403 on `/admin/*` that means the caller lost panel access: blocked, or no
+ * longer an admin (`forbidden`). The backend reads the user on every admin request (BE-04).
+ */
+export function isAdminAccessLostMessage(message: string): boolean {
+  return isBlockedUserMessage(message) || message.trim().toLowerCase() === 'forbidden';
+}
+
 type FetchResult<T> = { data?: T; error?: unknown; response: Response };
 
 /**
