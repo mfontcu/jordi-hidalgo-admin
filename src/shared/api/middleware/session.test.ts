@@ -235,6 +235,24 @@ describe('sessionMiddleware', () => {
     expect(expiredCount).toBe(0);
   });
 
+  it('neither authorizes nor refreshes the sign-out request', async () => {
+    const refreshes = refreshEndpoint(refreshOk);
+    let authorization: string | null = 'unset';
+    server.use(
+      http.post(`${baseUrl}/auth/logout`, ({ request }) => {
+        authorization = request.headers.get('Authorization');
+        return new HttpResponse('unauthorized', { status: 401 });
+      }),
+    );
+
+    const { response } = await client().POST('/auth/logout', { body: { refreshToken: OLD.refreshToken } });
+
+    expect(response.status).toBe(401);
+    expect(authorization).toBeNull();
+    expect(refreshes).toHaveLength(0);
+    expect(expiredCount).toBe(0);
+  });
+
   it('turns a transport failure into a network ApiException', async () => {
     server.use(http.get(`${baseUrl}/admin/business-hours`, () => HttpResponse.error()));
 

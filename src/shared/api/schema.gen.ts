@@ -1289,6 +1289,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Cerrar sesión
+         * @description Revoca el refresh token presentado. No requiere access token. Responde 204 aunque el token sea inválido, desconocido, haya caducado o ya esté revocado (RFC 7009), así que el cliente puede cerrar la sesión local sin esperar ni interpretar la respuesta.
+         */
+        post: operations["logout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/auth/me": {
         parameters: {
             query?: never;
@@ -2829,6 +2849,10 @@ export interface components {
             email?: string;
             /** @example password123 */
             password?: string;
+        };
+        "dto.LogoutRequest": {
+            /** @example eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9... */
+            refreshToken?: string;
         };
         "dto.MarkAdminActivityReadRequest": {
             all?: boolean;
@@ -8184,6 +8208,47 @@ export interface operations {
             };
             /** @description user inactive */
             403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description internal error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+        };
+    };
+    logout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Refresh token a revocar */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["dto.LogoutRequest"];
+            };
+        };
+        responses: {
+            /** @description session revoked */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description invalid request */
+            400: {
                 headers: {
                     [name: string]: unknown;
                 };

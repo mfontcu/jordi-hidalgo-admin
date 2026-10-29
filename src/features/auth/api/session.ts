@@ -1,6 +1,6 @@
 import type { QueryClient } from '@tanstack/react-query';
 
-import { apiClient, isApiException, session, unwrap } from '@/shared/api';
+import { apiClient, isApiException, session, unwrap, useSessionStore } from '@/shared/api';
 
 import type { LoginFailure } from '../model/login-error';
 import type { LoginFormValues } from '../model/login-form';
@@ -24,6 +24,22 @@ class SignInError extends Error {
 export function signOut(queryClient: QueryClient) {
   session.clear();
   queryClient.clear();
+}
+
+/**
+ * Sign-out chosen by the staff member (BE-09): signs out on this device first, then asks the
+ * backend to revoke the refresh token (`POST /auth/logout`). The revocation is best effort: a
+ * failure or no network never keeps the session open here, and the caller does not wait for it.
+ */
+export async function endSession(queryClient: QueryClient): Promise<void> {
+  const { refreshToken } = useSessionStore.getState();
+  signOut(queryClient);
+  if (!refreshToken) return;
+  try {
+    await apiClient.POST('/auth/logout', { body: { refreshToken } });
+  } catch {
+    // Already signed out here; the token expires on its own.
+  }
 }
 
 /**

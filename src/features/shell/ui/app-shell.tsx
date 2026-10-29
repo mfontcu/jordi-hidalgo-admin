@@ -4,7 +4,7 @@ import { useState, type ReactNode } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { ActivityBell, ActivityLive } from '@/features/activity';
-import { signOut } from '@/features/auth';
+import { endSession } from '@/features/auth';
 import { Drawer, DrawerContent, DrawerTitle, Toaster, TooltipProvider } from '@/shared/ui';
 
 import { useSidebarStore } from '../hooks/sidebar-store';
@@ -33,10 +33,10 @@ export function AppShell({ children }: { children: ReactNode }) {
     setMenuOpen(false);
   }
 
-  // Sign-out from the sidebar: back to the login screen, no notice.
+  // Sign-out from the sidebar: back to the login screen, no notice. The revocation is not awaited.
   const handleSignOut = () => {
     setMenuOpen(false);
-    signOut(queryClient);
+    void endSession(queryClient);
     void navigate({ to: '/login', replace: true });
   };
 

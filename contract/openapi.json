@@ -2096,6 +2096,15 @@
                 },
                 "type": "object"
             },
+            "dto.LogoutRequest": {
+                "properties": {
+                    "refreshToken": {
+                        "example": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "dto.MarkAdminActivityReadRequest": {
                 "properties": {
                     "all": {
@@ -9566,6 +9575,53 @@
                     }
                 },
                 "summary": "Login de usuario",
+                "tags": [
+                    "auth"
+                ]
+            }
+        },
+        "/auth/logout": {
+            "post": {
+                "description": "Revoca el refresh token presentado. No requiere access token. Responde 204 aunque el token sea inválido, desconocido, haya caducado o ya esté revocado (RFC 7009), así que el cliente puede cerrar la sesión local sin esperar ni interpretar la respuesta.",
+                "operationId": "logout",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/dto.LogoutRequest"
+                            }
+                        }
+                    },
+                    "description": "Refresh token a revocar",
+                    "required": true,
+                    "x-originalParamName": "request"
+                },
+                "responses": {
+                    "204": {
+                        "description": "session revoked"
+                    },
+                    "400": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "invalid request"
+                    },
+                    "500": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "internal error"
+                    }
+                },
+                "summary": "Cerrar sesión",
                 "tags": [
                     "auth"
                 ]

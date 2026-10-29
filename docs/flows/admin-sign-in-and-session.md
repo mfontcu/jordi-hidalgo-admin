@@ -13,10 +13,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-28T16:50:00Z'
+  at: '2026-10-29T06:11:28Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-28T16:57:23Z'
+    at: '2026-10-29T07:33:41Z'
 part_of: /engineering/apps/hidalgo-admin
 realizes:
   - /business/processes/hidalgo-junior/staff-sign-in
@@ -43,8 +43,10 @@ A stored token calls `GET /auth/me`. Success with a staff role renders the shell
 path. No token, a rejected token, or a non-staff role goes to `/login`. A network or server failure
 on restore also goes to `/login` but keeps the tokens. Sign-in clears any previous session first,
 then `POST /auth/login`. A staff user is stored and the `redirect` path opens when it is a relative
-panel path. Sign-out clears the tokens, the activity cursor (`hj_admin.activity_cursor`), and the
-query cache, and replaces the location with `/login`. Language, theme, and the collapsed sidebar
+panel path. Sign-out (`endSession`) clears the tokens, the activity cursor
+(`hj_admin.activity_cursor`), and the query cache, replaces the location with `/login`, and then
+sends `POST /auth/logout` with the refresh token, without the access token and without waiting for
+the answer, so the backend revokes it (BE-09). Language, theme, and the collapsed sidebar
 stay. Expiry clears the tokens and the cursor the same way.
 
 ## Error Handling and Compensation
@@ -59,6 +61,7 @@ stay. Expiry clears the tokens and the cursor the same way.
 | 401 on a later call, refresh succeeds                                  | The original call is retried once. Concurrent 401s share one refresh                                     |
 | Refresh answered 401 or 403, or a 403 `user is blocked` or `forbidden` | Tokens and the activity cursor cleared, in-memory expiry flag set, `/login` shows the expiry notice once |
 | Refresh fails for network or server reasons                            | Tokens kept. The call fails as a network or server error                                                 |
+| Revocation on sign-out fails (network, 5xx, rejected token)            | Ignored: the panel is already signed out, and that refresh token expires on its own                      |
 
-There is no server-side sign-out call. A rollback to a kept Flutter deployment does not read these
+Sign-in, restore, and expiry never revoke: only the staff member's own sign-out does. A rollback to a kept Flutter deployment does not read these
 keys, so staff sign in there again as well. The Flutter source is no longer in the app repository.
