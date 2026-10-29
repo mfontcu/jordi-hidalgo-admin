@@ -88,11 +88,15 @@ budget: ## Comprueba el tamaño de dist/ (después de build o build-e2e)
 	npm run budget
 
 ##@ Despliegue (Cloudflare; requiere `make install-wrangler` y `wrangler login`)
+# El build deja dist/_headers con las cabeceras de seguridad (AA-03). dist/.vite (manifest del
+# presupuesto del bundle) se borra antes de publicar, como en la imagen nginx.
 
 deploy-staging: wrangler-check build-staging ## Build de staging y publica en el Worker de wrangler.json
+	rm -rf dist/.vite
 	wrangler deploy
 
 deploy-prod: wrangler-check build ## Build de producción y publica en Cloudflare Pages
+	rm -rf dist/.vite
 	wrangler pages deploy dist --project-name=$(PAGES_PROJECT) --branch=main
 
 wrangler-check:
