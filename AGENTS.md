@@ -112,6 +112,8 @@ make deploy-staging    # build de staging + wrangler deploy (Worker shy-rain-a1f
 make deploy-prod       # build de producción + wrangler pages deploy (Pages hidalgo-junior-admin)
 ```
 
+El build escribe `dist/_headers` (CSP y demás cabeceras de seguridad) desde `deploy/security-headers.conf.template`, con el origen de la API del build (`scripts/security-headers.mjs`). Los dos `deploy-*` borran `dist/.vite` antes de publicar.
+
 Imagen de producción (nginx, CSP incluida):
 
 ```bash
@@ -157,5 +159,5 @@ Al cambiar rutas, sesión, almacenamiento local o el despliegue, actualiza el do
 | `src/shared/i18n/failure-message.ts`      | Mensaje por clase de error (`useDescribeFailure`)                                                                                                                             |
 | `src/shared/config/env.ts`                | Variables de entorno                                                                                                                                                          |
 | `eslint.config.js`                        | Reglas de capas y de copy                                                                                                                                                     |
-| `deploy/*.template`, `Dockerfile`         | Imagen nginx de producción                                                                                                                                                    |
+| `deploy/*.template`, `Dockerfile`         | Imagen nginx de producción. `security-headers.conf.template` es también la fuente de `dist/_headers` para Cloudflare                                                          |
 | `docs/index.md`                           | Mapa de la documentación del componente (ADR-002)                                                                                                                             |

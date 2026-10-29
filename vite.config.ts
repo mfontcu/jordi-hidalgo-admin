@@ -6,6 +6,8 @@ import { tanstackRouter } from '@tanstack/router-plugin/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vitest/config';
 
+import { securityHeaders } from './scripts/security-headers.mjs';
+
 // The sidebar footer shows the panel version (Flutter: `v1.0.0` in admin_sidebar.dart).
 const { version } = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')) as {
   version: string;
@@ -25,6 +27,8 @@ export default defineConfig({
     }),
     react(),
     tailwindcss(),
+    // dist/_headers for Cloudflare, with this build's API origin in connect-src (AA-03).
+    securityHeaders(),
   ],
   resolve: {
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },

@@ -13,10 +13,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-28T16:50:00Z'
+  at: '2026-10-28T18:07:18Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-28T16:57:23Z'
+    at: '2026-10-29T05:44:30Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -95,9 +95,10 @@ Events that arrive before a short quiet gap are the reconnect batch. They refres
 not toast. A later event toasts only while the tab is visible. Returning to the foreground
 reopens the stream when it has dropped, using the stored id, and does not stack toasts.
 
-Production (`https://admin.hidalgojunior.com`) is Cloudflare Pages and sends no
-`Content-Security-Policy`, so `fetch` to the API origin is not blocked by `connect-src`. The
-nginx image allows that origin in `connect-src` (`deploy/security-headers.conf.template`).
+Every host sends a `Content-Security-Policy` whose `connect-src` allows the API origin of the
+build, so `fetch` to the API, including this stream, is not blocked. The nginx image sets it from
+`deploy/security-headers.conf.template`; on Cloudflare (production on Pages, staging on Workers)
+the same header comes from the `dist/_headers` file the build writes from that template.
 
 ## Dashboard, availability, appointments, slot watches
 
