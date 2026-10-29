@@ -170,10 +170,12 @@
   --y: translateX(110%);
 }
 
-[data-sonner-toaster][data-x-position='right'] [data-sonner-toast][data-y-position='bottom'][data-mounted='true'] {
+[data-sonner-toaster][data-x-position='right']
+  [data-sonner-toast][data-y-position='bottom'][data-mounted='true'] {
   --y: translateX(0);
 }
 
-[data-sonner-toaster][data-x-position='right'] [data-sonner-toast][data-removed='true']:not([data-swipe-out='true']) {
+[data-sonner-toaster][data-x-position='right']
+  [data-sonner-toast][data-removed='true']:not([data-swipe-out='true']) {
   --y: translateX(110%);
 }

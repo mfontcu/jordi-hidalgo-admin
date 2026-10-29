@@ -6,7 +6,7 @@ import { API, CUSTOMER_USER, loginAs, meAs, plainError, STAFF_USER, TOKENS } fro
 import { server } from '@/test/msw/server';
 
 import { authKeys } from './auth.keys';
-import { loginFailureOf, restoreSession, signIn, signOut } from './session';
+import { endSession, loginFailureOf, restoreSession, signIn, signOut } from './session';
 
 let queryClient: QueryClient;
 
@@ -172,5 +172,59 @@ describe('signOut', () => {
       expired: false,
     });
     expect(queryClient.getQueryData(authKeys.me())).toBeUndefined();
+  });
+});
+
+describe('endSession', () => {
+  /** `POST /auth/logout` answering with `respond`; returns the bodies it received. */
+  function logoutEndpoint(respond: () => Response) {
+    const bodies: unknown[] = [];
+    server.use(
+      http.post(`${API}/auth/logout`, async ({ request }) => {
+        bodies.push(await request.json());
+        return respond();
+      }),
+    );
+    return bodies;
+  }
+
+  const cases = [
+    { name: 'the backend revokes the token', respond: () => new HttpResponse(null, { status: 204 }) },
+    { name: 'the backend fails', respond: () => new HttpResponse('internal error', { status: 500 }) },
+    { name: 'the backend cannot be reached', respond: () => HttpResponse.error() },
+  ];
+
+  it.each(cases)('sends the refresh token and signs out when $name', async ({ respond }) => {
+    const bodies = logoutEndpoint(respond);
+    session.setTokens(TOKENS);
+    queryClient.setQueryData(authKeys.me(), STAFF_USER);
+
+    await expect(endSession(queryClient)).resolves.toBeUndefined();
+
+    expect(bodies).toEqual([{ refreshToken: TOKENS.refreshToken }]);
+    expect(useSessionStore.getState()).toMatchObject({
+      accessToken: null,
+      refreshToken: null,
+      expired: false,
+    });
+    expect(queryClient.getQueryData(authKeys.me())).toBeUndefined();
+  });
+
+  it('signs out on this device before the backend answers', async () => {
+    logoutEndpoint(() => new HttpResponse(null, { status: 204 }));
+    session.setTokens(TOKENS);
+
+    const pending = endSession(queryClient);
+
+    expect(useSessionStore.getState()).toMatchObject({ accessToken: null, refreshToken: null });
+    await pending;
+  });
+
+  it('does not call the backend without a refresh token', async () => {
+    const bodies = logoutEndpoint(() => new HttpResponse(null, { status: 204 }));
+
+    await endSession(queryClient);
+
+    expect(bodies).toHaveLength(0);
   });
 });

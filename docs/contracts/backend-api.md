@@ -13,10 +13,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-28T18:07:18Z'
+  at: '2026-10-29T06:11:28Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-29T05:44:30Z'
+    at: '2026-10-29T07:33:41Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -38,16 +38,16 @@ The client is `openapi-fetch` in `src/shared/api/client.ts`. Middleware sends th
 screen, with retry. A failed mutation shows a toast that names the action and the class. A
 validation toast includes the backend's text when the body has one; a conflict toast does not.
 
-| Class          | When                                                         |
-| -------------- | ------------------------------------------------------------ |
-| `network`      | No response                                                  |
-| `unauthorized` | 401. The middleware refreshes once before the screen sees it |
+| Class          | When                                                                                         |
+| -------------- | -------------------------------------------------------------------------------------------- |
+| `network`      | No response                                                                                  |
+| `unauthorized` | 401. The middleware refreshes once before the screen sees it                                 |
 | `forbidden`    | 403. `user is blocked` or `forbidden` (the caller is no longer an admin) expires the session |
-| `notFound`     | 404                                                          |
-| `validation`   | 400 or 422                                                   |
-| `conflict`     | 409                                                          |
-| `rateLimited`  | 429                                                          |
-| `server`       | 5xx, or any other status                                     |
+| `notFound`     | 404                                                                                          |
+| `validation`   | 400 or 422                                                                                   |
+| `conflict`     | 409                                                                                          |
+| `rateLimited`  | 429                                                                                          |
+| `server`       | 5xx, or any other status                                                                     |
 
 One 409 is read as JSON instead: a status change that would set a cancelled appointment back to
 pending or confirmed when its slot is taken (`dto.AdminSlotConflictResponse`). The status mutation
@@ -61,13 +61,16 @@ says that the time was just taken and asks for another one, instead of the confl
 
 ## Session
 
-| Operation            | Caller                                                        |
-| -------------------- | ------------------------------------------------------------- |
-| `POST /auth/login`   | Sign-in                                                       |
-| `GET /auth/me`       | Restore and the signed-in staff member                        |
-| `POST /auth/refresh` | The HTTP middleware, once per 401, shared by concurrent calls |
+| Operation            | Caller                                                                                   |
+| -------------------- | ---------------------------------------------------------------------------------------- |
+| `POST /auth/login`   | Sign-in                                                                                  |
+| `GET /auth/me`       | Restore and the signed-in staff member                                                   |
+| `POST /auth/refresh` | The HTTP middleware, once per 401, shared by concurrent calls                            |
+| `POST /auth/logout`  | Sign-out from the sidebar or the drawer, after the local session is cleared; not awaited |
 
-Sign-out does not call the backend. It clears the tokens, the activity cursor, and the query cache.
+Sign-out clears the tokens, the activity cursor, and the query cache, then asks the backend to revoke
+the refresh token. `/auth/login`, `/auth/logout`, and `/auth/refresh` carry no access token and never
+trigger a refresh.
 
 ## Live activity
 
@@ -75,11 +78,11 @@ The stream is `fetch`, not `EventSource`. `EventSource` cannot send `Authorizati
 `openActivityStream` (`src/shared/api/activity-stream.ts`) sends the session bearer and reads the
 body as a stream. The shell opens one connection per tab after the session is restored.
 
-| Operation                           | Caller                                                                                |
-| ----------------------------------- | ------------------------------------------------------------------------------------- |
-| `GET /admin/activity/stream`        | The shell. `Last-Event-ID` and `after` carry the last id (`hj_admin.activity_cursor`) |
+| Operation                           | Caller                                                                                                              |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `GET /admin/activity/stream`        | The shell. `Last-Event-ID` and `after` carry the last id (`hj_admin.activity_cursor`)                               |
 | `GET /admin/activity?announce=true` | The bell, when the shell mounts. The 100 newest announced events, newest first, each with this administrator's read |
-| `POST /admin/activity/read`         | Mark one id, the selected ids, or every unread announced event (`all: true`). The row stays in the list |
+| `POST /admin/activity/read`         | Mark one id, the selected ids, or every unread announced event (`all: true`). The row stays in the list             |
 
 A 401 uses the same shared refresh as the HTTP middleware and opens the stream again. A rejected
 refresh or a blocked user closes the stream and expires the session. A 400 for an invalid cursor
@@ -113,7 +116,7 @@ the same header comes from the `dist/_headers` file the build writes from that t
 | `GET /admin/appointments/{appointmentID}/customer-push-messages` | Detail and day agenda                                                                                                                                             |
 | `POST /admin/appointments`                                       | Create                                                                                                                                                            |
 | `PATCH /admin/appointments/{appointmentID}/reschedule`           | Reschedule                                                                                                                                                        |
-| `PATCH /admin/appointments/{appointmentID}/status`               | Complete and no-show, including bulk; the detail's status change, also on a closed appointment (a slot conflict is a JSON 409)                                     |
+| `PATCH /admin/appointments/{appointmentID}/status`               | Complete and no-show, including bulk; the detail's status change, also on a closed appointment (a slot conflict is a JSON 409)                                    |
 | `PATCH /admin/appointments/{appointmentID}/cancel`               | Cancel, including bulk and the conflicts check                                                                                                                    |
 | `POST /admin/appointments/{appointmentID}/customer-push`         | Customer push                                                                                                                                                     |
 | `GET /admin/slot-watches`                                        | Slot-watch list. The salon day is the only server filter                                                                                                          |
