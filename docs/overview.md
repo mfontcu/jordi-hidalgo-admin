@@ -17,10 +17,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-28T17:30:35Z'
+  at: '2026-10-29T06:11:28Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-28T17:42:40Z'
+    at: '2026-10-29T07:33:41Z'
 resource: /engineering/apps/hidalgo-admin
 service_status: active
 tier: 1
@@ -123,7 +123,7 @@ A use case is a call the panel makes. The HTTP operation behind each one is list
 
 | Module              | Use case                                                                                                                             | Flow                                                                                                                           |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| auth                | Sign in (`POST /auth/login`), restore (`GET /auth/me`), refresh (`POST /auth/refresh`), sign out (local only)                        | [Sign-in and session](./flows/admin-sign-in-and-session.md)                                                                    |
+| auth                | Sign in (`POST /auth/login`), restore (`GET /auth/me`), refresh (`POST /auth/refresh`), sign out (`POST /auth/logout`, best effort)  | [Sign-in and session](./flows/admin-sign-in-and-session.md)                                                                    |
 | dashboard           | Load the admin summary                                                                                                               | —                                                                                                                              |
 | availability        | Public services, bookable dates, slots for a date                                                                                    | —                                                                                                                              |
 | appointments        | List, get, create, reschedule, status, cancel, bulk, customer push and its history, reschedule chain                                 | [Create](./flows/create-appointment.md), [change](./flows/change-appointment-status.md), [push](./flows/send-customer-push.md) |

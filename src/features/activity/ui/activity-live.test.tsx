@@ -103,9 +103,7 @@ describe('activity stream in the shell', () => {
     });
     const bell = screen.getByRole('button', { name: 'Avisos, 1 sin leer' });
     await user.click(bell);
-    expect(
-      screen.getByRole('button', { name: /Ana Ruiz ha reservado Corte .+10:30/ }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Ana Ruiz ha reservado Corte .+10:30/ })).toBeInTheDocument();
 
     const afterBooked = summaries;
     stream.emit(activity(9, 'appointment.created', false, false));
@@ -155,7 +153,7 @@ describe('activity stream in the shell', () => {
       (_, element) =>
         element?.tagName === 'SPAN' &&
         element.classList.contains('min-w-0') &&
-        /Ana Ruiz ha reservado .+10:30/.test(element.textContent ?? ''),
+        /Ana Ruiz ha reservado .+10:30/.test(element.textContent),
     );
     const toast = notice.closest('[data-sonner-toast]');
     expect(toast).not.toBeNull();

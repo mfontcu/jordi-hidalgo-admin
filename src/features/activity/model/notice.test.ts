@@ -42,7 +42,7 @@ describe('activityNotice', () => {
 });
 
 describe('activityMoment', () => {
-  const now = Date.parse('2026-10-21T08:30:00Z');
+  const now = 1_792_571_400_000; // 2026-10-21T08:30:00Z
 
   it('names today, tomorrow, and any other salon day', () => {
     expect(activityMoment({ nextStart: '2026-10-21T08:30:00Z' }, 'es', now)).toEqual({

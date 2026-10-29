@@ -6,7 +6,7 @@ import { session, useSessionStore } from '../session-store';
 import { REQUEST_TIMEOUT_MS } from './timeout';
 
 /** Operations that carry no access token and never trigger a refresh. */
-const PUBLIC_PATHS = new Set(['/auth/login', '/auth/refresh']);
+const PUBLIC_PATHS = new Set(['/auth/login', '/auth/logout', '/auth/refresh']);
 
 const refreshResponseSchema = z.object({
   accessToken: z.string().min(1),
