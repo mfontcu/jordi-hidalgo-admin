@@ -12,10 +12,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-28T17:30:35Z'
+  at: '2026-10-28T18:07:18Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-28T17:42:40Z'
+    at: '2026-10-29T05:44:30Z'
 severity: medium
 operates:
   - /engineering/apps/hidalgo-admin
@@ -73,9 +73,17 @@ the `Makefile`) and a Cloudflare session (`wrangler login`, or `CLOUDFLARE_API_T
 published to production, nor the reverse.
 
 The backend allows any origin (CORS `*`), so the panel origin does not need a backend change.
-Cloudflare Pages sends no `Content-Security-Policy`. `fetch` to the API origin, including the live
-activity stream, is not blocked there. The nginx image is the host that sets `connect-src`, and it
-already allows the API origin.
+Every host sends the same security headers: `Content-Security-Policy`, `X-Content-Type-Options`,
+`Referrer-Policy`, and `Permissions-Policy`. Their single source is
+`deploy/security-headers.conf.template`. The nginx image reads it directly. For Cloudflare, the
+Vite build writes `dist/_headers` from it (`scripts/security-headers.mjs`), with the build's API
+origin in `connect-src`, and Pages and Workers static assets apply that file to every path. The
+`connect-src` allows the API origin, including the live activity stream, and the R2 presigned
+uploads (`https://*.r2.cloudflarestorage.com`). A staging build therefore allows only the staging
+API, and a production build only the production API. `scripts/security-headers.test.mjs` fails if
+`dist/_headers` drifts from the template. Both deploy targets delete `dist/.vite` (the Vite
+manifest, used only by the bundle budget) before publishing, as the nginx image does, and the
+image also drops `dist/_headers`.
 
 Staging is a separate build, published at `https://shy-rain-a1f2.jhidalgojunior.workers.dev`, with
 `VITE_API_BASE_URL` set to `https://hidalgo-junior-backend-staging.up.railway.app`. It is a Worker
@@ -134,17 +142,17 @@ the backend's logs and traces for the same requests.
 
 No alerts exist. Problems are reported by staff.
 
-| Symptom                                                                                | Likely cause                                                                                     |
-| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| The app does not render, and the console says the environment configuration is invalid | The build has no `VITE_API_BASE_URL`, or it is not an `http` or `https` URL                      |
-| Every screen shows a network error; sign-in fails with a network message               | Backend down or unreachable, or the build points at the wrong API origin                         |
-| A browser error says the request was blocked by a content security policy              | The nginx `connect-src` does not include the API origin (`API_ORIGIN`)                           |
-| Reloading a page or opening a shared link returns 404 from the host                    | The host does not fall back to `index.html`                                                      |
-| Staff are sent to `/login` with "your session has expired"                             | Refresh token rejected, or the account was blocked                                               |
-| Sign-in works but shows "no admin access"                                              | The account's role is not `admin` or `super_admin`                                               |
-| After cutover the panel asks for sign-in even though Flutter was open                  | Expected. The storage keys changed                                                               |
-| Old UI after a deploy                                                                  | The browser cached `index.html`; hard reload                                                     |
-| Free slots today stays 0                                                               | The salon has no remaining free grid starts today. The panel shows the count the backend returns |
+| Symptom                                                                                | Likely cause                                                                                                        |
+| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| The app does not render, and the console says the environment configuration is invalid | The build has no `VITE_API_BASE_URL`, or it is not an `http` or `https` URL                                         |
+| Every screen shows a network error; sign-in fails with a network message               | Backend down or unreachable, or the build points at the wrong API origin                                            |
+| A browser error says the request was blocked by a content security policy              | The build's API origin is not the API the panel calls, or the blocked origin is not in the template's `connect-src` |
+| Reloading a page or opening a shared link returns 404 from the host                    | The host does not fall back to `index.html`                                                                         |
+| Staff are sent to `/login` with "your session has expired"                             | Refresh token rejected, or the account was blocked                                                                  |
+| Sign-in works but shows "no admin access"                                              | The account's role is not `admin` or `super_admin`                                                                  |
+| After cutover the panel asks for sign-in even though Flutter was open                  | Expected. The storage keys changed                                                                                  |
+| Old UI after a deploy                                                                  | The browser cached `index.html`; hard reload                                                                        |
+| Free slots today stays 0                                                               | The salon has no remaining free grid starts today. The panel shows the count the backend returns                    |
 
 ## Step-by-Step Diagnosis
 

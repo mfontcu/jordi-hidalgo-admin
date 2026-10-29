@@ -10,7 +10,8 @@ COPY . .
 
 ARG VITE_API_BASE_URL
 RUN test -n "$VITE_API_BASE_URL" || (echo "VITE_API_BASE_URL build arg is required" >&2 && exit 1)
-RUN npm run build && rm -rf dist/.vite
+# dist/_headers is for the Cloudflare hosts; nginx sets the same headers itself.
+RUN npm run build && rm -rf dist/.vite dist/_headers
 
 FROM nginx:1.29-alpine
 
