@@ -12,10 +12,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-28T18:07:18Z'
+  at: '2026-10-29T09:37:50Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-29T05:44:30Z'
+    at: '2026-10-29T11:30:49Z'
 severity: medium
 operates:
   - /engineering/apps/hidalgo-admin
@@ -85,6 +85,14 @@ API, and a production build only the production API. `scripts/security-headers.t
 manifest, used only by the bundle budget) before publishing, as the nginx image does, and the
 image also drops `dist/_headers`.
 
+The presigned uploads go to the R2 bucket of the backend the build calls, and the browser sends a
+CORS preflight before each `PUT`. Each bucket allows only its own panel origins: `hj-avatars`
+(production) allows `https://admin.hidalgojunior.com`, `hj-media-staging` allows the staging Worker
+URL, and `hj-media-local` allows `http://localhost:5173` and `http://127.0.0.1:5173` (`npm run dev`).
+A new panel host needs its origin added to its bucket's CORS (`wrangler r2 bucket cors set`). The
+buckets per environment are listed in the backend's
+[storage per environment](/engineering/services/hidalgo-backend/operations#storage-per-environment).
+
 Staging is a separate build, published at `https://shy-rain-a1f2.jhidalgojunior.workers.dev`, with
 `VITE_API_BASE_URL` set to `https://hidalgo-junior-backend-staging.up.railway.app`. It is a Worker
 with static assets, configured in `wrangler.json`. Run `make deploy-staging` to build it and run
@@ -147,6 +155,7 @@ No alerts exist. Problems are reported by staff.
 | The app does not render, and the console says the environment configuration is invalid | The build has no `VITE_API_BASE_URL`, or it is not an `http` or `https` URL                                         |
 | Every screen shows a network error; sign-in fails with a network message               | Backend down or unreachable, or the build points at the wrong API origin                                            |
 | A browser error says the request was blocked by a content security policy              | The build's API origin is not the API the panel calls, or the blocked origin is not in the template's `connect-src` |
+| A gallery upload fails and the console shows a CORS error on the R2 `PUT` preflight    | The panel origin is not in the CORS rules of that environment's R2 bucket                                           |
 | Reloading a page or opening a shared link returns 404 from the host                    | The host does not fall back to `index.html`                                                                         |
 | Staff are sent to `/login` with "your session has expired"                             | Refresh token rejected, or the account was blocked                                                                  |
 | Sign-in works but shows "no admin access"                                              | The account's role is not `admin` or `super_admin`                                                                  |
