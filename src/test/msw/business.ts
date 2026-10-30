@@ -64,6 +64,7 @@ export const notificationSettingsDto = () => [
     notificationChannelName: 'Push',
     isEnabled: true,
     sendBeforeMinutes: null,
+    configurable: false,
   },
 ];
 

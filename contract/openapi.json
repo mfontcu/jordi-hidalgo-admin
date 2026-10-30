@@ -934,6 +934,10 @@
             },
             "dto.AdminNotificationSettingResponse": {
                 "properties": {
+                    "configurable": {
+                        "description": "Configurable is false for a row whose notice is sent but not driven by this setting: staff can only see it.",
+                        "type": "boolean"
+                    },
                     "id": {
                         "type": "string"
                     },
@@ -961,7 +965,13 @@
                     "notificationTypeName": {
                         "type": "string"
                     },
+                    "sendAtLocalTime": {
+                        "description": "SendAtLocalTime is the salon time (HH:MM) the reminder email goes out on the appointment's day; only on that row.",
+                        "example": "08:00",
+                        "type": "string"
+                    },
                     "sendBeforeMinutes": {
+                        "description": "SendBeforeMinutes is how long before the appointment the reminder push goes out (5 to 1440); only on that row.",
                         "type": "integer"
                     }
                 },
@@ -1398,7 +1408,13 @@
                     "isEnabled": {
                         "type": "boolean"
                     },
+                    "sendAtLocalTime": {
+                        "description": "SendAtLocalTime (HH:MM, 07:00 to 21:00 in steps of 15 minutes) is read on the reminder email row; omitted, the stored time is kept.",
+                        "example": "08:00",
+                        "type": "string"
+                    },
                     "sendBeforeMinutes": {
+                        "description": "SendBeforeMinutes is required on the reminder push row (5 to 1440) and ignored on the others.",
                         "type": "integer"
                     }
                 },
@@ -5601,7 +5617,7 @@
         },
         "/admin/business/notifications": {
             "get": {
-                "description": "Devuelve la configuraci?n global de notificaciones del negocio.",
+                "description": "Devuelve la configuraci?n global de notificaciones del negocio: las filas con un aviso detr?s, con configurable=false en las que el ajuste no gobierna.",
                 "operationId": "adminListNotificationSettings",
                 "responses": {
                     "200": {
@@ -5661,7 +5677,7 @@
         },
         "/admin/business/notifications/{settingID}": {
             "patch": {
-                "description": "Actualiza una configuraci?n global de notificaci?n.",
+                "description": "Actualiza una configuraci?n global de notificaci?n. Solo se pueden cambiar el recordatorio push (activado y minutos antes, de 5 a 1440) y el recordatorio por email (activado y hora de env?o HH:MM, de 07:00 a 21:00 cada 15 minutos).",
                 "operationId": "adminUpdateNotificationSetting",
                 "parameters": [
                     {
@@ -5698,7 +5714,7 @@
                                 }
                             }
                         },
-                        "description": "invalid body"
+                        "description": "invalid body / invalid notification setting"
                     },
                     "401": {
                         "content": {
@@ -5719,6 +5735,26 @@
                             }
                         },
                         "description": "forbidden / user is blocked"
+                    },
+                    "404": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "notification setting not found"
+                    },
+                    "409": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "notification setting is not configurable"
                     },
                     "500": {
                         "content": {
@@ -10571,11 +10607,11 @@
         },
         "/users/me": {
             "delete": {
-                "description": "Elimina la cuenta del usuario autenticado.",
+                "description": "Elimina la cuenta del usuario autenticado en una sola transacción. Es idempotente: si la cuenta ya no existe responde 204, así que se puede reintentar tras perder la respuesta. Un 500 no deja cambios aplicados.",
                 "operationId": "deleteMyAccount",
                 "responses": {
                     "204": {
-                        "description": "Cuenta eliminada correctamente"
+                        "description": "Cuenta eliminada, o ya no existía"
                     },
                     "401": {
                         "content": {
@@ -10585,7 +10621,7 @@
                                 }
                             }
                         },
-                        "description": "unauthorized"
+                        "description": "unauthorized (sin token, token inválido o cuenta inactiva)"
                     },
                     "403": {
                         "content": {
@@ -10595,17 +10631,7 @@
                                 }
                             }
                         },
-                        "description": "forbidden"
-                    },
-                    "404": {
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "description": "user not found"
+                        "description": "forbidden (cuenta de staff o bloqueada)"
                     },
                     "500": {
                         "content": {

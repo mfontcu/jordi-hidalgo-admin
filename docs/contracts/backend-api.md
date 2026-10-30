@@ -13,10 +13,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-29T06:11:28Z'
+  at: '2026-10-30T13:07:07Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-29T07:33:41Z'
+    at: '2026-10-30T13:26:00Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -161,7 +161,7 @@ shows `app`, `mcp`, or `admin`, and "No channel" when it is empty. Staff create 
 | `GET /admin/users/phone-matches`                                                             | Count of other clients with the same phone, before save                                                |
 | `GET /admin/business/info`, `PUT /admin/business/info`                                       | Info tab                                                                                               |
 | `GET /admin/business/booking-settings`, `PUT /admin/business/booking-settings`               | Booking tab                                                                                            |
-| `GET /admin/business/notifications`, `PATCH /admin/business/notifications/{settingID}`       | Notifications tab. The patch is optimistic                                                             |
+| `GET /admin/business/notifications`, `PATCH /admin/business/notifications/{settingID}`       | Notifications tab. The two reminder rows are editable; the other visible rows are locked. A rejected patch rolls the row back |
 | `GET /admin/business/legal`                                                                  | Legal tab                                                                                              |
 | `PATCH /admin/business/legal/{code}/status`, `PATCH …/public-surfaces`, `PUT …/translations` | Edit a legal document                                                                                  |
 | `GET /admin/business/web/pages`                                                              | Web tab                                                                                                |
