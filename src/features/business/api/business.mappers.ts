@@ -75,6 +75,8 @@ export function toNotificationSetting(dto: NotificationSettingDto): Notification
     notificationChannelName: dto.notificationChannelName ?? '',
     isEnabled: dto.isEnabled ?? false,
     sendBeforeMinutes: dto.sendBeforeMinutes ?? null,
+    sendAtLocalTime: dto.sendAtLocalTime ?? null,
+    configurable: dto.configurable ?? false,
   };
 }
 
