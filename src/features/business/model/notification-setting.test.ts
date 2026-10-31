@@ -4,13 +4,12 @@ import {
   isReminderType,
   isValidEmailReminderSendAt,
   isValidReminderMinutes,
-  lockedNotice,
   parseSendBeforeMinutes,
   showsReminderMinutes,
   showsReminderSendTime,
-  switchChecked,
   toNotificationSettingUpdate,
   type NotificationSetting,
+  visibleNotificationSettings,
 } from './notification-setting';
 
 const setting = (overrides: Partial<NotificationSetting> = {}): NotificationSetting => ({
@@ -103,14 +102,14 @@ describe('notification setting', () => {
     );
   });
 
-  it('locks a row that is not configurable and shows the switch on', () => {
-    expect(lockedNotice(setting())).toBeNull();
-    expect(switchChecked(setting({ isEnabled: false }))).toBe(false);
-    const push = setting({ configurable: false, isEnabled: false });
-    const email = setting({ configurable: false, notificationChannelCode: 'email', isEnabled: false });
-    expect(lockedNotice(push)).toBe('push');
-    expect(lockedNotice(email)).toBe('email');
-    expect(switchChecked(push)).toBe(true);
-    expect(switchChecked(email)).toBe(true);
+  it('keeps only the rows staff can edit, in their order', () => {
+    const email = setting({ id: 'email', notificationChannelCode: 'email' });
+    const change = setting({ id: 'change', notificationTypeCode: 'appointment_change', configurable: false });
+    const push = setting({ id: 'push' });
+    expect(visibleNotificationSettings([email, change, push]).map((row) => row.id)).toEqual([
+      'email',
+      'push',
+    ]);
+    expect(visibleNotificationSettings([change])).toEqual([]);
   });
 });
