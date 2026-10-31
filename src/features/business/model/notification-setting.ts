@@ -29,9 +29,6 @@ export type NotificationSettingUpdate = {
   sendAtLocalTime?: string;
 };
 
-/** What a locked row explains: the notice goes out, and who can stop it. */
-export type LockedNotice = 'push' | 'email';
-
 /** Flutter shows a minutes field when the type code contains `reminder`. */
 export function isReminderType(setting: NotificationSetting): boolean {
   return setting.notificationTypeCode.toLowerCase().includes('reminder');
@@ -105,18 +102,12 @@ export function showsReminderSendTime(setting: NotificationSetting): boolean {
   return setting.configurable && isReminderType(setting) && setting.notificationChannelCode === 'email';
 }
 
-/** A locked row names the channel; an editable row has no lock note. */
-export function lockedNotice(setting: NotificationSetting): LockedNotice | null {
-  if (setting.configurable) return null;
-  return setting.notificationChannelCode === 'email' ? 'email' : 'push';
-}
-
 /**
- * The switch of a locked row stays on: those notices are sent regardless of the
- * stored flag. An editable row shows the stored flag.
+ * The rows staff can edit. The backend also lists notices it always sends (configurable
+ * false); the panel does not show them.
  */
-export function switchChecked(setting: NotificationSetting): boolean {
-  return setting.configurable ? setting.isEnabled : true;
+export function visibleNotificationSettings(settings: NotificationSetting[]): NotificationSetting[] {
+  return settings.filter((setting) => setting.configurable);
 }
 
 /** Minutes shown and saved for the reminder push. A missing or out-of-range value is 60. */

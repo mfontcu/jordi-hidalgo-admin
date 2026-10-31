@@ -15,6 +15,7 @@ import {
   showsReminderMinutes,
   toNotificationSettingUpdate,
   type NotificationSetting,
+  visibleNotificationSettings,
 } from '../model/notification-setting';
 
 type Feedback = {
@@ -65,7 +66,7 @@ export function useNotifications(settings: NotificationSetting[], feedback: Feed
   });
 
   return {
-    groups: groupNotificationSettings(settings),
+    groups: groupNotificationSettings(visibleNotificationSettings(settings)),
     isSaving: (id: string) => mutation.isPending && mutation.variables.id === id,
     setEnabled: (setting: NotificationSetting, isEnabled: boolean) => {
       if (!setting.configurable) return;

@@ -116,25 +116,61 @@ afterEach(() => {
 });
 
 describe('notifications tab', () => {
-  it('locks a row that is not configurable and does not save it', async () => {
+  it('shows only the reminder rows, labelled in the panel language', async () => {
+    const api = notificationsApi([
+      {
+        ...reminderPush(),
+        notificationTypeName: 'Appointment reminder',
+        notificationTypeDescription: 'Reminder before the appointment',
+      },
+      changePush(),
+      changeEmail(),
+      {
+        ...reminderEmail(),
+        notificationTypeName: 'Appointment reminder',
+        notificationTypeDescription: 'Reminder before the appointment',
+      },
+    ]);
+    server.use(...api.handlers, ...liveBusiness().handlers);
+    app = renderApp('/business?tab=notifications');
+
+    expect(await screen.findByRole('heading', { name: 'Recordatorio de cita' })).toBeInTheDocument();
+    expect(screen.getByText('Aviso a los clientes antes de su cita.')).toBeInTheDocument();
+    const card = section('Recordatorio de cita');
+    expect(card.getByRole('switch', { name: 'Push' })).toBeEnabled();
+    expect(card.getByRole('switch', { name: 'Email' })).toBeEnabled();
+    expect(screen.queryByRole('heading', { name: 'Cambio de cita' })).not.toBeInTheDocument();
+    for (const stored of ['Appointment reminder', 'Reminder before the appointment']) {
+      expect(screen.queryByText(stored)).not.toBeInTheDocument();
+    }
+  });
+
+  it('shows the empty state when no row can be edited', async () => {
     const api = notificationsApi([changePush(), changeEmail()]);
     server.use(...api.handlers, ...liveBusiness().handlers);
     app = renderApp('/business?tab=notifications');
-    const user = userEvent.setup();
 
-    const change = await screen.findByRole('heading', { name: 'Cambio de cita' });
-    expect(change).toBeInTheDocument();
-    const card = section('Cambio de cita');
-    expect(
-      card.getByText('Se envía siempre que la clienta tenga las notificaciones del móvil activadas.'),
-    ).toBeInTheDocument();
-    expect(card.getByText('Se envía siempre; la clienta puede desactivarlo en la app.')).toBeInTheDocument();
+    expect(await screen.findByText('No hay configuraciones de notificación')).toBeInTheDocument();
+    expect(screen.queryByRole('switch')).not.toBeInTheDocument();
+  });
 
-    const pushSwitch = card.getByRole('switch', { name: 'Push' });
-    expect(pushSwitch).toBeChecked();
-    expect(pushSwitch).toBeDisabled();
-    await user.click(pushSwitch);
-    expect(api.calls).toEqual([]);
+  it('keeps the stored name of an editable type the panel does not know', async () => {
+    const api = notificationsApi([
+      {
+        ...reminderPush(),
+        id: 'n-new',
+        notificationTypeCode: 'birthday_reminder',
+        notificationTypeName: 'Birthday',
+        notificationTypeDescription: 'Birthday greeting',
+        notificationChannelCode: 'sms',
+        notificationChannelName: 'SMS',
+      },
+    ]);
+    server.use(...api.handlers, ...liveBusiness().handlers);
+    app = renderApp('/business?tab=notifications');
+
+    expect(await screen.findByRole('heading', { name: 'Birthday' })).toBeInTheDocument();
+    expect(section('Birthday').getByText('SMS')).toBeInTheDocument();
   });
 
   it('saves reminder minutes inside the range and keeps the field when they are not', async () => {
