@@ -12,10 +12,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-29T09:37:50Z'
+  at: '2026-10-31T09:55:00Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-29T11:30:49Z'
+    at: '2026-10-31T10:06:11Z'
 severity: medium
 operates:
   - /engineering/apps/hidalgo-admin
@@ -72,7 +72,11 @@ the `Makefile`) and a Cloudflare session (`wrangler login`, or `CLOUDFLARE_API_T
 `CLOUDFLARE_ACCOUNT_ID`). Each target depends on its own build, so a staging build cannot be
 published to production, nor the reverse.
 
-The backend allows any origin (CORS `*`), so the panel origin does not need a backend change.
+The backend allows only the browser origins in its `CORS_ALLOWED_ORIGINS` variable, one list per
+environment: `https://admin.hidalgojunior.com` in production, the staging Worker URL in staging, and
+`http://localhost:5173` and `http://127.0.0.1:5173` locally (`npm run dev`). A new panel host needs
+its origin added to that variable in the backend's Railway service, or every API call fails its
+preflight with 403 ([backend operations](/engineering/services/hidalgo-backend/operations#configuration)).
 Every host sends the same security headers: `Content-Security-Policy`, `X-Content-Type-Options`,
 `Referrer-Policy`, and `Permissions-Policy`. Their single source is
 `deploy/security-headers.conf.template`. The nginx image reads it directly. For Cloudflare, the
@@ -171,7 +175,9 @@ No alerts exist. Problems are reported by staff.
 2. **Check the target.** Confirm the request URLs point at `https://api.hidalgojunior.com` in
    production. A wrong host means a wrong build.
 3. **Content security policy.** A blocked `connect-src` with no response status points at the nginx
-   snippet, not at CORS. The backend allows any origin.
+   snippet, not at CORS. A CORS error in the console, with the `OPTIONS` preflight answered 403,
+   means the panel's origin is missing from the backend's `CORS_ALLOWED_ORIGINS` for that
+   environment.
 4. **Session.** A 401 followed by `POST /auth/refresh` answered 401 or 403 means the refresh token
    is no longer valid; staff must sign in again. A 403 that says the user is blocked means the
    account is blocked in the backend, and a 403 `forbidden` means the user is no longer an admin.
