@@ -114,6 +114,7 @@ export async function updateNotificationSetting(
       body: {
         isEnabled: update.isEnabled,
         ...(update.sendBeforeMinutes === undefined ? {} : { sendBeforeMinutes: update.sendBeforeMinutes }),
+        ...(update.sendAtLocalTime === undefined ? {} : { sendAtLocalTime: update.sendAtLocalTime }),
       },
     }),
   );
@@ -124,7 +125,7 @@ export async function updateNotificationSetting(
 export function patchNotificationInCache(
   queryClient: QueryClient,
   id: string,
-  patch: Partial<Pick<NotificationSetting, 'isEnabled' | 'sendBeforeMinutes'>>,
+  patch: Partial<Pick<NotificationSetting, 'isEnabled' | 'sendBeforeMinutes' | 'sendAtLocalTime'>>,
 ) {
   queryClient.setQueryData<NotificationSetting[]>(businessKeys.notifications(), (current) =>
     (current ?? []).map((item) => (item.id === id ? { ...item, ...patch } : item)),

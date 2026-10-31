@@ -525,7 +525,7 @@ export interface paths {
         };
         /**
          * Obtener configuraci?n de notificaciones
-         * @description Devuelve la configuraci?n global de notificaciones del negocio.
+         * @description Devuelve la configuraci?n global de notificaciones del negocio: las filas con un aviso detr?s, con configurable=false en las que el ajuste no gobierna.
          */
         get: operations["adminListNotificationSettings"];
         put?: never;
@@ -551,7 +551,7 @@ export interface paths {
         head?: never;
         /**
          * Actualizar configuraci?n de notificaci?n
-         * @description Actualiza una configuraci?n global de notificaci?n.
+         * @description Actualiza una configuraci?n global de notificaci?n. Solo se pueden cambiar el recordatorio push (activado y minutos antes, de 5 a 1440) y el recordatorio por email (activado y hora de env?o HH:MM, de 07:00 a 21:00 cada 15 minutos).
          */
         patch: operations["adminUpdateNotificationSetting"];
         trace?: never;
@@ -1641,7 +1641,7 @@ export interface paths {
         post?: never;
         /**
          * Eliminar mi cuenta
-         * @description Elimina la cuenta del usuario autenticado.
+         * @description Elimina la cuenta del usuario autenticado en una sola transacción. Es idempotente: si la cuenta ya no existe responde 204, así que se puede reintentar tras perder la respuesta. Un 500 no deja cambios aplicados.
          */
         delete: operations["deleteMyAccount"];
         options?: never;
@@ -2392,6 +2392,8 @@ export interface components {
             title?: string;
         };
         "dto.AdminNotificationSettingResponse": {
+            /** @description Configurable is false for a row whose notice is sent but not driven by this setting: staff can only see it. */
+            configurable?: boolean;
             id?: string;
             isEnabled?: boolean;
             notificationChannelCode?: string;
@@ -2401,6 +2403,12 @@ export interface components {
             notificationTypeDescription?: string;
             notificationTypeId?: string;
             notificationTypeName?: string;
+            /**
+             * @description SendAtLocalTime is the salon time (HH:MM) the reminder email goes out on the appointment's day; only on that row.
+             * @example 08:00
+             */
+            sendAtLocalTime?: string;
+            /** @description SendBeforeMinutes is how long before the appointment the reminder push goes out (5 to 1440); only on that row. */
             sendBeforeMinutes?: number;
         };
         "dto.AdminPatchServiceDisplayOrderRequest": {
@@ -2551,6 +2559,12 @@ export interface components {
         };
         "dto.AdminUpdateNotificationSettingRequest": {
             isEnabled?: boolean;
+            /**
+             * @description SendAtLocalTime (HH:MM, 07:00 to 21:00 in steps of 15 minutes) is read on the reminder email row; omitted, the stored time is kept.
+             * @example 08:00
+             */
+            sendAtLocalTime?: string;
+            /** @description SendBeforeMinutes is required on the reminder push row (5 to 1440) and ignored on the others. */
             sendBeforeMinutes?: number;
         };
         "dto.AdminUpdateRecurringBlockedSlotRequest": {
@@ -5297,7 +5311,7 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description invalid body */
+            /** @description invalid body / invalid notification setting */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -5317,6 +5331,24 @@ export interface operations {
             };
             /** @description forbidden / user is blocked */
             403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description notification setting not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description notification setting is not configurable */
+            409: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -9003,14 +9035,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Cuenta eliminada correctamente */
+            /** @description Cuenta eliminada, o ya no existía */
             204: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description unauthorized */
+            /** @description unauthorized (sin token, token inválido o cuenta inactiva) */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -9019,17 +9051,8 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description forbidden */
+            /** @description forbidden (cuenta de staff o bloqueada) */
             403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description user not found */
-            404: {
                 headers: {
                     [name: string]: unknown;
                 };

@@ -69,6 +69,7 @@ const NOTIFICATIONS: Body[] = [
     notificationChannelName: 'Push',
     isEnabled: true,
     sendBeforeMinutes: 60,
+    configurable: true,
   },
   {
     id: 'n-2',
@@ -80,7 +81,9 @@ const NOTIFICATIONS: Body[] = [
     notificationChannelCode: 'email',
     notificationChannelName: 'Email',
     isEnabled: false,
-    sendBeforeMinutes: 120,
+    sendBeforeMinutes: null,
+    sendAtLocalTime: '08:00',
+    configurable: true,
   },
 ];
 

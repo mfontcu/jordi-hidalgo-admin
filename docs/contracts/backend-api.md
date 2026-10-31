@@ -13,10 +13,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-29T06:11:28Z'
+  at: '2026-10-31T05:51:37Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-29T07:33:41Z'
+    at: '2026-10-31T05:56:23Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -149,31 +149,31 @@ shows `app`, `mcp`, or `admin`, and "No channel" when it is empty. Staff create 
 
 ## Accounts and business content
 
-| Operation                                                                                    | Caller                                                                                                 |
-| -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `GET /admin/users`, `GET /admin/users/{userID}`                                              | Staff and client lists and details, and the client lookup on the appointment form                      |
-| `POST /admin/users`                                                                          | Create a staff account or a client                                                                     |
-| `PATCH /admin/users/{userID}`                                                                | Edit, activate, deactivate, block, unblock. The body includes the stored fields the form does not edit |
-| `DELETE /admin/users/{userID}`                                                               | Delete a client                                                                                        |
-| `POST /admin/users/{userID}/verify-account`                                                  | Verify a client                                                                                        |
-| `POST /admin/users/{userID}/activation-email`                                                | Activation email                                                                                       |
-| `POST /admin/users/{userID}/password-setup-email`                                            | Password email                                                                                         |
-| `GET /admin/users/phone-matches`                                                             | Count of other clients with the same phone, before save                                                |
-| `GET /admin/business/info`, `PUT /admin/business/info`                                       | Info tab                                                                                               |
-| `GET /admin/business/booking-settings`, `PUT /admin/business/booking-settings`               | Booking tab                                                                                            |
-| `GET /admin/business/notifications`, `PATCH /admin/business/notifications/{settingID}`       | Notifications tab. The patch is optimistic                                                             |
-| `GET /admin/business/legal`                                                                  | Legal tab                                                                                              |
-| `PATCH /admin/business/legal/{code}/status`, `PATCH …/public-surfaces`, `PUT …/translations` | Edit a legal document                                                                                  |
-| `GET /admin/business/web/pages`                                                              | Web tab                                                                                                |
-| `PATCH /admin/business/web/pages/{code}/status`, `PUT …/translations`                        | Edit a web page                                                                                        |
-| `GET /admin/home-gallery/slides`                                                             | Gallery tab                                                                                            |
-| `POST /admin/home-gallery/slides`                                                            | Create a slide                                                                                         |
-| `PATCH /admin/home-gallery/slides/{id}/status`                                               | Activate or hide                                                                                       |
-| `PUT /admin/home-gallery/slides/{id}/surfaces`, `PUT …/translations`                         | Surfaces and alt texts                                                                                 |
-| `PUT /admin/home-gallery/slides/order`                                                       | Reorder                                                                                                |
-| `DELETE /admin/home-gallery/slides/{id}`                                                     | Delete                                                                                                 |
-| `POST /admin/home-gallery/slides/{id}/upload-url`                                            | Presign                                                                                                |
-| `PUT /admin/home-gallery/slides/{id}/confirm`                                                | Confirm the object key                                                                                 |
+| Operation                                                                                    | Caller                                                                                                                                                    |
+| -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `GET /admin/users`, `GET /admin/users/{userID}`                                              | Staff and client lists and details, and the client lookup on the appointment form                                                                         |
+| `POST /admin/users`                                                                          | Create a staff account or a client                                                                                                                        |
+| `PATCH /admin/users/{userID}`                                                                | Edit, activate, deactivate, block, unblock. The body includes the stored fields the form does not edit                                                    |
+| `DELETE /admin/users/{userID}`                                                               | Delete a client                                                                                                                                           |
+| `POST /admin/users/{userID}/verify-account`                                                  | Verify a client                                                                                                                                           |
+| `POST /admin/users/{userID}/activation-email`                                                | Activation email                                                                                                                                          |
+| `POST /admin/users/{userID}/password-setup-email`                                            | Password email                                                                                                                                            |
+| `GET /admin/users/phone-matches`                                                             | Count of other clients with the same phone, before save                                                                                                   |
+| `GET /admin/business/info`, `PUT /admin/business/info`                                       | Info tab                                                                                                                                                  |
+| `GET /admin/business/booking-settings`, `PUT /admin/business/booking-settings`               | Booking tab                                                                                                                                               |
+| `GET /admin/business/notifications`, `PATCH /admin/business/notifications/{settingID}`       | Notifications tab. Only the two reminder rows are shown and edited; the rows with `configurable: false` are left out. A rejected patch rolls the row back |
+| `GET /admin/business/legal`                                                                  | Legal tab                                                                                                                                                 |
+| `PATCH /admin/business/legal/{code}/status`, `PATCH …/public-surfaces`, `PUT …/translations` | Edit a legal document                                                                                                                                     |
+| `GET /admin/business/web/pages`                                                              | Web tab                                                                                                                                                   |
+| `PATCH /admin/business/web/pages/{code}/status`, `PUT …/translations`                        | Edit a web page                                                                                                                                           |
+| `GET /admin/home-gallery/slides`                                                             | Gallery tab                                                                                                                                               |
+| `POST /admin/home-gallery/slides`                                                            | Create a slide                                                                                                                                            |
+| `PATCH /admin/home-gallery/slides/{id}/status`                                               | Activate or hide                                                                                                                                          |
+| `PUT /admin/home-gallery/slides/{id}/surfaces`, `PUT …/translations`                         | Surfaces and alt texts                                                                                                                                    |
+| `PUT /admin/home-gallery/slides/order`                                                       | Reorder                                                                                                                                                   |
+| `DELETE /admin/home-gallery/slides/{id}`                                                     | Delete                                                                                                                                                    |
+| `POST /admin/home-gallery/slides/{id}/upload-url`                                            | Presign                                                                                                                                                   |
+| `PUT /admin/home-gallery/slides/{id}/confirm`                                                | Confirm the object key                                                                                                                                    |
 
 The image bytes go with `PUT` to the presigned URL. That request is not an API call and does not
 send the panel JWT (`src/features/business/api/gallery-upload.ts`).
