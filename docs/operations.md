@@ -15,7 +15,7 @@ generated:
   at: '2026-10-31T09:55:00Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-31T10:06:11Z'
+    at: '2026-11-01T16:51:51Z'
 severity: medium
 operates:
   - /engineering/apps/hidalgo-admin
@@ -179,8 +179,8 @@ No alerts exist. Problems are reported by staff.
    means the panel's origin is missing from the backend's `CORS_ALLOWED_ORIGINS` for that
    environment.
 4. **Session.** A 401 followed by `POST /auth/refresh` answered 401 or 403 means the refresh token
-   is no longer valid; staff must sign in again. A 403 that says the user is blocked means the
-   account is blocked in the backend, and a 403 `forbidden` means the user is no longer an admin.
+   is no longer valid; staff must sign in again. A 403 with the `Error-Code` `user_blocked` means
+   the account is blocked in the backend, and a 403 `forbidden` means the user is no longer an admin.
    The backend reads the user on every admin request, so a block, a demotion, or a deactivation
    (401, then a rejected refresh) ends the session at the next call.
 5. **Routing.** A 404 from the host (not from the API) on a panel path means the `index.html`

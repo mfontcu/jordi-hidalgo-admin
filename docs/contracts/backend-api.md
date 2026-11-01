@@ -16,7 +16,7 @@ generated:
   at: '2026-10-31T05:51:37Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-31T05:56:23Z'
+    at: '2026-11-01T16:51:51Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -38,16 +38,24 @@ The client is `openapi-fetch` in `src/shared/api/client.ts`. Middleware sends th
 screen, with retry. A failed mutation shows a toast that names the action and the class. A
 validation toast includes the backend's text when the body has one; a conflict toast does not.
 
-| Class          | When                                                                                         |
-| -------------- | -------------------------------------------------------------------------------------------- |
-| `network`      | No response                                                                                  |
-| `unauthorized` | 401. The middleware refreshes once before the screen sees it                                 |
-| `forbidden`    | 403. `user is blocked` or `forbidden` (the caller is no longer an admin) expires the session |
-| `notFound`     | 404                                                                                          |
-| `validation`   | 400 or 422                                                                                   |
-| `conflict`     | 409                                                                                          |
-| `rateLimited`  | 429                                                                                          |
-| `server`       | 5xx, or any other status                                                                     |
+Every `ApiError` also keeps the backend's stable error code, when the response has one
+(`errorCodeFromResponse`): the `Error-Code` header, or the `code` of an `application/problem+json`
+body, whose `detail` is then the message
+([error codes](/engineering/apis/hidalgo-backend-rest#error-codes)). The panel decides on the code:
+the session expires on a 403 `user_blocked` or `forbidden` (`isAdminAccessLost`). Without a code (a
+backend released before the codes), it reads the texts `user is blocked` and `forbidden`, until
+BE-32.
+
+| Class          | When                                                                                      |
+| -------------- | ----------------------------------------------------------------------------------------- |
+| `network`      | No response                                                                               |
+| `unauthorized` | 401. The middleware refreshes once before the screen sees it                              |
+| `forbidden`    | 403. `user_blocked` or `forbidden` (the caller is no longer an admin) expires the session |
+| `notFound`     | 404                                                                                       |
+| `validation`   | 400 or 422                                                                                |
+| `conflict`     | 409                                                                                       |
+| `rateLimited`  | 429                                                                                       |
+| `server`       | 5xx, or any other status                                                                  |
 
 One 409 is read as JSON instead: a status change that would set a cancelled appointment back to
 pending or confirmed when its slot is taken (`dto.AdminSlotConflictResponse`). The status mutation

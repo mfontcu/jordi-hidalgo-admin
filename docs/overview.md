@@ -20,7 +20,7 @@ generated:
   at: '2026-10-29T06:11:28Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-29T07:33:41Z'
+    at: '2026-11-01T16:51:51Z'
 resource: /engineering/apps/hidalgo-admin
 service_status: active
 tier: 1
@@ -160,7 +160,7 @@ preferences. The session is the only client-owned state machine. Restore runs in
 | unauthenticated | authenticated   | Sign-in succeeds and the role can access the panel                                                    |
 | unauthenticated | unauthenticated | Sign-in fails, or the account is not staff (signed out at once, with a message)                       |
 | authenticated   | authenticated   | A 401 triggers one shared refresh; the request is retried once                                        |
-| authenticated   | expired         | Refresh is rejected (401/403), or a 403 says the user is blocked or `forbidden` (no longer an admin)  |
+| authenticated   | expired         | Refresh is rejected (401/403), or a 403 `user_blocked` or `forbidden` (no longer an admin)            |
 | authenticated   | unauthenticated | Staff signs out from the sidebar or the drawer                                                        |
 | expired         | unauthenticated | The router goes to `/login` and the login screen shows "your session has expired" once                |
 

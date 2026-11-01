@@ -1,7 +1,7 @@
 import type { Middleware } from 'openapi-fetch';
 import { z } from 'zod';
 
-import { ApiException, isAdminAccessLostMessage } from '../errors';
+import { ApiException, isAdminAccessLostResponse } from '../errors';
 import { session, useSessionStore } from '../session-store';
 import { REQUEST_TIMEOUT_MS } from './timeout';
 
@@ -79,17 +79,11 @@ function expireSession() {
   if (accessToken !== null || refreshToken !== null) session.expire();
 }
 
-async function isAccessLostResponse(response: Response): Promise<boolean> {
-  if (response.status !== 403) return false;
-  const text = await response.clone().text();
-  return isAdminAccessLostMessage(text);
-}
-
 /**
  * Auth and refresh (ADR-003, "HTTP client and errors"), as the Flutter panel's `ApiHttpClient`:
  * - sends `Authorization: Bearer <access token>`;
  * - on a 401, one `POST /auth/refresh` shared by every concurrent request, then one retry;
- * - a refresh answered with 401/403, or a 403 "user is blocked" or "forbidden" (no longer an
+ * - a refresh answered with 401/403, or a 403 `user_blocked` or `forbidden` (no longer an
  *   admin), expires the session;
  * - a refresh that fails for any other reason keeps the tokens and fails as a network error.
  */
@@ -139,11 +133,11 @@ export function sessionMiddleware(baseUrl: string): Middleware {
         if (result === 'transient') throw new ApiException({ kind: 'network' });
 
         const retried = await retry(original, options.fetch);
-        if (await isAccessLostResponse(retried)) expireSession();
+        if (await isAdminAccessLostResponse(retried)) expireSession();
         return retried;
       }
 
-      if (await isAccessLostResponse(response)) expireSession();
+      if (await isAdminAccessLostResponse(response)) expireSession();
       return undefined;
     },
 

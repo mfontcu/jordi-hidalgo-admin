@@ -3,7 +3,9 @@ import { API_ERROR_KINDS, failureOf } from '@/shared/lib/failure';
 import {
   apiErrorFromResponse,
   ApiException,
+  errorCodeFromResponse,
   errorMessageFromBody,
+  isAdminAccessLost,
   isAdminAccessLostMessage,
   isBlockedUserMessage,
   unwrap,
@@ -84,5 +86,115 @@ describe('failureOf (shared/lib)', () => {
       expect(API_ERROR_KINDS).toContain(error.kind);
       expect(failureOf(new ApiException(error))).toEqual(error);
     }
+  });
+});
+
+// The backend sends the stable code of an error in the Error-Code header (CA-04), and will later
+// answer an application/problem+json body (RFC 9457) with the same code (BE-32).
+const problem = (code: string, detail: string) => ({
+  type: `tag:hidalgojunior.com,2026:problem:${code}`,
+  title: 'Forbidden',
+  status: 403,
+  detail,
+  code,
+});
+const problemHeaders = { 'Content-Type': 'application/problem+json' };
+
+describe('errorCodeFromResponse', () => {
+  it.each([
+    [
+      'the Error-Code header',
+      new Headers({ 'Error-Code': 'slot_watch_duplicate' }),
+      'slot watch already exists',
+      'slot_watch_duplicate',
+    ],
+    [
+      'the code of a problem',
+      new Headers(problemHeaders),
+      problem('user_blocked', 'user is blocked'),
+      'user_blocked',
+    ],
+    [
+      'the header before the body',
+      new Headers({ ...problemHeaders, 'Error-Code': 'forbidden' }),
+      problem('user_blocked', 'x'),
+      'forbidden',
+    ],
+    ['no code from an older backend', new Headers(), 'user is blocked', undefined],
+    [
+      'no code in a JSON body that is not a problem',
+      new Headers({ 'Content-Type': 'application/json' }),
+      { code: 'x' },
+      undefined,
+    ],
+  ])('reads %s', (_, headers, body, expected) => {
+    expect(errorCodeFromResponse(headers, body)).toBe(expected);
+  });
+});
+
+describe('errorMessageFromBody with problem details', () => {
+  it('reads the detail', () => {
+    expect(errorMessageFromBody(problem('user_blocked', ' user is blocked '))).toBe('user is blocked');
+  });
+});
+
+describe('apiErrorFromResponse with a code', () => {
+  it('keeps the code next to the message', () => {
+    expect(
+      apiErrorFromResponse(
+        409,
+        'slot watch already exists',
+        new Headers({ 'Error-Code': 'slot_watch_duplicate' }),
+      ),
+    ).toEqual({
+      kind: 'conflict',
+      status: 409,
+      message: 'slot watch already exists',
+      code: 'slot_watch_duplicate',
+    });
+  });
+
+  it('reads a problem', () => {
+    expect(
+      apiErrorFromResponse(403, problem('user_blocked', 'user is blocked'), new Headers(problemHeaders)),
+    ).toEqual({
+      kind: 'forbidden',
+      status: 403,
+      message: 'user is blocked',
+      code: 'user_blocked',
+    });
+  });
+});
+
+describe('isAdminAccessLost', () => {
+  it.each([
+    ['user_blocked', 'anything', true],
+    ['forbidden', 'anything', true],
+    ['appointment_forbidden', 'forbidden', false],
+    ['customer_blocked', 'customer is blocked', false],
+    [undefined, 'user is blocked', true],
+    [undefined, 'forbidden', true],
+    [undefined, 'appointment forbidden', false],
+  ])('code %j, text %j → %s', (code, message, expected) => {
+    expect(isAdminAccessLost(code, message)).toBe(expected);
+  });
+});
+
+describe('unwrap with a code', () => {
+  it('throws the code of the response', () => {
+    const failure = () =>
+      unwrap({
+        error: 'slot taken',
+        response: new Response(null, {
+          status: 409,
+          headers: { 'Error-Code': 'appointment_slot_unavailable' },
+        }),
+      });
+
+    expect(failure).toThrow(
+      expect.objectContaining({
+        error: { kind: 'conflict', status: 409, message: 'slot taken', code: 'appointment_slot_unavailable' },
+      }),
+    );
   });
 });
