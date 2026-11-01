@@ -16,7 +16,7 @@ generated:
   at: '2026-10-29T06:11:28Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-29T07:33:41Z'
+    at: '2026-11-01T16:51:51Z'
 part_of: /engineering/apps/hidalgo-admin
 realizes:
   - /business/processes/hidalgo-junior/staff-sign-in
@@ -35,8 +35,8 @@ the [card](../overview.md#client-side-state).
 
 - **Start-up.** Any panel URL. Input: `hj_admin.access_token`, `hj_admin.refresh_token`, and the URL.
 - **Sign-in.** Email and password on `/login`.
-- **Any API call** or the activity stream answered 401, or 403 because the user is blocked or no
-  longer an admin (`forbidden`).
+- **Any API call** or the activity stream answered 401, or 403 because the user is blocked
+  (`user_blocked`) or no longer an admin (`forbidden`).
 - **Sign-out** from the sidebar or the drawer.
 
 A stored token calls `GET /auth/me`. Success with a staff role renders the shell on the requested
@@ -51,17 +51,17 @@ stay. Expiry clears the tokens and the cursor the same way.
 
 ## Error Handling and Compensation
 
-| Failure                                                                | What the panel does                                                                                      |
-| ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| Wrong password (401)                                                   | Stays on `/login` with "invalid credentials". Tokens stay empty                                          |
-| Blocked or inactive account (403)                                      | Stays on `/login` with the generic failure message                                                       |
-| Customer role                                                          | Signed out at once, with "no admin access" on sign-in and with no notice on restore                      |
-| Backend unreachable on sign-in                                         | Stays on `/login` with the network message                                                               |
-| Backend unreachable on restore                                         | `/login`, tokens kept                                                                                    |
-| 401 on a later call, refresh succeeds                                  | The original call is retried once. Concurrent 401s share one refresh                                     |
-| Refresh answered 401 or 403, or a 403 `user is blocked` or `forbidden` | Tokens and the activity cursor cleared, in-memory expiry flag set, `/login` shows the expiry notice once |
-| Refresh fails for network or server reasons                            | Tokens kept. The call fails as a network or server error                                                 |
-| Revocation on sign-out fails (network, 5xx, rejected token)            | Ignored: the panel is already signed out, and that refresh token expires on its own                      |
+| Failure                                                             | What the panel does                                                                                      |
+| ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Wrong password (401)                                                | Stays on `/login` with "invalid credentials". Tokens stay empty                                          |
+| Blocked or inactive account (403)                                   | Stays on `/login` with the generic failure message                                                       |
+| Customer role                                                       | Signed out at once, with "no admin access" on sign-in and with no notice on restore                      |
+| Backend unreachable on sign-in                                      | Stays on `/login` with the network message                                                               |
+| Backend unreachable on restore                                      | `/login`, tokens kept                                                                                    |
+| 401 on a later call, refresh succeeds                               | The original call is retried once. Concurrent 401s share one refresh                                     |
+| Refresh answered 401 or 403, or a 403 `user_blocked` or `forbidden` | Tokens and the activity cursor cleared, in-memory expiry flag set, `/login` shows the expiry notice once |
+| Refresh fails for network or server reasons                         | Tokens kept. The call fails as a network or server error                                                 |
+| Revocation on sign-out fails (network, 5xx, rejected token)         | Ignored: the panel is already signed out, and that refresh token expires on its own                      |
 
 Sign-in, restore, and expiry never revoke: only the staff member's own sign-out does. A rollback to a kept Flutter deployment does not read these
 keys, so staff sign in there again as well. The Flutter source is no longer in the app repository.

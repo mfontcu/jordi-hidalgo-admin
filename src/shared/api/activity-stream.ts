@@ -1,7 +1,7 @@
 import { env } from '@/shared/config/env';
 
 import { clearActivityCursor, readActivityCursor, writeActivityCursor } from './activity-cursor';
-import { isAdminAccessLostMessage } from './errors';
+import { isAdminAccessLostResponse } from './errors';
 import { refreshAccessToken } from './middleware/session';
 import { session, useSessionStore } from './session-store';
 import { consumeSse, type SseMessage } from './sse';
@@ -131,8 +131,7 @@ async function connect(options: {
   }
 
   if (response.status === 403) {
-    const text = await response.text();
-    if (isAdminAccessLostMessage(text)) session.expire();
+    if (await isAdminAccessLostResponse(response)) session.expire();
     return;
   }
 

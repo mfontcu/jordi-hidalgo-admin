@@ -17,8 +17,11 @@ export const API_ERROR_KINDS = [
 
 export type FailureKind = (typeof API_ERROR_KINDS)[number] | 'unknown';
 
-/** `status` and `message` (the backend's plain text) are missing for network and unknown errors. */
-export type Failure = { kind: FailureKind; status?: number; message: string };
+/**
+ * `status` and `message` (the backend's plain text) are missing for network and unknown errors;
+ * `code` is the backend's stable error code, when it sends one (CA-04).
+ */
+export type Failure = { kind: FailureKind; status?: number; message: string; code?: string };
 
 const UNKNOWN: Failure = { kind: 'unknown', message: '' };
 
@@ -34,5 +37,8 @@ export function failureOf(error: unknown): Failure {
   }
   const status = 'status' in apiError && typeof apiError.status === 'number' ? apiError.status : undefined;
   const message = 'message' in apiError && typeof apiError.message === 'string' ? apiError.message : '';
-  return status === undefined ? { kind: apiError.kind, message } : { kind: apiError.kind, status, message };
+  const code = 'code' in apiError && typeof apiError.code === 'string' ? apiError.code : undefined;
+  const failure: Failure =
+    status === undefined ? { kind: apiError.kind, message } : { kind: apiError.kind, status, message };
+  return code ? { ...failure, code } : failure;
 }

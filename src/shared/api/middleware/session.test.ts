@@ -217,6 +217,53 @@ describe('sessionMiddleware', () => {
     expect(useSessionStore.getState()).toMatchObject(OLD);
   });
 
+  // CA-04: the code decides; the text stays the fallback for a backend without codes.
+  it.each([
+    [
+      'the code user_blocked, whatever the text',
+      () => new HttpResponse('account blocked', { status: 403, headers: { 'Error-Code': 'user_blocked' } }),
+    ],
+    [
+      'the code forbidden',
+      () => new HttpResponse('no longer an admin', { status: 403, headers: { 'Error-Code': 'forbidden' } }),
+    ],
+    [
+      'a problem with the code user_blocked',
+      () =>
+        HttpResponse.json(
+          {
+            type: 'tag:hidalgojunior.com,2026:problem:user_blocked',
+            title: 'Forbidden',
+            status: 403,
+            detail: 'user is blocked',
+            code: 'user_blocked',
+          },
+          { status: 403, headers: { 'Content-Type': 'application/problem+json' } },
+        ),
+    ],
+  ])('expires the session on a 403 with %s', async (_, respond) => {
+    server.use(http.get(`${baseUrl}/admin/business-hours`, respond));
+
+    await client().GET('/admin/business-hours');
+
+    expect(expiredCount).toBe(1);
+  });
+
+  it('keeps the session on a 403 whose code is another one, even with the old text', async () => {
+    server.use(
+      http.get(
+        `${baseUrl}/admin/business-hours`,
+        () =>
+          new HttpResponse('forbidden', { status: 403, headers: { 'Error-Code': 'appointment_forbidden' } }),
+      ),
+    );
+
+    await client().GET('/admin/business-hours');
+
+    expect(expiredCount).toBe(0);
+    expect(useSessionStore.getState()).toMatchObject(OLD);
+  });
+
   it('neither authorizes nor refreshes the sign-in request', async () => {
     const refreshes = refreshEndpoint(refreshOk);
     let authorization: string | null = 'unset';
