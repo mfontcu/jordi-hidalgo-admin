@@ -184,6 +184,35 @@ describe('salon instants', () => {
     expect(instantAt('2026-10-25', '03:00')).toBe('2026-10-25T02:00:00.000Z');
   });
 
+  describe.each([
+    'Europe/Madrid',
+    'UTC',
+    'Atlantic/Canary',
+    'Europe/London',
+    'America/New_York',
+    'Asia/Tokyo',
+  ])('on a device in %s', (deviceZone) => {
+    beforeEach(() => {
+      vi.stubEnv('TZ', deviceZone);
+    });
+
+    afterEach(() => {
+      vi.unstubAllEnvs();
+    });
+
+    it.each([
+      { day: '2026-03-29', time: '01:59', instant: '2026-03-29T00:59:00.000Z' },
+      { day: '2026-03-29', time: '02:30', instant: '2026-03-29T01:30:00.000Z' },
+      { day: '2026-03-29', time: '03:00', instant: '2026-03-29T01:00:00.000Z' },
+      { day: '2026-10-25', time: '02:30', instant: '2026-10-25T00:30:00.000Z' },
+      { day: '2026-10-25', time: '03:00', instant: '2026-10-25T02:00:00.000Z' },
+      { day: '2026-06-15', time: '10:00', instant: '2026-06-15T08:00:00.000Z' },
+      { day: '2026-01-15', time: '10:00', instant: '2026-01-15T09:00:00.000Z' },
+    ])('$day at $time is $instant', ({ day, time, instant }) => {
+      expect(instantAt(day, time)).toBe(instant);
+    });
+  });
+
   it('reads the salon time of an instant on both changes', () => {
     expect(clockTimeOfInstant('2026-03-29T01:00:00Z')).toBe('03:00');
     expect(clockTimeOfInstant('2026-10-25T00:30:00Z')).toBe('02:30');

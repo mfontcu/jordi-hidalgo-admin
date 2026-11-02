@@ -1,10 +1,12 @@
-import { TZDate } from '@date-fns/tz';
+import { TZDate, tzOffset } from '@date-fns/tz';
 
 // Salon business time (ADR-003, "Business time"): the only module that parses, builds, and formats
 // dates. A salon day is a `BusinessDay` ('YYYY-MM-DD' in Europe/Madrid), whatever the browser zone;
 // the API receives instants (ISO 8601 in UTC) and sends them back.
 
 export const BUSINESS_TIME_ZONE = 'Europe/Madrid';
+
+const DAY_MS = 86_400_000;
 
 /** A salon calendar day, 'YYYY-MM-DD'. */
 export type BusinessDay = string;
@@ -155,8 +157,15 @@ export function addMinutes(time: ClockTime, minutes: number): ClockTime {
 export function instantAt(day: BusinessDay, time: ClockTime): string {
   const { year, month, date } = partsOf(day);
   const minutes = minutesOfDay(time);
-  const local = new TZDate(year, month, date, Math.floor(minutes / 60), minutes % 60, BUSINESS_TIME_ZONE);
-  return new Date(local.getTime()).toISOString();
+  const wall = Date.UTC(year, month, date, Math.floor(minutes / 60), minutes % 60);
+  // By the salon's offsets, not TZDate: it resolves these two changes by the device's time zone.
+  const offsetAt = (epochMs: number) => tzOffset(BUSINESS_TIME_ZONE, new Date(epochMs)) * 60_000;
+  const offsetBefore = offsetAt(wall - DAY_MS);
+  const offsetAfter = offsetAt(wall + DAY_MS);
+  const first = wall - offsetBefore;
+  const second = wall - offsetAfter;
+  const onlySecondExists = offsetAt(first) !== offsetBefore && offsetAt(second) === offsetAfter;
+  return new Date(onlySecondExists ? second : first).toISOString();
 }
 
 /** An instant `minutes` later, as the API takes it (an appointment's end from its duration). */

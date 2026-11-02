@@ -13,6 +13,8 @@ export default defineConfig({
   use: {
     baseURL: externalBaseUrl ?? `http://localhost:${port}`,
     trace: 'retain-on-failure',
+    // The specs read salon times; `page.clock` shows them wrong in a browser outside this zone (AA-07).
+    timezoneId: 'Europe/Madrid',
   },
   // Chromium starts in en-US; the panel's tests expect the Spanish a browser in Spain gets. A test
   // about language detection sets its own locale.
