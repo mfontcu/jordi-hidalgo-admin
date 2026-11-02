@@ -125,7 +125,11 @@ export function useAppointmentDetail({
         onPushSpecial('customerPushRateLimit', '');
         return;
       }
-      if (failure.kind === 'server' && failure.status === 503) {
+      // By its code: any other 503 (a proxy, the API down) has stored nothing.
+      if (
+        failure.code === 'admin_customer_push_delivery_unavailable' ||
+        failure.code === 'admin_customer_push_delivery_failed'
+      ) {
         onPushSpecial('customerPushUnavailable', '');
         return;
       }

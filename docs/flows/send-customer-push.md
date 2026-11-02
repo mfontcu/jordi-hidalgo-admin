@@ -13,10 +13,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-12T14:06:00Z'
+  at: '2026-11-02T20:24:33Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-10-12T14:13:05Z'
+    at: '2026-11-02T20:24:33Z'
 part_of: /engineering/apps/hidalgo-admin
 realizes:
   - /business/processes/hidalgo-junior/send-salon-message
@@ -38,6 +38,13 @@ the same composer; it does not drag the appointment to a new time.
 
 ## Error Handling and Compensation
 
-A failed send shows a toast and does not add a row. The backend's text is shown when the class is
-validation or conflict, including a refusal because the customer has no device. The message is not
-retried by the panel. Previously sent messages stay listed with the read time the backend returns.
+A failed send shows a toast. The panel reloads the message history after a refusal too, because the
+backend keeps a message it could not push: with no device (422) the row shows `no_tokens`. With push
+delivery not configured (503, `Error-Code: admin_customer_push_delivery_unavailable`) it shows
+`unavailable`, and when the push service rejects the message (503,
+`admin_customer_push_delivery_failed`) it shows `failed`; in both the toast says the message stays in
+the customer's app inbox. Any other 503 stored nothing, so it gets the generic failure toast. The message is not retried by the panel. Previously
+sent messages stay listed with the read time the backend returns.
+
+Known gap: the day agenda shows every refused send as the generic failure; only the appointment
+detail tells these cases apart.
