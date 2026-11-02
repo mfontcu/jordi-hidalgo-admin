@@ -3200,6 +3200,8 @@ export interface operations {
             /** @description announce=true is required */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3209,6 +3211,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3218,6 +3222,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3227,6 +3233,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3259,6 +3267,8 @@ export interface operations {
             /** @description invalid body */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3268,6 +3278,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3277,6 +3289,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3286,6 +3300,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3321,6 +3337,8 @@ export interface operations {
             /** @description invalid activity cursor */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3330,6 +3348,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3339,6 +3359,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3348,6 +3370,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3357,6 +3381,8 @@ export interface operations {
             /** @description admin activity hub is closed */
             503: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3401,6 +3427,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3410,6 +3438,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3419,6 +3449,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3453,6 +3485,8 @@ export interface operations {
             /** @description invalid body / customer notes too long: 500 */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3462,6 +3496,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3471,6 +3507,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3480,6 +3518,8 @@ export interface operations {
             /** @description appointment slot unavailable */
             409: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3489,6 +3529,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3521,6 +3563,8 @@ export interface operations {
             /** @description appointmentID is required */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3530,6 +3574,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3539,6 +3585,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3548,6 +3596,8 @@ export interface operations {
             /** @description appointment not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3557,6 +3607,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3587,6 +3639,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3596,6 +3650,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3605,6 +3661,8 @@ export interface operations {
             /** @description appointment not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3614,6 +3672,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3651,6 +3711,8 @@ export interface operations {
             /** @description invalid body / cancellation reason too long: 500 */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3660,6 +3722,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3669,6 +3733,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3678,6 +3744,8 @@ export interface operations {
             /** @description appointment not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3687,6 +3755,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3724,6 +3794,8 @@ export interface operations {
             /** @description invalid body */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3733,6 +3805,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3742,6 +3816,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3751,6 +3827,8 @@ export interface operations {
             /** @description appointment not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3760,6 +3838,8 @@ export interface operations {
             /** @description customer has no push tokens */
             422: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3769,6 +3849,8 @@ export interface operations {
             /** @description rate limit exceeded */
             429: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3778,6 +3860,8 @@ export interface operations {
             /** @description push delivery unavailable */
             503: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3810,6 +3894,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3819,6 +3905,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3828,6 +3916,8 @@ export interface operations {
             /** @description appointment not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3837,6 +3927,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3874,6 +3966,8 @@ export interface operations {
             /** @description invalid body */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3883,6 +3977,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3892,6 +3988,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3901,6 +3999,8 @@ export interface operations {
             /** @description appointment not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3910,6 +4010,8 @@ export interface operations {
             /** @description appointment slot unavailable */
             409: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3919,6 +4021,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3951,6 +4055,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3960,6 +4066,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3969,6 +4077,8 @@ export interface operations {
             /** @description appointment not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -3978,6 +4088,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4015,6 +4127,8 @@ export interface operations {
             /** @description invalid body / appointment invalid status / appointment cannot be marked completed or no-show before its start time / cancellation reason too long: 500 */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4024,6 +4138,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4033,6 +4149,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4042,6 +4160,8 @@ export interface operations {
             /** @description appointment not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4051,6 +4171,8 @@ export interface operations {
             /** @description reactivating a cancelled appointment whose slot is taken */
             409: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4060,6 +4182,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4102,6 +4226,8 @@ export interface operations {
             /** @description Bad Request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4111,6 +4237,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4120,6 +4248,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4129,6 +4259,8 @@ export interface operations {
             /** @description Internal Server Error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4163,6 +4295,8 @@ export interface operations {
             /** @description Bad Request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4172,6 +4306,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4181,6 +4317,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4190,6 +4328,8 @@ export interface operations {
             /** @description Internal Server Error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4222,6 +4362,8 @@ export interface operations {
             /** @description Bad Request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4231,6 +4373,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4240,6 +4384,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4249,6 +4395,8 @@ export interface operations {
             /** @description Not Found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4258,6 +4406,8 @@ export interface operations {
             /** @description Internal Server Error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4295,6 +4445,8 @@ export interface operations {
             /** @description Bad Request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4304,6 +4456,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4313,6 +4467,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4322,6 +4478,8 @@ export interface operations {
             /** @description Not Found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4331,6 +4489,8 @@ export interface operations {
             /** @description Internal Server Error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4361,6 +4521,8 @@ export interface operations {
             /** @description Bad Request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4370,6 +4532,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4379,6 +4543,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4388,6 +4554,8 @@ export interface operations {
             /** @description Not Found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4397,6 +4565,8 @@ export interface operations {
             /** @description Internal Server Error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4426,6 +4596,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4435,6 +4607,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4444,6 +4618,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4478,6 +4654,8 @@ export interface operations {
             /** @description invalid body */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4487,6 +4665,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4496,6 +4676,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4505,6 +4687,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4537,6 +4721,8 @@ export interface operations {
             /** @description slotID is required */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4546,6 +4732,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4555,6 +4743,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4564,6 +4754,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4601,6 +4793,8 @@ export interface operations {
             /** @description invalid body */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4610,6 +4804,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4619,6 +4815,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4628,6 +4826,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4665,6 +4865,8 @@ export interface operations {
             /** @description invalid weekday */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4674,6 +4876,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4683,6 +4887,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4692,6 +4898,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4721,6 +4929,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4730,6 +4940,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4739,6 +4951,8 @@ export interface operations {
             /** @description booking settings not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4748,6 +4962,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4780,6 +4996,8 @@ export interface operations {
             /** @description invalid body / invalid future appointment limit / invalid appointment change limit / invalid availability read limit / invalid booking dates */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4789,6 +5007,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4798,6 +5018,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4807,6 +5029,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4836,6 +5060,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4845,6 +5071,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4854,6 +5082,8 @@ export interface operations {
             /** @description business info not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4863,6 +5093,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4895,6 +5127,8 @@ export interface operations {
             /** @description invalid body */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4904,6 +5138,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4913,6 +5149,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4922,6 +5160,8 @@ export interface operations {
             /** @description business info not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4931,6 +5171,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4960,6 +5202,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4969,6 +5213,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -4978,6 +5224,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5010,6 +5258,8 @@ export interface operations {
             /** @description code is required */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5019,6 +5269,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5028,6 +5280,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5037,6 +5291,8 @@ export interface operations {
             /** @description legal document not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5046,6 +5302,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5081,6 +5339,8 @@ export interface operations {
             /** @description invalid body */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5090,6 +5350,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5099,6 +5361,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5108,6 +5372,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5143,6 +5409,8 @@ export interface operations {
             /** @description invalid body */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5152,6 +5420,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5161,6 +5431,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5170,6 +5442,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5205,6 +5479,8 @@ export interface operations {
             /** @description invalid body */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5214,6 +5490,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5223,6 +5501,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5232,6 +5512,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5261,6 +5543,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5270,6 +5554,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5279,6 +5565,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5314,6 +5602,8 @@ export interface operations {
             /** @description invalid body / invalid notification setting */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5323,6 +5613,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5332,6 +5624,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5341,6 +5635,8 @@ export interface operations {
             /** @description notification setting not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5350,6 +5646,8 @@ export interface operations {
             /** @description notification setting is not configurable */
             409: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5359,6 +5657,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5388,6 +5688,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5397,6 +5699,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5406,6 +5710,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5438,6 +5744,8 @@ export interface operations {
             /** @description code is required */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5447,6 +5755,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5456,6 +5766,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5465,6 +5777,8 @@ export interface operations {
             /** @description web page not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5474,6 +5788,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5509,6 +5825,8 @@ export interface operations {
             /** @description invalid body */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5518,6 +5836,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5527,6 +5847,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5536,6 +5858,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5571,6 +5895,8 @@ export interface operations {
             /** @description invalid body */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5580,6 +5906,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5589,6 +5917,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5598,6 +5928,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5627,6 +5959,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5636,6 +5970,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5645,6 +5981,8 @@ export interface operations {
             /** @description Internal Server Error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5674,6 +6012,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5683,6 +6023,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5692,6 +6034,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5721,6 +6065,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5730,6 +6076,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5739,6 +6087,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5771,6 +6121,8 @@ export interface operations {
             /** @description bad request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5780,6 +6132,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5789,6 +6143,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5798,6 +6154,8 @@ export interface operations {
             /** @description slide not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5807,6 +6165,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5837,6 +6197,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5846,6 +6208,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5855,6 +6219,8 @@ export interface operations {
             /** @description slide not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5864,6 +6230,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5901,6 +6269,8 @@ export interface operations {
             /** @description bad request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5910,6 +6280,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5919,6 +6291,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5928,6 +6302,8 @@ export interface operations {
             /** @description not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5937,6 +6313,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5972,6 +6350,8 @@ export interface operations {
             /** @description bad request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5981,6 +6361,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5990,6 +6372,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5999,6 +6383,8 @@ export interface operations {
             /** @description slide not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6008,6 +6394,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6043,6 +6431,8 @@ export interface operations {
             /** @description bad request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6052,6 +6442,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6061,6 +6453,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6070,6 +6464,8 @@ export interface operations {
             /** @description slide not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6079,6 +6475,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6114,6 +6512,8 @@ export interface operations {
             /** @description bad request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6123,6 +6523,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6132,6 +6534,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6141,6 +6545,8 @@ export interface operations {
             /** @description slide not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6150,6 +6556,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6187,6 +6595,8 @@ export interface operations {
             /** @description bad request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6196,6 +6606,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6205,6 +6617,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6214,6 +6628,8 @@ export interface operations {
             /** @description slide not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6223,6 +6639,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6257,6 +6675,8 @@ export interface operations {
             /** @description Bad Request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6266,6 +6686,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6275,6 +6697,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6284,6 +6708,8 @@ export interface operations {
             /** @description Internal Server Error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6318,6 +6744,8 @@ export interface operations {
             /** @description Bad Request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6327,6 +6755,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6336,6 +6766,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6345,6 +6777,8 @@ export interface operations {
             /** @description Internal Server Error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6377,6 +6811,8 @@ export interface operations {
             /** @description Bad Request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6386,6 +6822,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6395,6 +6833,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6404,6 +6844,8 @@ export interface operations {
             /** @description Not Found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6413,6 +6855,8 @@ export interface operations {
             /** @description Internal Server Error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6450,6 +6894,8 @@ export interface operations {
             /** @description Bad Request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6459,6 +6905,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6468,6 +6916,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6477,6 +6927,8 @@ export interface operations {
             /** @description Not Found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6486,6 +6938,8 @@ export interface operations {
             /** @description Internal Server Error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6516,6 +6970,8 @@ export interface operations {
             /** @description Bad Request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6525,6 +6981,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6534,6 +6992,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6543,6 +7003,8 @@ export interface operations {
             /** @description Not Found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6552,6 +7014,8 @@ export interface operations {
             /** @description Internal Server Error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6584,6 +7048,8 @@ export interface operations {
             /** @description Bad Request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6593,6 +7059,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6602,6 +7070,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6611,6 +7081,8 @@ export interface operations {
             /** @description Internal Server Error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6648,6 +7120,8 @@ export interface operations {
             /** @description Bad Request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6657,6 +7131,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6666,6 +7142,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6675,6 +7153,8 @@ export interface operations {
             /** @description Internal Server Error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6719,6 +7199,8 @@ export interface operations {
             /** @description invalid service */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6728,6 +7210,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6737,6 +7221,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6746,6 +7232,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6783,6 +7271,8 @@ export interface operations {
             /** @description invalid request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6792,6 +7282,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6801,6 +7293,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6810,6 +7304,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6842,6 +7338,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6851,6 +7349,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6860,6 +7360,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6895,6 +7397,8 @@ export interface operations {
             /** @description serviceID is required */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6904,6 +7408,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6913,6 +7419,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6922,6 +7430,8 @@ export interface operations {
             /** @description service not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6931,6 +7441,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6961,6 +7473,8 @@ export interface operations {
             /** @description serviceID is required */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6970,6 +7484,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6979,6 +7495,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6988,6 +7506,8 @@ export interface operations {
             /** @description service not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -6997,6 +7517,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7027,6 +7549,8 @@ export interface operations {
             /** @description serviceID is required */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7036,6 +7560,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7045,6 +7571,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7054,6 +7582,8 @@ export interface operations {
             /** @description service not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7063,6 +7593,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7093,6 +7625,8 @@ export interface operations {
             /** @description serviceID is required */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7102,6 +7636,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7111,6 +7647,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7120,6 +7658,8 @@ export interface operations {
             /** @description service not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7129,6 +7669,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7169,6 +7711,8 @@ export interface operations {
             /** @description invalid request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7178,6 +7722,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7187,6 +7733,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7196,6 +7744,8 @@ export interface operations {
             /** @description service not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7205,6 +7755,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7245,6 +7797,8 @@ export interface operations {
             /** @description invalid request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7254,6 +7808,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7263,6 +7819,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7272,6 +7830,8 @@ export interface operations {
             /** @description service not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7281,6 +7841,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7315,6 +7877,8 @@ export interface operations {
             /** @description Bad Request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7324,6 +7888,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7333,6 +7899,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7342,6 +7910,8 @@ export interface operations {
             /** @description Internal Server Error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7374,6 +7944,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7383,6 +7955,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7392,6 +7966,8 @@ export interface operations {
             /** @description Not Found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7401,6 +7977,8 @@ export interface operations {
             /** @description Internal Server Error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7445,6 +8023,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7454,6 +8034,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7463,6 +8045,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7497,6 +8081,8 @@ export interface operations {
             /** @description invalid body */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7506,6 +8092,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7515,6 +8103,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7524,6 +8114,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7558,6 +8150,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7567,6 +8161,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7576,6 +8172,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7608,6 +8206,8 @@ export interface operations {
             /** @description userID is required */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7617,6 +8217,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7626,6 +8228,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7635,6 +8239,8 @@ export interface operations {
             /** @description user not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7644,6 +8250,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7674,6 +8282,8 @@ export interface operations {
             /** @description userID is required / invalid user role */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7683,6 +8293,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7692,6 +8304,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7701,6 +8315,8 @@ export interface operations {
             /** @description user not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7710,6 +8326,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7747,6 +8365,8 @@ export interface operations {
             /** @description invalid body */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7756,6 +8376,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7765,6 +8387,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7774,6 +8398,8 @@ export interface operations {
             /** @description user not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7783,6 +8409,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7813,6 +8441,8 @@ export interface operations {
             /** @description userID is required / user is already active */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7822,6 +8452,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7831,6 +8463,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7840,6 +8474,8 @@ export interface operations {
             /** @description user not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7849,6 +8485,8 @@ export interface operations {
             /** @description customer is blocked */
             409: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7858,6 +8496,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7890,6 +8530,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7899,6 +8541,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7908,6 +8552,8 @@ export interface operations {
             /** @description not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7917,6 +8563,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7947,6 +8595,8 @@ export interface operations {
             /** @description userID is required */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7956,6 +8606,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7965,6 +8617,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7974,6 +8628,8 @@ export interface operations {
             /** @description user not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7983,6 +8639,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8015,6 +8673,8 @@ export interface operations {
             /** @description userID is required */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8024,6 +8684,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8033,6 +8695,8 @@ export interface operations {
             /** @description forbidden / user is blocked */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8042,6 +8706,8 @@ export interface operations {
             /** @description user not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8051,6 +8717,8 @@ export interface operations {
             /** @description customer is blocked */
             409: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8060,6 +8728,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8096,6 +8766,8 @@ export interface operations {
             /** @description invalid platform or buildNumber */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8130,6 +8802,8 @@ export interface operations {
             /** @description invalid request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8139,6 +8813,8 @@ export interface operations {
             /** @description invalid account activation code / expired account activation code / used account activation code / account activation code blocked */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8148,6 +8824,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8180,6 +8858,8 @@ export interface operations {
             /** @description invalid request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8189,6 +8869,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8223,6 +8905,8 @@ export interface operations {
             /** @description invalid request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8232,6 +8916,8 @@ export interface operations {
             /** @description invalid credentials */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8241,6 +8927,8 @@ export interface operations {
             /** @description user inactive */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8250,6 +8938,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8282,6 +8972,8 @@ export interface operations {
             /** @description invalid request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8291,6 +8983,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8320,6 +9014,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8329,6 +9025,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8363,6 +9061,8 @@ export interface operations {
             /** @description invalid request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8372,6 +9072,8 @@ export interface operations {
             /** @description invalid oauth id token */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8381,6 +9083,8 @@ export interface operations {
             /** @description user blocked or oauth account does not exist */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8390,6 +9094,8 @@ export interface operations {
             /** @description oauth identity conflict */
             409: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8399,6 +9105,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8408,6 +9116,8 @@ export interface operations {
             /** @description oauth provider not configured */
             501: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8440,6 +9150,8 @@ export interface operations {
             /** @description invalid request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8449,6 +9161,8 @@ export interface operations {
             /** @description invalid password recovery code / expired password recovery code / used password recovery code / password recovery code blocked */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8458,6 +9172,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8490,6 +9206,8 @@ export interface operations {
             /** @description invalid request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8499,6 +9217,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8533,6 +9253,8 @@ export interface operations {
             /** @description invalid request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8542,6 +9264,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8551,6 +9275,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8585,6 +9311,8 @@ export interface operations {
             /** @description invalid request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8594,6 +9322,8 @@ export interface operations {
             /** @description user already exists */
             409: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8603,6 +9333,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8639,6 +9371,8 @@ export interface operations {
             /** @description serviceId is required */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8648,6 +9382,8 @@ export interface operations {
             /** @description service not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8657,6 +9393,8 @@ export interface operations {
             /** @description availability read limit reached */
             429: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8666,6 +9404,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8702,6 +9442,8 @@ export interface operations {
             /** @description serviceId is required / date is required / invalid date format */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8711,6 +9453,8 @@ export interface operations {
             /** @description service not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8720,6 +9464,8 @@ export interface operations {
             /** @description availability read limit reached */
             429: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8729,6 +9475,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8758,6 +9506,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8790,6 +9540,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8824,6 +9576,8 @@ export interface operations {
             /** @description not modified */
             304: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content?: never;
@@ -8831,6 +9585,8 @@ export interface operations {
             /** @description invalid surface */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8840,6 +9596,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8872,6 +9630,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8901,6 +9661,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8933,6 +9695,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8965,6 +9729,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9000,6 +9766,8 @@ export interface operations {
             /** @description serviceID is required */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9009,6 +9777,8 @@ export interface operations {
             /** @description service not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9018,6 +9788,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9045,6 +9817,8 @@ export interface operations {
             /** @description unauthorized (sin token, token inválido o cuenta inactiva) */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9054,6 +9828,8 @@ export interface operations {
             /** @description forbidden (cuenta de staff o bloqueada) */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9063,6 +9839,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9097,6 +9875,8 @@ export interface operations {
             /** @description invalid request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9106,6 +9886,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9115,6 +9897,8 @@ export interface operations {
             /** @description user not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9124,6 +9908,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9162,6 +9948,8 @@ export interface operations {
             /** @description invalid query params / invalid cursor */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9171,6 +9959,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9180,6 +9970,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9217,6 +10009,8 @@ export interface operations {
             /** @description invalid request / invalid appointmentStart / appointment validation error / customer notes too long: 500 */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9226,6 +10020,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9235,6 +10031,8 @@ export interface operations {
             /** @description service not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9244,6 +10042,8 @@ export interface operations {
             /** @description appointment slot unavailable / future appointment limit reached: N */
             409: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9253,6 +10053,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9285,6 +10087,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9294,6 +10098,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9329,6 +10135,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9338,6 +10146,8 @@ export interface operations {
             /** @description appointment forbidden */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9347,6 +10157,8 @@ export interface operations {
             /** @description appointment not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9356,6 +10168,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9396,6 +10210,8 @@ export interface operations {
             /** @description invalid request / invalid appointmentStart / appointment validation error / customer notes too long: 500 */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9405,6 +10221,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9414,6 +10232,8 @@ export interface operations {
             /** @description appointment forbidden */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9423,6 +10243,8 @@ export interface operations {
             /** @description appointment not found / service not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9432,6 +10254,8 @@ export interface operations {
             /** @description appointment slot unavailable */
             409: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9441,6 +10265,8 @@ export interface operations {
             /** @description appointment change limit reached */
             429: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9450,6 +10276,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9485,6 +10313,8 @@ export interface operations {
             /** @description invalid request / appointment cancellation too late / appointment invalid status / cancellation reason too long: 500 */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9494,6 +10324,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9503,6 +10335,8 @@ export interface operations {
             /** @description appointment forbidden */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9512,6 +10346,8 @@ export interface operations {
             /** @description appointment not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9521,6 +10357,8 @@ export interface operations {
             /** @description appointment change limit reached */
             429: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9530,6 +10368,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9565,6 +10405,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9574,6 +10416,8 @@ export interface operations {
             /** @description appointment forbidden */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9583,6 +10427,8 @@ export interface operations {
             /** @description appointment not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9592,6 +10438,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9627,6 +10475,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9636,6 +10486,8 @@ export interface operations {
             /** @description appointment forbidden */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9645,6 +10497,8 @@ export interface operations {
             /** @description appointment not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9654,6 +10508,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9683,6 +10539,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9692,6 +10550,8 @@ export interface operations {
             /** @description user not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9701,6 +10561,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9735,6 +10597,8 @@ export interface operations {
             /** @description invalid request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9744,6 +10608,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9753,6 +10619,8 @@ export interface operations {
             /** @description user not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9762,6 +10630,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9796,6 +10666,8 @@ export interface operations {
             /** @description invalid request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9805,6 +10677,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9814,6 +10688,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9846,6 +10722,8 @@ export interface operations {
             /** @description invalid request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9855,6 +10733,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9864,6 +10744,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9896,6 +10778,8 @@ export interface operations {
             /** @description invalid request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9905,6 +10789,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9914,6 +10800,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9952,6 +10840,8 @@ export interface operations {
             /** @description invalid query params */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9961,6 +10851,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -9970,6 +10862,8 @@ export interface operations {
             /** @description forbidden */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10000,6 +10894,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10009,6 +10905,8 @@ export interface operations {
             /** @description forbidden */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10041,6 +10939,8 @@ export interface operations {
             /** @description invalid request body */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10050,6 +10950,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10059,6 +10961,8 @@ export interface operations {
             /** @description forbidden */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10089,6 +10993,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10098,6 +11004,8 @@ export interface operations {
             /** @description forbidden */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10127,6 +11035,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10136,6 +11046,8 @@ export interface operations {
             /** @description forbidden */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10166,6 +11078,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10175,6 +11089,8 @@ export interface operations {
             /** @description forbidden */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10184,6 +11100,8 @@ export interface operations {
             /** @description inbox notification not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10218,6 +11136,8 @@ export interface operations {
             /** @description invalid user locale */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10227,6 +11147,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10236,6 +11158,8 @@ export interface operations {
             /** @description user not found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10245,6 +11169,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10274,6 +11200,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10283,6 +11211,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10317,6 +11247,8 @@ export interface operations {
             /** @description invalid request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10326,6 +11258,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10335,6 +11269,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10367,6 +11303,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10376,6 +11314,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10413,6 +11353,8 @@ export interface operations {
             /** @description Bad Request */
             400: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10422,6 +11364,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10431,6 +11375,8 @@ export interface operations {
             /** @description Conflict */
             409: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10440,6 +11386,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10470,6 +11418,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10479,6 +11429,8 @@ export interface operations {
             /** @description Not Found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10488,6 +11440,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10518,6 +11472,8 @@ export interface operations {
             /** @description unauthorized */
             401: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10527,6 +11483,8 @@ export interface operations {
             /** @description slot watch forbidden */
             403: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10536,6 +11494,8 @@ export interface operations {
             /** @description Not Found */
             404: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10545,6 +11505,8 @@ export interface operations {
             /** @description internal error */
             500: {
                 headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
                     [name: string]: unknown;
                 };
                 content: {

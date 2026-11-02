@@ -190,14 +190,17 @@ export async function rescheduleAppointment(
 
 /** `POST /admin/appointments/{id}/customer-push`. */
 export async function sendCustomerPush(queryClient: QueryClient, appointmentId: string, body: string) {
-  const message = toCustomerPushMessage(
-    unwrap(
-      await apiClient.POST('/admin/appointments/{appointmentID}/customer-push', {
-        ...path(appointmentId),
-        body: { body },
-      }),
-    ),
-  );
-  await queryClient.invalidateQueries({ queryKey: appointmentsKeys.pushMessages(appointmentId) });
-  return message;
+  try {
+    return toCustomerPushMessage(
+      unwrap(
+        await apiClient.POST('/admin/appointments/{appointmentID}/customer-push', {
+          ...path(appointmentId),
+          body: { body },
+        }),
+      ),
+    );
+  } finally {
+    // Also after a refusal: the backend keeps a message it could not push (BE-13).
+    await queryClient.invalidateQueries({ queryKey: appointmentsKeys.pushMessages(appointmentId) });
+  }
 }

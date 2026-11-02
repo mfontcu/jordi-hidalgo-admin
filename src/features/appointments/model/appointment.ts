@@ -290,6 +290,7 @@ const PUSH_DELIVERY_LABELS = {
   partial: 'customerPushDeliveryPartial',
   failed: 'customerPushDeliveryFailed',
   no_tokens: 'customerPushDeliveryNoTokens',
+  unavailable: 'customerPushDeliveryUnavailable',
   pending: 'customerPushDeliveryPending',
 } as const;
 

@@ -111,6 +111,33 @@ export function customerPushMessages(items: unknown[] = []) {
   return http.get(`${API}/admin/appointments/:id/customer-push-messages`, () => HttpResponse.json({ items }));
 }
 
+/**
+ * A send the backend refuses after storing the message (BE-13): the history lists it only from
+ * then on, so it shows on the screen only if the panel reloads the history.
+ */
+export function customerPushRefusedAfterStoring(status: number, code: string, deliveryStatus: string) {
+  const items: unknown[] = [];
+  return [
+    http.get(`${API}/admin/appointments/apt-1/customer-push-messages`, () => HttpResponse.json({ items })),
+    http.post(`${API}/admin/appointments/apt-1/customer-push`, async ({ request }) => {
+      const { body } = (await request.json()) as { body: string };
+      items.push({
+        id: 'push-1',
+        appointmentId: 'apt-1',
+        recipientUserId: 'cli-1',
+        title: 'Hidalgo Junior',
+        body,
+        deliveryStatus,
+        fcmSuccessCount: 0,
+        fcmFailureCount: 0,
+        readAt: '',
+        createdAt: '2026-10-12T10:00:00Z',
+      });
+      return new HttpResponse('refused', { status, headers: { 'Error-Code': code } });
+    }),
+  ];
+}
+
 export function customerPushSend(id = 'apt-1') {
   const bodies: unknown[] = [];
   const handler = http.post(`${API}/admin/appointments/${id}/customer-push`, async ({ request }) => {
