@@ -1,5 +1,6 @@
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { http, HttpResponse } from 'msw';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import { testSession as session } from '@/test/session';
@@ -9,6 +10,7 @@ import {
   appointmentDto,
   appointmentStatusChange,
   customerPushMessages,
+  customerPushRefusedAfterStoring,
   customerPushSend,
 } from '@/test/msw/appointments';
 import { server } from '@/test/msw/server';
@@ -72,6 +74,69 @@ describe('appointment detail', () => {
 
     expect(await screen.findByText('Push enviado al cliente.')).toBeInTheDocument();
     expect(push.bodies).toEqual([{ body: 'Te esperamos' }]);
+  });
+
+  it.each([
+    {
+      name: 'push delivery is not configured',
+      status: 503,
+      code: 'admin_customer_push_delivery_unavailable',
+      deliveryStatus: 'unavailable',
+      toast: /El mensaje queda en la bandeja de la app del cliente/,
+      label: 'Push no disponible',
+    },
+    {
+      name: 'the customer has no device',
+      status: 422,
+      code: 'admin_customer_push_no_recipient_tokens',
+      deliveryStatus: 'no_tokens',
+      toast: /El cliente no tiene la app o las notificaciones desactivadas/,
+      label: 'Sin dispositivo',
+    },
+  ])(
+    'says what happened and lists the stored message when $name',
+    async ({ status, code, deliveryStatus, toast, label }) => {
+      server.use(
+        appointmentDetail(appointmentDto()),
+        userDetail(clientDto()),
+        ...customerPushRefusedAfterStoring(status, code, deliveryStatus),
+      );
+      app = renderApp('/appointments/apt-1');
+      const user = userEvent.setup();
+
+      const composer = await screen.findByPlaceholderText('Escribe el mensaje para el cliente…');
+      await user.type(composer, 'Te esperamos');
+      await user.click(screen.getByRole('button', { name: 'Enviar push' }));
+      const dialog = await screen.findByRole('dialog', { name: 'Enviar push al cliente' });
+      await user.click(within(dialog).getByRole('button', { name: 'Enviar push' }));
+
+      expect(await screen.findByText(toast)).toBeInTheDocument();
+      expect(await screen.findByText(label)).toBeInTheDocument();
+      expect(screen.getByText('Te esperamos')).toBeInTheDocument();
+    },
+  );
+
+  it('does not promise the inbox when a 503 does not come from the push service', async () => {
+    server.use(
+      appointmentDetail(appointmentDto()),
+      userDetail(clientDto()),
+      customerPushMessages(),
+      http.post(
+        '*/admin/appointments/apt-1/customer-push',
+        () => new HttpResponse('bad gateway', { status: 503 }),
+      ),
+    );
+    app = renderApp('/appointments/apt-1');
+    const user = userEvent.setup();
+
+    const composer = await screen.findByPlaceholderText('Escribe el mensaje para el cliente…');
+    await user.type(composer, 'Te esperamos');
+    await user.click(screen.getByRole('button', { name: 'Enviar push' }));
+    const dialog = await screen.findByRole('dialog', { name: 'Enviar push al cliente' });
+    await user.click(within(dialog).getByRole('button', { name: 'Enviar push' }));
+
+    expect(await screen.findByText(/No se pudo enviar el push/)).toBeInTheDocument();
+    expect(screen.queryByText(/bandeja/)).not.toBeInTheDocument();
   });
 
   it('lets staff correct the status of a closed appointment', async () => {

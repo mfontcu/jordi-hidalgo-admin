@@ -87,6 +87,7 @@ describe('appointments in lists', () => {
     expect(pushBodyOf('  hola  ')).toBe('hola');
     expect(pushBodyOf('x'.repeat(300)).length).toBe(280);
     expect(pushDeliveryLabelOf('no_tokens')).toBe('customerPushDeliveryNoTokens');
+    expect(pushDeliveryLabelOf('unavailable')).toBe('customerPushDeliveryUnavailable');
     expect(pushDeliveryLabelOf('unknown')).toBeNull();
   });
 
