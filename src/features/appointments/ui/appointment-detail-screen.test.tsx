@@ -86,6 +86,14 @@ describe('appointment detail', () => {
       label: 'Push no disponible',
     },
     {
+      name: 'the push service rejects the message',
+      status: 503,
+      code: 'admin_customer_push_delivery_failed',
+      deliveryStatus: 'failed',
+      toast: /El mensaje queda en la bandeja de la app del cliente/,
+      label: 'Fallido',
+    },
+    {
       name: 'the customer has no device',
       status: 422,
       code: 'admin_customer_push_no_recipient_tokens',
