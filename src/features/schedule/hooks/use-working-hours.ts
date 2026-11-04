@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import type { ClockTime, Weekday } from '@/shared/lib/business-time';
+import { failureOf as failureOfError } from '@/shared/lib/failure';
 
 import { changeShift, setWeekdayActive } from '../api/schedule.mutations';
 import { workingHoursQueryOptions } from '../api/schedule.queries';
@@ -57,6 +58,10 @@ export function useWorkingHours(feedback: Feedback) {
     mutationFn: ({ change }: { change: ShiftChange; slot: ShiftSlot }) => changeShift(queryClient, change),
     onError: (error, { change, slot }) => {
       feedback.onError(error, failureOf(change, slot));
+      // Another session removed it: the week on screen is stale, and the refused answer brings no other.
+      if (failureOfError(error).kind === 'notFound') {
+        void queryClient.invalidateQueries({ queryKey: workingHoursQueryOptions().queryKey });
+      }
     },
   });
 

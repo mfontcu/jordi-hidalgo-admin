@@ -3515,6 +3515,17 @@ export interface operations {
                     "text/plain": string;
                 };
             };
+            /** @description service not found / user not found */
+            404: {
+                headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
             /** @description appointment slot unavailable */
             409: {
                 headers: {
@@ -3996,7 +4007,7 @@ export interface operations {
                     "text/plain": string;
                 };
             };
-            /** @description appointment not found */
+            /** @description appointment not found / service not found */
             404: {
                 headers: {
                     /** @description Stable error code */
@@ -4751,6 +4762,17 @@ export interface operations {
                     "text/plain": string;
                 };
             };
+            /** @description business hour not found */
+            404: {
+                headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
             /** @description internal error */
             500: {
                 headers: {
@@ -4814,6 +4836,17 @@ export interface operations {
             };
             /** @description forbidden / user is blocked */
             403: {
+                headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description business hour not found */
+            404: {
                 headers: {
                     /** @description Stable error code */
                     "Error-Code"?: string;
@@ -5369,6 +5402,17 @@ export interface operations {
                     "text/plain": string;
                 };
             };
+            /** @description legal document not found */
+            404: {
+                headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
             /** @description internal error */
             500: {
                 headers: {
@@ -5439,6 +5483,17 @@ export interface operations {
                     "text/plain": string;
                 };
             };
+            /** @description legal document not found */
+            404: {
+                headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
             /** @description internal error */
             500: {
                 headers: {
@@ -5500,6 +5555,17 @@ export interface operations {
             };
             /** @description forbidden / user is blocked */
             403: {
+                headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description legal document not found */
+            404: {
                 headers: {
                     /** @description Stable error code */
                     "Error-Code"?: string;
@@ -5855,6 +5921,17 @@ export interface operations {
                     "text/plain": string;
                 };
             };
+            /** @description web page not found */
+            404: {
+                headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
             /** @description internal error */
             500: {
                 headers: {
@@ -5916,6 +5993,17 @@ export interface operations {
             };
             /** @description forbidden / user is blocked */
             403: {
+                headers: {
+                    /** @description Stable error code */
+                    "Error-Code"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description web page not found */
+            404: {
                 headers: {
                     /** @description Stable error code */
                     "Error-Code"?: string;
