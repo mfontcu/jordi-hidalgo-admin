@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
 
 import { API, meAs, STAFF_USER, TOKENS } from '@/test/msw/auth';
-import { liveBusinessHours } from '@/test/msw/schedule';
+import { businessHoursDto, liveBusinessHours } from '@/test/msw/schedule';
 import { server } from '@/test/msw/server';
 import { renderApp } from '@/test/render-app';
 import { testSession as session } from '@/test/session';
@@ -141,5 +141,37 @@ describe('working hours', () => {
     expect(
       await screen.findByText(/No se pudo actualizar el día\./, {}, { timeout: 2000 }),
     ).toBeInTheDocument();
+  });
+
+  it('reloads the week when the shift no longer exists', async () => {
+    let reads = 0;
+    server.use(...liveBusinessHours().handlers);
+    server.use(
+      http.get(`${API}/admin/business-hours`, () => {
+        reads += 1;
+        return HttpResponse.json(
+          businessHoursDto(reads === 1 ? undefined : [{ weekday: 2, isActive: true, slots: [] }]),
+        );
+      }),
+      http.delete(`${API}/admin/business-hours/slots/:id`, () =>
+        HttpResponse.text('business hour not found', {
+          status: 404,
+          headers: { 'Error-Code': 'business_hour_not_found' },
+        }),
+      ),
+    );
+    app = renderApp('/schedule/working-hours');
+    const user = userEvent.setup();
+
+    await user.click(await buttonNamed('Eliminar', 1));
+    const dialog = await screen.findByRole('dialog', { name: 'Eliminar franja' });
+    await user.click(within(dialog).getByRole('button', { name: 'Eliminar' }));
+
+    expect(
+      await screen.findByText('No se pudo eliminar la franja de tarde. El elemento ya no existe.'),
+    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(reads).toBe(2);
+    });
   });
 });

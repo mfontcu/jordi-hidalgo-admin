@@ -101,6 +101,31 @@ describe('appointment form', () => {
     expect(app.router.state.location.pathname).toBe('/appointments/form');
   });
 
+  it('says the service no longer exists, in its language, on a 404', async () => {
+    server.use(
+      http.post(`${API}/admin/appointments`, () =>
+        HttpResponse.text('service not found', {
+          status: 404,
+          headers: { 'Error-Code': 'service_not_found' },
+        }),
+      ),
+      userDetail(clientDto()),
+    );
+    app = renderApp('/appointments/form?clientId=cli-1&clientLabel=Mari');
+    const user = userEvent.setup();
+
+    await user.click(await screen.findByLabelText('Servicio'));
+    await user.click(await screen.findByRole('button', { name: 'Corte de Pelo' }));
+    await user.click(await screen.findByRole('button', { name: '10:30' }));
+    await user.click(screen.getByRole('button', { name: 'Guardar cita' }));
+
+    expect(
+      await screen.findByText('No se pudo guardar la cita. El elemento ya no existe.'),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/service not found/)).not.toBeInTheDocument();
+    expect(app.router.state.location.pathname).toBe('/appointments/form');
+  });
+
   it('lists each client with phone and email so matching names stay distinct', async () => {
     const users = usersList((query) => {
       if (query.get('role') !== 'customer') return usersListResponse([]);
