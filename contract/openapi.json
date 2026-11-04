@@ -3471,6 +3471,24 @@
                             }
                         }
                     },
+                    "404": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "service not found / user not found",
+                        "headers": {
+                            "Error-Code": {
+                                "description": "Stable error code",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
                     "409": {
                         "content": {
                             "text/plain": {
@@ -4274,7 +4292,7 @@
                                 }
                             }
                         },
-                        "description": "appointment not found",
+                        "description": "appointment not found / service not found",
                         "headers": {
                             "Error-Code": {
                                 "description": "Stable error code",
@@ -5492,6 +5510,24 @@
                             }
                         }
                     },
+                    "404": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "business hour not found",
+                        "headers": {
+                            "Error-Code": {
+                                "description": "Stable error code",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
                     "500": {
                         "content": {
                             "text/plain": {
@@ -5603,6 +5639,24 @@
                             }
                         },
                         "description": "forbidden / user is blocked",
+                        "headers": {
+                            "Error-Code": {
+                                "description": "Stable error code",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "business hour not found",
                         "headers": {
                             "Error-Code": {
                                 "description": "Stable error code",
@@ -6483,6 +6537,24 @@
                             }
                         }
                     },
+                    "404": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "legal document not found",
+                        "headers": {
+                            "Error-Code": {
+                                "description": "Stable error code",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
                     "500": {
                         "content": {
                             "text/plain": {
@@ -6598,6 +6670,24 @@
                             }
                         }
                     },
+                    "404": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "legal document not found",
+                        "headers": {
+                            "Error-Code": {
+                                "description": "Stable error code",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
                     "500": {
                         "content": {
                             "text/plain": {
@@ -6704,6 +6794,24 @@
                             }
                         },
                         "description": "forbidden / user is blocked",
+                        "headers": {
+                            "Error-Code": {
+                                "description": "Stable error code",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "legal document not found",
                         "headers": {
                             "Error-Code": {
                                 "description": "Stable error code",
@@ -7275,6 +7383,24 @@
                             }
                         }
                     },
+                    "404": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "web page not found",
+                        "headers": {
+                            "Error-Code": {
+                                "description": "Stable error code",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
                     "500": {
                         "content": {
                             "text/plain": {
@@ -7381,6 +7507,24 @@
                             }
                         },
                         "description": "forbidden / user is blocked",
+                        "headers": {
+                            "Error-Code": {
+                                "description": "Stable error code",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "web page not found",
                         "headers": {
                             "Error-Code": {
                                 "description": "Stable error code",

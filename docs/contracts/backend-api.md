@@ -13,10 +13,10 @@ visibility: personal
 status: stable
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-10-31T05:51:37Z'
+  at: '2026-11-04T19:16:12Z'
 verified:
   - by: 'human:mfontcuberta'
-    at: '2026-11-01T16:51:51Z'
+    at: '2026-11-04T19:16:12Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -66,6 +66,12 @@ A create or a reschedule into a slot taken meanwhile answers 409 with plain text
 (`appointment slot unavailable`). The mutation invalidates the availability queries, so the form
 or the reschedule screen shows that time as taken, and throws a `SlotTakenMeanwhileError`: its toast
 says that the time was just taken and asks for another one, instead of the conflict toast.
+
+A create with a service that no longer exists or cannot be booked answers 404 `service not found`, and
+one with a client that no longer exists answers 404 `user not found`: the toast names what failed and
+says that the item no longer exists, without the English text. A change to a shift that
+another session removed answers 404 `business hour not found`, with no new week in the answer: the
+screen shows that toast and reloads the working hours.
 
 ## Session
 
