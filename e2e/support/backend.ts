@@ -18,8 +18,12 @@ export const NEW_TOKENS = { accessToken: 'access-new', refreshToken: 'refresh-ne
 export const ACCESS_TOKEN_KEY = 'hj_admin.access_token';
 export const REFRESH_TOKEN_KEY = 'hj_admin.refresh_token';
 
-/** A mocked answer: JSON, a plain-text `http.Error`, or a transport failure. */
-type Reply = { status?: number; json?: unknown; text?: string } | 'network-error';
+/**
+ * A mocked answer: JSON, a plain-text `http.Error`, or a transport failure. `headers` adds to the
+ * CORS ones, for example the backend's `Error-Code`.
+ */
+type Reply =
+  { status?: number; json?: unknown; text?: string; headers?: Record<string, string> } | 'network-error';
 type Handler = (request: Request) => Reply | Promise<Reply>;
 
 export type Call = {
@@ -34,6 +38,8 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
   'Access-Control-Allow-Headers': 'Authorization, Content-Type, Accept, Accept-Language, Last-Event-ID',
+  // As the backend's CORS (CA-04): without it the browser hides the stable code of an error.
+  'Access-Control-Expose-Headers': 'Error-Code',
 };
 
 /** The backend, mocked per test. Unmocked requests answer 599 and are listed in `unhandled`. */
@@ -84,7 +90,7 @@ export class MockBackend {
     }
     await route.fulfill({
       status: reply.status ?? 200,
-      headers: CORS_HEADERS,
+      headers: { ...CORS_HEADERS, ...reply.headers },
       ...(reply.json === undefined
         ? { contentType: 'text/plain; charset=utf-8', body: `${reply.text ?? ''}\n` }
         : { json: reply.json }),

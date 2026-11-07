@@ -18,6 +18,13 @@ type StoredUser = {
   totalAppointments: number;
 };
 
+/** The backend's answer for an account that does not exist, with its stable code. */
+export const USER_NOT_FOUND = {
+  status: 404,
+  text: 'user not found',
+  headers: { 'Error-Code': 'user_not_found' },
+};
+
 const account = (
   fields: Partial<StoredUser> & Pick<StoredUser, 'id' | 'role' | 'firstName' | 'lastName'>,
 ) => ({
@@ -180,7 +187,7 @@ export function mockUsers(backend: MockBackend) {
     });
     backend.on('DELETE', `/admin/users/${id}`, () => {
       const index = users.findIndex((user) => user.id === id);
-      if (index < 0) return { status: 404, text: 'user not found' };
+      if (index < 0) return USER_NOT_FOUND;
       users.splice(index, 1);
       return { status: 204, text: '' };
     });

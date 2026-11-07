@@ -10,13 +10,10 @@ tags:
 owner: 'owner:self'
 domain: /projects/hidalgo-junior
 visibility: personal
-status: stable
+status: draft
 generated:
   by: 'ai-dev/okf-doc-writer'
-  at: '2026-11-04T19:16:12Z'
-verified:
-  - by: 'human:mfontcuberta'
-    at: '2026-11-04T19:16:12Z'
+  at: '2026-11-07T10:23:00Z'
 describes:
   - /engineering/apps/hidalgo-admin
 ---
@@ -72,6 +69,12 @@ one with a client that no longer exists answers 404 `user not found`: the toast 
 says that the item no longer exists, without the English text. A change to a shift that
 another session removed answers 404 `business hour not found`, with no new week in the answer: the
 screen shows that toast and reloads the working hours.
+
+A client deletion (`DELETE /admin/users/{userID}`) that answers 404 with code `user_not_found` counts
+as done: the client is already gone, deleted by an earlier attempt whose answer was lost or by another
+session. The panel shows the deletion toast, forgets the client, refreshes the lists, and goes back,
+as after a 204. A 404 without that code, a 400 for a staff account, a 5xx, and a lost answer still
+show the deletion failure ([AA-04](/engineering/known-issues/hidalgo-junior#aa-04)).
 
 ## Session
 
