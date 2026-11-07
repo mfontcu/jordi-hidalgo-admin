@@ -1,5 +1,6 @@
 import { expect, test } from '../support/backend';
 import { signedIn } from '../support/shell';
+import { mockUsers, USER_NOT_FOUND } from '../support/users';
 
 // Clients (ClientsScreen, ClientDetailScreen, ClientFormScreen).
 
@@ -107,4 +108,31 @@ test('deleting a client goes back to the list', async ({ page, backend }) => {
   await expect(page).toHaveURL('/clients');
   await expect(page.getByText('El cliente se ha eliminado.')).toBeVisible();
   await expect(page.getByRole('table', { name: 'Cliente' }).getByRole('row')).toHaveCount(2);
+});
+
+test('retrying a deletion whose answer was lost goes back to the list (AA-04)', async ({ page, backend }) => {
+  await signedIn(page, backend);
+  // The same accounts, kept here: the first deletion is applied but its answer never arrives.
+  const users = mockUsers(backend);
+  backend.on('DELETE', '/admin/users/c-2', () => {
+    const index = users.findIndex((user) => user.id === 'c-2');
+    if (index < 0) return USER_NOT_FOUND;
+    users.splice(index, 1);
+    return 'network-error';
+  });
+  await page.goto('/clients/c-2');
+
+  const deleteClient = async () => {
+    await page.getByRole('button', { name: 'Eliminar cliente' }).click();
+    await page.getByRole('dialog').getByRole('button', { name: 'Eliminar permanentemente' }).click();
+  };
+  await deleteClient();
+  await expect(page.getByText(/^No se pudo eliminar el cliente\./)).toBeVisible();
+  await expect(page).toHaveURL('/clients/c-2');
+
+  await deleteClient();
+  await expect(page).toHaveURL('/clients');
+  await expect(page.getByText('El cliente se ha eliminado.')).toBeVisible();
+  await expect(page.getByRole('table', { name: 'Cliente' }).getByRole('row')).toHaveCount(2);
+  expect(backend.callsTo('DELETE', '/admin/users/c-2')).toHaveLength(2);
 });

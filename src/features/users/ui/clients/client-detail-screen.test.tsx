@@ -206,6 +206,90 @@ describe('client detail', () => {
     expect(deleted).toBe(true);
   });
 
+  // AA-04: a 404 `user_not_found` means the client is already gone, so the deletion succeeded.
+  const userNotFound = () =>
+    new HttpResponse('user not found\n', { status: 404, headers: { 'Error-Code': 'user_not_found' } });
+
+  async function confirmDelete(user: ReturnType<typeof userEvent.setup>) {
+    await user.click(await screen.findByRole('button', { name: 'Eliminar cliente' }));
+    const dialog = await screen.findByRole('dialog', { name: 'Eliminar cliente' });
+    await user.click(within(dialog).getByRole('button', { name: 'Eliminar permanentemente' }));
+  }
+
+  it('treats a retry that finds the client gone as deleted', async () => {
+    const replies = [() => HttpResponse.error(), userNotFound];
+    let listRequests = 0;
+    server.use(
+      userDetail(clientDto()),
+      http.delete(`${API}/admin/users/cli-1`, () => nth(replies, 0)()),
+      http.get(`${API}/admin/users`, () => {
+        listRequests += 1;
+        return HttpResponse.json({
+          items: [],
+          pagination: { page: 1, pageSize: 10, totalItems: 0 },
+          summary: {},
+        });
+      }),
+    );
+    withAppointments([]);
+    app = renderApp('/clients/cli-1');
+    const user = userEvent.setup();
+
+    await confirmDelete(user);
+    expect(await screen.findByText(/^No se pudo eliminar el cliente\./)).toBeInTheDocument();
+    expect(app.router.state.location.pathname).toBe('/clients/cli-1');
+
+    replies.shift();
+    await confirmDelete(user);
+
+    expect(await screen.findByText('El cliente se ha eliminado.')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(app?.router.state.location.pathname).toBe('/clients');
+    });
+    expect(listRequests).toBeGreaterThan(0);
+  });
+
+  it.each([
+    { name: 'another session deleted it first', reply: userNotFound, deleted: true },
+    {
+      name: 'a 404 without the user_not_found code',
+      reply: () => new HttpResponse('not found\n', { status: 404, headers: { 'Error-Code': 'not_found' } }),
+      deleted: false,
+    },
+    {
+      name: 'a staff account',
+      reply: () =>
+        new HttpResponse('invalid user role\n', {
+          status: 400,
+          headers: { 'Error-Code': 'invalid_user_role' },
+        }),
+      deleted: false,
+    },
+  ])('deleting when $name', async ({ reply, deleted }) => {
+    server.use(
+      userDetail(clientDto()),
+      http.delete(`${API}/admin/users/cli-1`, reply),
+      http.get(`${API}/admin/users`, () =>
+        HttpResponse.json({ items: [], pagination: { page: 1, pageSize: 10, totalItems: 0 }, summary: {} }),
+      ),
+    );
+    withAppointments([]);
+    app = renderApp('/clients/cli-1');
+    const user = userEvent.setup();
+
+    await confirmDelete(user);
+
+    if (deleted) {
+      expect(await screen.findByText('El cliente se ha eliminado.')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(app?.router.state.location.pathname).toBe('/clients');
+      });
+    } else {
+      expect(await screen.findByText(/^No se pudo eliminar el cliente\./)).toBeInTheDocument();
+      expect(app.router.state.location.pathname).toBe('/clients/cli-1');
+    }
+  });
+
   it('opens the appointment form with the client locked, and the edit form', async () => {
     server.use(userDetail(clientDto()));
     withAppointments([]);

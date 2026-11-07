@@ -1,6 +1,6 @@
 import type { QueryClient } from '@tanstack/react-query';
 
-import { apiClient, unwrap } from '@/shared/api';
+import { apiClient, isApiException, unwrap } from '@/shared/api';
 
 import type { AdminUser } from '../model/admin-user';
 import type { CreateUserInput, UpdateUserInput } from '../model/staff-form';
@@ -62,9 +62,24 @@ export async function verifyAccount(queryClient: QueryClient, userId: string): P
   return user;
 }
 
-/** `DELETE /admin/users/{id}` (clients only): forgets the account and refreshes the lists. */
+/**
+ * A 404 `user_not_found` on a deletion: the client is already gone, deleted by an earlier attempt
+ * whose answer was lost or by another session (AA-04). A 404 without the code is still a failure.
+ */
+function isAlreadyDeleted(error: unknown): boolean {
+  return isApiException(error) && error.error.kind === 'notFound' && error.error.code === 'user_not_found';
+}
+
+/**
+ * `DELETE /admin/users/{id}` (clients only): forgets the account and refreshes the lists. A client
+ * that no longer exists counts as deleted, so a retry after a lost answer succeeds.
+ */
 export async function deleteUser(queryClient: QueryClient, userId: string) {
-  unwrap(await apiClient.DELETE('/admin/users/{userID}', path(userId)));
+  try {
+    unwrap(await apiClient.DELETE('/admin/users/{userID}', path(userId)));
+  } catch (error) {
+    if (!isAlreadyDeleted(error)) throw error;
+  }
   queryClient.removeQueries({ queryKey: usersKeys.detail(userId), exact: true });
   await refreshLists(queryClient);
 }
